@@ -1,0 +1,59 @@
+{
+  "name": "Visit Auburn - California Gold Country",
+  "short_name": "Visit Auburn",
+  "description": "Your guide to discovering Auburn, California - where history meets adventure in the heart of Gold Country",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#2563EB",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["travel", "lifestyle", "tourism"],
+  "shortcuts": [
+    {
+      "name": "Things To Do",
+      "short_name": "Things To Do",
+      "description": "Explore activities and attractions",
+      "url": "/things-to-do",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Dining",
+      "short_name": "Dining",
+      "description": "Find restaurants and cafes",
+      "url": "/dining",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Events",
+      "short_name": "Events",
+      "description": "See upcoming events",
+      "url": "/events",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Accommodations",
+      "short_name": "Stay",
+      "description": "Browse places to stay",
+      "url": "/accommodations",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    }
+  ],
+  "screenshots": [],
+  "related_applications": [],
+  "prefer_related_applications": false
+}
+

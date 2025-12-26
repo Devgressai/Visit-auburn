@@ -1,0 +1,147 @@
+import Link from 'next/link'
+import { NewsletterSignup } from '@/components/ui/NewsletterSignup'
+import { Facebook, Instagram, Twitter, Mail } from 'lucide-react'
+
+export function Footer() {
+  const currentYear = new Date().getFullYear()
+
+  return (
+    <footer className="bg-gray-900 text-gray-300">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
+          {/* About */}
+          <div className="lg:col-span-2">
+            <h3 className="text-white font-semibold mb-4 text-lg">Visit Auburn</h3>
+            <p className="text-sm mb-6 leading-relaxed">
+              Your guide to discovering Auburn, California - the heart of Gold Country. 
+              Where history meets adventure in the Sierra Nevada foothills.
+            </p>
+            
+            {/* Social Links */}
+            <div className="flex items-center gap-4">
+              <a 
+                href="https://facebook.com" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors"
+                aria-label="Facebook"
+              >
+                <Facebook className="w-5 h-5" />
+              </a>
+              <a 
+                href="https://instagram.com" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-pink-600 transition-colors"
+                aria-label="Instagram"
+              >
+                <Instagram className="w-5 h-5" />
+              </a>
+              <a 
+                href="https://twitter.com" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-blue-400 transition-colors"
+                aria-label="Twitter"
+              >
+                <Twitter className="w-5 h-5" />
+              </a>
+              <a 
+                href="mailto:info@visitauburn.com"
+                className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-gray-700 transition-colors"
+                aria-label="Email"
+              >
+                <Mail className="w-5 h-5" />
+              </a>
+            </div>
+          </div>
+
+          {/* Quick Links */}
+          <div>
+            <h4 className="text-white font-semibold mb-4">Explore</h4>
+            <ul className="space-y-2 text-sm">
+              <li>
+                <Link href="/accommodations" className="hover:text-white transition-colors">
+                  Where to Stay
+                </Link>
+              </li>
+              <li>
+                <Link href="/things-to-do" className="hover:text-white transition-colors">
+                  Things to Do
+                </Link>
+              </li>
+              <li>
+                <Link href="/dining" className="hover:text-white transition-colors">
+                  Food & Drink
+                </Link>
+              </li>
+              <li>
+                <Link href="/events" className="hover:text-white transition-colors">
+                  Events
+                </Link>
+              </li>
+              <li>
+                <Link href="/discover" className="hover:text-white transition-colors">
+                  Discover
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Plan Your Visit */}
+          <div>
+            <h4 className="text-white font-semibold mb-4">Plan Your Visit</h4>
+            <ul className="space-y-2 text-sm">
+              <li>
+                <Link href="/plan/getting-here" className="hover:text-white transition-colors">
+                  Getting Here
+                </Link>
+              </li>
+              <li>
+                <Link href="/plan/visitor-information" className="hover:text-white transition-colors">
+                  Visitor Information
+                </Link>
+              </li>
+              <li>
+                <Link href="/plan/maps-guides" className="hover:text-white transition-colors">
+                  Maps & Guides
+                </Link>
+              </li>
+              <li>
+                <Link href="/plan/faq" className="hover:text-white transition-colors">
+                  FAQ
+                </Link>
+              </li>
+              <li>
+                <Link href="/plan/respect-auburn" className="hover:text-white transition-colors">
+                  Respect Auburn
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Newsletter */}
+          <NewsletterSignup variant="footer" />
+        </div>
+
+        <div className="mt-12 pt-8 border-t border-gray-800">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm">
+            <p>&copy; {currentYear} Visit Auburn. All rights reserved.</p>
+            <div className="flex flex-wrap justify-center gap-6">
+              <Link href="/privacy" className="hover:text-white transition-colors">
+                Privacy Policy
+              </Link>
+              <Link href="/terms" className="hover:text-white transition-colors">
+                Terms of Service
+              </Link>
+              <Link href="/accessibility" className="hover:text-white transition-colors">
+                Accessibility
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  )
+}
+
