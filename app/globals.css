@@ -24,9 +24,9 @@
   /* ═══════════════════════════════════════════════════════════════════════
      NEW PALETTE — Destination (Tahoe-inspired + Pine Greens)
      ═══════════════════════════════════════════════════════════════════════ */
-  --bg: #102942;
-  --surface: #17405F;
-  --surface-elevated: #1E5478;
+  --bg: #143250;
+  --surface: #1C4E74;
+  --surface-elevated: #256692;
   --text-primary: #F5FAFF;
   --text-muted: rgba(245, 250, 255, 0.72);
   --text-subtle: rgba(245, 250, 255, 0.56);
@@ -44,10 +44,10 @@
   --sunset-accent: #F2B27A;
   
   /* Borders & Overlays */
-  --border-subtle: rgba(255, 255, 255, 0.12);
-  --border-medium: rgba(255, 255, 255, 0.20);
-  --overlay-dark: rgba(16, 41, 66, 0.55);
-  --overlay-glass: rgba(23, 64, 95, 0.55);
+  --border-subtle: rgba(255, 255, 255, 0.14);
+  --border-medium: rgba(255, 255, 255, 0.22);
+  --overlay-dark: rgba(20, 50, 80, 0.40);
+  --overlay-glass: rgba(28, 78, 116, 0.45);
 }
 
 @layer base {
@@ -169,8 +169,8 @@
     @apply absolute inset-0;
     background: linear-gradient(
       to top,
-      rgba(16, 41, 66, 0.85) 0%,
-      rgba(16, 41, 66, 0.4) 40%,
+      rgba(20, 50, 80, 0.7) 0%,
+      rgba(20, 50, 80, 0.25) 40%,
       transparent 100%
     );
   }
@@ -341,14 +341,14 @@
   }
   
   .glass-dark {
-    background: rgba(16, 41, 66, 0.7);
+    background: rgba(20, 50, 80, 0.5);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     border: 1px solid var(--border-subtle);
   }
   
   .glass-surface {
-    background: rgba(23, 64, 95, 0.8);
+    background: rgba(28, 78, 116, 0.6);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border: 1px solid var(--border-medium);
@@ -365,9 +365,9 @@
     @apply absolute inset-0;
     background: linear-gradient(
       to bottom,
-      rgba(16, 41, 66, 0.7) 0%,
-      rgba(16, 41, 66, 0.4) 50%,
-      rgba(16, 41, 66, 0.8) 100%
+      rgba(20, 50, 80, 0.5) 0%,
+      rgba(20, 50, 80, 0.2) 50%,
+      rgba(20, 50, 80, 0.6) 100%
     );
   }
   
@@ -376,7 +376,7 @@
     @apply absolute inset-0;
     background: linear-gradient(
       135deg,
-      rgba(30, 84, 120, 0.4) 0%,
+      rgba(37, 102, 146, 0.3) 0%,
       transparent 60%
     );
     pointer-events: none;

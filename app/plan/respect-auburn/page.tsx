@@ -103,9 +103,9 @@ export default function RespectAuburnPage() {
             style={{
               background: `linear-gradient(
                 135deg,
-                rgba(16, 41, 66, 0.88) 0%,
-                rgba(30, 84, 78, 0.75) 50%,
-                rgba(16, 41, 66, 0.9) 100%
+                rgba(20, 50, 80, 0.5) 0%,
+                rgba(31, 107, 77, 0.4) 50%,
+                rgba(20, 50, 80, 0.55) 100%
               )`
             }}
           />
