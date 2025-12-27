@@ -82,9 +82,9 @@ export function NavigationNew() {
             <Image
               src="/images/logo.png"
               alt="Visit Auburn - California Gold Country"
-              width={70}
-              height={80}
-              className="h-14 md:h-16 w-auto object-contain drop-shadow-lg"
+              width={160}
+              height={100}
+              className="h-16 md:h-20 w-auto object-contain"
               priority
             />
           </Link>
