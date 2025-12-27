@@ -28,10 +28,10 @@ export function RespectAuburnBanner() {
           className="absolute inset-0"
           style={{
             background: `linear-gradient(
-              135deg,
-              rgba(20, 50, 80, 0.5) 0%,
-              rgba(31, 107, 77, 0.4) 50%,
-              rgba(20, 50, 80, 0.55) 100%
+              to bottom,
+              rgba(20, 50, 80, 0.2) 0%,
+              rgba(20, 50, 80, 0.15) 50%,
+              rgba(20, 50, 80, 0.25) 100%
             )`
           }}
         />
