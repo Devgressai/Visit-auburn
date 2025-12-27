@@ -96,12 +96,12 @@ export function CinematicHero({
 
         {/* Subtitle */}
         <p 
-          className={`hero-subtitle max-w-2xl mb-12 transition-all duration-700 font-semibold ${
+          className={`hero-subtitle max-w-2xl mb-12 transition-all duration-700 ${
             isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
           }`}
           style={{ 
             transitionDelay: '600ms',
-            textShadow: '0 2px 16px rgba(0,0,0,0.8), 0 4px 32px rgba(0,0,0,0.6)'
+            textShadow: '0 3px 20px rgba(0,0,0,0.9), 0 6px 40px rgba(0,0,0,0.7)'
           }}
         >
           {subtitle}
