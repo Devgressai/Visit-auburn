@@ -52,15 +52,14 @@ export function CinematicHero({
           priority
           className={`object-cover transition-transform duration-[2s] ${isLoaded ? 'scale-100' : 'scale-110'}`}
         />
-        {/* Minimal bottom gradient only for text readability */}
+        {/* Very subtle bottom gradient only for stats bar readability */}
         <div 
-          className="absolute inset-0"
+          className="absolute bottom-0 left-0 right-0 h-32"
           style={{
             background: `linear-gradient(
-              180deg,
-              transparent 0%,
-              transparent 60%,
-              rgba(20, 50, 80, 0.3) 100%
+              to top,
+              rgba(20, 50, 80, 0.4) 0%,
+              transparent 100%
             )`
           }}
         />
