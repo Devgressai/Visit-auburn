@@ -78,11 +78,11 @@ export function CategoryExplorer() {
   }
 
   return (
-    <section className="py-20 md:py-28 bg-deep-bg relative overflow-hidden">
+    <section className="py-20 md:py-28 bg-charcoal-900 relative overflow-hidden">
       {/* Subtle pattern overlay */}
       <div className="absolute inset-0 opacity-[0.03]">
         <div className="absolute inset-0" style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23D4A017' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
         }} />
       </div>
 
@@ -102,14 +102,14 @@ export function CategoryExplorer() {
           <div className="hidden md:flex gap-3 mt-6 md:mt-0">
             <button 
               onClick={() => scroll('left')}
-              className="w-12 h-12 rounded-full border border-border-subtle text-text-muted hover:border-pine-500 hover:text-pine-400 hover:bg-pine-500/10 flex items-center justify-center transition-all"
+              className="w-12 h-12 rounded-full border border-charcoal-700 text-text-muted hover:border-gold-500 hover:text-gold-400 hover:bg-gold-500/10 flex items-center justify-center transition-all"
               aria-label="Scroll left"
             >
               <ChevronLeft className="w-6 h-6" />
             </button>
             <button 
               onClick={() => scroll('right')}
-              className="w-12 h-12 rounded-full border border-border-subtle text-text-muted hover:border-pine-500 hover:text-pine-400 hover:bg-pine-500/10 flex items-center justify-center transition-all"
+              className="w-12 h-12 rounded-full border border-charcoal-700 text-text-muted hover:border-gold-500 hover:text-gold-400 hover:bg-gold-500/10 flex items-center justify-center transition-all"
               aria-label="Scroll right"
             >
               <ChevronRight className="w-6 h-6" />
@@ -140,16 +140,16 @@ export function CategoryExplorer() {
                   
                   {/* Content */}
                   <div className="absolute bottom-0 left-0 right-0 p-6 z-20">
-                    <div className="w-12 h-12 rounded-full bg-pine-500 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-pine-400 transition-all shadow-lg">
+                    <div className="w-12 h-12 rounded-full bg-gradient-gold flex items-center justify-center mb-4 group-hover:scale-110 transition-all shadow-lg">
                       <Icon className="w-6 h-6 text-white" />
                     </div>
-                    <h3 className="text-xl font-bold text-text-primary group-hover:text-pine-300 transition-colors">
+                    <h3 className="text-xl font-bold text-text-primary group-hover:text-gold-300 transition-colors">
                       {category.title}
                     </h3>
                   </div>
                   
                   {/* Hover Border Effect */}
-                  <div className="absolute inset-0 rounded-2xl border-2 border-transparent group-hover:border-pine-500/50 transition-colors z-20" />
+                  <div className="absolute inset-0 rounded-2xl border-2 border-transparent group-hover:border-gold-500/50 transition-colors z-20" />
                 </div>
               </Link>
             )

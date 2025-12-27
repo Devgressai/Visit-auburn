@@ -50,11 +50,11 @@ export default async function HomePage() {
         <div className="container mx-auto px-4">
           {/* Section Header */}
           <div className="text-center mb-16">
-            <p className="section-eyebrow">Welcome to Auburn</p>
-            <h2 className="section-title mb-6">
+            <p className="section-eyebrow-light">Welcome to Auburn</p>
+            <h2 className="section-title-light mb-6">
               Explore Gold Country
             </h2>
-            <div className="pine-divider mx-auto" />
+            <div className="w-16 h-1 rounded-full bg-gradient-gold mx-auto" />
           </div>
 
           {/* Two Column Editorial */}
@@ -96,11 +96,11 @@ export default async function HomePage() {
             ].map((stat) => (
               <div 
                 key={stat.label}
-                className="text-center p-6 rounded-xl border border-border-subtle bg-white/[0.02]"
+                className="text-center p-6 rounded-xl border border-charcoal-200 bg-white hover:border-gold-500 transition-colors duration-300 hover:shadow-md"
               >
-                <stat.icon className="w-6 h-6 mx-auto mb-3 text-pine-500" />
-                <div className="text-3xl font-bold text-text-primary mb-1">{stat.value}</div>
-                <div className="text-sm text-text-muted">{stat.label}</div>
+                <stat.icon className="w-6 h-6 mx-auto mb-3 text-forest-500" />
+                <div className="text-3xl font-bold text-charcoal-900 mb-1">{stat.value}</div>
+                <div className="text-sm text-charcoal-600">{stat.label}</div>
               </div>
             ))}
           </div>

@@ -69,14 +69,14 @@ const config: Config = {
         },
 
         // ═══════════════════════════════════════════════════════════════
-        // NEW PALETTE — Destination (Tahoe-inspired + Pine Greens)
+        // DESTINATION PALETTE — Warm Neutrals for City Tourism
         // ═══════════════════════════════════════════════════════════════
         
-        // Deep background tones (brightened 55%)
+        // Background tones (warm neutrals instead of blue)
         deep: {
-          bg: '#143250',        // --bg: Main dark background
-          surface: '#1C4E74',   // --surface: Elevated surface
-          card: '#256692',      // Card backgrounds
+          bg: '#1A1A1A',        // Charcoal for dark sections
+          surface: '#F5F2EB',   // Warm cream for light sections  
+          card: '#FFFFFF',      // White for cards
         },
         
         // Lake blues
@@ -233,11 +233,10 @@ const config: Config = {
         'gradient-forest': 'linear-gradient(135deg, #2D5A27 0%, #1E3A1A 100%)',
         'gradient-dark': 'linear-gradient(180deg, #0A0A0A 0%, #1A1A1A 100%)',
         'gradient-hero': 'linear-gradient(180deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.6) 100%)',
-        // New destination gradients
-        'gradient-deep': 'linear-gradient(180deg, #143250 0%, #1C4E74 100%)',
-        'gradient-hero-cinematic': 'linear-gradient(180deg, rgba(20,50,80,0.6) 0%, rgba(20,50,80,0.1) 35%, rgba(20,50,80,0.1) 65%, rgba(20,50,80,0.7) 100%)',
+        // Warm destination gradients (minimal blue usage)
+        'gradient-cream': 'linear-gradient(180deg, #FFFFFF 0%, #F5F2EB 100%)',
         'gradient-pine': 'linear-gradient(135deg, #1F6B4D 0%, #144735 100%)',
-        'gradient-lake': 'linear-gradient(135deg, #4BA3C7 0%, #2E8FA3 100%)',
+        'gradient-lake': 'linear-gradient(135deg, #4BA3C7 0%, #2E8FA3 100%)',  // Keep for link accents only
       },
       
       backdropBlur: {

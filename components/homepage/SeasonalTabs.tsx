@@ -63,28 +63,28 @@ export function SeasonalTabs() {
   const [activeSeason, setActiveSeason] = useState<Season>('winter')
 
   return (
-    <section className="py-20 md:py-28 bg-deep-bg">
+    <section className="py-20 md:py-28 bg-cream-50">
       <div className="container mx-auto px-4">
         {/* Header */}
         <div className="text-center mb-12">
-          <p className="section-eyebrow">
+          <p className="section-eyebrow-light">
             Come Back Again & Again
           </p>
-          <h2 className="section-title mb-6">Auburn for Every Season</h2>
-          <div className="pine-divider mx-auto" />
+          <h2 className="section-title-light mb-6">Auburn for Every Season</h2>
+          <div className="w-16 h-1 rounded-full bg-gradient-gold mx-auto" />
         </div>
 
         {/* Season Tabs */}
         <div className="flex justify-center mb-12">
-          <div className="inline-flex glass-surface rounded-full p-1.5">
+          <div className="inline-flex bg-white rounded-full p-1.5 shadow-md border border-charcoal-200">
             {(Object.keys(seasons) as Season[]).map((season) => (
               <button
                 key={season}
                 onClick={() => setActiveSeason(season)}
                 className={`px-6 md:px-8 py-3 rounded-full font-semibold transition-all duration-300 ${
                   activeSeason === season
-                    ? 'bg-pine-500 text-white shadow-lg shadow-pine-500/25'
-                    : 'text-text-muted hover:text-text-primary'
+                    ? 'bg-gradient-forest text-white shadow-lg'
+                    : 'text-charcoal-600 hover:text-charcoal-900'
                 }`}
               >
                 {seasons[season].name}
@@ -96,7 +96,7 @@ export function SeasonalTabs() {
         {/* Season Content */}
         <div className="relative">
           {/* Tagline */}
-          <p className="text-center text-2xl md:text-3xl font-display text-text-muted mb-10">
+          <p className="text-center text-2xl md:text-3xl font-display text-charcoal-600 mb-10">
             {seasons[activeSeason].tagline}
           </p>
 
@@ -109,21 +109,21 @@ export function SeasonalTabs() {
                 className="group relative aspect-[4/5] rounded-2xl overflow-hidden card-hover"
                 style={{ animationDelay: `${index * 100}ms` }}
               >
-                <Image
-                  src={activity.image}
-                  alt={activity.title}
-                  fill
-                  className="object-cover transition-transform duration-700 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-deep-bg/90 via-deep-bg/30 to-transparent" />
-                <div className="absolute bottom-0 left-0 right-0 p-4 md:p-6">
-                  <h3 className="text-white font-bold text-lg md:text-xl group-hover:text-pine-300 transition-colors">
-                    {activity.title}
-                  </h3>
-                </div>
-                {/* Hover border */}
-                <div className="absolute inset-0 rounded-2xl border-2 border-transparent group-hover:border-pine-500/40 transition-colors" />
-              </Link>
+                  <Image
+                    src={activity.image}
+                    alt={activity.title}
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-charcoal-900/90 via-charcoal-900/30 to-transparent" />
+                  <div className="absolute bottom-0 left-0 right-0 p-4 md:p-6">
+                    <h3 className="text-white font-bold text-lg md:text-xl group-hover:text-gold-300 transition-colors">
+                      {activity.title}
+                    </h3>
+                  </div>
+                  {/* Hover border */}
+                  <div className="absolute inset-0 rounded-2xl border-2 border-transparent group-hover:border-forest-500/40 transition-colors" />
+                </Link>
             ))}
           </div>
 
@@ -131,7 +131,7 @@ export function SeasonalTabs() {
           <div className="text-center mt-10">
             <Link 
               href={`/things-to-do?season=${activeSeason}`}
-              className="inline-flex items-center gap-2 text-pine-400 hover:text-pine-300 font-semibold transition-colors"
+              className="inline-flex items-center gap-2 text-lake-500 hover:text-lake-600 font-semibold transition-colors underline"
             >
               See All {seasons[activeSeason].name} Activities
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

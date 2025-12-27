@@ -22,16 +22,20 @@
   --charcoal: #1A1A1A;
   
   /* ═══════════════════════════════════════════════════════════════════════
-     NEW PALETTE — Destination (Tahoe-inspired + Pine Greens)
+     NEW PALETTE — Destination (Warm Neutrals + Gold/Forest Accents)
      ═══════════════════════════════════════════════════════════════════════ */
-  --bg: #143250;
-  --surface: #1C4E74;
-  --surface-elevated: #256692;
+  --bg: #1A1A1A;           /* Charcoal for dark sections */
+  --surface: #F5F2EB;      /* Warm cream for light sections */
+  --surface-elevated: #FFFFFF;  /* White for cards */
   --text-primary: #F5FAFF;
   --text-muted: rgba(245, 250, 255, 0.72);
   --text-subtle: rgba(245, 250, 255, 0.56);
   
-  /* Lake Blues */
+  /* Text for light backgrounds */
+  --text-dark: #1A1A1A;
+  --text-dark-muted: #525252;
+  
+  /* Lake Blues (minimal use - links/hover only) */
   --lake-blue: #4BA3C7;
   --lake-teal: #2E8FA3;
   
@@ -45,9 +49,10 @@
   
   /* Borders & Overlays */
   --border-subtle: rgba(255, 255, 255, 0.14);
-  --border-medium: rgba(255, 255, 255, 0.22);
-  --overlay-dark: rgba(20, 50, 80, 0.40);
-  --overlay-glass: rgba(28, 78, 116, 0.45);
+  --border-medium: rgba(255, 255, 255, 0.20);
+  --border-light: rgba(26, 26, 26, 0.12);   /* For light backgrounds */
+  --overlay-dark: rgba(26, 26, 26, 0.75);
+  --overlay-glass: rgba(245, 242, 235, 0.85);
 }
 
 @layer base {
@@ -117,7 +122,8 @@
   
   .section-title-light {
     font-family: var(--font-display);
-    @apply text-3xl md:text-4xl lg:text-5xl font-bold text-charcoal-900;
+    @apply text-3xl md:text-4xl lg:text-5xl font-bold;
+    color: var(--text-dark);
   }
   
   .section-subtitle {
@@ -128,6 +134,11 @@
   .section-eyebrow {
     @apply uppercase tracking-[0.2em] text-sm font-medium mb-4;
     color: var(--pine);
+  }
+  
+  .section-eyebrow-light {
+    @apply uppercase tracking-[0.2em] text-sm font-medium mb-4;
+    color: #B8860B;  /* Dark gold for light backgrounds */
   }
   
   /* ═══════════════════════════════════════════════════════════════════════
@@ -189,9 +200,9 @@
      BUTTON STYLES
      ═══════════════════════════════════════════════════════════════════════ */
   .btn-primary {
-    @apply bg-pine-500 text-white font-semibold px-8 py-4 rounded-full;
+    @apply bg-charcoal-900 text-white font-semibold px-8 py-4 rounded-full border-2 border-gold-500;
     @apply transition-all duration-300 ease-out;
-    @apply hover:bg-pine-600 hover:shadow-glow-pine;
+    @apply hover:bg-charcoal-800 hover:border-gold-400 hover:shadow-glow;
   }
   
   .btn-gold {
@@ -204,19 +215,19 @@
     @apply border-2 border-white/70 text-white font-semibold px-8 py-4 rounded-full;
     @apply backdrop-blur-sm bg-white/5;
     @apply transition-all duration-300 ease-out;
-    @apply hover:bg-white hover:text-deep-bg;
+    @apply hover:bg-white hover:text-charcoal-900;
   }
   
   .btn-outline-pine {
-    @apply border-2 border-pine-500 text-pine-500 font-semibold px-8 py-4 rounded-full;
+    @apply border-2 border-forest-500 text-forest-600 font-semibold px-8 py-4 rounded-full;
     @apply transition-all duration-300 ease-out;
-    @apply hover:bg-pine-500 hover:text-white;
+    @apply hover:bg-forest-500 hover:text-white;
   }
   
   .btn-lake {
-    @apply bg-lake-400 text-deep-bg font-semibold px-8 py-4 rounded-full;
+    @apply bg-lake-500 text-white font-semibold px-8 py-4 rounded-full;
     @apply transition-all duration-300 ease-out;
-    @apply hover:bg-lake-500 hover:shadow-glow-lake;
+    @apply hover:bg-lake-600 hover:shadow-glow-lake;
   }
   
   /* ═══════════════════════════════════════════════════════════════════════
@@ -291,7 +302,7 @@
      EDITORIAL PANEL
      ═══════════════════════════════════════════════════════════════════════ */
   .editorial-panel {
-    background: var(--surface);
+    background: var(--surface);  /* Warm cream */
     @apply py-20 md:py-28;
   }
   
@@ -301,7 +312,7 @@
   
   .editorial-text {
     @apply text-lg leading-relaxed;
-    color: var(--text-muted);
+    color: var(--text-dark-muted);
   }
 }
 

@@ -137,7 +137,7 @@ export function NavigationNew() {
           <div className="hidden lg:flex items-center gap-4">
             <Link 
               href="/special-offers"
-              className="px-5 py-2.5 bg-pine-500 hover:bg-pine-600 text-white font-semibold rounded-full transition-all duration-300 shadow-md hover:shadow-lg hover:shadow-pine-500/20"
+              className="px-5 py-2.5 bg-gradient-forest hover:bg-forest-600 text-white font-semibold rounded-full transition-all duration-300 shadow-md hover:shadow-lg hover:shadow-forest-500/20"
             >
               Plan Your Trip
             </Link>
@@ -185,7 +185,7 @@ export function NavigationNew() {
               <Link
                 href="/special-offers"
                 onClick={() => setIsOpen(false)}
-                className="mt-4 mx-4 text-center px-6 py-3 bg-pine-500 hover:bg-pine-600 text-white font-semibold rounded-full transition-colors"
+                className="mt-4 mx-4 text-center px-6 py-3 bg-gradient-forest hover:bg-forest-600 text-white font-semibold rounded-full transition-colors"
               >
                 Plan Your Trip
               </Link>
