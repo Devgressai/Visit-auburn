@@ -52,17 +52,6 @@ export function CinematicHero({
           priority
           className={`object-cover transition-transform duration-[2s] ${isLoaded ? 'scale-100' : 'scale-110'}`}
         />
-        {/* Very subtle bottom gradient only for stats bar readability */}
-        <div 
-          className="absolute bottom-0 left-0 right-0 h-32"
-          style={{
-            background: `linear-gradient(
-              to top,
-              rgba(20, 50, 80, 0.4) 0%,
-              transparent 100%
-            )`
-          }}
-        />
       </div>
 
       {/* Main Content */}
