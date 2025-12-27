@@ -5,16 +5,49 @@
 @tailwind utilities;
 
 :root {
+  /* ═══════════════════════════════════════════════════════════════════════
+     TYPOGRAPHY TOKENS
+     ═══════════════════════════════════════════════════════════════════════ */
   --font-display: 'Playfair Display', Georgia, serif;
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   
-  /* Gold Country Color Variables */
+  /* ═══════════════════════════════════════════════════════════════════════
+     EXISTING PALETTE — Gold Country (preserved)
+     ═══════════════════════════════════════════════════════════════════════ */
   --gold-primary: #D4A017;
   --gold-dark: #B8860B;
   --forest-primary: #2D5A27;
   --forest-dark: #1E3A1A;
   --rust-primary: #A0522D;
   --charcoal: #1A1A1A;
+  
+  /* ═══════════════════════════════════════════════════════════════════════
+     NEW PALETTE — Destination (Tahoe-inspired + Pine Greens)
+     ═══════════════════════════════════════════════════════════════════════ */
+  --bg: #071A2B;
+  --surface: #0B2740;
+  --surface-elevated: #0F3352;
+  --text-primary: #F5FAFF;
+  --text-muted: rgba(245, 250, 255, 0.72);
+  --text-subtle: rgba(245, 250, 255, 0.56);
+  
+  /* Lake Blues */
+  --lake-blue: #4BA3C7;
+  --lake-teal: #2E8FA3;
+  
+  /* Pine Greens (accent) */
+  --pine: #1F6B4D;
+  --pine-dark: #144735;
+  --pine-light: #47AF7F;
+  
+  /* Sunset Accent (very limited use) */
+  --sunset-accent: #F2B27A;
+  
+  /* Borders & Overlays */
+  --border-subtle: rgba(255, 255, 255, 0.10);
+  --border-medium: rgba(255, 255, 255, 0.18);
+  --overlay-dark: rgba(7, 26, 43, 0.55);
+  --overlay-glass: rgba(11, 39, 64, 0.55);
 }
 
 @layer base {
@@ -23,40 +56,83 @@
   }
   
   body {
-    @apply antialiased bg-cream-50 text-charcoal-800;
+    @apply antialiased;
     font-family: var(--font-sans);
+    background-color: var(--bg);
+    color: var(--text-primary);
   }
   
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-display);
-    @apply font-bold text-charcoal-900;
+    @apply font-bold;
+    color: var(--text-primary);
+  }
+  
+  /* Light section overrides */
+  .section-light {
+    @apply bg-cream-50 text-charcoal-800;
+  }
+  
+  .section-light h1,
+  .section-light h2,
+  .section-light h3,
+  .section-light h4,
+  .section-light h5,
+  .section-light h6 {
+    @apply text-charcoal-900;
   }
 }
 
 @layer components {
-  /* Hero Typography */
+  /* ═══════════════════════════════════════════════════════════════════════
+     HERO TYPOGRAPHY — Cinematic Style
+     ═══════════════════════════════════════════════════════════════════════ */
   .hero-title {
     font-family: var(--font-display);
-    @apply text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-black tracking-tight;
-    text-shadow: 0 4px 30px rgba(0,0,0,0.3);
+    font-size: clamp(2.75rem, 6vw, 5.5rem);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+    text-shadow: 0 4px 40px rgba(0, 0, 0, 0.4);
   }
   
   .hero-subtitle {
-    @apply text-lg md:text-xl lg:text-2xl font-light tracking-wide;
-    text-shadow: 0 2px 20px rgba(0,0,0,0.4);
+    font-family: var(--font-sans);
+    font-size: clamp(1rem, 2vw, 1.375rem);
+    font-weight: 400;
+    line-height: 1.6;
+    color: var(--text-muted);
+    text-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
   }
   
-  /* Section Styles */
+  /* ═══════════════════════════════════════════════════════════════════════
+     SECTION STYLES
+     ═══════════════════════════════════════════════════════════════════════ */
   .section-title {
+    font-family: var(--font-display);
+    @apply text-3xl md:text-4xl lg:text-5xl font-bold;
+    color: var(--text-primary);
+  }
+  
+  .section-title-light {
     font-family: var(--font-display);
     @apply text-3xl md:text-4xl lg:text-5xl font-bold text-charcoal-900;
   }
   
   .section-subtitle {
-    @apply text-lg md:text-xl text-charcoal-500 max-w-2xl;
+    @apply text-lg md:text-xl max-w-2xl;
+    color: var(--text-muted);
   }
   
-  /* Card Styles - Lake Tahoe inspired */
+  .section-eyebrow {
+    @apply uppercase tracking-[0.2em] text-sm font-medium mb-4;
+    color: var(--pine);
+  }
+  
+  /* ═══════════════════════════════════════════════════════════════════════
+     CARD STYLES
+     ═══════════════════════════════════════════════════════════════════════ */
   .card-hover {
     @apply transition-all duration-500 ease-out;
   }
@@ -69,27 +145,55 @@
     @apply scale-110;
   }
   
-  /* Category Card - Like Lake Tahoe's "Dig In" section */
+  /* Glass Card - For overlays on images */
+  .card-glass {
+    background: var(--overlay-glass);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--border-subtle);
+    @apply rounded-2xl;
+  }
+  
+  /* Category Card */
   .category-card {
     @apply relative overflow-hidden rounded-2xl cursor-pointer;
     @apply transition-all duration-500 ease-out;
   }
   
   .category-card:hover {
-    @apply scale-105;
+    @apply scale-[1.03];
   }
   
   .category-card::after {
     content: '';
-    @apply absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent;
+    @apply absolute inset-0;
+    background: linear-gradient(
+      to top,
+      rgba(7, 26, 43, 0.85) 0%,
+      rgba(7, 26, 43, 0.4) 40%,
+      transparent 100%
+    );
   }
   
-  /* Stats Bar */
+  /* ═══════════════════════════════════════════════════════════════════════
+     STATS BAR
+     ═══════════════════════════════════════════════════════════════════════ */
   .stats-bar {
-    @apply backdrop-blur-md bg-white/10 border border-white/20;
+    background: var(--overlay-glass);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-top: 1px solid var(--border-subtle);
   }
   
-  /* Button Styles */
+  /* ═══════════════════════════════════════════════════════════════════════
+     BUTTON STYLES
+     ═══════════════════════════════════════════════════════════════════════ */
+  .btn-primary {
+    @apply bg-pine-500 text-white font-semibold px-8 py-4 rounded-full;
+    @apply transition-all duration-300 ease-out;
+    @apply hover:bg-pine-600 hover:shadow-glow-pine;
+  }
+  
   .btn-gold {
     @apply bg-gradient-gold text-white font-semibold px-8 py-4 rounded-full;
     @apply transition-all duration-300 ease-out;
@@ -97,13 +201,27 @@
   }
   
   .btn-outline-white {
-    @apply border-2 border-white text-white font-semibold px-8 py-4 rounded-full;
-    @apply backdrop-blur-sm bg-white/10;
+    @apply border-2 border-white/70 text-white font-semibold px-8 py-4 rounded-full;
+    @apply backdrop-blur-sm bg-white/5;
     @apply transition-all duration-300 ease-out;
-    @apply hover:bg-white hover:text-charcoal-900;
+    @apply hover:bg-white hover:text-deep-bg;
   }
   
-  /* Horizontal Scroll Container */
+  .btn-outline-pine {
+    @apply border-2 border-pine-500 text-pine-500 font-semibold px-8 py-4 rounded-full;
+    @apply transition-all duration-300 ease-out;
+    @apply hover:bg-pine-500 hover:text-white;
+  }
+  
+  .btn-lake {
+    @apply bg-lake-400 text-deep-bg font-semibold px-8 py-4 rounded-full;
+    @apply transition-all duration-300 ease-out;
+    @apply hover:bg-lake-500 hover:shadow-glow-lake;
+  }
+  
+  /* ═══════════════════════════════════════════════════════════════════════
+     HORIZONTAL SCROLL CONTAINER
+     ═══════════════════════════════════════════════════════════════════════ */
   .scroll-container {
     @apply flex gap-6 overflow-x-auto pb-4 snap-x snap-mandatory;
     scrollbar-width: none;
@@ -118,27 +236,72 @@
     @apply flex-shrink-0 snap-start;
   }
   
-  /* Tab Styles */
+  /* ═══════════════════════════════════════════════════════════════════════
+     TAB STYLES
+     ═══════════════════════════════════════════════════════════════════════ */
   .tab-active {
-    @apply text-gold-500 border-b-2 border-gold-500;
+    @apply text-pine-500 border-b-2 border-pine-500;
   }
   
   .tab-inactive {
-    @apply text-charcoal-400 hover:text-charcoal-600 border-b-2 border-transparent;
+    color: var(--text-muted);
+    @apply hover:text-white border-b-2 border-transparent;
   }
   
-  /* Event Date Badge */
+  /* ═══════════════════════════════════════════════════════════════════════
+     EVENT DATE BADGE
+     ═══════════════════════════════════════════════════════════════════════ */
   .event-date-badge {
-    @apply bg-gold-500 text-white font-bold rounded-lg px-4 py-2;
+    @apply bg-pine-500 text-white font-bold rounded-lg px-4 py-2;
     @apply flex flex-col items-center justify-center;
   }
   
   .event-date-badge .month {
-    @apply text-xs uppercase tracking-wider;
+    @apply text-xs uppercase tracking-wider opacity-90;
   }
   
   .event-date-badge .day {
     @apply text-2xl font-black leading-none;
+  }
+  
+  /* ═══════════════════════════════════════════════════════════════════════
+     PINE ACCENT ELEMENTS
+     ═══════════════════════════════════════════════════════════════════════ */
+  .pine-accent {
+    color: var(--pine);
+  }
+  
+  .pine-divider {
+    @apply h-1 w-16 rounded-full;
+    background: var(--pine);
+  }
+  
+  .pine-badge {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-sm font-medium;
+    background: rgba(31, 107, 77, 0.15);
+    color: var(--pine-light);
+    border: 1px solid rgba(31, 107, 77, 0.3);
+  }
+  
+  .pine-icon {
+    stroke: var(--pine);
+  }
+  
+  /* ═══════════════════════════════════════════════════════════════════════
+     EDITORIAL PANEL
+     ═══════════════════════════════════════════════════════════════════════ */
+  .editorial-panel {
+    background: var(--surface);
+    @apply py-20 md:py-28;
+  }
+  
+  .editorial-two-col {
+    @apply grid md:grid-cols-2 gap-8 md:gap-16;
+  }
+  
+  .editorial-text {
+    @apply text-lg leading-relaxed;
+    color: var(--text-muted);
   }
 }
 
@@ -161,13 +324,34 @@
     @apply bg-gradient-gold bg-clip-text text-transparent;
   }
   
-  /* Glass Effect */
+  .text-gradient-lake {
+    @apply bg-gradient-lake bg-clip-text text-transparent;
+  }
+  
+  .text-gradient-pine {
+    @apply bg-gradient-pine bg-clip-text text-transparent;
+  }
+  
+  /* Glass Effects */
   .glass {
-    @apply backdrop-blur-md bg-white/10 border border-white/20;
+    background: var(--overlay-glass);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--border-subtle);
   }
   
   .glass-dark {
-    @apply backdrop-blur-md bg-black/30 border border-white/10;
+    background: rgba(7, 26, 43, 0.7);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--border-subtle);
+  }
+  
+  .glass-surface {
+    background: rgba(11, 39, 64, 0.8);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--border-medium);
   }
   
   /* Parallax helper */
@@ -175,9 +359,33 @@
     transform-style: preserve-3d;
     perspective: 1000px;
   }
+  
+  /* Image section overlay */
+  .image-section-overlay {
+    @apply absolute inset-0;
+    background: linear-gradient(
+      to bottom,
+      rgba(7, 26, 43, 0.7) 0%,
+      rgba(7, 26, 43, 0.4) 50%,
+      rgba(7, 26, 43, 0.8) 100%
+    );
+  }
+  
+  /* Pine gradient accent overlay */
+  .pine-gradient-overlay {
+    @apply absolute inset-0;
+    background: linear-gradient(
+      135deg,
+      rgba(20, 71, 53, 0.4) 0%,
+      transparent 60%
+    );
+    pointer-events: none;
+  }
 }
 
-/* Smooth image loading */
+/* ═══════════════════════════════════════════════════════════════════════
+   SMOOTH IMAGE LOADING
+   ═══════════════════════════════════════════════════════════════════════ */
 img {
   opacity: 1;
   transition: opacity 0.3s ease-in-out;
@@ -185,4 +393,17 @@ img {
 
 img[data-loading="true"] {
   opacity: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   SELECTION COLORS
+   ═══════════════════════════════════════════════════════════════════════ */
+::selection {
+  background: rgba(31, 107, 77, 0.3);
+  color: var(--text-primary);
+}
+
+::-moz-selection {
+  background: rgba(31, 107, 77, 0.3);
+  color: var(--text-primary);
 }

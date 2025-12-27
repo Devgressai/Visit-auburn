@@ -15,21 +15,21 @@ export function EventsShowcase() {
     .slice(0, 4)
 
   return (
-    <section className="py-16 md:py-24 bg-white">
+    <section className="py-20 md:py-28 bg-deep-surface">
       <div className="container mx-auto px-4">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-12">
           <div>
-            <p className="text-gold-600 uppercase tracking-[0.2em] text-sm font-medium mb-3">
+            <p className="section-eyebrow">
               What's Happening
             </p>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-charcoal-900">
+            <h2 className="section-title">
               Events in Auburn
             </h2>
           </div>
           <Link 
             href="/events"
-            className="inline-flex items-center gap-2 text-gold-600 hover:text-gold-700 font-semibold mt-4 md:mt-0 transition-colors"
+            className="inline-flex items-center gap-2 text-pine-400 hover:text-pine-300 font-semibold mt-4 md:mt-0 transition-colors"
           >
             View All Events
             <ArrowRight className="w-5 h-5" />
@@ -38,7 +38,7 @@ export function EventsShowcase() {
 
         {/* Events Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {upcomingEvents.map((event, index) => {
+          {upcomingEvents.map((event) => {
             const eventDate = new Date(event.startDate)
             const imageUrl = event.featuredImage ? getImageUrl(event.featuredImage) : null
 
@@ -46,10 +46,10 @@ export function EventsShowcase() {
               <Link
                 key={event._id}
                 href={`/events/${event.slug.current}`}
-                className="group relative bg-white rounded-2xl overflow-hidden shadow-card hover:shadow-card-hover transition-shadow"
+                className="group relative rounded-2xl overflow-hidden card-hover"
               >
                 {/* Image */}
-                <div className="relative h-48 overflow-hidden">
+                <div className="relative h-56 overflow-hidden">
                   {imageUrl && (
                     <Image
                       src={imageUrl}
@@ -58,7 +58,7 @@ export function EventsShowcase() {
                       className="object-cover transition-transform duration-700 group-hover:scale-110"
                     />
                   )}
-                  <div className="absolute inset-0 bg-gradient-to-t from-charcoal-900/60 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-deep-bg/90 via-deep-bg/40 to-transparent" />
                   
                   {/* Date Badge */}
                   <div className="absolute top-4 left-4 event-date-badge">
@@ -68,24 +68,27 @@ export function EventsShowcase() {
                 </div>
 
                 {/* Content */}
-                <div className="p-5">
-                  <h3 className="text-lg font-bold text-charcoal-900 mb-2 group-hover:text-gold-600 transition-colors line-clamp-2">
+                <div className="absolute bottom-0 left-0 right-0 p-5">
+                  <h3 className="text-lg font-bold text-text-primary mb-2 group-hover:text-pine-400 transition-colors line-clamp-2">
                     {event.title}
                   </h3>
                   
                   {event.location && (
-                    <div className="flex items-center gap-2 text-charcoal-500 text-sm">
-                      <MapPin className="w-4 h-4" />
+                    <div className="flex items-center gap-2 text-text-muted text-sm">
+                      <MapPin className="w-4 h-4 text-pine-500" />
                       <span>{event.location.city || 'Auburn'}</span>
                     </div>
                   )}
 
                   {event.endDate && event.endDate !== event.startDate && (
-                    <p className="text-gold-600 text-sm mt-2 font-medium">
+                    <p className="text-pine-400 text-sm mt-2 font-medium">
                       {format(eventDate, 'MMM d')} - {format(new Date(event.endDate), 'MMM d, yyyy')}
                     </p>
                   )}
                 </div>
+
+                {/* Hover border */}
+                <div className="absolute inset-0 rounded-2xl border-2 border-transparent group-hover:border-pine-500/40 transition-colors" />
               </Link>
             )
           })}
@@ -94,7 +97,7 @@ export function EventsShowcase() {
         {/* Empty State */}
         {upcomingEvents.length === 0 && (
           <div className="text-center py-12">
-            <p className="text-charcoal-500 text-lg">
+            <p className="text-text-muted text-lg">
               Check back soon for upcoming events!
             </p>
           </div>
@@ -103,4 +106,3 @@ export function EventsShowcase() {
     </section>
   )
 }
-

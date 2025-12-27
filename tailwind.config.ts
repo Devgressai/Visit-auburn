@@ -9,7 +9,9 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Sierra Gold - Auburn Gold Country Palette
+        // ═══════════════════════════════════════════════════════════════
+        // EXISTING PALETTE — Sierra Gold (Auburn Gold Country)
+        // ═══════════════════════════════════════════════════════════════
         gold: {
           50: '#FFF9E6',
           100: '#FFF0BF',
@@ -46,7 +48,6 @@ const config: Config = {
           800: '#4E2A0F',
           900: '#2F1A0A',
         },
-        // Neutral tones
         charcoal: {
           50: '#F5F5F5',
           100: '#E5E5E5',
@@ -66,11 +67,64 @@ const config: Config = {
           300: '#FFF3C2',
           400: '#FFEEAE',
         },
+
+        // ═══════════════════════════════════════════════════════════════
+        // NEW PALETTE — Destination (Tahoe-inspired + Pine Greens)
+        // ═══════════════════════════════════════════════════════════════
+        
+        // Deep background tones
+        deep: {
+          bg: '#071A2B',        // --bg: Main dark background
+          surface: '#0B2740',   // --surface: Elevated surface
+          card: '#0F3352',      // Card backgrounds
+        },
+        
+        // Lake blues
+        lake: {
+          50: '#E6F4F9',
+          100: '#CCE9F3',
+          200: '#99D3E7',
+          300: '#66BDDB',
+          400: '#4BA3C7',       // --lake-blue: Primary accent
+          500: '#2E8FA3',       // --lake-teal: Secondary accent
+          600: '#247082',
+          700: '#1B5461',
+          800: '#123841',
+          900: '#091C20',
+        },
+        
+        // Pine greens (ACCENT - use sparingly)
+        pine: {
+          50: '#E8F5EF',
+          100: '#D1EBDF',
+          200: '#A3D7BF',
+          300: '#75C39F',
+          400: '#47AF7F',
+          500: '#1F6B4D',       // --pine: Primary pine accent
+          600: '#144735',       // --pine-dark: Dark pine
+          700: '#0F3527',
+          800: '#0A231A',
+          900: '#05120D',
+        },
+        
+        // Sunset accent (very limited use)
+        sunset: {
+          400: '#F5C992',
+          500: '#F2B27A',       // --sunset-accent
+          600: '#E89B5C',
+        },
+        
+        // Text colors for dark mode
+        'text-primary': '#F5FAFF',
+        'text-muted': 'rgba(245, 250, 255, 0.72)',
+        'border-subtle': 'rgba(255, 255, 255, 0.10)',
       },
+      
       fontFamily: {
         display: ['var(--font-display)', 'Georgia', 'serif'],
         sans: ['var(--font-sans)', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
       },
+      
       container: {
         center: true,
         padding: {
@@ -88,11 +142,13 @@ const config: Config = {
           '2xl': '1400px',
         },
       },
+      
       spacing: {
         '18': '4.5rem',
         '88': '22rem',
         '128': '32rem',
       },
+      
       typography: {
         DEFAULT: {
           css: {
@@ -103,8 +159,21 @@ const config: Config = {
             h3: { fontWeight: '600', lineHeight: '1.3' },
           },
         },
+        // Dark mode typography
+        invert: {
+          css: {
+            color: '#F5FAFF',
+            h1: { color: '#F5FAFF' },
+            h2: { color: '#F5FAFF' },
+            h3: { color: '#F5FAFF' },
+            strong: { color: '#F5FAFF' },
+          },
+        },
       },
+      
       fontSize: {
+        // Hero headline - responsive clamping
+        'hero-display': ['clamp(2.75rem, 6vw, 5.5rem)', { lineHeight: '1.05', fontWeight: '700', letterSpacing: '-0.02em' }],
         'display-xl': ['5rem', { lineHeight: '1', fontWeight: '800', letterSpacing: '-0.03em' }],
         'display': ['3.5rem', { lineHeight: '1.1', fontWeight: '700', letterSpacing: '-0.02em' }],
         'h1': ['2.5rem', { lineHeight: '1.2', fontWeight: '700', letterSpacing: '-0.01em' }],
@@ -112,12 +181,16 @@ const config: Config = {
         'h3': ['1.5rem', { lineHeight: '1.4', fontWeight: '600' }],
         'h4': ['1.25rem', { lineHeight: '1.5', fontWeight: '600' }],
       },
+      
       boxShadow: {
         'card': '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
         'card-hover': '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
         'glow': '0 0 40px rgba(212, 160, 23, 0.3)',
         'glow-lg': '0 0 60px rgba(212, 160, 23, 0.4)',
+        'glow-pine': '0 0 40px rgba(31, 107, 77, 0.3)',
+        'glow-lake': '0 0 40px rgba(75, 163, 199, 0.25)',
       },
+      
       animation: {
         'fade-in': 'fadeIn 0.6s ease-out forwards',
         'slide-up': 'slideUp 0.6s ease-out forwards',
@@ -126,6 +199,7 @@ const config: Config = {
         'scale-in': 'scaleIn 0.5s ease-out forwards',
         'float': 'float 6s ease-in-out infinite',
       },
+      
       keyframes: {
         fadeIn: {
           '0%': { opacity: '0' },
@@ -152,12 +226,22 @@ const config: Config = {
           '50%': { transform: 'translateY(-10px)' },
         },
       },
+      
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-gold': 'linear-gradient(135deg, #D4A017 0%, #B8860B 50%, #8B6914 100%)',
         'gradient-forest': 'linear-gradient(135deg, #2D5A27 0%, #1E3A1A 100%)',
         'gradient-dark': 'linear-gradient(180deg, #0A0A0A 0%, #1A1A1A 100%)',
         'gradient-hero': 'linear-gradient(180deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.6) 100%)',
+        // New destination gradients
+        'gradient-deep': 'linear-gradient(180deg, #071A2B 0%, #0B2740 100%)',
+        'gradient-hero-cinematic': 'linear-gradient(180deg, rgba(7,26,43,0.85) 0%, rgba(7,26,43,0.2) 35%, rgba(7,26,43,0.2) 65%, rgba(7,26,43,0.9) 100%)',
+        'gradient-pine': 'linear-gradient(135deg, #1F6B4D 0%, #144735 100%)',
+        'gradient-lake': 'linear-gradient(135deg, #4BA3C7 0%, #2E8FA3 100%)',
+      },
+      
+      backdropBlur: {
+        xs: '2px',
       },
     },
   },

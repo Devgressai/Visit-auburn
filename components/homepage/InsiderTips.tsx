@@ -60,12 +60,12 @@ export function InsiderTips() {
   }
 
   return (
-    <section className="py-16 md:py-24 bg-white">
+    <section className="py-20 md:py-28 bg-deep-surface">
       <div className="container mx-auto px-4">
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-10">
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-12">
           <div>
-            <p className="text-gold-600 uppercase tracking-[0.2em] text-sm font-medium mb-3">
+            <p className="section-eyebrow">
               Local Knowledge
             </p>
             <h2 className="section-title">Insider Tips From Auburn</h2>
@@ -75,14 +75,14 @@ export function InsiderTips() {
             <div className="hidden md:flex gap-2">
               <button 
                 onClick={() => scroll('left')}
-                className="w-10 h-10 rounded-full border-2 border-charcoal-200 text-charcoal-400 hover:border-gold-500 hover:text-gold-500 flex items-center justify-center transition-all"
+                className="w-10 h-10 rounded-full border border-border-subtle text-text-muted hover:border-pine-500 hover:text-pine-400 flex items-center justify-center transition-all"
                 aria-label="Scroll left"
               >
                 <ChevronLeft className="w-5 h-5" />
               </button>
               <button 
                 onClick={() => scroll('right')}
-                className="w-10 h-10 rounded-full border-2 border-charcoal-200 text-charcoal-400 hover:border-gold-500 hover:text-gold-500 flex items-center justify-center transition-all"
+                className="w-10 h-10 rounded-full border border-border-subtle text-text-muted hover:border-pine-500 hover:text-pine-400 flex items-center justify-center transition-all"
                 aria-label="Scroll right"
               >
                 <ChevronRight className="w-5 h-5" />
@@ -111,17 +111,19 @@ export function InsiderTips() {
                     fill
                     className="object-cover transition-transform duration-700 group-hover:scale-110"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-deep-bg/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                  {/* Hover border */}
+                  <div className="absolute inset-0 rounded-2xl border-2 border-transparent group-hover:border-pine-500/40 transition-colors" />
                 </div>
 
                 {/* Content */}
-                <h3 className="text-xl font-bold text-charcoal-900 mb-2 group-hover:text-gold-600 transition-colors line-clamp-2">
+                <h3 className="text-xl font-bold text-text-primary mb-2 group-hover:text-pine-400 transition-colors line-clamp-2">
                   {article.title}
                 </h3>
-                <p className="text-charcoal-500 text-sm line-clamp-2 mb-3">
+                <p className="text-text-muted text-sm line-clamp-2 mb-3">
                   {article.excerpt}
                 </p>
-                <span className="inline-flex items-center gap-1 text-gold-600 font-medium text-sm group-hover:gap-2 transition-all">
+                <span className="inline-flex items-center gap-1 text-pine-400 font-medium text-sm group-hover:gap-2 transition-all">
                   Read Full Article
                   <ArrowRight className="w-4 h-4" />
                 </span>
@@ -133,4 +135,3 @@ export function InsiderTips() {
     </section>
   )
 }
-

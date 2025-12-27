@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { Menu, X, ChevronDown, Sun, MapPin } from 'lucide-react'
+import { Menu, X, ChevronDown } from 'lucide-react'
 
 const navigation = [
   {
@@ -68,20 +68,20 @@ export function NavigationNew() {
 
   return (
     <header 
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled 
-          ? 'bg-charcoal-900/95 backdrop-blur-md shadow-lg py-3' 
+          ? 'bg-deep-surface/95 backdrop-blur-md border-b border-border-subtle py-3' 
           : 'bg-transparent py-5'
       }`}
     >
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 group">
-            <div className="w-10 h-10 rounded-full bg-gradient-gold flex items-center justify-center">
+          <Link href="/" className="flex items-center gap-3 group">
+            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-pine-500 to-pine-600 flex items-center justify-center shadow-lg shadow-pine-500/20">
               <span className="text-white font-bold text-lg">VA</span>
             </div>
-            <span className="text-white font-display text-xl font-bold hidden sm:block group-hover:text-gold-400 transition-colors">
+            <span className="text-text-primary font-display text-xl font-bold hidden sm:block group-hover:text-pine-400 transition-colors duration-200">
               Visit Auburn
             </span>
           </Link>
@@ -97,10 +97,12 @@ export function NavigationNew() {
               >
                 <Link
                   href={item.href}
-                  className={`flex items-center gap-1 px-4 py-2 text-white/90 hover:text-white font-medium transition-colors rounded-lg hover:bg-white/10`}
+                  className="flex items-center gap-1 px-4 py-2 text-text-muted hover:text-text-primary font-medium transition-colors duration-200 rounded-lg hover:bg-white/5"
                 >
                   {item.name}
-                  {item.submenu && <ChevronDown className="w-4 h-4" />}
+                  {item.submenu && (
+                    <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${activeMenu === item.name ? 'rotate-180' : ''}`} />
+                  )}
                 </Link>
 
                 {/* Dropdown */}
@@ -110,12 +112,12 @@ export function NavigationNew() {
                     onMouseEnter={() => setActiveMenu(item.name)}
                     onMouseLeave={() => setActiveMenu(null)}
                   >
-                    <div className="bg-white rounded-xl shadow-xl overflow-hidden py-2">
+                    <div className="glass-surface rounded-xl shadow-xl overflow-hidden py-2">
                       {item.submenu.map((subItem) => (
                         <Link
                           key={subItem.name}
                           href={subItem.href}
-                          className="block px-4 py-2.5 text-charcoal-700 hover:text-gold-600 hover:bg-cream-100 transition-colors"
+                          className="block px-4 py-2.5 text-text-muted hover:text-pine-400 hover:bg-white/5 transition-colors duration-200"
                         >
                           {subItem.name}
                         </Link>
@@ -127,20 +129,20 @@ export function NavigationNew() {
             ))}
           </nav>
 
-          {/* Right Side - Weather & Special Offers */}
+          {/* Right Side - CTA Button */}
           <div className="hidden lg:flex items-center gap-4">
             <Link 
               href="/special-offers"
-              className="px-5 py-2.5 bg-gold-500 hover:bg-gold-600 text-white font-semibold rounded-full transition-all duration-300 shadow-md hover:shadow-lg"
+              className="px-5 py-2.5 bg-pine-500 hover:bg-pine-600 text-white font-semibold rounded-full transition-all duration-300 shadow-md hover:shadow-lg hover:shadow-pine-500/20"
             >
-              Special Offers
+              Plan Your Trip
             </Link>
           </div>
 
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="lg:hidden p-2 text-white hover:bg-white/10 rounded-lg transition-colors"
+            className="lg:hidden p-2 text-text-primary hover:bg-white/10 rounded-lg transition-colors"
             aria-label="Toggle menu"
           >
             {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -149,25 +151,25 @@ export function NavigationNew() {
 
         {/* Mobile Menu */}
         {isOpen && (
-          <div className="lg:hidden mt-4 pb-4">
+          <div className="lg:hidden mt-4 pb-4 border-t border-border-subtle pt-4">
             <nav className="flex flex-col gap-1">
               {navigation.map((item) => (
                 <div key={item.name}>
                   <Link
                     href={item.href}
                     onClick={() => setIsOpen(false)}
-                    className="block px-4 py-3 text-white font-medium hover:bg-white/10 rounded-lg transition-colors"
+                    className="block px-4 py-3 text-text-primary font-medium hover:bg-white/5 rounded-lg transition-colors"
                   >
                     {item.name}
                   </Link>
                   {item.submenu && (
-                    <div className="ml-4 border-l border-white/20 pl-4 mt-1 mb-2">
+                    <div className="ml-4 border-l border-border-subtle pl-4 mt-1 mb-2">
                       {item.submenu.slice(0, 4).map((subItem) => (
                         <Link
                           key={subItem.name}
                           href={subItem.href}
                           onClick={() => setIsOpen(false)}
-                          className="block py-2 text-white/70 hover:text-white text-sm transition-colors"
+                          className="block py-2 text-text-muted hover:text-pine-400 text-sm transition-colors"
                         >
                           {subItem.name}
                         </Link>
@@ -179,9 +181,9 @@ export function NavigationNew() {
               <Link
                 href="/special-offers"
                 onClick={() => setIsOpen(false)}
-                className="mt-4 mx-4 text-center px-6 py-3 bg-gold-500 text-white font-semibold rounded-full"
+                className="mt-4 mx-4 text-center px-6 py-3 bg-pine-500 hover:bg-pine-600 text-white font-semibold rounded-full transition-colors"
               >
-                Special Offers
+                Plan Your Trip
               </Link>
             </nav>
           </div>
@@ -190,4 +192,3 @@ export function NavigationNew() {
     </header>
   )
 }
-
