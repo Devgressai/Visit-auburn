@@ -51,6 +51,7 @@ export function CinematicHero({
           fill
           priority
           className={`object-cover transition-transform duration-[2s] ${isLoaded ? 'scale-100' : 'scale-110'}`}
+          style={{ objectPosition: '30% center' }}
         />
       </div>
 
