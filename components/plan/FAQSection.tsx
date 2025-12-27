@@ -119,8 +119,8 @@ function FAQAccordion({ category, items }: FAQCategory) {
 
   return (
     <div className="mb-12">
-      <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6 flex items-center gap-3">
-        <span className="w-2 h-8 bg-gradient-to-b from-blue-500 to-blue-600 rounded-full" />
+      <h2 className="text-2xl md:text-3xl font-bold text-text-primary mb-6 flex items-center gap-3 font-display">
+        <span className="w-1 h-8 bg-gradient-to-b from-pine-400 to-pine-600 rounded-full" />
         {category}
       </h2>
       
@@ -131,17 +131,17 @@ function FAQAccordion({ category, items }: FAQCategory) {
           return (
             <div
               key={index}
-              className="bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow"
+              className="card-glass overflow-hidden"
             >
               <button
                 onClick={() => setOpenIndex(isOpen ? null : index)}
-                className="w-full px-6 py-5 flex items-center justify-between text-left gap-4 hover:bg-gray-50 rounded-lg transition-colors"
+                className="w-full px-6 py-5 flex items-center justify-between text-left gap-4 hover:bg-white/[0.05] transition-colors"
               >
-                <span className="text-lg font-semibold text-gray-900 flex-1">
+                <span className="text-lg font-semibold text-text-primary flex-1">
                   {item.question}
                 </span>
                 <ChevronDown
-                  className={`w-5 h-5 text-gray-500 flex-shrink-0 transition-transform duration-200 ${
+                  className={`w-5 h-5 text-pine-400 flex-shrink-0 transition-transform duration-200 ${
                     isOpen ? 'rotate-180' : ''
                   }`}
                 />
@@ -156,7 +156,7 @@ function FAQAccordion({ category, items }: FAQCategory) {
                     transition={{ duration: 0.3 }}
                     className="overflow-hidden"
                   >
-                    <div className="px-6 pb-5 text-gray-700 leading-relaxed">
+                    <div className="px-6 pb-5 text-text-muted leading-relaxed border-t border-border-subtle pt-4">
                       {item.answer}
                     </div>
                   </motion.div>
@@ -179,4 +179,3 @@ export function FAQSection() {
     </div>
   )
 }
-
