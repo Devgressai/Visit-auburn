@@ -22,7 +22,7 @@ const seasons: Record<Season, {
     tagline: 'Wildflowers & Waterfalls',
     activities: [
       { title: 'Wildflower Hikes', image: 'https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=600&q=80', href: '/things-to-do/outdoor-adventures' },
-      { title: 'Hidden Falls', image: 'https://images.unsplash.com/photo-1433086966358-54859d0ed716?w=600&q=80', href: '/things-to-do/outdoor-adventures/hidden-falls-regional-park' },
+      { title: 'Hidden Falls', image: 'https://images.unsplash.com/photo-1432405972618-c60b0225b8f9?w=600&q=80', href: '/things-to-do/outdoor-adventures/hidden-falls-regional-park' },
       { title: 'Farmers Markets', image: 'https://images.unsplash.com/photo-1488459716781-31db52582fe9?w=600&q=80', href: '/dining' },
       { title: 'Wine Tasting', image: 'https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?w=600&q=80', href: '/dining/mt-vernon-winery' },
     ],
