@@ -72,11 +72,11 @@ const config: Config = {
         // NEW PALETTE — Destination (Tahoe-inspired + Pine Greens)
         // ═══════════════════════════════════════════════════════════════
         
-        // Deep background tones
+        // Deep background tones (brightened 33%)
         deep: {
-          bg: '#071A2B',        // --bg: Main dark background
-          surface: '#0B2740',   // --surface: Elevated surface
-          card: '#0F3352',      // Card backgrounds
+          bg: '#102942',        // --bg: Main dark background
+          surface: '#17405F',   // --surface: Elevated surface
+          card: '#1E5478',      // Card backgrounds
         },
         
         // Lake blues
@@ -234,8 +234,8 @@ const config: Config = {
         'gradient-dark': 'linear-gradient(180deg, #0A0A0A 0%, #1A1A1A 100%)',
         'gradient-hero': 'linear-gradient(180deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.6) 100%)',
         // New destination gradients
-        'gradient-deep': 'linear-gradient(180deg, #071A2B 0%, #0B2740 100%)',
-        'gradient-hero-cinematic': 'linear-gradient(180deg, rgba(7,26,43,0.85) 0%, rgba(7,26,43,0.2) 35%, rgba(7,26,43,0.2) 65%, rgba(7,26,43,0.9) 100%)',
+        'gradient-deep': 'linear-gradient(180deg, #102942 0%, #17405F 100%)',
+        'gradient-hero-cinematic': 'linear-gradient(180deg, rgba(16,41,66,0.85) 0%, rgba(16,41,66,0.2) 35%, rgba(16,41,66,0.2) 65%, rgba(16,41,66,0.9) 100%)',
         'gradient-pine': 'linear-gradient(135deg, #1F6B4D 0%, #144735 100%)',
         'gradient-lake': 'linear-gradient(135deg, #4BA3C7 0%, #2E8FA3 100%)',
       },

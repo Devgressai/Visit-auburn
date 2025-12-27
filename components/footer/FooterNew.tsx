@@ -89,11 +89,11 @@ export function FooterNew() {
               <div className="mt-10 mb-8">
                 <Link href="/" className="block">
                   <Image
-                    src="/images/logo.svg"
+                    src="/images/logo.png"
                     alt="Visit Auburn - California Gold Country"
-                    width={280}
-                    height={100}
-                    className="w-56 md:w-64 h-auto object-contain"
+                    width={120}
+                    height={140}
+                    className="h-28 md:h-32 w-auto object-contain drop-shadow-lg"
                   />
                 </Link>
               </div>

@@ -80,11 +80,11 @@ export function NavigationNew() {
           {/* Logo */}
           <Link href="/" className="flex items-center group">
             <Image
-              src="/images/logo.svg"
+              src="/images/logo.png"
               alt="Visit Auburn - California Gold Country"
-              width={180}
-              height={60}
-              className="h-12 md:h-14 w-auto object-contain"
+              width={70}
+              height={80}
+              className="h-14 md:h-16 w-auto object-contain drop-shadow-lg"
               priority
             />
           </Link>
