@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { Menu, X, ChevronDown } from 'lucide-react'
 
 const navigation = [
@@ -77,13 +78,15 @@ export function NavigationNew() {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-3 group">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-pine-500 to-pine-600 flex items-center justify-center shadow-lg shadow-pine-500/20">
-              <span className="text-white font-bold text-lg">VA</span>
-            </div>
-            <span className="text-text-primary font-display text-xl font-bold hidden sm:block group-hover:text-pine-400 transition-colors duration-200">
-              Visit Auburn
-            </span>
+          <Link href="/" className="flex items-center group">
+            <Image
+              src="/images/logo.png"
+              alt="Visit Auburn - California Gold Country"
+              width={180}
+              height={60}
+              className="h-12 md:h-14 w-auto object-contain"
+              priority
+            />
           </Link>
 
           {/* Desktop Navigation */}

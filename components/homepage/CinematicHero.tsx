@@ -83,10 +83,14 @@ export function CinematicHero({
       <div className="relative z-10 min-h-screen flex flex-col justify-center items-start text-left px-6 md:px-12 lg:px-20 pt-24 pb-32">
         {/* Pre-title / Eyebrow */}
         <p 
-          className={`section-eyebrow text-pine-400 mb-6 transition-all duration-700 ${
+          className={`uppercase tracking-[0.2em] text-sm font-semibold mb-6 transition-all duration-700 ${
             isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
           }`}
-          style={{ transitionDelay: '200ms' }}
+          style={{ 
+            transitionDelay: '200ms',
+            color: '#E5B94E',
+            textShadow: '0 2px 8px rgba(0,0,0,0.5)'
+          }}
         >
           Explore the Heart of Gold Country
         </p>

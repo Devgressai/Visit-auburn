@@ -88,13 +88,13 @@ export function FooterNew() {
               {/* Logo */}
               <div className="mt-10 mb-8">
                 <Link href="/" className="block">
-                  <div className="text-text-primary">
-                    <span className="block text-sm tracking-widest text-pine-400 mb-1">VISIT</span>
-                    <span className="block text-5xl md:text-6xl font-display font-bold tracking-tight">
-                      Auburn
-                    </span>
-                    <span className="block text-xs tracking-[0.3em] text-text-muted mt-1">CALIFORNIA • GOLD COUNTRY</span>
-                  </div>
+                  <Image
+                    src="/images/logo.png"
+                    alt="Visit Auburn - California Gold Country"
+                    width={280}
+                    height={100}
+                    className="w-56 md:w-64 h-auto object-contain"
+                  />
                 </Link>
               </div>
 
