@@ -42,7 +42,7 @@ export function CinematicHero({
   }
 
   return (
-    <section className="relative h-[65vh] w-full overflow-hidden">
+    <section className="relative h-[75vh] w-full overflow-hidden">
       {/* Background Image */}
       <div className="absolute inset-0">
         <Image
@@ -51,6 +51,17 @@ export function CinematicHero({
           fill
           priority
           className={`object-cover transition-transform duration-[2s] ${isLoaded ? 'scale-100' : 'scale-110'}`}
+        />
+        {/* Bottom gradient for stats bar readability */}
+        <div 
+          className="absolute bottom-0 left-0 right-0 h-40"
+          style={{
+            background: `linear-gradient(
+              to top,
+              rgba(20, 50, 80, 0.85) 0%,
+              transparent 100%
+            )`
+          }}
         />
       </div>
 
