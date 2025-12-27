@@ -100,7 +100,8 @@ export function NavigationNew() {
               >
                 <Link
                   href={item.href}
-                  className="flex items-center gap-1 px-4 py-2 text-text-muted hover:text-text-primary font-medium transition-colors duration-200 rounded-lg hover:bg-white/5"
+                  className="flex items-center gap-1 px-4 py-2 text-text-primary hover:text-white font-bold transition-colors duration-200 rounded-lg hover:bg-white/5"
+                  style={{ textShadow: '0 2px 8px rgba(0,0,0,0.6)' }}
                 >
                   {item.name}
                   {item.submenu && (
@@ -161,7 +162,7 @@ export function NavigationNew() {
                   <Link
                     href={item.href}
                     onClick={() => setIsOpen(false)}
-                    className="block px-4 py-3 text-text-primary font-medium hover:bg-white/5 rounded-lg transition-colors"
+                    className="block px-4 py-3 text-text-primary font-bold hover:bg-white/5 rounded-lg transition-colors"
                   >
                     {item.name}
                   </Link>
