@@ -42,7 +42,7 @@ export function CinematicHero({
   }
 
   return (
-    <section className="relative min-h-screen w-full overflow-hidden">
+    <section className="relative h-[65vh] w-full overflow-hidden">
       {/* Background Image */}
       <div className="absolute inset-0">
         <Image
@@ -55,7 +55,7 @@ export function CinematicHero({
       </div>
 
       {/* Main Content */}
-      <div className="relative z-10 min-h-screen flex flex-col justify-center items-start text-left px-6 md:px-12 lg:px-20 pt-24 pb-32">
+      <div className="relative z-10 h-full flex flex-col justify-center items-start text-left px-6 md:px-12 lg:px-20 pt-24 pb-32">
         {/* Pre-title / Eyebrow */}
         <p 
           className={`uppercase tracking-[0.2em] text-sm font-semibold mb-6 transition-all duration-700 ${

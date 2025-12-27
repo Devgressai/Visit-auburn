@@ -38,7 +38,7 @@ export default async function HomePage() {
       <CinematicHero
         title="Auburn"
         subtitle="Where Gold Country history meets Sierra Nevada adventure. Discover California's best-kept secret in the heart of the foothills."
-        heroImage="/images/shutterstock_1442116028.jpg"
+        heroImage="/images/things-to-do.jpg"
         weather={{ temp: 72, condition: 'Sunny' }}
       />
 
