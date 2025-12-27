@@ -74,7 +74,7 @@ const config: Config = {
         
         // Background tones (warm neutrals instead of blue)
         deep: {
-          bg: '#1A1A1A',        // Charcoal for dark sections
+          bg: '#2D2D2D',        // Warm dark gray (not black)
           surface: '#F5F2EB',   // Warm cream for light sections  
           card: '#FFFFFF',      // White for cards
         },

@@ -78,7 +78,7 @@ export function CategoryExplorer() {
   }
 
   return (
-    <section className="py-20 md:py-28 bg-charcoal-900 relative overflow-hidden">
+    <section className="py-20 md:py-28 bg-charcoal-800 relative overflow-hidden">
       {/* Subtle pattern overlay */}
       <div className="absolute inset-0 opacity-[0.03]">
         <div className="absolute inset-0" style={{

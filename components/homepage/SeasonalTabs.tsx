@@ -115,7 +115,7 @@ export function SeasonalTabs() {
                     fill
                     className="object-cover transition-transform duration-700 group-hover:scale-110"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-charcoal-900/90 via-charcoal-900/30 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-charcoal-800/90 via-charcoal-800/30 to-transparent" />
                   <div className="absolute bottom-0 left-0 right-0 p-4 md:p-6">
                     <h3 className="text-white font-bold text-lg md:text-xl group-hover:text-gold-300 transition-colors">
                       {activity.title}

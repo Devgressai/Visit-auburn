@@ -24,7 +24,7 @@
   /* ═══════════════════════════════════════════════════════════════════════
      NEW PALETTE — Destination (Warm Neutrals + Gold/Forest Accents)
      ═══════════════════════════════════════════════════════════════════════ */
-  --bg: #1A1A1A;           /* Charcoal for dark sections */
+  --bg: #2D2D2D;           /* Warm dark gray (not pure black) */
   --surface: #F5F2EB;      /* Warm cream for light sections */
   --surface-elevated: #FFFFFF;  /* White for cards */
   --text-primary: #F5FAFF;
@@ -200,9 +200,9 @@
      BUTTON STYLES
      ═══════════════════════════════════════════════════════════════════════ */
   .btn-primary {
-    @apply bg-charcoal-900 text-white font-semibold px-8 py-4 rounded-full border-2 border-gold-500;
+    @apply bg-charcoal-800 text-white font-semibold px-8 py-4 rounded-full border-2 border-gold-500;
     @apply transition-all duration-300 ease-out;
-    @apply hover:bg-charcoal-800 hover:border-gold-400 hover:shadow-glow;
+    @apply hover:bg-charcoal-700 hover:border-gold-400 hover:shadow-glow;
   }
   
   .btn-gold {

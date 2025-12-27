@@ -58,7 +58,7 @@ export function EventsShowcase() {
                       className="object-cover transition-transform duration-700 group-hover:scale-110"
                     />
                   )}
-                  <div className="absolute inset-0 bg-gradient-to-t from-charcoal-900/90 via-charcoal-900/40 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-charcoal-800/90 via-charcoal-800/40 to-transparent" />
                   
                   {/* Date Badge */}
                   <div className="absolute top-4 left-4 bg-gradient-forest text-white font-bold rounded-lg px-4 py-2 flex flex-col items-center justify-center shadow-lg">
