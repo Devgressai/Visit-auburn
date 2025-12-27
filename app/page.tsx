@@ -46,10 +46,10 @@ export default async function HomePage() {
           SECTION 2: Editorial Intro Panel
           Deep surface background with two-column editorial layout
           ═══════════════════════════════════════════════════════════════════ */}
-      <section className="py-16 md:py-20" style={{ background: 'var(--surface)' }}>
+      <section className="editorial-panel">
         <div className="container mx-auto px-4">
           {/* Section Header */}
-          <div className="text-center mb-12">
+          <div className="text-center mb-16">
             <p className="section-eyebrow">Welcome to Auburn</p>
             <h2 className="section-title mb-6">
               Explore Gold Country
@@ -58,7 +58,7 @@ export default async function HomePage() {
           </div>
 
           {/* Two Column Editorial */}
-          <div className="editorial-two-col max-w-5xl mx-auto mb-12">
+          <div className="editorial-two-col max-w-5xl mx-auto mb-16">
             <div className="editorial-text">
               <p className="mb-6">
                 Nestled in the Sierra Nevada foothills, Auburn is where California's 
