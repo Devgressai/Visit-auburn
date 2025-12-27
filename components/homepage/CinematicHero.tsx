@@ -52,28 +52,15 @@ export function CinematicHero({
           priority
           className={`object-cover transition-transform duration-[2s] ${isLoaded ? 'scale-100' : 'scale-110'}`}
         />
-        {/* Cinematic Gradient Overlay - Deep blue at edges, clear center */}
+        {/* Minimal bottom gradient only for text readability */}
         <div 
           className="absolute inset-0"
           style={{
             background: `linear-gradient(
               180deg,
-              rgba(20, 50, 80, 0.5) 0%,
-              rgba(20, 50, 80, 0.1) 30%,
-              rgba(20, 50, 80, 0.05) 50%,
-              rgba(20, 50, 80, 0.1) 70%,
-              rgba(20, 50, 80, 0.7) 100%
-            )`
-          }}
-        />
-        {/* Subtle pine tint on left edge */}
-        <div 
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            background: `linear-gradient(
-              90deg,
-              rgba(20, 71, 53, 0.25) 0%,
-              transparent 40%
+              transparent 0%,
+              transparent 60%,
+              rgba(20, 50, 80, 0.3) 100%
             )`
           }}
         />
