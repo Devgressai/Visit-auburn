@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 100" width="320" height="100">
+  <defs>
+    <linearGradient id="treeGrad" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" style="stop-color:#2D5A47"/>
+      <stop offset="100%" style="stop-color:#3D7A5A"/>
+    </linearGradient>
+    <linearGradient id="rockGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#C4922A"/>
+      <stop offset="100%" style="stop-color:#E5B94E"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Pine Tree -->
+  <g transform="translate(15, 12)">
+    <!-- Tree layers -->
+    <polygon points="20,0 35,18 5,18" fill="url(#treeGrad)"/>
+    <polygon points="20,10 40,32 0,32" fill="url(#treeGrad)"/>
+    <polygon points="20,22 45,48 -5,48" fill="url(#treeGrad)"/>
+    <!-- Trunk -->
+    <rect x="15" y="48" width="10" height="12" fill="#5D4E37"/>
+  </g>
+  
+  <!-- Gold Nugget -->
+  <g transform="translate(45, 32)">
+    <path d="M0,20 L8,0 L28,0 L35,12 L30,28 L10,30 Z" fill="url(#rockGrad)"/>
+    <path d="M8,0 L15,8 L28,0" fill="#D4A84B" opacity="0.6"/>
+  </g>
+  
+  <!-- VISIT text -->
+  <text x="95" y="32" font-family="Georgia, serif" font-size="16" font-weight="600" letter-spacing="3" fill="#E5B94E">VISIT</text>
+  
+  <!-- Auburn text -->
+  <text x="95" y="68" font-family="Georgia, 'Playfair Display', serif" font-size="42" font-weight="700" fill="#F5F2EB">Auburn</text>
+  
+  <!-- CALIFORNIA • GOLD COUNTRY text -->
+  <text x="95" y="88" font-family="Georgia, serif" font-size="11" font-weight="500" letter-spacing="2" fill="#E5B94E">CALIFORNIA • GOLD COUNTRY</text>
+</svg>
+

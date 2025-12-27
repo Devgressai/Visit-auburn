@@ -89,7 +89,7 @@ export function FooterNew() {
               <div className="mt-10 mb-8">
                 <Link href="/" className="block">
                   <Image
-                    src="/images/logo.png"
+                    src="/images/logo.svg"
                     alt="Visit Auburn - California Gold Country"
                     width={280}
                     height={100}

@@ -80,7 +80,7 @@ export function NavigationNew() {
           {/* Logo */}
           <Link href="/" className="flex items-center group">
             <Image
-              src="/images/logo.png"
+              src="/images/logo.svg"
               alt="Visit Auburn - California Gold Country"
               width={180}
               height={60}
