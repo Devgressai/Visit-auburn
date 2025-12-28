@@ -62,13 +62,17 @@ export function RespectAuburnBanner() {
             return (
               <div 
                 key={rule.title}
-                className="group card-glass p-6 text-center hover:bg-white/[0.08] transition-all duration-300 cursor-default"
+                className="group p-6 text-center hover:bg-white transition-all duration-300 cursor-default rounded-2xl border border-white/30 shadow-lg"
+                style={{ 
+                  background: 'rgba(255, 255, 255, 0.95)',
+                  backdropFilter: 'blur(12px)'
+                }}
               >
-                <div className="w-14 h-14 rounded-full bg-pine-500 flex items-center justify-center mx-auto mb-4 group-hover:scale-110 group-hover:bg-pine-400 transition-all shadow-lg shadow-pine-500/20">
+                <div className="w-14 h-14 rounded-full bg-forest-500 flex items-center justify-center mx-auto mb-4 group-hover:scale-110 group-hover:bg-forest-600 transition-all shadow-lg">
                   <Icon className="w-7 h-7 text-white" />
                 </div>
-                <h3 className="text-text-primary font-bold mb-1 font-display">{rule.title}</h3>
-                <p className="text-text-muted text-sm">{rule.description}</p>
+                <h3 className="text-charcoal-900 font-bold mb-1 font-display">{rule.title}</h3>
+                <p className="text-charcoal-700 text-sm">{rule.description}</p>
               </div>
             )
           })}
