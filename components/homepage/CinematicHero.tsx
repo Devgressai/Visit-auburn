@@ -79,27 +79,15 @@ export function CinematicHero({
           quality={85}
           className={`object-cover transition-transform duration-[2s] ${isLoaded ? 'scale-100' : 'scale-110'}`}
         />
-        {/* Enhanced overlay for better text readability */}
+        {/* Minimal overlay for text readability only */}
         <div 
           className="absolute inset-0"
           style={{
             background: `linear-gradient(
-              135deg,
-              rgba(0, 0, 0, 0.65) 0%,
-              rgba(27, 67, 50, 0.45) 40%,
-              rgba(0, 0, 0, 0.55) 100%
-            )`
-          }}
-        />
-        {/* Bottom gradient for stats bar readability */}
-        <div 
-          className="absolute bottom-0 left-0 right-0 h-48"
-          style={{
-            background: `linear-gradient(
-              to top,
-              rgba(27, 67, 50, 0.85) 0%,
-              rgba(27, 67, 50, 0.5) 40%,
-              transparent 100%
+              to bottom,
+              rgba(0, 0, 0, 0.2) 0%,
+              rgba(0, 0, 0, 0.1) 50%,
+              rgba(0, 0, 0, 0.3) 100%
             )`
           }}
         />
