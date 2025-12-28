@@ -37,8 +37,8 @@ export default async function HomePage() {
           Full viewport, 32px title max on mobile, trust line, priority LCP
           ═══════════════════════════════════════════════════════════════════ */}
       <CinematicHero
-        title="Auburn"
-        subtitle="Where Gold Country history meets Sierra Nevada adventure. Discover California's best-kept secret in the heart of the foothills."
+        title="Visit Auburn, California"
+        subtitle="Gold Country at the edge of the Sierra"
         heroImage="/images/hero-main.webp"
         weather={{ temp: 72, condition: 'Sunny' }}
       />
