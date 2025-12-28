@@ -48,16 +48,15 @@ export function FooterNew() {
   return (
     <footer className="relative">
       {/* Main Footer Section */}
-      <div className="relative bg-deep-bg overflow-hidden">
+      <div className="relative overflow-hidden" style={{ backgroundColor: '#E8EFF5' }}>
         {/* Background Image with overlay */}
         <div className="absolute inset-0">
           <Image
             src={getPlaceholderImage('hero')}
             alt=""
             fill
-            className="object-cover opacity-10"
+            className="object-cover opacity-5"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-deep-bg via-deep-bg/95 to-deep-surface" />
         </div>
 
         {/* Content */}
@@ -67,19 +66,19 @@ export function FooterNew() {
             {/* Left Column - CTA & Branding */}
             <div className="lg:col-span-4">
               {/* Plan Your Trip CTA */}
-              <p className="section-eyebrow mb-2">
+              <p className="section-eyebrow-light mb-2">
                 Start Planning
               </p>
-              <h2 className="text-3xl md:text-4xl font-bold text-text-primary mb-4 font-display">
+              <h2 className="text-3xl md:text-4xl font-bold text-charcoal-900 mb-4 font-display">
                 Plan Your Trip Today!
               </h2>
-              <p className="text-text-muted mb-6 leading-relaxed">
+              <p className="text-charcoal-600 mb-6 leading-relaxed">
                 Make planning easy with this guide to all the must-see vistas, 
                 must-eat dishes and must-experience attractions.
               </p>
               <Link 
                 href="/plan/visitor-information"
-                className="inline-flex items-center gap-2 text-pine-400 hover:text-pine-300 font-semibold transition-colors group"
+                className="inline-flex items-center gap-2 text-forest-600 hover:text-forest-700 font-semibold transition-colors group"
               >
                 Plan Your Trip
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -108,7 +107,7 @@ export function FooterNew() {
                       href={social.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="w-10 h-10 rounded-full bg-white/5 border border-border-subtle hover:bg-pine-500 hover:border-pine-500 flex items-center justify-center transition-all duration-300 text-text-muted hover:text-white"
+                      className="w-10 h-10 rounded-full bg-white border border-charcoal-200 hover:bg-forest-500 hover:border-forest-500 flex items-center justify-center transition-all duration-300 text-charcoal-600 hover:text-white"
                       aria-label={social.name}
                     >
                       <Icon className="w-5 h-5" />
@@ -123,9 +122,9 @@ export function FooterNew() {
               <div className="relative">
                 {/* Phone Frame */}
                 <div className="relative w-48 md:w-56">
-                  <div className="relative bg-deep-surface rounded-[2.5rem] p-2 shadow-2xl border border-border-subtle">
+                  <div className="relative bg-white rounded-[2.5rem] p-2 shadow-2xl border border-charcoal-200">
                     {/* Phone notch */}
-                    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-6 bg-deep-surface rounded-b-2xl z-10" />
+                    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-6 bg-white rounded-b-2xl z-10" />
                     {/* Screen */}
                     <div className="relative rounded-[2rem] overflow-hidden aspect-[9/19]">
                       <Image
@@ -135,16 +134,16 @@ export function FooterNew() {
                         className="object-cover"
                       />
                       {/* App overlay */}
-                      <div className="absolute inset-0 bg-gradient-to-b from-deep-bg/40 via-transparent to-deep-bg/70" />
+                      <div className="absolute inset-0 bg-gradient-to-b from-charcoal-900/40 via-transparent to-charcoal-900/70" />
                       <div className="absolute bottom-4 left-4 right-4">
-                        <span className="text-text-muted text-xs">Explore</span>
-                        <p className="text-text-primary font-bold text-sm">Auburn, CA</p>
+                        <span className="text-gold-400 text-xs">Explore</span>
+                        <p className="text-white font-bold text-sm">Auburn, CA</p>
                       </div>
                     </div>
                   </div>
                 </div>
                 {/* Decorative glow */}
-                <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 w-32 h-32 bg-pine-500/20 rounded-full blur-3xl" />
+                <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 w-32 h-32 bg-forest-500/20 rounded-full blur-3xl" />
               </div>
             </div>
 
@@ -152,7 +151,7 @@ export function FooterNew() {
             <div className="lg:col-span-5">
               {/* Newsletter */}
               <div className="mb-10">
-                <h3 className="text-2xl font-bold text-text-primary mb-4 font-display">
+                <h3 className="text-2xl font-bold text-charcoal-900 mb-4 font-display">
                   Sign Up For Our Newsletter
                 </h3>
                 <form onSubmit={handleNewsletterSubmit} className="flex gap-2">
@@ -164,13 +163,13 @@ export function FooterNew() {
                       placeholder="Email Address"
                       required
                       disabled={status === 'loading' || status === 'success'}
-                      className="w-full px-5 py-4 bg-white/5 border border-border-subtle rounded-lg text-text-primary placeholder-text-muted focus:outline-none focus:border-pine-500 focus:ring-1 focus:ring-pine-500 transition-colors"
+                      className="w-full px-5 py-4 bg-white border border-charcoal-300 rounded-lg text-charcoal-900 placeholder-charcoal-500 focus:outline-none focus:border-forest-500 focus:ring-1 focus:ring-forest-500 transition-colors"
                     />
                   </div>
                   <button
                     type="submit"
                     disabled={status === 'loading' || status === 'success'}
-                    className="px-6 py-4 bg-pine-500 text-white font-semibold rounded-lg hover:bg-pine-600 transition-colors disabled:opacity-70"
+                    className="px-6 py-4 bg-forest-500 text-white font-semibold rounded-lg hover:bg-forest-600 transition-colors disabled:opacity-70"
                   >
                     {status === 'success' ? <Check className="w-5 h-5" /> : 'Next'}
                   </button>
@@ -184,7 +183,7 @@ export function FooterNew() {
                     <Link
                       key={link.name}
                       href={link.href}
-                      className="block py-2 text-text-muted hover:text-pine-400 transition-colors"
+                      className="block py-2 text-charcoal-600 hover:text-forest-600 transition-colors"
                     >
                       {link.name}
                     </Link>
@@ -195,7 +194,7 @@ export function FooterNew() {
                     <Link
                       key={link.name}
                       href={link.href}
-                      className="block py-2 text-text-muted hover:text-pine-400 transition-colors"
+                      className="block py-2 text-charcoal-600 hover:text-forest-600 transition-colors"
                     >
                       {link.name}
                     </Link>
@@ -208,21 +207,21 @@ export function FooterNew() {
       </div>
 
       {/* Partners Section */}
-      <div className="bg-deep-surface py-8 border-t border-border-subtle">
+      <div className="bg-white py-8 border-t border-charcoal-200">
         <div className="container mx-auto px-4">
-          <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12 opacity-60 hover:opacity-100 transition-opacity">
-            <span className="text-text-muted text-sm uppercase tracking-wider">Our Partners:</span>
-            <div className="flex items-center gap-2 text-text-muted">
-              <MapPin className="w-4 h-4 text-pine-500" />
+          <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12 opacity-70 hover:opacity-100 transition-opacity">
+            <span className="text-charcoal-600 text-sm uppercase tracking-wider">Our Partners:</span>
+            <div className="flex items-center gap-2 text-charcoal-700">
+              <MapPin className="w-4 h-4 text-forest-500" />
               <span className="text-sm font-medium">Placer County Tourism</span>
             </div>
-            <div className="flex items-center gap-2 text-text-muted">
+            <div className="flex items-center gap-2 text-charcoal-700">
               <span className="text-sm font-medium">Visit California</span>
             </div>
-            <div className="flex items-center gap-2 text-text-muted">
+            <div className="flex items-center gap-2 text-charcoal-700">
               <span className="text-sm font-medium">Gold Country Visitors Association</span>
             </div>
-            <div className="flex items-center gap-2 text-text-muted">
+            <div className="flex items-center gap-2 text-charcoal-700">
               <span className="text-sm font-medium">Auburn Chamber of Commerce</span>
             </div>
           </div>
@@ -230,23 +229,23 @@ export function FooterNew() {
       </div>
 
       {/* Bottom Bar */}
-      <div className="bg-deep-surface border-t border-border-subtle">
+      <div className="bg-white border-t border-charcoal-200">
         <div className="container mx-auto px-4 py-6">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             {/* Copyright */}
-            <p className="text-text-muted text-sm">
+            <p className="text-charcoal-600 text-sm">
               © {new Date().getFullYear()} Auburn Area Visitors Bureau. All rights reserved.
             </p>
 
             {/* Legal Links */}
             <div className="flex flex-wrap justify-center gap-6 text-sm">
-              <Link href="/privacy" className="text-text-muted hover:text-pine-400 transition-colors">
+              <Link href="/privacy" className="text-charcoal-600 hover:text-forest-600 transition-colors">
                 Privacy
               </Link>
-              <Link href="/terms" className="text-text-muted hover:text-pine-400 transition-colors">
+              <Link href="/terms" className="text-charcoal-600 hover:text-forest-600 transition-colors">
                 Legal Disclaimer
               </Link>
-              <Link href="/accessibility" className="text-text-muted hover:text-pine-400 transition-colors">
+              <Link href="/accessibility" className="text-charcoal-600 hover:text-forest-600 transition-colors">
                 Accessibility
               </Link>
             </div>
@@ -257,7 +256,7 @@ export function FooterNew() {
       {/* Floating Plan Trip Button */}
       <Link
         href="/plan/visitor-information"
-        className="fixed bottom-6 right-6 z-50 flex items-center gap-2 bg-pine-500 text-white px-5 py-3 rounded-full shadow-lg hover:bg-pine-600 hover:shadow-xl hover:shadow-pine-500/20 transition-all duration-300 group"
+        className="fixed bottom-6 right-6 z-50 flex items-center gap-2 bg-forest-500 text-white px-5 py-3 rounded-full shadow-lg hover:bg-forest-600 hover:shadow-xl hover:shadow-forest-500/20 transition-all duration-300 group"
       >
         <MapPin className="w-5 h-5" />
         <span className="font-semibold">Plan Your Trip</span>
