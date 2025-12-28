@@ -41,7 +41,7 @@ const seasons: Record<Season, {
     name: 'Fall',
     tagline: 'Harvest & Golden Foliage',
     activities: [
-      { title: 'Fall Hiking', image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&q=80', href: '/things-to-do/outdoor-adventures' },
+      { title: 'Fall Hiking', image: '/images/events-hiking.webp', href: '/things-to-do/outdoor-adventures' },
       { title: 'Wine Harvest', image: 'https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?w=600&q=80', href: '/dining' },
       { title: 'Mountain Biking', image: 'https://images.unsplash.com/photo-1544191696-102dbdaeeaa0?w=600&q=80', href: '/things-to-do/outdoor-adventures' },
       { title: 'Historic Tours', image: 'https://images.unsplash.com/photo-1464207687429-7505649dae38?w=600&q=80', href: '/things-to-do/history-culture' },
