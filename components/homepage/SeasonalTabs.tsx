@@ -51,7 +51,7 @@ const seasons: Record<Season, {
     name: 'Winter',
     tagline: 'Cozy History & Nearby Snow',
     activities: [
-      { title: 'Museum Visits', image: 'https://images.unsplash.com/photo-1566127444979-b2f1f4b1e18b?w=600&q=80', href: '/things-to-do/history-culture' },
+      { title: 'Museum Visits', image: '/images/museum-gold-panning.webp', href: '/things-to-do/history-culture' },
       { title: 'Wine Country', image: 'https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?w=600&q=80', href: '/dining' },
       { title: 'Holiday Events', image: 'https://images.unsplash.com/photo-1482517967863-00e15c9b44be?w=600&q=80', href: '/events' },
       { title: 'Cozy Dining', image: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80', href: '/dining' },
