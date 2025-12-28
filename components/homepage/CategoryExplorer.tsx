@@ -51,7 +51,7 @@ const categories = [
   {
     id: 'trails',
     title: 'Trails & Parks',
-    image: 'https://images.unsplash.com/photo-1501594907352-04cda38ebc29?w=600&q=80',
+    image: '/images/events-hiking.webp',
     href: '/things-to-do/outdoor-adventures',
     icon: TreePine,
   },
