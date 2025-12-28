@@ -31,9 +31,9 @@ const seasons: Record<Season, {
     name: 'Summer',
     tagline: 'River Adventures & Festivals',
     activities: [
-      { title: 'River Swimming', image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&q=80', href: '/things-to-do/outdoor-adventures/auburn-swim-hole-american-river' },
+      { title: 'River Swimming', image: '/images/discover.jpg', href: '/things-to-do/outdoor-adventures/auburn-swim-hole-american-river' },
       { title: 'Gold Rush Days', image: 'https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=600&q=80', href: '/events/gold-rush-days' },
-      { title: 'Trail Running', image: 'https://images.unsplash.com/photo-1551632811-561732d1e306?w=600&q=80', href: '/things-to-do/outdoor-adventures' },
+      { title: 'Trail Running', image: '/images/events-hiking.webp', href: '/things-to-do/outdoor-adventures' },
       { title: 'Old Town Dining', image: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80', href: '/dining' },
     ],
   },
