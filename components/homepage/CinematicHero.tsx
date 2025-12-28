@@ -54,11 +54,12 @@ export function CinematicHero({
         />
         {/* Bottom gradient for stats bar readability */}
         <div 
-          className="absolute bottom-0 left-0 right-0 h-40"
+          className="absolute bottom-0 left-0 right-0 h-48"
           style={{
             background: `linear-gradient(
               to top,
-              rgba(20, 50, 80, 0.4) 0%,
+              rgba(0, 0, 0, 0.75) 0%,
+              rgba(0, 0, 0, 0.4) 40%,
               transparent 100%
             )`
           }}

@@ -102,3 +102,4 @@ See `ARCHITECTURE.md` for detailed architecture documentation.
 - Check that image assets are uploaded to Sanity
 - Ensure `NEXT_PUBLIC_SANITY_PROJECT_ID` is set correctly
 
+

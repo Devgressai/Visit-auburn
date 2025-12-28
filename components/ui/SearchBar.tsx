@@ -140,3 +140,4 @@ export function SearchBar({ variant = 'header', isHomepage = false, className = 
   )
 }
 
+

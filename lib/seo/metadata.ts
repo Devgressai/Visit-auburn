@@ -79,3 +79,4 @@ export function truncateDescription(text: string, maxLength: number = 160): stri
   return text.slice(0, maxLength - 3).trim() + '...'
 }
 
+

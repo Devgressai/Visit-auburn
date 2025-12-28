@@ -61,3 +61,4 @@ export function getWeatherIconComponent(conditions: string) {
   return 'Cloud'
 }
 
+
