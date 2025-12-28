@@ -40,7 +40,7 @@ export function RespectAuburnBanner() {
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-4xl mx-auto text-center mb-14">
           {/* Badge */}
-          <div className="pine-badge mb-6 inline-flex">
+          <div className="mb-6 inline-flex items-center px-4 py-2 rounded-full text-sm font-bold bg-white text-forest-600 shadow-lg border-2 border-forest-500">
             <Leaf className="w-4 h-4 mr-2" />
             Responsible Tourism
           </div>
@@ -82,7 +82,7 @@ export function RespectAuburnBanner() {
         <div className="text-center">
           <Link 
             href="/plan/respect-auburn"
-            className="btn-outline-white inline-flex items-center gap-3"
+            className="inline-flex items-center gap-3 border-2 border-white text-white font-bold px-8 py-4 rounded-full backdrop-blur-sm bg-white/10 transition-all duration-300 hover:bg-white hover:text-forest-700 shadow-lg"
           >
             Learn the Rules
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
