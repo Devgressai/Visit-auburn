@@ -190,10 +190,10 @@
      STATS BAR
      ═══════════════════════════════════════════════════════════════════════ */
   .stats-bar {
-    background: var(--overlay-glass);
+    background: rgba(27, 67, 50, 0.75);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    border-top: 1px solid var(--border-subtle);
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
   }
   
   /* ═══════════════════════════════════════════════════════════════════════
