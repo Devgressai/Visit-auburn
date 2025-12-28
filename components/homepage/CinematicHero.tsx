@@ -107,27 +107,13 @@ export function CinematicHero({
 
       {/* Main Content */}
       <div className="relative z-10 min-h-screen flex flex-col justify-center items-start text-left px-4 sm:px-6 md:px-12 lg:px-20 pt-28 md:pt-24 pb-32">
-        {/* Pre-title / Eyebrow */}
-        <p 
-          className={`uppercase tracking-[0.2em] text-xs md:text-base font-extrabold mb-4 md:mb-6 transition-all duration-700 ${
-            isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-          }`}
-          style={{ 
-            transitionDelay: '200ms',
-            color: '#E5B94E',
-            textShadow: '0 3px 16px rgba(0,0,0,0.9), 0 6px 32px rgba(0,0,0,0.7), 0 1px 3px rgba(0,0,0,1)'
-          }}
-        >
-          Explore the Heart of Gold Country
-        </p>
-
         {/* Main Title - Mobile Optimized */}
         <h1 
           className={`hero-title mb-6 md:mb-8 transition-all duration-700 ${
             isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
           }`}
           style={{ 
-            transitionDelay: '400ms',
+            transitionDelay: '200ms',
             textShadow: '0 4px 20px rgba(0,0,0,0.8), 0 8px 40px rgba(0,0,0,0.6)'
           }}
         >
@@ -140,7 +126,7 @@ export function CinematicHero({
             isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
           }`}
           style={{ 
-            transitionDelay: '600ms',
+            transitionDelay: '400ms',
           }}
         >
           {/* Background glow for better readability */}
@@ -172,7 +158,7 @@ export function CinematicHero({
           className={`flex flex-col sm:flex-row gap-3 md:gap-4 w-full sm:w-auto transition-all duration-700 ${
             isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
           }`}
-          style={{ transitionDelay: '800ms' }}
+          style={{ transitionDelay: '600ms' }}
         >
           <Link href="/activities" className="btn-primary text-center">
             Things To Do
@@ -194,7 +180,7 @@ export function CinematicHero({
             className={`hidden md:flex mt-10 group items-center gap-3 text-text-muted hover:text-text-primary transition-all duration-500 ${
               isLoaded ? 'opacity-100' : 'opacity-0'
             }`}
-            style={{ transitionDelay: '1000ms' }}
+            style={{ transitionDelay: '800ms' }}
           >
             <div className="w-14 h-14 rounded-full border-2 border-white/40 group-hover:border-pine-400 group-hover:bg-pine-500/20 flex items-center justify-center transition-all">
               <Play className="w-6 h-6 fill-current ml-1" />
@@ -209,7 +195,7 @@ export function CinematicHero({
         className={`hidden md:block absolute bottom-0 left-0 right-0 z-20 transition-all duration-700 ${
           isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
         }`}
-        style={{ transitionDelay: '1000ms' }}
+        style={{ transitionDelay: '800ms' }}
       >
         <div className="stats-bar">
           <div className="container mx-auto">
