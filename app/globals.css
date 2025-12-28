@@ -457,10 +457,11 @@
   }
   
   .glass-surface {
-    background: rgba(28, 78, 116, 0.6);
+    background: rgba(45, 45, 45, 0.95);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border: 1px solid var(--border-medium);
+    border: 1px solid rgba(212, 160, 23, 0.3);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
   }
   
   /* Parallax helper */

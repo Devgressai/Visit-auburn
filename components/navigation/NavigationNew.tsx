@@ -101,7 +101,7 @@ export function NavigationNew() {
               >
                 <Link
                   href={item.href}
-                  className="flex items-center gap-1 px-6 py-3 text-text-primary hover:text-white font-extrabold transition-colors duration-200 rounded-lg hover:bg-white/5 text-xl"
+                  className="flex items-center gap-1 px-6 py-3 text-text-primary hover:text-gold-400 font-extrabold transition-colors duration-200 rounded-lg hover:bg-gold-500/10 text-xl"
                   style={{ textShadow: '0 2px 8px rgba(0,0,0,0.6)' }}
                 >
                   {item.name}
@@ -122,7 +122,7 @@ export function NavigationNew() {
                         <Link
                           key={subItem.name}
                           href={subItem.href}
-                          className="block px-4 py-2.5 text-text-muted hover:text-pine-400 hover:bg-white/5 transition-colors duration-200"
+                          className="block px-4 py-2.5 text-white/90 hover:text-gold-400 hover:bg-gold-500/10 transition-colors duration-200 font-medium"
                         >
                           {subItem.name}
                         </Link>
