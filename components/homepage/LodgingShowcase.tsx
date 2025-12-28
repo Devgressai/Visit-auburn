@@ -21,15 +21,15 @@ export function LodgingShowcase() {
   }
 
   return (
-    <section className="py-20 md:py-28 bg-deep-bg">
+    <section className="py-20 md:py-28 bg-cream-50">
       <div className="container mx-auto px-4">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-12">
           <div>
-            <p className="section-eyebrow">
+            <p className="section-eyebrow-light">
               Rest & Recharge
             </p>
-            <h2 className="section-title">Auburn Lodging</h2>
+            <h2 className="section-title-light">Auburn Lodging</h2>
           </div>
           
           <div className="flex items-center gap-4 mt-6 md:mt-0">
@@ -37,14 +37,14 @@ export function LodgingShowcase() {
             <div className="hidden md:flex gap-2">
               <button 
                 onClick={() => scroll('left')}
-                className="w-10 h-10 rounded-full border border-border-subtle text-text-muted hover:border-pine-500 hover:text-pine-400 flex items-center justify-center transition-all"
+                className="w-10 h-10 rounded-full border border-charcoal-200 text-charcoal-600 hover:border-gold-500 hover:text-gold-400 hover:bg-gold-500/10 flex items-center justify-center transition-all"
                 aria-label="Scroll left"
               >
                 <ChevronLeft className="w-5 h-5" />
               </button>
               <button 
                 onClick={() => scroll('right')}
-                className="w-10 h-10 rounded-full border border-border-subtle text-text-muted hover:border-pine-500 hover:text-pine-400 flex items-center justify-center transition-all"
+                className="w-10 h-10 rounded-full border border-charcoal-200 text-charcoal-600 hover:border-gold-500 hover:text-gold-400 hover:bg-gold-500/10 flex items-center justify-center transition-all"
                 aria-label="Scroll right"
               >
                 <ChevronRight className="w-5 h-5" />
@@ -69,7 +69,7 @@ export function LodgingShowcase() {
                 href={`/accommodations/${accommodation.slug.current}`}
                 className="scroll-item group"
               >
-                <div className="w-80 glass-surface rounded-2xl overflow-hidden card-hover">
+                <div className="w-80 bg-white rounded-2xl overflow-hidden card-hover shadow-md border border-charcoal-100">
                   {/* Image */}
                   <div className="relative h-52 overflow-hidden">
                     {imageUrl && (
@@ -82,7 +82,7 @@ export function LodgingShowcase() {
                     )}
                     {/* Category Badge */}
                     {accommodation.category && (
-                      <div className="absolute top-4 left-4 pine-badge">
+                      <div className="absolute top-4 left-4 bg-forest-500 text-white text-xs font-semibold px-3 py-1.5 rounded-full shadow-lg">
                         {accommodation.category}
                       </div>
                     )}
@@ -91,11 +91,11 @@ export function LodgingShowcase() {
                   {/* Content */}
                   <div className="p-5">
                     <div className="flex items-start justify-between mb-2">
-                      <h3 className="text-lg font-bold text-text-primary group-hover:text-pine-400 transition-colors flex-1 pr-2">
+                      <h3 className="text-lg font-bold text-charcoal-900 group-hover:text-gold-500 transition-colors flex-1 pr-2">
                         {accommodation.title}
                       </h3>
                       {accommodation.rating && (
-                        <div className="flex items-center gap-1 text-gold-400">
+                        <div className="flex items-center gap-1 text-gold-500">
                           <Star className="w-4 h-4 fill-current" />
                           <span className="text-sm font-semibold">{accommodation.rating}</span>
                         </div>
@@ -103,14 +103,14 @@ export function LodgingShowcase() {
                     </div>
 
                     {accommodation.excerpt && (
-                      <p className="text-text-muted text-sm line-clamp-2 mb-3">
+                      <p className="text-charcoal-600 text-sm line-clamp-2 mb-3">
                         {accommodation.excerpt}
                       </p>
                     )}
 
                     <div className="flex items-center justify-between">
                       {accommodation.priceRange && (
-                        <span className="text-text-primary font-semibold">
+                        <span className="text-charcoal-900 font-semibold">
                           {accommodation.priceRange}
                         </span>
                       )}
@@ -119,7 +119,7 @@ export function LodgingShowcase() {
                           {accommodation.amenities.slice(0, 2).map((amenity, i) => (
                             <span 
                               key={i}
-                              className="text-xs bg-white/5 text-text-muted px-2 py-1 rounded border border-border-subtle"
+                              className="text-xs bg-cream-50 text-charcoal-700 px-2 py-1 rounded border border-charcoal-200"
                             >
                               {amenity}
                             </span>
@@ -138,7 +138,7 @@ export function LodgingShowcase() {
         <div className="text-center mt-12">
           <Link 
             href="/accommodations"
-            className="btn-primary inline-flex items-center gap-2"
+            className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-gold text-white font-semibold rounded-full hover:shadow-lg hover:shadow-gold-500/30 transition-all duration-300 border-2 border-gold-600"
           >
             View All Lodging
             <ArrowRight className="w-5 h-5" />
