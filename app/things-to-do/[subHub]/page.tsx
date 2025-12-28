@@ -8,14 +8,26 @@ import type { Metadata } from 'next'
 
 export const revalidate = 3600
 
+// Map old category slugs from thingsToDo.data to match subHub naming
+// This allows /things-to-do/outdoor-adventures to work with both systems
+const CATEGORY_SLUG_MAP: Record<string, string> = {
+  'outdoor-adventures': 'outdoor-adventures',
+  'history-culture': 'history-culture',
+  'arts-culture': 'arts-culture',
+  'wine-food-markets': 'wine-food-markets',
+  'events-seasonal': 'events-seasonal',
+  'active-adventures': 'active-adventures',
+}
+
 export async function generateStaticParams() {
   return thingsToDoCategories.map(category => ({
-    category: category.slug,
+    subHub: category.slug,
   }))
 }
 
-export async function generateMetadata({ params }: { params: Promise<{ category: string }> }): Promise<Metadata> {
-  const { category: categorySlug } = await params
+export async function generateMetadata({ params }: { params: Promise<{ subHub: string }> }): Promise<Metadata> {
+  const { subHub } = await params
+  const categorySlug = CATEGORY_SLUG_MAP[subHub] || subHub
   const category = getCategoryBySlug(categorySlug)
 
   if (!category) {
@@ -25,12 +37,13 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
   return buildMetadata({
     title: `${category.title} in Auburn, California`,
     description: category.description,
-    canonical: `${SITE_URL}/things-to-do/${categorySlug}`,
+    canonical: `${SITE_URL}/things-to-do/${subHub}`,
   })
 }
 
-export default async function CategoryPage({ params }: { params: Promise<{ category: string }> }) {
-  const { category: categorySlug } = await params
+export default async function SubHubPage({ params }: { params: Promise<{ subHub: string }> }) {
+  const { subHub } = await params
+  const categorySlug = CATEGORY_SLUG_MAP[subHub] || subHub
   const category = getCategoryBySlug(categorySlug)
 
   if (!category) {
@@ -42,20 +55,20 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
   const breadcrumbItems = [
     { label: 'Home', href: '/' },
     { label: 'Things to Do', href: '/things-to-do' },
-    { label: category.title, href: `/things-to-do/${categorySlug}` },
+    { label: category.title, href: `/things-to-do/${subHub}` },
   ]
 
   const breadcrumbSchema = breadcrumbJsonLd([
     { name: 'Home', url: SITE_URL },
     { name: 'Things to Do', url: `${SITE_URL}/things-to-do` },
-    { name: category.title, url: `${SITE_URL}/things-to-do/${categorySlug}` },
+    { name: category.title, url: `${SITE_URL}/things-to-do/${subHub}` },
   ])
 
   const itemListSchema = itemListJsonLd(
     items.map((item, index) => ({
       position: index + 1,
       name: item.title,
-      url: `${SITE_URL}/things-to-do/${categorySlug}/${item.slug}`,
+      url: `${SITE_URL}/things-to-do/${subHub}/${item.slug}`,
     }))
   )
 
@@ -93,7 +106,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
               {items.map((item) => (
                 <Link
                   key={item.id}
-                  href={`/things-to-do/${categorySlug}/${item.slug}`}
+                  href={`/things-to-do/${subHub}/${item.slug}`}
                   className="card card-hover overflow-hidden group"
                 >
                   <div className="p-6">

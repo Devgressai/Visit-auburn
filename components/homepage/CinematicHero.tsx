@@ -25,42 +25,17 @@ const stats = [
 
 export function CinematicHero({
   title = 'Auburn',
-  subtitle = "Where Gold Country history meets Sierra Nevada adventure. Discover California's best-kept secret in the heart of the foothills.",
+  subtitle = "Experience Gold Country's best-kept secret",
   heroImage = '/images/hero.jpg',
   videoUrl,
   weather = { temp: 72, condition: 'sunny' }
 }: CinematicHeroProps) {
   const [isLoaded, setIsLoaded] = useState(false)
   const [showVideo, setShowVideo] = useState(false)
-  const [displayedSubtitle, setDisplayedSubtitle] = useState('')
-  const [currentIndex, setCurrentIndex] = useState(0)
 
   useEffect(() => {
     setIsLoaded(true)
   }, [])
-
-  // Typing effect for subtitle - disabled on mobile/reduced-motion
-  useEffect(() => {
-    // Check for mobile or reduced motion preference
-    const isMobile = window.innerWidth < 768
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    
-    if (isMobile || prefersReducedMotion) {
-      // Show full subtitle immediately on mobile or for reduced motion users
-      setDisplayedSubtitle(subtitle)
-      setCurrentIndex(subtitle.length)
-      return
-    }
-    
-    if (currentIndex < subtitle.length) {
-      const timeout = setTimeout(() => {
-        setDisplayedSubtitle(prev => prev + subtitle[currentIndex])
-        setCurrentIndex(prev => prev + 1)
-      }, 40)
-      
-      return () => clearTimeout(timeout)
-    }
-  }, [currentIndex, subtitle])
 
   const scrollToContent = () => {
     window.scrollTo({ top: window.innerHeight - 100, behavior: 'smooth' })
@@ -79,98 +54,171 @@ export function CinematicHero({
           quality={85}
           className={`object-cover transition-transform duration-[2s] ${isLoaded ? 'scale-100' : 'scale-110'}`}
         />
-        {/* Minimal overlay for text readability only */}
+        {/* 
+          DESIGN DECISION: Ultra-minimal overlay to preserve scenery visibility.
+          No full-screen dark gradient—text gets its own localized backdrop below.
+        */}
         <div 
           className="absolute inset-0"
           style={{
             background: `linear-gradient(
               to bottom,
-              rgba(0, 0, 0, 0.2) 0%,
-              rgba(0, 0, 0, 0.1) 50%,
-              rgba(0, 0, 0, 0.3) 100%
+              rgba(0, 0, 0, 0.15) 0%,
+              rgba(0, 0, 0, 0.05) 50%,
+              rgba(0, 0, 0, 0.2) 100%
             )`
           }}
         />
       </div>
 
-      {/* Main Content */}
-      <div className="relative z-10 min-h-screen flex flex-col justify-center items-start text-left px-4 sm:px-6 md:px-12 lg:px-20 pt-28 md:pt-24 pb-32">
-        {/* Main Title - Mobile Optimized */}
-        <h1 
-          className={`hero-title mb-6 md:mb-8 transition-all duration-700 ${
-            isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-          }`}
-          style={{ 
-            transitionDelay: '200ms',
-            textShadow: '0 4px 20px rgba(0,0,0,0.8), 0 8px 40px rgba(0,0,0,0.6)'
-          }}
-        >
-          {title}
-        </h1>
-
-        {/* Subtitle - Mobile Optimized */}
-        <div 
-          className={`relative max-w-2xl mb-8 md:mb-12 transition-all duration-700 ${
-            isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-          }`}
-          style={{ 
-            transitionDelay: '400ms',
-          }}
-        >
-          {/* Background glow for better readability */}
-          <div 
-            className="absolute inset-0 bg-gradient-to-r from-charcoal-900/80 via-charcoal-900/60 to-transparent blur-2xl -z-10 rounded-lg"
-            style={{ transform: 'scale(1.1)' }}
-          />
-          {/* Semi-transparent background */}
-          <div 
-            className="absolute inset-0 bg-charcoal-900/40 backdrop-blur-sm -z-10 rounded-lg"
-            style={{ margin: '-12px -16px', padding: '12px 16px' }}
-          />
-          <p 
-            className="hero-subtitle text-white relative"
-            style={{ 
-              textShadow: '0 2px 8px rgba(0,0,0,0.9), 0 4px 16px rgba(0,0,0,0.8), 0 8px 24px rgba(0,0,0,0.6), 0 1px 2px rgba(0,0,0,1)',
-              lineHeight: '1.6'
-            }}
-          >
-            {displayedSubtitle}
-            {currentIndex < subtitle.length && (
-              <span className="hidden md:inline-block w-0.5 h-6 bg-gold-400 ml-1 animate-pulse" style={{ verticalAlign: 'middle' }} />
-            )}
-          </p>
-        </div>
-
-        {/* CTA Buttons - Mobile: Single Column, Desktop: Row */}
-        <div 
-          className={`flex flex-col sm:flex-row gap-3 md:gap-4 w-full sm:w-auto transition-all duration-700 ${
-            isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-          }`}
-          style={{ transitionDelay: '600ms' }}
-        >
-          <Link href="/activities" className="btn-primary text-center">
-            Things To Do
-          </Link>
-          <Link href="/plan/visitor-information" className="btn-outline-white text-center">
-            Plan Your Trip
-          </Link>
-        </div>
+      {/* 
+        MAIN CONTENT CONTAINER
+        POSITIONING STRATEGY (Mobile-First):
+        - Positioned lower in viewport (justify-end on mobile with pb-40 safe area)
+        - Creates "anchored" feeling by placing text stack near bottom third
+        - pt-20 prevents collision with fixed navigation
+        - Desktop: more centered (justify-center) for traditional composition
+      */}
+      <div className="relative z-10 min-h-screen flex flex-col justify-end md:justify-center items-start text-left px-4 sm:px-6 md:px-12 lg:px-20 pt-20 pb-40 md:pb-32">
         
-        {/* Trust Line - Mobile Only */}
-        <p className="hero-trust-line mt-4 md:hidden text-white/70">
-          35 miles from Sacramento • 300+ days of sunshine
-        </p>
+        {/* 
+          COHESIVE TEXT + CTA STACK
+          DESIGN DECISION: All content grouped in single container with localized backdrop.
+          - Left-aligned for natural reading flow
+          - Max-width constrains for readability (no more than ~600px on mobile)
+          - Subtle left-to-right gradient backdrop for contrast without covering scenery
+        */}
+        <div 
+          className={`relative max-w-[90%] sm:max-w-xl md:max-w-2xl transition-all duration-700 ${
+            isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+          }`}
+          style={{ transitionDelay: '200ms' }}
+        >
+          {/* 
+            LOCALIZED TEXT BACKDROP
+            - Left-to-right gradient fades to transparent (keeps right side of image visible)
+            - Blur + semi-transparent black for WCAG-compliant contrast
+            - Extends beyond text edges for breathing room
+          */}
+          <div 
+            className="absolute inset-0 rounded-2xl overflow-hidden"
+            style={{
+              background: 'linear-gradient(to right, rgba(0, 0, 0, 0.75) 0%, rgba(0, 0, 0, 0.65) 50%, rgba(0, 0, 0, 0.4) 80%, transparent 100%)',
+              backdropFilter: 'blur(8px)',
+              WebkitBackdropFilter: 'blur(8px)',
+              transform: 'translateX(-16px) translateY(-16px)',
+              width: 'calc(100% + 48px)',
+              height: 'calc(100% + 32px)',
+            }}
+          />
 
-        {/* Play Video Button - Desktop Only */}
+          {/* 
+            CONTENT STACK (relative positioning to sit above backdrop)
+            Tightly grouped: headline → subheadline → CTAs → trust line
+            Reduced spacing to prevent "floating" feeling
+          */}
+          <div className="relative px-4 py-6 sm:px-6 sm:py-8">
+            {/* 
+              HEADLINE: Visit Auburn, California
+              RESPONSIVE SIZING:
+              - Mobile (390px): 32px (2rem) = 2 lines max
+              - Tablet: 40-48px
+              - Desktop: 64px+ 
+              Line height 1.1 keeps it compact
+            */}
+            <h1 
+              className="text-[2rem] leading-[1.1] sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-3 md:mb-4"
+              style={{ 
+                fontFamily: 'var(--font-display)',
+                color: '#FFFFFF',
+                maxWidth: '100%',
+                // Enhanced shadow for bright sky backgrounds
+                textShadow: '0 2px 4px rgba(0,0,0,0.9), 0 4px 12px rgba(0,0,0,0.8), 0 8px 24px rgba(0,0,0,0.6)',
+              }}
+            >
+              {title}
+            </h1>
+
+            {/* 
+              SUBHEADLINE: Short descriptor
+              - Kept brief for mobile (15-20 words max)
+              - 16px mobile / 18px desktop
+              - mb-6 for tight grouping with CTAs
+            */}
+            {subtitle && (
+              <p 
+                className="text-base sm:text-lg md:text-xl font-medium mb-6 md:mb-7"
+                style={{ 
+                  fontFamily: 'var(--font-sans)',
+                  color: 'rgba(255, 255, 255, 0.95)',
+                  maxWidth: '480px',
+                  lineHeight: '1.5',
+                  textShadow: '0 2px 4px rgba(0,0,0,0.8), 0 4px 8px rgba(0,0,0,0.6)',
+                }}
+              >
+                {subtitle}
+              </p>
+            )}
+
+            {/* 
+              CTA BUTTONS
+              CONVERSION OPTIMIZATION:
+              - "Plan Your Trip" = PRIMARY (filled, gold border) → trip planning intent
+              - "Things To Do" = SECONDARY (outline) → browsing intent
+              - Mobile: full-width stacked (better thumb reach)
+              - Desktop: horizontal row (traditional)
+              - 48px min-height for touch targets (WCAG 2.5.5)
+              - 12px gap for separation
+            */}
+            <div 
+              className="flex flex-col sm:flex-row gap-3 mb-4 sm:mb-0"
+            >
+              {/* PRIMARY CTA */}
+              <Link 
+                href="/plan/visitor-information" 
+                className="inline-flex items-center justify-center font-semibold px-6 py-3 sm:px-8 sm:py-4 rounded-full bg-charcoal-800 text-white border-2 border-gold-500 hover:bg-charcoal-700 hover:border-gold-400 hover:shadow-lg transition-all duration-300 text-center"
+                style={{ minHeight: '48px', minWidth: '160px' }}
+              >
+                Plan Your Trip
+              </Link>
+              
+              {/* SECONDARY CTA */}
+              <Link 
+                href="/activities" 
+                className="inline-flex items-center justify-center font-semibold px-6 py-3 sm:px-8 sm:py-4 rounded-full border-2 border-white/80 text-white backdrop-blur-sm bg-white/5 hover:bg-white hover:text-charcoal-900 transition-all duration-300 text-center"
+                style={{ minHeight: '48px', minWidth: '160px' }}
+              >
+                Things To Do
+              </Link>
+            </div>
+
+            {/* 
+              TRUST LINE (Mobile only)
+              - Builds credibility with quick facts
+              - Hidden on desktop to reduce clutter
+            */}
+            <p 
+              className="text-xs sm:text-sm text-white/75 mt-3 md:hidden"
+              style={{ 
+                fontFamily: 'var(--font-sans)',
+                fontWeight: 500,
+              }}
+            >
+              35 miles from Sacramento • 300+ days of sunshine
+            </p>
+          </div>
+        </div>
+
+        {/* Play Video Button - Desktop Only, positioned separately */}
         {videoUrl && (
           <button 
             onClick={() => setShowVideo(true)}
-            className={`hidden md:flex mt-10 group items-center gap-3 text-text-muted hover:text-text-primary transition-all duration-500 ${
+            className={`hidden md:flex mt-8 group items-center gap-3 text-white/80 hover:text-white transition-all duration-500 ${
               isLoaded ? 'opacity-100' : 'opacity-0'
             }`}
             style={{ transitionDelay: '800ms' }}
           >
-            <div className="w-14 h-14 rounded-full border-2 border-white/40 group-hover:border-pine-400 group-hover:bg-pine-500/20 flex items-center justify-center transition-all">
+            <div className="w-14 h-14 rounded-full border-2 border-white/40 group-hover:border-gold-400 group-hover:bg-gold-500/20 flex items-center justify-center transition-all">
               <Play className="w-6 h-6 fill-current ml-1" />
             </div>
             <span className="font-medium">Watch the Video</span>
@@ -178,7 +226,10 @@ export function CinematicHero({
         )}
       </div>
 
-      {/* Stats Bar - Desktop Only (mobile uses ProofChips) */}
+      {/* 
+        STATS BAR - Desktop Only
+        Mobile version handled by ProofChips component (see app/page.tsx)
+      */}
       <div 
         className={`hidden md:block absolute bottom-0 left-0 right-0 z-20 transition-all duration-700 ${
           isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
@@ -218,13 +269,13 @@ export function CinematicHero({
       {/* Video Modal */}
       {showVideo && videoUrl && (
         <div 
-          className="fixed inset-0 z-50 bg-deep-bg/95 flex items-center justify-center p-8"
+          className="fixed inset-0 z-50 bg-charcoal-900/95 flex items-center justify-center p-8"
           onClick={() => setShowVideo(false)}
         >
           <div className="relative w-full max-w-5xl aspect-video">
             <button 
               onClick={() => setShowVideo(false)}
-              className="absolute -top-12 right-0 text-text-muted hover:text-pine-400 transition-colors"
+              className="absolute -top-12 right-0 text-white/70 hover:text-white transition-colors text-lg font-medium"
             >
               Close
             </button>

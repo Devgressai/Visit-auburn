@@ -243,4 +243,20 @@ export function articleJsonLd(editorial: {
   return schema
 }
 
+/**
+ * Generate ItemList JSON-LD schema
+ */
+export function itemListJsonLd(items: Array<{ position: number; name: string; url: string }>) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    itemListElement: items.map((item) => ({
+      '@type': 'ListItem',
+      position: item.position,
+      name: item.name,
+      url: item.url.startsWith('http') ? item.url : `${SITE_URL}${item.url}`,
+    })),
+  }
+}
+
 

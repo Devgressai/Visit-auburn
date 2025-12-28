@@ -34,11 +34,11 @@ export default async function HomePage() {
 
       {/* ═══════════════════════════════════════════════════════════════════
           SECTION 1: Cinematic Hero (Mobile Optimized)
-          Full viewport, 32px title max on mobile, trust line, priority LCP
+          Refactored with localized text backdrop, anchored layout, conversion-focused CTAs
           ═══════════════════════════════════════════════════════════════════ */}
       <CinematicHero
         title="Visit Auburn, California"
-        subtitle=""
+        subtitle="Experience Gold Country's best-kept secret"
         heroImage="/images/hero-main.webp"
         weather={{ temp: 72, condition: 'Sunny' }}
       />
