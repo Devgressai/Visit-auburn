@@ -30,7 +30,7 @@ const categories = [
   {
     id: 'events',
     title: 'Events',
-    image: 'https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=600&q=80',
+    image: '/images/events-hiking.webp',
     href: '/events',
     icon: CalendarDays,
   },
