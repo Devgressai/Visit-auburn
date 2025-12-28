@@ -75,10 +75,10 @@ export function NavigationNew() {
           : 'bg-transparent py-5'
       }`}
     >
-      <div className="container mx-auto px-4">
+      <div className="w-full px-0">
         <div className="flex items-center justify-between">
-          {/* Logo */}
-          <Link href="/" className="flex items-center group">
+          {/* Logo - All the way left */}
+          <Link href="/" className="flex items-center group flex-shrink-0">
             <Image
               src="/images/logo.png"
               alt="Visit Auburn - California Gold Country"
@@ -89,8 +89,8 @@ export function NavigationNew() {
             />
           </Link>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-1">
+          {/* Desktop Navigation - Centered */}
+          <nav className="hidden lg:flex items-center gap-1 flex-1 justify-center">
             {navigation.map((item) => (
               <div
                 key={item.name}
@@ -100,7 +100,7 @@ export function NavigationNew() {
               >
                 <Link
                   href={item.href}
-                  className="flex items-center gap-1 px-4 py-2 text-text-primary hover:text-white font-bold transition-colors duration-200 rounded-lg hover:bg-white/5"
+                  className="flex items-center gap-1 px-4 py-2 text-text-primary hover:text-white font-extrabold transition-colors duration-200 rounded-lg hover:bg-white/5 text-lg"
                   style={{ textShadow: '0 2px 8px rgba(0,0,0,0.6)' }}
                 >
                   {item.name}
@@ -133,11 +133,11 @@ export function NavigationNew() {
             ))}
           </nav>
 
-          {/* Right Side - CTA Button */}
-          <div className="hidden lg:flex items-center gap-4">
+          {/* Right Side - CTA Button - All the way right */}
+          <div className="hidden lg:flex items-center gap-4 flex-shrink-0">
             <Link 
               href="/special-offers"
-              className="px-5 py-2.5 bg-gradient-forest hover:bg-forest-600 text-white font-semibold rounded-full transition-all duration-300 shadow-md hover:shadow-lg hover:shadow-forest-500/20"
+              className="px-5 py-2.5 bg-gradient-forest hover:bg-forest-600 text-white font-semibold rounded-full transition-all duration-300 shadow-md hover:shadow-lg hover:shadow-forest-500/20 whitespace-nowrap"
             >
               Plan Your Trip
             </Link>
