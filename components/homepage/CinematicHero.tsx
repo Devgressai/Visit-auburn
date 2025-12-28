@@ -32,10 +32,24 @@ export function CinematicHero({
 }: CinematicHeroProps) {
   const [isLoaded, setIsLoaded] = useState(false)
   const [showVideo, setShowVideo] = useState(false)
+  const [displayedSubtitle, setDisplayedSubtitle] = useState('')
+  const [currentIndex, setCurrentIndex] = useState(0)
 
   useEffect(() => {
     setIsLoaded(true)
   }, [])
+
+  // Typing effect for subtitle
+  useEffect(() => {
+    if (currentIndex < subtitle.length) {
+      const timeout = setTimeout(() => {
+        setDisplayedSubtitle(prev => prev + subtitle[currentIndex])
+        setCurrentIndex(prev => prev + 1)
+      }, 40) // Adjust speed here (lower = faster)
+      
+      return () => clearTimeout(timeout)
+    }
+  }, [currentIndex, subtitle])
 
   const scrollToContent = () => {
     window.scrollTo({ top: window.innerHeight - 100, behavior: 'smooth' })
@@ -51,6 +65,18 @@ export function CinematicHero({
           fill
           priority
           className={`object-cover transition-transform duration-[2s] ${isLoaded ? 'scale-100' : 'scale-110'}`}
+        />
+        {/* Enhanced overlay for better text readability */}
+        <div 
+          className="absolute inset-0"
+          style={{
+            background: `linear-gradient(
+              135deg,
+              rgba(0, 0, 0, 0.65) 0%,
+              rgba(27, 67, 50, 0.45) 40%,
+              rgba(0, 0, 0, 0.55) 100%
+            )`
+          }}
         />
         {/* Bottom gradient for stats bar readability */}
         <div 
@@ -95,18 +121,38 @@ export function CinematicHero({
           {title}
         </h1>
 
-        {/* Subtitle */}
-        <p 
-          className={`hero-subtitle max-w-2xl mb-12 transition-all duration-700 ${
+        {/* Subtitle with typing effect and enhanced visibility */}
+        <div 
+          className={`relative max-w-2xl mb-12 transition-all duration-700 ${
             isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
           }`}
           style={{ 
             transitionDelay: '600ms',
-            textShadow: '0 3px 20px rgba(0,0,0,0.9), 0 6px 40px rgba(0,0,0,0.7)'
           }}
         >
-          {subtitle}
-        </p>
+          {/* Background glow for better readability */}
+          <div 
+            className="absolute inset-0 bg-gradient-to-r from-charcoal-900/80 via-charcoal-900/60 to-transparent blur-2xl -z-10 rounded-lg"
+            style={{ transform: 'scale(1.1)' }}
+          />
+          {/* Semi-transparent background */}
+          <div 
+            className="absolute inset-0 bg-charcoal-900/40 backdrop-blur-sm -z-10 rounded-lg"
+            style={{ margin: '-12px -16px', padding: '12px 16px' }}
+          />
+          <p 
+            className="hero-subtitle text-white relative"
+            style={{ 
+              textShadow: '0 2px 8px rgba(0,0,0,0.9), 0 4px 16px rgba(0,0,0,0.8), 0 8px 24px rgba(0,0,0,0.6), 0 1px 2px rgba(0,0,0,1)',
+              lineHeight: '1.6'
+            }}
+          >
+            {displayedSubtitle}
+            {currentIndex < subtitle.length && (
+              <span className="inline-block w-0.5 h-6 bg-gold-400 ml-1 animate-pulse" style={{ verticalAlign: 'middle' }} />
+            )}
+          </p>
+        </div>
 
         {/* CTA Buttons */}
         <div 

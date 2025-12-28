@@ -139,7 +139,7 @@ export function NavigationNew() {
               href="/special-offers"
               className="px-5 py-2.5 bg-gradient-forest hover:bg-forest-600 text-white font-semibold rounded-full transition-all duration-300 shadow-md hover:shadow-lg hover:shadow-forest-500/20 whitespace-nowrap"
             >
-              Plan Your Trip
+              Special Offers
             </Link>
           </div>
 
@@ -187,7 +187,7 @@ export function NavigationNew() {
                 onClick={() => setIsOpen(false)}
                 className="mt-4 mx-4 text-center px-6 py-3 bg-gradient-forest hover:bg-forest-600 text-white font-semibold rounded-full transition-colors"
               >
-                Plan Your Trip
+                Special Offers
               </Link>
             </nav>
           </div>
