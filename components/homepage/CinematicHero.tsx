@@ -58,8 +58,8 @@ export function CinematicHero({
           style={{
             background: `linear-gradient(
               to top,
-              rgba(0, 0, 0, 0.75) 0%,
-              rgba(0, 0, 0, 0.4) 40%,
+              rgba(27, 67, 50, 0.85) 0%,
+              rgba(27, 67, 50, 0.5) 40%,
               transparent 100%
             )`
           }}
