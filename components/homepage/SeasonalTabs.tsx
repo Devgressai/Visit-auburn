@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { ChevronDown } from 'lucide-react'
 
 type Season = 'spring' | 'summer' | 'fall' | 'winter'
 
@@ -61,59 +62,124 @@ const seasons: Record<Season, {
 
 export function SeasonalTabs() {
   const [activeSeason, setActiveSeason] = useState<Season>('winter')
+  const [expandedMobile, setExpandedMobile] = useState<Season | null>('winter')
 
   return (
-    <section className="py-20 md:py-28 bg-cream-50">
+    <section className="py-12 md:py-20 lg:py-28 bg-cream-50">
       <div className="container mx-auto px-4">
         {/* Header */}
-        <div className="text-center mb-12">
+        <div className="text-center mb-8 md:mb-12">
           <p className="section-eyebrow-light">
             Come Back Again & Again
           </p>
-          <h2 className="section-title-light mb-6">Auburn for Every Season</h2>
+          <h2 className="section-title-light mb-4 md:mb-6">Auburn for Every Season</h2>
           <div className="w-16 h-1 rounded-full bg-gradient-gold mx-auto" />
         </div>
 
-        {/* Season Tabs */}
-        <div className="flex justify-center mb-12">
-          <div className="inline-flex bg-white rounded-full p-1.5 shadow-md border border-charcoal-200">
-            {(Object.keys(seasons) as Season[]).map((season) => (
-              <button
-                key={season}
-                onClick={() => setActiveSeason(season)}
-                className={`px-6 md:px-8 py-3 rounded-full font-semibold transition-all duration-300 ${
-                  activeSeason === season
-                    ? 'bg-gradient-forest text-white shadow-lg'
-                    : 'text-charcoal-600 hover:text-charcoal-900'
-                }`}
-              >
-                {seasons[season].name}
-              </button>
-            ))}
-          </div>
+        {/* MOBILE: Accordion */}
+        <div className="md:hidden space-y-3">
+          {(Object.keys(seasons) as Season[]).map((season) => {
+            const isExpanded = expandedMobile === season
+            return (
+              <div key={season} className="bg-white rounded-xl overflow-hidden border border-charcoal-200 shadow-sm">
+                {/* Accordion Header */}
+                <button
+                  onClick={() => setExpandedMobile(isExpanded ? null : season)}
+                  className="w-full flex items-center justify-between p-4 text-left"
+                >
+                  <div>
+                    <h3 className="font-bold text-lg text-charcoal-900">{seasons[season].name}</h3>
+                    <p className="text-sm text-charcoal-600 mt-0.5">{seasons[season].tagline}</p>
+                  </div>
+                  <ChevronDown 
+                    className={`w-6 h-6 text-charcoal-600 transition-transform duration-300 flex-shrink-0 ml-2 ${
+                      isExpanded ? 'rotate-180' : ''
+                    }`}
+                  />
+                </button>
+
+                {/* Accordion Content */}
+                {isExpanded && (
+                  <div className="border-t border-charcoal-100 p-4 pt-3">
+                    <div className="grid grid-cols-2 gap-2">
+                      {seasons[season].activities.map((activity) => (
+                        <Link
+                          key={activity.title}
+                          href={activity.href}
+                          className="group relative aspect-[4/5] rounded-lg overflow-hidden"
+                        >
+                          <Image
+                            src={activity.image}
+                            alt={activity.title}
+                            fill
+                            sizes="(max-width: 768px) 40vw, 200px"
+                            className="object-cover transition-transform duration-500 group-hover:scale-110"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-charcoal-800/90 via-charcoal-800/30 to-transparent" />
+                          <div className="absolute bottom-0 left-0 right-0 p-3">
+                            <h4 className="text-white font-bold text-sm group-hover:text-gold-300 transition-colors line-clamp-2">
+                              {activity.title}
+                            </h4>
+                          </div>
+                        </Link>
+                      ))}
+                    </div>
+                    <Link 
+                      href={`/things-to-do?season=${season}`}
+                      className="block mt-3 text-center text-sm text-forest-600 hover:text-forest-700 font-semibold"
+                    >
+                      See All {seasons[season].name} Activities →
+                    </Link>
+                  </div>
+                )}
+              </div>
+            )
+          })}
         </div>
 
-        {/* Season Content */}
-        <div className="relative">
-          {/* Tagline */}
-          <p className="text-center text-2xl md:text-3xl font-display text-charcoal-600 mb-10">
-            {seasons[activeSeason].tagline}
-          </p>
+        {/* DESKTOP: Tabs (unchanged) */}
+        <div className="hidden md:block">
+          {/* Season Tabs */}
+          <div className="flex justify-center mb-12">
+            <div className="inline-flex bg-white rounded-full p-1.5 shadow-md border border-charcoal-200">
+              {(Object.keys(seasons) as Season[]).map((season) => (
+                <button
+                  key={season}
+                  onClick={() => setActiveSeason(season)}
+                  className={`px-6 md:px-8 py-3 rounded-full font-semibold transition-all duration-300 ${
+                    activeSeason === season
+                      ? 'bg-gradient-forest text-white shadow-lg'
+                      : 'text-charcoal-600 hover:text-charcoal-900'
+                  }`}
+                >
+                  {seasons[season].name}
+                </button>
+              ))}
+            </div>
+          </div>
 
-          {/* Activity Grid */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-            {seasons[activeSeason].activities.map((activity, index) => (
-              <Link
-                key={activity.title}
-                href={activity.href}
-                className="group relative aspect-[4/5] rounded-2xl overflow-hidden card-hover"
-                style={{ animationDelay: `${index * 100}ms` }}
-              >
+          {/* Season Content */}
+          <div className="relative">
+            {/* Tagline */}
+            <p className="text-center text-2xl md:text-3xl font-display text-charcoal-600 mb-10">
+              {seasons[activeSeason].tagline}
+            </p>
+
+            {/* Activity Grid */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+              {seasons[activeSeason].activities.map((activity, index) => (
+                <Link
+                  key={activity.title}
+                  href={activity.href}
+                  className="group relative aspect-[4/5] rounded-2xl overflow-hidden card-hover"
+                  style={{ animationDelay: `${index * 100}ms` }}
+                >
                   <Image
                     src={activity.image}
                     alt={activity.title}
                     fill
-                    className="object-cover transition-transform duration-700 group-hover:scale-110"
+                    sizes="(max-width: 768px) 45vw, 280px"
+                    className="object-cover transition-transform duration-500 group-hover:scale-110"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-charcoal-800/90 via-charcoal-800/30 to-transparent" />
                   <div className="absolute bottom-0 left-0 right-0 p-4 md:p-6">
@@ -124,20 +190,21 @@ export function SeasonalTabs() {
                   {/* Hover border */}
                   <div className="absolute inset-0 rounded-2xl border-2 border-transparent group-hover:border-forest-500/40 transition-colors" />
                 </Link>
-            ))}
-          </div>
+              ))}
+            </div>
 
-          {/* CTA */}
-          <div className="text-center mt-10">
-            <Link 
-              href={`/things-to-do?season=${activeSeason}`}
-              className="inline-flex items-center gap-2 text-lake-500 hover:text-lake-600 font-semibold transition-colors underline"
-            >
-              See All {seasons[activeSeason].name} Activities
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
-            </Link>
+            {/* CTA */}
+            <div className="text-center mt-10">
+              <Link 
+                href={`/things-to-do?season=${activeSeason}`}
+                className="inline-flex items-center gap-2 text-lake-500 hover:text-lake-600 font-semibold transition-colors underline"
+              >
+                See All {seasons[activeSeason].name} Activities
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </Link>
+            </div>
           </div>
         </div>
       </div>

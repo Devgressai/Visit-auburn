@@ -69,33 +69,34 @@ export function LodgingShowcase() {
                 href={`/accommodations/${accommodation.slug.current}`}
                 className="scroll-item group"
               >
-                <div className="w-80 bg-white rounded-2xl overflow-hidden card-hover shadow-md border border-charcoal-100">
-                  {/* Image */}
-                  <div className="relative h-52 overflow-hidden">
+                <div className="w-72 md:w-80 card card-hover">
+                  {/* Image - Fixed 3:4 ratio */}
+                  <div className="card-image relative">
                     {imageUrl && (
                       <Image
                         src={imageUrl}
                         alt={accommodation.title}
                         fill
-                        className="object-cover transition-transform duration-700 group-hover:scale-110"
+                        sizes="(max-width: 768px) 288px, 320px"
+                        className="object-cover transition-transform duration-500 group-hover:scale-105"
                       />
                     )}
                     {/* Category Badge */}
                     {accommodation.category && (
-                      <div className="absolute top-4 left-4 bg-forest-500 text-white text-xs font-semibold px-3 py-1.5 rounded-full shadow-lg">
+                      <div className="absolute top-3 left-3 bg-forest-500 text-white text-xs font-semibold px-3 py-1.5 rounded-full shadow-lg">
                         {accommodation.category}
                       </div>
                     )}
                   </div>
 
                   {/* Content */}
-                  <div className="p-5">
+                  <div className="p-4">
                     <div className="flex items-start justify-between mb-2">
-                      <h3 className="text-lg font-bold text-charcoal-900 group-hover:text-gold-500 transition-colors flex-1 pr-2">
+                      <h3 className="card-title group-hover:text-gold-500 transition-colors flex-1 pr-2">
                         {accommodation.title}
                       </h3>
                       {accommodation.rating && (
-                        <div className="flex items-center gap-1 text-gold-500">
+                        <div className="flex items-center gap-1 text-gold-500 flex-shrink-0">
                           <Star className="w-4 h-4 fill-current" />
                           <span className="text-sm font-semibold">{accommodation.rating}</span>
                         </div>
@@ -108,7 +109,8 @@ export function LodgingShowcase() {
                       </p>
                     )}
 
-                    <div className="flex items-center justify-between">
+                    {/* Meta Row */}
+                    <div className="card-meta">
                       {accommodation.priceRange && (
                         <span className="text-charcoal-900 font-semibold">
                           {accommodation.priceRange}

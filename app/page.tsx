@@ -1,5 +1,7 @@
 import { homepage } from '@/lib/data'
 import { CinematicHero } from '@/components/homepage/CinematicHero'
+import { StickyActionBar } from '@/components/homepage/StickyActionBar'
+import { ProofChips } from '@/components/homepage/ProofChips'
 import { CategoryExplorer } from '@/components/homepage/CategoryExplorer'
 import { SeasonalTabs } from '@/components/homepage/SeasonalTabs'
 import { LodgingShowcase } from '@/components/homepage/LodgingShowcase'
@@ -7,7 +9,6 @@ import { EventsShowcase } from '@/components/homepage/EventsShowcase'
 import { RespectAuburnBanner } from '@/components/homepage/RespectAuburnBanner'
 import { InsiderTips } from '@/components/homepage/InsiderTips'
 import { buildMetadata, organizationJsonLd, SITE_URL } from '@/lib/seo'
-import { MapPin, Trees, Utensils, Calendar } from 'lucide-react'
 import type { Metadata } from 'next'
 
 export const revalidate = 3600
@@ -32,8 +33,8 @@ export default async function HomePage() {
       />
 
       {/* ═══════════════════════════════════════════════════════════════════
-          SECTION 1: Cinematic Hero
-          Full viewport, local hero image with deep blue cinematic overlay
+          SECTION 1: Cinematic Hero (Mobile Optimized)
+          Full viewport, 32px title max on mobile, trust line, priority LCP
           ═══════════════════════════════════════════════════════════════════ */}
       <CinematicHero
         title="Auburn"
@@ -43,103 +44,50 @@ export default async function HomePage() {
       />
 
       {/* ═══════════════════════════════════════════════════════════════════
-          SECTION 2: Editorial Intro Panel
-          Deep surface background with two-column editorial layout
+          SECTION 2: Sticky Bottom Action Bar (Mobile Only)
+          Appears after hero scroll, hides on scroll down, shows on scroll up
           ═══════════════════════════════════════════════════════════════════ */}
-      <section className="editorial-panel">
-        <div className="container mx-auto px-4">
-          {/* Section Header */}
-          <div className="text-center mb-16">
-            <p className="section-eyebrow-light">Welcome to Auburn</p>
-            <h2 className="section-title-light mb-6">
-              Explore Gold Country
-            </h2>
-            <div className="w-16 h-1 rounded-full bg-gradient-gold mx-auto" />
-          </div>
-
-          {/* Two Column Editorial */}
-          <div className="editorial-two-col max-w-5xl mx-auto mb-16">
-            <div className="editorial-text">
-              <p className="mb-6">
-                Nestled in the Sierra Nevada foothills, Auburn is where California's 
-                legendary Gold Rush began. Today, this vibrant community blends rich 
-                history with outdoor adventure, world-class dining, and authentic 
-                small-town charm.
-              </p>
-              <p>
-                From hiking the rugged trails of the American River Canyon to exploring 
-                our historic Old Town district, Auburn offers experiences that create 
-                lasting memories for every type of traveler.
-              </p>
-            </div>
-            <div className="editorial-text">
-              <p className="mb-6">
-                With over 300 days of sunshine, Auburn is your year-round gateway to 
-                adventure. Whether you're seeking world-class trail running, boutique 
-                wineries, or simply a peaceful escape from the everyday, you'll find 
-                it here.
-              </p>
-              <p>
-                Discover why visitors and locals alike call Auburn one of California's 
-                best-kept secrets—a place where every season brings new reasons to explore.
-              </p>
-            </div>
-          </div>
-
-          {/* Quick Stats Row */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
-            {[
-              { icon: MapPin, label: 'Miles from Sacramento', value: '35' },
-              { icon: Trees, label: 'Miles of Trails', value: '100+' },
-              { icon: Utensils, label: 'Local Restaurants', value: '50+' },
-              { icon: Calendar, label: 'Annual Events', value: '40+' },
-            ].map((stat) => (
-              <div 
-                key={stat.label}
-                className="text-center p-6 rounded-xl border border-charcoal-200 bg-white hover:border-gold-500 transition-colors duration-300 hover:shadow-md"
-              >
-                <stat.icon className="w-6 h-6 mx-auto mb-3 text-forest-500" />
-                <div className="text-3xl font-bold text-charcoal-900 mb-1">{stat.value}</div>
-                <div className="text-sm text-charcoal-600">{stat.label}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <StickyActionBar />
 
       {/* ═══════════════════════════════════════════════════════════════════
-          SECTION 3: Category Explorer
-          Image-led horizontal scroll cards
+          SECTION 3: Proof Chips (Mobile Only - Replaces duplicate stats)
+          Single unified stats row with horizontal scroll and snap
+          ═══════════════════════════════════════════════════════════════════ */}
+      <ProofChips />
+
+      {/* ═══════════════════════════════════════════════════════════════════
+          SECTION 4: Category Explorer (Mobile: 2x2 Grid)
+          Mobile shows 4 categories + "View all", Desktop horizontal scroll
           ═══════════════════════════════════════════════════════════════════ */}
       <CategoryExplorer />
 
       {/* ═══════════════════════════════════════════════════════════════════
-          SECTION 4: Seasonal Tabs
-          What to do in each season
+          SECTION 5: Seasonal Content (Mobile: Accordion)
+          Mobile accordion, Desktop tabs - progressive disclosure
           ═══════════════════════════════════════════════════════════════════ */}
       <SeasonalTabs />
 
       {/* ═══════════════════════════════════════════════════════════════════
-          SECTION 5: Events Showcase
-          Upcoming events with date badges
+          SECTION 6: Events Showcase (Mobile Optimized Cards)
+          Fixed 3:4 image ratio, 2-line title clamp, consistent meta row
           ═══════════════════════════════════════════════════════════════════ */}
       <EventsShowcase />
 
       {/* ═══════════════════════════════════════════════════════════════════
-          SECTION 6: Lodging Showcase
-          Where to stay horizontal scroll
+          SECTION 7: Lodging Showcase (Mobile Optimized Cards)
+          Horizontal scroll, 280px max width, fixed ratio
           ═══════════════════════════════════════════════════════════════════ */}
       <LodgingShowcase />
 
       {/* ═══════════════════════════════════════════════════════════════════
-          SECTION 7: Respect Auburn Banner
-          Responsible tourism message
+          SECTION 8: Respect Auburn Banner (Simplified Mobile)
+          Responsive tourism message
           ═══════════════════════════════════════════════════════════════════ */}
       <RespectAuburnBanner />
 
       {/* ═══════════════════════════════════════════════════════════════════
-          SECTION 8: Insider Tips / Blog
-          Editorial articles carousel
+          SECTION 9: Insider Tips / Blog
+          Editorial articles carousel (unchanged)
           ═══════════════════════════════════════════════════════════════════ */}
       <InsiderTips />
     </>

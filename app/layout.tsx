@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import './globals.css'
 import { NavigationNew } from '@/components/navigation/NavigationNew'
 import { FooterNew } from '@/components/footer/FooterNew'
+import { SavedItemsPill } from '@/components/ui/SavedItemsPill'
 import { organizationJsonLd } from '@/lib/seo'
 
 export const metadata: Metadata = {
@@ -60,6 +61,7 @@ export default function RootLayout({
       <body className="font-sans">
         <NavigationNew />
         <main>{children}</main>
+        <SavedItemsPill />
         <FooterNew />
       </body>
     </html>

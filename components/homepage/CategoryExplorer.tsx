@@ -66,6 +66,9 @@ const categories = [
 
 export function CategoryExplorer() {
   const scrollRef = useRef<HTMLDivElement>(null)
+  
+  // Show only first 4 on mobile, all on desktop
+  const mobileCategories = categories.slice(0, 4)
 
   const scroll = (direction: 'left' | 'right') => {
     if (scrollRef.current) {
@@ -78,7 +81,7 @@ export function CategoryExplorer() {
   }
 
   return (
-    <section className="py-20 md:py-28 relative overflow-hidden" style={{ backgroundColor: '#B8D4C8' }}>
+    <section className="py-12 md:py-20 lg:py-28 relative overflow-hidden" style={{ backgroundColor: '#B8D4C8' }}>
       {/* Subtle pattern overlay */}
       <div className="absolute inset-0 opacity-[0.03]">
         <div className="absolute inset-0" style={{
@@ -88,7 +91,7 @@ export function CategoryExplorer() {
 
       <div className="container mx-auto relative z-10">
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-12 px-4 md:px-0">
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-8 md:mb-12 px-4 md:px-0">
           <div>
             <p className="section-eyebrow-light">
               Dig In & Discover
@@ -98,8 +101,8 @@ export function CategoryExplorer() {
             </h2>
           </div>
           
-          {/* Navigation Arrows */}
-          <div className="hidden md:flex gap-3 mt-6 md:mt-0">
+          {/* Navigation Arrows - Desktop Only */}
+          <div className="hidden lg:flex gap-3 mt-6 md:mt-0">
             <button 
               onClick={() => scroll('left')}
               className="w-12 h-12 rounded-full border-2 border-charcoal-300 text-charcoal-700 hover:border-gold-500 hover:text-gold-500 hover:bg-white/50 flex items-center justify-center transition-all shadow-sm"
@@ -117,10 +120,58 @@ export function CategoryExplorer() {
           </div>
         </div>
 
-        {/* Scrolling Cards */}
+        {/* Mobile: 2x2 Grid (show 4 + "View All") */}
+        <div className="md:hidden grid grid-cols-2 gap-3 px-4 mb-6">
+          {mobileCategories.map((category) => {
+            const Icon = category.icon
+            return (
+              <Link
+                key={category.id}
+                href={category.href}
+                className="group"
+              >
+                <div className="relative aspect-[4/5] rounded-xl overflow-hidden category-card">
+                  <Image
+                    src={category.image}
+                    alt={category.title}
+                    fill
+                    sizes="(max-width: 768px) 45vw, 280px"
+                    className="object-cover transition-transform duration-500 group-hover:scale-110"
+                  />
+                  
+                  {/* Content */}
+                  <div className="absolute bottom-0 left-0 right-0 p-4 z-20">
+                    <div className="w-10 h-10 rounded-full bg-gradient-gold flex items-center justify-center mb-2 group-hover:scale-110 transition-all shadow-lg">
+                      <Icon className="w-5 h-5 text-white" />
+                    </div>
+                    <h3 className="text-base font-bold text-text-primary group-hover:text-gold-300 transition-colors line-clamp-2">
+                      {category.title}
+                    </h3>
+                  </div>
+                  
+                  {/* Hover Border Effect */}
+                  <div className="absolute inset-0 rounded-xl border-2 border-transparent group-hover:border-gold-500/50 transition-colors z-20" />
+                </div>
+              </Link>
+            )
+          })}
+        </div>
+        
+        {/* Mobile: View All CTA */}
+        <div className="md:hidden text-center px-4">
+          <Link
+            href="/discover"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-white text-forest-600 font-semibold rounded-full border-2 border-forest-500 hover:bg-forest-500 hover:text-white transition-all shadow-md"
+          >
+            <Compass className="w-5 h-5" />
+            View All Categories
+          </Link>
+        </div>
+
+        {/* Desktop: Horizontal Scroll */}
         <div 
           ref={scrollRef}
-          className="scroll-container pl-4 md:pl-0 -mr-4 md:mr-0"
+          className="hidden md:flex scroll-container pl-4 md:pl-0 -mr-4 md:mr-0"
         >
           {categories.map((category) => {
             const Icon = category.icon
@@ -135,6 +186,7 @@ export function CategoryExplorer() {
                     src={category.image}
                     alt={category.title}
                     fill
+                    sizes="(max-width: 768px) 256px, 288px"
                     className="object-cover transition-transform duration-700 group-hover:scale-110"
                   />
                   

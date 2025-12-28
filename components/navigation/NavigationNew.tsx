@@ -71,21 +71,22 @@ export function NavigationNew() {
     <header 
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled 
-          ? 'bg-deep-surface/95 backdrop-blur-md border-b border-border-subtle py-3' 
-          : 'bg-transparent py-5'
+          ? 'bg-deep-surface/95 backdrop-blur-md border-b border-border-subtle py-2 md:py-3' 
+          : 'bg-transparent py-3 md:py-5'
       }`}
     >
       <div className="w-full px-0">
-        <div className="flex items-center justify-between pr-6">
-          {/* Logo - All the way left */}
+        <div className="flex items-center justify-between pr-4 md:pr-6">
+          {/* Logo - Responsive sizing */}
           <Link href="/" className="flex items-center group flex-shrink-0">
             <Image
               src="/images/logo.png"
               alt="Visit Auburn - California Gold Country"
               width={293}
               height={183}
-              className="h-[117px] md:h-[137px] w-auto object-contain rounded-lg"
+              className="h-[90px] md:h-[117px] lg:h-[137px] w-auto object-contain rounded-lg"
               priority
+              sizes="(max-width: 768px) 180px, (max-width: 1024px) 234px, 293px"
             />
           </Link>
 
@@ -133,7 +134,7 @@ export function NavigationNew() {
             ))}
           </nav>
 
-          {/* Right Side - CTA Button - All the way right */}
+          {/* Right Side - CTA Button */}
           <div className="hidden lg:flex items-center gap-4 flex-shrink-0">
             <Link 
               href="/special-offers"
@@ -143,37 +144,41 @@ export function NavigationNew() {
             </Link>
           </div>
 
-          {/* Mobile Menu Button */}
+          {/* Mobile Menu Button - 48px tap target */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="lg:hidden p-2 text-text-primary hover:bg-white/10 rounded-lg transition-colors"
+            className="lg:hidden p-3 text-text-primary hover:bg-white/10 rounded-lg transition-colors"
+            style={{ minWidth: '48px', minHeight: '48px' }}
             aria-label="Toggle menu"
+            aria-expanded={isOpen}
           >
             {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
         </div>
 
-        {/* Mobile Menu */}
+        {/* Mobile Menu - Full height, thumb-friendly */}
         {isOpen && (
-          <div className="lg:hidden mt-4 pb-4 border-t border-border-subtle pt-4">
-            <nav className="flex flex-col gap-1">
+          <div className="lg:hidden fixed inset-x-0 top-[96px] md:top-[120px] bottom-0 bg-deep-surface/98 backdrop-blur-lg border-t border-border-subtle overflow-y-auto">
+            <nav className="flex flex-col p-4 pb-24">
               {navigation.map((item) => (
-                <div key={item.name}>
+                <div key={item.name} className="border-b border-border-subtle last:border-0">
                   <Link
                     href={item.href}
                     onClick={() => setIsOpen(false)}
-                    className="block px-4 py-3 text-text-primary font-bold hover:bg-white/5 rounded-lg transition-colors"
+                    className="block px-4 py-4 text-text-primary font-bold hover:bg-white/5 rounded-lg transition-colors text-lg"
+                    style={{ minHeight: '56px' }}
                   >
                     {item.name}
                   </Link>
                   {item.submenu && (
-                    <div className="ml-4 border-l border-border-subtle pl-4 mt-1 mb-2">
-                      {item.submenu.slice(0, 4).map((subItem) => (
+                    <div className="ml-4 border-l-2 border-gold-500/30 pl-4 pb-3">
+                      {item.submenu.slice(0, 5).map((subItem) => (
                         <Link
                           key={subItem.name}
                           href={subItem.href}
                           onClick={() => setIsOpen(false)}
-                          className="block py-2 text-text-muted hover:text-pine-400 text-sm transition-colors"
+                          className="block py-3 text-text-muted hover:text-pine-400 transition-colors"
+                          style={{ minHeight: '48px' }}
                         >
                           {subItem.name}
                         </Link>
@@ -185,7 +190,8 @@ export function NavigationNew() {
               <Link
                 href="/special-offers"
                 onClick={() => setIsOpen(false)}
-                className="mt-4 mx-4 text-center px-6 py-3 bg-gradient-forest hover:bg-forest-600 text-white font-semibold rounded-full transition-colors"
+                className="mt-6 mx-2 text-center px-6 py-4 bg-gradient-forest hover:bg-forest-600 text-white font-semibold rounded-full transition-colors shadow-lg"
+                style={{ minHeight: '56px' }}
               >
                 Special Offers
               </Link>

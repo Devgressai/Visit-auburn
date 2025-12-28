@@ -39,13 +39,24 @@ export function CinematicHero({
     setIsLoaded(true)
   }, [])
 
-  // Typing effect for subtitle
+  // Typing effect for subtitle - disabled on mobile/reduced-motion
   useEffect(() => {
+    // Check for mobile or reduced motion preference
+    const isMobile = window.innerWidth < 768
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    
+    if (isMobile || prefersReducedMotion) {
+      // Show full subtitle immediately on mobile or for reduced motion users
+      setDisplayedSubtitle(subtitle)
+      setCurrentIndex(subtitle.length)
+      return
+    }
+    
     if (currentIndex < subtitle.length) {
       const timeout = setTimeout(() => {
         setDisplayedSubtitle(prev => prev + subtitle[currentIndex])
         setCurrentIndex(prev => prev + 1)
-      }, 40) // Adjust speed here (lower = faster)
+      }, 40)
       
       return () => clearTimeout(timeout)
     }
@@ -64,6 +75,8 @@ export function CinematicHero({
           alt="Auburn, California - Gold Country"
           fill
           priority
+          sizes="100vw"
+          quality={85}
           className={`object-cover transition-transform duration-[2s] ${isLoaded ? 'scale-100' : 'scale-110'}`}
         />
         {/* Enhanced overlay for better text readability */}
@@ -93,10 +106,10 @@ export function CinematicHero({
       </div>
 
       {/* Main Content */}
-      <div className="relative z-10 min-h-screen flex flex-col justify-center items-start text-left px-6 md:px-12 lg:px-20 pt-24 pb-32">
+      <div className="relative z-10 min-h-screen flex flex-col justify-center items-start text-left px-4 sm:px-6 md:px-12 lg:px-20 pt-28 md:pt-24 pb-32">
         {/* Pre-title / Eyebrow */}
         <p 
-          className={`uppercase tracking-[0.2em] text-base font-extrabold mb-6 transition-all duration-700 ${
+          className={`uppercase tracking-[0.2em] text-xs md:text-base font-extrabold mb-4 md:mb-6 transition-all duration-700 ${
             isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
           }`}
           style={{ 
@@ -108,9 +121,9 @@ export function CinematicHero({
           Explore the Heart of Gold Country
         </p>
 
-        {/* Main Title */}
+        {/* Main Title - Mobile Optimized */}
         <h1 
-          className={`hero-title mb-8 transition-all duration-700 ${
+          className={`hero-title mb-6 md:mb-8 transition-all duration-700 ${
             isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
           }`}
           style={{ 
@@ -121,9 +134,9 @@ export function CinematicHero({
           {title}
         </h1>
 
-        {/* Subtitle with typing effect and enhanced visibility */}
+        {/* Subtitle - Mobile Optimized */}
         <div 
-          className={`relative max-w-2xl mb-12 transition-all duration-700 ${
+          className={`relative max-w-2xl mb-8 md:mb-12 transition-all duration-700 ${
             isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
           }`}
           style={{ 
@@ -149,31 +162,36 @@ export function CinematicHero({
           >
             {displayedSubtitle}
             {currentIndex < subtitle.length && (
-              <span className="inline-block w-0.5 h-6 bg-gold-400 ml-1 animate-pulse" style={{ verticalAlign: 'middle' }} />
+              <span className="hidden md:inline-block w-0.5 h-6 bg-gold-400 ml-1 animate-pulse" style={{ verticalAlign: 'middle' }} />
             )}
           </p>
         </div>
 
-        {/* CTA Buttons */}
+        {/* CTA Buttons - Mobile: Single Column, Desktop: Row */}
         <div 
-          className={`flex flex-col sm:flex-row gap-4 transition-all duration-700 ${
+          className={`flex flex-col sm:flex-row gap-3 md:gap-4 w-full sm:w-auto transition-all duration-700 ${
             isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
           }`}
           style={{ transitionDelay: '800ms' }}
         >
-          <Link href="/activities" className="btn-primary">
+          <Link href="/activities" className="btn-primary text-center">
             Things To Do
           </Link>
-          <Link href="/plan/visitor-information" className="btn-outline-white">
+          <Link href="/plan/visitor-information" className="btn-outline-white text-center">
             Plan Your Trip
           </Link>
         </div>
+        
+        {/* Trust Line - Mobile Only */}
+        <p className="hero-trust-line mt-4 md:hidden text-white/70">
+          35 miles from Sacramento • 300+ days of sunshine
+        </p>
 
-        {/* Play Video Button */}
+        {/* Play Video Button - Desktop Only */}
         {videoUrl && (
           <button 
             onClick={() => setShowVideo(true)}
-            className={`mt-10 group flex items-center gap-3 text-text-muted hover:text-text-primary transition-all duration-500 ${
+            className={`hidden md:flex mt-10 group items-center gap-3 text-text-muted hover:text-text-primary transition-all duration-500 ${
               isLoaded ? 'opacity-100' : 'opacity-0'
             }`}
             style={{ transitionDelay: '1000ms' }}
@@ -186,9 +204,9 @@ export function CinematicHero({
         )}
       </div>
 
-      {/* Stats Bar - Bottom */}
+      {/* Stats Bar - Desktop Only (mobile uses ProofChips) */}
       <div 
-        className={`absolute bottom-0 left-0 right-0 z-20 transition-all duration-700 ${
+        className={`hidden md:block absolute bottom-0 left-0 right-0 z-20 transition-all duration-700 ${
           isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
         }`}
         style={{ transitionDelay: '1000ms' }}
@@ -213,7 +231,7 @@ export function CinematicHero({
           </div>
         </div>
 
-        {/* Scroll Indicator */}
+        {/* Scroll Indicator - Desktop Only */}
         <button 
           onClick={scrollToContent}
           className="absolute -top-16 left-1/2 -translate-x-1/2 text-text-muted hover:text-pine-400 transition-colors animate-bounce"

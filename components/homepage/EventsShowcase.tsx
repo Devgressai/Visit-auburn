@@ -37,7 +37,7 @@ export function EventsShowcase() {
         </div>
 
         {/* Events Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
           {upcomingEvents.map((event) => {
             const eventDate = new Date(event.startDate)
             const imageUrl = event.featuredImage ? getImageUrl(event.featuredImage) : null
@@ -46,49 +46,54 @@ export function EventsShowcase() {
               <Link
                 key={event._id}
                 href={`/events/${event.slug.current}`}
-                className="group relative rounded-2xl overflow-hidden card-hover bg-cream-50 shadow-md border border-charcoal-100"
+                className="group card card-hover"
               >
-                {/* Image */}
-                <div className="relative h-56 overflow-hidden">
+                {/* Image - Fixed 3:4 ratio */}
+                <div className="card-image relative">
                   {imageUrl && (
                     <Image
                       src={imageUrl}
                       alt={event.title}
                       fill
-                      className="object-cover transition-transform duration-700 group-hover:scale-110"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                   )}
-                  <div className="absolute inset-0 bg-gradient-to-t from-charcoal-800/90 via-charcoal-800/40 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-charcoal-900/80 via-charcoal-900/20 to-transparent" />
                   
                   {/* Date Badge */}
-                  <div className="absolute top-4 left-4 bg-gradient-forest text-white font-bold rounded-lg px-4 py-2 flex flex-col items-center justify-center shadow-lg">
+                  <div className="absolute top-3 left-3 bg-gradient-forest text-white font-bold rounded-lg px-3 py-2 flex flex-col items-center justify-center shadow-lg">
                     <span className="text-xs uppercase tracking-wider opacity-90">{format(eventDate, 'MMM')}</span>
                     <span className="text-2xl font-black leading-none">{format(eventDate, 'd')}</span>
                   </div>
+                  
+                  {/* Title overlay on image */}
+                  <div className="absolute bottom-0 left-0 right-0 p-4">
+                    <h3 className="card-title text-white group-hover:text-gold-300 transition-colors">
+                      {event.title}
+                    </h3>
+                  </div>
                 </div>
 
-                {/* Content */}
-                <div className="absolute bottom-0 left-0 right-0 p-5">
-                  <h3 className="text-lg font-bold text-white mb-2 group-hover:text-gold-300 transition-colors line-clamp-2">
-                    {event.title}
-                  </h3>
-                  
-                  {event.location && (
-                    <div className="flex items-center gap-2 text-white/80 text-sm">
-                      <MapPin className="w-4 h-4 text-gold-400" />
-                      <span>{event.location.city || 'Auburn'}</span>
-                    </div>
-                  )}
-
-                  {event.endDate && event.endDate !== event.startDate && (
-                    <p className="text-gold-300 text-sm mt-2 font-medium">
-                      {format(eventDate, 'MMM d')} - {format(new Date(event.endDate), 'MMM d, yyyy')}
-                    </p>
-                  )}
+                {/* Meta Row */}
+                <div className="p-4">
+                  <div className="card-meta">
+                    {event.location && (
+                      <div className="card-meta-item">
+                        <MapPin className="w-4 h-4 text-gold-500" />
+                        <span>{event.location.city || 'Auburn'}</span>
+                      </div>
+                    )}
+                    {event.endDate && event.endDate !== event.startDate && (
+                      <div className="card-meta-item text-xs text-gold-600">
+                        {format(eventDate, 'MMM d')} - {format(new Date(event.endDate), 'MMM d')}
+                      </div>
+                    )}
+                  </div>
                 </div>
 
                 {/* Hover border */}
-                <div className="absolute inset-0 rounded-2xl border-2 border-transparent group-hover:border-gold-500/60 transition-colors" />
+                <div className="absolute inset-0 rounded-2xl border-2 border-transparent group-hover:border-gold-500/60 transition-colors pointer-events-none" />
               </Link>
             )
           })}

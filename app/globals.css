@@ -90,13 +90,14 @@
 
 @layer components {
   /* ═══════════════════════════════════════════════════════════════════════
-     HERO TYPOGRAPHY — Cinematic Style
+     HERO TYPOGRAPHY — Mobile-First Cinematic Style
      ═══════════════════════════════════════════════════════════════════════ */
   .hero-title {
     font-family: var(--font-display);
-    font-size: clamp(2.75rem, 6vw, 5.5rem);
+    /* Mobile: 32px max, Desktop: scale up */
+    font-size: clamp(2rem, 5vw, 5.5rem);
     font-weight: 900;
-    line-height: 1.05;
+    line-height: 1.1;
     letter-spacing: -0.02em;
     color: #FFFFFF;
     text-shadow: 0 4px 40px rgba(0, 0, 0, 0.5);
@@ -104,11 +105,21 @@
   
   .hero-subtitle {
     font-family: var(--font-sans);
-    font-size: clamp(1rem, 2vw, 1.375rem);
-    font-weight: 700;
-    line-height: 1.6;
+    /* Mobile: 16px, Desktop: 22px */
+    font-size: clamp(1rem, 1.5vw, 1.375rem);
+    font-weight: 600;
+    line-height: 1.5;
     color: rgba(255, 255, 255, 0.92);
     text-shadow: 0 2px 20px rgba(0, 0, 0, 0.4);
+  }
+  
+  .hero-trust-line {
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 500;
+    line-height: 1.4;
+    color: rgba(255, 255, 255, 0.7);
+    text-align: center;
   }
   
   /* ═══════════════════════════════════════════════════════════════════════
@@ -142,18 +153,51 @@
   }
   
   /* ═══════════════════════════════════════════════════════════════════════
-     CARD STYLES
+     CARD STYLES — Mobile-First with Fixed Ratios
      ═══════════════════════════════════════════════════════════════════════ */
   .card-hover {
-    @apply transition-all duration-500 ease-out;
+    @apply transition-all duration-300 ease-out;
   }
   
   .card-hover:hover {
-    @apply -translate-y-2 shadow-card-hover;
+    @apply -translate-y-1 shadow-card-hover;
   }
   
   .card-hover:hover img {
-    @apply scale-110;
+    @apply scale-105;
+  }
+  
+  /* Standard card components */
+  .card {
+    @apply bg-white rounded-2xl overflow-hidden shadow-md border border-charcoal-100;
+  }
+  
+  .card-image {
+    @apply relative overflow-hidden;
+    /* Fixed 3:4 aspect ratio for consistency */
+    aspect-ratio: 3 / 4;
+  }
+  
+  .card-image-wide {
+    @apply relative overflow-hidden;
+    /* 16:9 for wide cards */
+    aspect-ratio: 16 / 9;
+  }
+  
+  .card-title {
+    @apply text-lg font-bold text-charcoal-900 line-clamp-2;
+    /* Exactly 2 lines */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+  
+  .card-meta {
+    @apply flex items-center gap-3 text-sm text-charcoal-600 mt-2;
+  }
+  
+  .card-meta-item {
+    @apply flex items-center gap-1.5;
   }
   
   /* Glass Card - For overlays on images */
@@ -197,46 +241,72 @@
   }
   
   /* ═══════════════════════════════════════════════════════════════════════
-     BUTTON STYLES
+     BUTTON STYLES — Mobile-First (48px min tap target)
      ═══════════════════════════════════════════════════════════════════════ */
   .btn-primary {
-    @apply bg-charcoal-800 text-white font-semibold px-8 py-4 rounded-full border-2 border-gold-500;
+    @apply bg-charcoal-800 text-white font-semibold px-6 py-3 md:px-8 md:py-4 rounded-full border-2 border-gold-500;
     @apply transition-all duration-300 ease-out;
     @apply hover:bg-charcoal-700 hover:border-gold-400 hover:shadow-glow;
+    /* Minimum 48px tap target */
+    min-height: 48px;
+    min-width: 120px;
   }
   
   .btn-gold {
-    @apply bg-gradient-gold text-white font-semibold px-8 py-4 rounded-full;
+    @apply bg-gradient-gold text-white font-semibold px-6 py-3 md:px-8 md:py-4 rounded-full;
     @apply transition-all duration-300 ease-out;
-    @apply hover:shadow-glow hover:scale-105;
+    @apply hover:shadow-glow;
+    min-height: 48px;
+    min-width: 120px;
   }
   
   .btn-outline-white {
-    @apply border-2 border-white/70 text-white font-semibold px-8 py-4 rounded-full;
+    @apply border-2 border-white/70 text-white font-semibold px-6 py-3 md:px-8 md:py-4 rounded-full;
     @apply backdrop-blur-sm bg-white/5;
     @apply transition-all duration-300 ease-out;
     @apply hover:bg-white hover:text-charcoal-900;
+    min-height: 48px;
+    min-width: 120px;
   }
   
   .btn-outline-pine {
-    @apply border-2 border-forest-500 text-forest-600 font-semibold px-8 py-4 rounded-full;
+    @apply border-2 border-forest-500 text-forest-600 font-semibold px-6 py-3 md:px-8 md:py-4 rounded-full;
     @apply transition-all duration-300 ease-out;
     @apply hover:bg-forest-500 hover:text-white;
+    min-height: 48px;
+    min-width: 120px;
   }
   
   .btn-lake {
-    @apply bg-lake-500 text-white font-semibold px-8 py-4 rounded-full;
+    @apply bg-lake-500 text-white font-semibold px-6 py-3 md:px-8 md:py-4 rounded-full;
     @apply transition-all duration-300 ease-out;
     @apply hover:bg-lake-600 hover:shadow-glow-lake;
+    min-height: 48px;
+    min-width: 120px;
+  }
+  
+  /* Sticky Action Bar Buttons */
+  .action-bar-btn {
+    @apply flex flex-col items-center justify-center gap-1;
+    @apply text-white font-semibold text-xs;
+    @apply transition-all duration-200;
+    min-width: 64px;
+    min-height: 56px;
+  }
+  
+  .action-bar-btn:active {
+    @apply scale-95;
   }
   
   /* ═══════════════════════════════════════════════════════════════════════
-     HORIZONTAL SCROLL CONTAINER
+     HORIZONTAL SCROLL CONTAINER — Mobile-First
      ═══════════════════════════════════════════════════════════════════════ */
   .scroll-container {
-    @apply flex gap-6 overflow-x-auto pb-4 snap-x snap-mandatory;
+    @apply flex gap-4 md:gap-6 overflow-x-auto pb-4 snap-x snap-mandatory;
     scrollbar-width: none;
     -ms-overflow-style: none;
+    /* iOS momentum scrolling */
+    -webkit-overflow-scrolling: touch;
   }
   
   .scroll-container::-webkit-scrollbar {
@@ -245,6 +315,34 @@
   
   .scroll-item {
     @apply flex-shrink-0 snap-start;
+  }
+  
+  /* Proof Chips Row (replaces duplicate stats) */
+  .proof-chips {
+    @apply flex gap-3 overflow-x-auto pb-3 snap-x snap-mandatory;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .proof-chips::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .proof-chip {
+    @apply flex-shrink-0 snap-start;
+    @apply px-4 py-3 rounded-full;
+    @apply border-2 border-gold-500/30 bg-white/95;
+    @apply text-center whitespace-nowrap;
+    min-width: 140px;
+  }
+  
+  .proof-chip-value {
+    @apply block text-2xl font-bold text-charcoal-900;
+  }
+  
+  .proof-chip-label {
+    @apply block text-xs text-charcoal-600 font-medium mt-0.5;
   }
   
   /* ═══════════════════════════════════════════════════════════════════════
@@ -404,6 +502,33 @@ img {
 
 img[data-loading="true"] {
   opacity: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   REDUCED MOTION SUPPORT (A11Y)
+   ═══════════════════════════════════════════════════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  .hero-title,
+  .hero-subtitle {
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  }
+  
+  .card-hover:hover {
+    transform: none;
+  }
+  
+  .card-hover:hover img {
+    transform: none;
+  }
 }
 
 /* ═══════════════════════════════════════════════════════════════════════

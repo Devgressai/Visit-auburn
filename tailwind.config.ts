@@ -128,11 +128,12 @@ const config: Config = {
       container: {
         center: true,
         padding: {
-          DEFAULT: '1rem',
-          sm: '1.5rem',
-          lg: '2rem',
-          xl: '2.5rem',
-          '2xl': '3rem',
+          DEFAULT: '1rem',    // 16px mobile
+          sm: '1.5rem',       // 24px
+          md: '2rem',         // 32px
+          lg: '2.5rem',       // 40px
+          xl: '3rem',         // 48px
+          '2xl': '4rem',      // 64px
         },
         screens: {
           sm: '640px',
@@ -147,6 +148,10 @@ const config: Config = {
         '18': '4.5rem',
         '88': '22rem',
         '128': '32rem',
+        // Mobile-specific spacing
+        'mobile-section': '3rem',      // 48px between sections on mobile
+        'mobile-card-gap': '1rem',     // 16px gap for card grids
+        'mobile-inline-gap': '0.75rem', // 12px for inline elements
       },
       
       typography: {
@@ -172,8 +177,17 @@ const config: Config = {
       },
       
       fontSize: {
+        // Mobile-first typography scale
+        'mobile-hero': ['2rem', { lineHeight: '1.1', fontWeight: '900', letterSpacing: '-0.02em' }],     // 32px
+        'mobile-h1': ['1.75rem', { lineHeight: '1.2', fontWeight: '700', letterSpacing: '-0.01em' }],   // 28px
+        'mobile-h2': ['1.5rem', { lineHeight: '1.3', fontWeight: '700' }],                               // 24px
+        'mobile-h3': ['1.25rem', { lineHeight: '1.4', fontWeight: '600' }],                              // 20px
+        'mobile-body': ['1rem', { lineHeight: '1.6', fontWeight: '400' }],                               // 16px
+        'mobile-small': ['0.875rem', { lineHeight: '1.5', fontWeight: '400' }],                          // 14px
+        'mobile-tiny': ['0.75rem', { lineHeight: '1.4', fontWeight: '500' }],                            // 12px
+        
         // Hero headline - responsive clamping
-        'hero-display': ['clamp(2.75rem, 6vw, 5.5rem)', { lineHeight: '1.05', fontWeight: '700', letterSpacing: '-0.02em' }],
+        'hero-display': ['clamp(2rem, 5vw, 5.5rem)', { lineHeight: '1.1', fontWeight: '900', letterSpacing: '-0.02em' }],
         'display-xl': ['5rem', { lineHeight: '1', fontWeight: '800', letterSpacing: '-0.03em' }],
         'display': ['3.5rem', { lineHeight: '1.1', fontWeight: '700', letterSpacing: '-0.02em' }],
         'h1': ['2.5rem', { lineHeight: '1.2', fontWeight: '700', letterSpacing: '-0.01em' }],
