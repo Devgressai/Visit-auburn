@@ -76,7 +76,7 @@ export function NavigationNew() {
       }`}
     >
       <div className="w-full px-0">
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between pr-6">
           {/* Logo - All the way left */}
           <Link href="/" className="flex items-center group flex-shrink-0">
             <Image
