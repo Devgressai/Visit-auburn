@@ -2,6 +2,7 @@ import { thingsToDoCategories, thingsToDoItems, getItemsGroupedByCategory } from
 import { buildMetadata, itemListJsonLd, SITE_URL } from '@/lib/seo'
 import { PageHero } from '@/components/ui/PageHero'
 import Link from 'next/link'
+import Image from 'next/image'
 import { Mountain, Building, Utensils, Calendar, Bike } from 'lucide-react'
 import type { Metadata } from 'next'
 
@@ -13,6 +14,26 @@ const iconMap = {
   utensils: Utensils,
   calendar: Calendar,
   bike: Bike,
+}
+
+// Category hero images - relevant to Auburn, California
+// TODO: Replace these with actual Auburn, CA specific photos
+// Recommended sources:
+// - Placer County Tourism website photos
+// - Visit California stock images
+// - Local photographer attribution
+// - Unsplash/Pexels with search terms:
+//   * "Sierra foothills hiking" for outdoor-adventures
+//   * "Gold Rush museum California" for history-culture
+//   * "California winery vineyard" for wine-food-markets
+//   * "festival outdoor California" for events-seasonal
+//   * "mountain biking California" for active-adventures
+const categoryImages: Record<string, string> = {
+  'outdoor-adventures': '/images/Hiking_trails.jpg', // CURRENT: Hiking trails
+  'history-culture': '/images/museum-gold-panning.webp', // CURRENT: Gold panning at museum
+  'wine-food-markets': '/images/dining.jpg', // CURRENT: Dining scene
+  'events-seasonal': '/images/events-hiking.webp', // CURRENT: Outdoor events
+  'active-adventures': '/images/Hiking_trails.jpg', // CURRENT: Reusing hiking trails
 }
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -117,16 +138,39 @@ export default async function ThingsToDoPage() {
           return (
             <section key={category.slug} className="py-12 md:py-16 bg-white odd:bg-cream-50">
               <div className="container mx-auto px-4">
-                <div className="flex items-center justify-between mb-8">
-                  <h2 className="text-2xl md:text-3xl font-bold text-charcoal-900">
-                    {category.title}
-                  </h2>
-                  <Link
-                    href={`/things-to-do/${category.slug}`}
-                    className="text-gold-600 hover:text-gold-700 font-semibold text-sm md:text-base"
-                  >
-                    View All →
-                  </Link>
+                {/* Category Header with Image */}
+                <div className="mb-8">
+                  {/* Category Image */}
+                  <div className="relative h-48 md:h-64 rounded-2xl overflow-hidden mb-6">
+                    <Image
+                      src={categoryImages[category.slug] || '/images/things-to-do.jpg'}
+                      alt={category.title}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-r from-charcoal-900/80 via-charcoal-900/60 to-transparent" />
+                    <div className="absolute inset-0 flex items-center px-6 md:px-12">
+                      <div>
+                        <h2 className="text-3xl md:text-4xl font-bold text-white mb-2">
+                          {category.title}
+                        </h2>
+                        <p className="text-white/90 text-base md:text-lg max-w-2xl">
+                          {category.description}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* View All Link */}
+                  <div className="flex justify-end">
+                    <Link
+                      href={`/things-to-do/${category.slug}`}
+                      className="text-gold-600 hover:text-gold-700 font-semibold text-sm md:text-base inline-flex items-center gap-2"
+                    >
+                      View All {items.length} {items.length === 1 ? 'Attraction' : 'Attractions'} →
+                    </Link>
+                  </div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
