@@ -100,12 +100,12 @@ export function NavigationNew() {
               >
                 <Link
                   href={item.href}
-                  className="flex items-center gap-1 px-4 py-2 text-text-primary hover:text-white font-extrabold transition-colors duration-200 rounded-lg hover:bg-white/5 text-lg"
+                  className="flex items-center gap-1 px-6 py-3 text-text-primary hover:text-white font-extrabold transition-colors duration-200 rounded-lg hover:bg-white/5 text-xl"
                   style={{ textShadow: '0 2px 8px rgba(0,0,0,0.6)' }}
                 >
                   {item.name}
                   {item.submenu && (
-                    <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${activeMenu === item.name ? 'rotate-180' : ''}`} />
+                    <ChevronDown className={`w-5 h-5 transition-transform duration-200 ${activeMenu === item.name ? 'rotate-180' : ''}`} />
                   )}
                 </Link>
 
