@@ -38,7 +38,7 @@ export default async function HomePage() {
           ═══════════════════════════════════════════════════════════════════ */}
       <CinematicHero
         title="Visit Auburn, California"
-        subtitle="Gold Country at the edge of the Sierra"
+        subtitle=""
         heroImage="/images/hero-main.webp"
         weather={{ temp: 72, condition: 'Sunny' }}
       />
