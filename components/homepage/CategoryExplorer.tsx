@@ -78,7 +78,7 @@ export function CategoryExplorer() {
   }
 
   return (
-    <section className="py-20 md:py-28 relative overflow-hidden" style={{ backgroundColor: '#1B4332' }}>
+    <section className="py-20 md:py-28 relative overflow-hidden" style={{ backgroundColor: '#B8D4C8' }}>
       {/* Subtle pattern overlay */}
       <div className="absolute inset-0 opacity-[0.03]">
         <div className="absolute inset-0" style={{
@@ -90,10 +90,10 @@ export function CategoryExplorer() {
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-12 px-4 md:px-0">
           <div>
-            <p className="section-eyebrow">
+            <p className="section-eyebrow-light">
               Dig In & Discover
             </p>
-            <h2 className="section-title">
+            <h2 className="section-title-light">
               Explore Auburn
             </h2>
           </div>
@@ -102,14 +102,14 @@ export function CategoryExplorer() {
           <div className="hidden md:flex gap-3 mt-6 md:mt-0">
             <button 
               onClick={() => scroll('left')}
-              className="w-12 h-12 rounded-full border border-charcoal-700 text-text-muted hover:border-gold-500 hover:text-gold-400 hover:bg-gold-500/10 flex items-center justify-center transition-all"
+              className="w-12 h-12 rounded-full border-2 border-charcoal-300 text-charcoal-700 hover:border-gold-500 hover:text-gold-500 hover:bg-white/50 flex items-center justify-center transition-all shadow-sm"
               aria-label="Scroll left"
             >
               <ChevronLeft className="w-6 h-6" />
             </button>
             <button 
               onClick={() => scroll('right')}
-              className="w-12 h-12 rounded-full border border-charcoal-700 text-text-muted hover:border-gold-500 hover:text-gold-400 hover:bg-gold-500/10 flex items-center justify-center transition-all"
+              className="w-12 h-12 rounded-full border-2 border-charcoal-300 text-charcoal-700 hover:border-gold-500 hover:text-gold-500 hover:bg-white/50 flex items-center justify-center transition-all shadow-sm"
               aria-label="Scroll right"
             >
               <ChevronRight className="w-6 h-6" />
