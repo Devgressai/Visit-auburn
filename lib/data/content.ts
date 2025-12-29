@@ -308,7 +308,7 @@ export const accommodations: (Accommodation & { seoTitle?: string; seoDescriptio
     title: 'Historic Auburn Hotel',
     slug: createSlug('historic-auburn-hotel'),
     excerpt: 'Charming historic hotel in the heart of Old Town Auburn, offering comfortable accommodations and period charm.',
-    featuredImage: createImage('stay', 'Historic Auburn Hotel'),
+    featuredImage: createImage(accommodationImages['historic-auburn-hotel'], 'Historic Auburn Hotel'),
     location: {
       address: '1340 Lincoln Way',
       city: 'Auburn',
@@ -328,7 +328,7 @@ export const accommodations: (Accommodation & { seoTitle?: string; seoDescriptio
     title: 'Gold Country Inn',
     slug: createSlug('gold-country-inn'),
     excerpt: 'Convenient motel-style accommodations with modern amenities, located near major attractions.',
-    featuredImage: createImage('stay', 'Gold Country Inn'),
+    featuredImage: createImage(accommodationImages['gold-country-inn'], 'Gold Country Inn'),
     location: {
       address: '13450 Lincoln Way',
       city: 'Auburn',
