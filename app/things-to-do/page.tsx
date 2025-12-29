@@ -36,6 +36,43 @@ const categoryImages: Record<string, string> = {
   'active-adventures': '/images/Hiking_trails.jpg', // CURRENT: Reusing hiking trails
 }
 
+// Attraction card images - using placeholders for now
+// TODO: Add real Auburn-specific photos for each attraction
+const attractionImages: Record<string, string> = {
+  // Outdoor Adventures
+  'lake-clementine': '/images/Hiking_trails.jpg',
+  'hidden-falls': '/images/Hiking_trails.jpg',
+  'overlook-park': '/images/hero-main.webp', // Bridge/canyon view
+  'railhead-park': '/images/Hiking_trails.jpg',
+  'ashford-park': '/images/Hiking_trails.jpg',
+  'black-hole-calcutta': '/images/Hiking_trails.jpg',
+  'auburn-swim-hole': '/images/Hiking_trails.jpg',
+  
+  // History & Culture
+  'placer-county-museum': '/images/museum-gold-panning.webp',
+  'gold-country-museum': '/images/museum-gold-panning.webp',
+  'bernhard-museum': '/images/museum-gold-panning.webp',
+  'old-town-auburn': '/images/hero-main.webp', // Old town clock tower
+  'old-town-walking-tour': '/images/hero-main.webp',
+  'auburn-firehouse-tower': '/images/hero-main.webp',
+  'foresthill-bridge': '/images/hero-main.webp',
+  
+  // Wine, Food & Markets
+  'mt-vernon-winery': '/images/dining.jpg',
+  'auburn-farmers-market': '/images/dining.jpg',
+  'out-of-order-arcade': '/images/dining.jpg',
+  'old-town-restaurants': '/images/dining.jpg',
+  
+  // Events & Seasonal
+  'auburn-festivals': '/images/events-hiking.webp',
+  'pumpkin-nights': '/images/events-hiking.webp',
+  'mandarin-festival': '/images/events-hiking.webp',
+  
+  // Active Adventures
+  'bicycle-emporium': '/images/Hiking_trails.jpg',
+  'rafting-biking-horseback': '/images/Hiking_trails.jpg',
+}
+
 export async function generateMetadata(): Promise<Metadata> {
   return buildMetadata({
     title: 'Things to Do in Auburn, California - Complete Guide',
@@ -180,6 +217,19 @@ export default async function ThingsToDoPage() {
                       href={`/things-to-do/${category.slug}/${item.slug}`}
                       className="card card-hover overflow-hidden group"
                     >
+                      {/* Attraction Image */}
+                      {item.imageKey && attractionImages[item.imageKey] && (
+                        <div className="relative h-48 overflow-hidden">
+                          <Image
+                            src={attractionImages[item.imageKey]}
+                            alt={item.title}
+                            fill
+                            className="object-cover group-hover:scale-105 transition-transform duration-300"
+                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                          />
+                        </div>
+                      )}
+                      
                       <div className="p-6">
                         <h3 className="text-xl font-bold text-charcoal-900 mb-3 group-hover:text-gold-600 transition-colors line-clamp-2">
                           {item.title}
