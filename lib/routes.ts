@@ -185,6 +185,104 @@ export const ROUTE_MAP: Record<string, RouteMetadata> = {
   },
 
   // ============================================
+  // ITINERARIES
+  // ============================================
+  '/itineraries': {
+    path: '/itineraries',
+    breadcrumbLabel: 'Itineraries',
+    relatedPages: [
+      '/itineraries/weekend-getaway',
+      '/itineraries/outdoor-adventure',
+      '/itineraries/gold-rush-history',
+      '/itineraries/family-fun',
+      '/itineraries/romantic-escape',
+      '/accommodations',
+    ],
+    photoRequired: true,
+    blurb: 'Curated day-by-day Auburn itineraries for every traveler—weekend getaways, outdoor adventures, and romantic escapes.',
+  },
+
+  '/itineraries/weekend-getaway': {
+    path: '/itineraries/weekend-getaway',
+    breadcrumbLabel: 'Weekend Getaway',
+    parentSection: '/itineraries',
+    relatedPages: [
+      '/itineraries',
+      '/things-to-do',
+      '/accommodations',
+      '/dining',
+      '/things-to-do/outdoor-adventures',
+      '/things-to-do/history-culture',
+    ],
+    photoRequired: true,
+    blurb: 'Perfect 2-3 day Auburn introduction combining Lake Clementine hiking, Old Town dining, and Gold Rush history.',
+  },
+
+  '/itineraries/outdoor-adventure': {
+    path: '/itineraries/outdoor-adventure',
+    breadcrumbLabel: 'Outdoor Adventure',
+    parentSection: '/itineraries',
+    relatedPages: [
+      '/itineraries',
+      '/things-to-do/outdoor-adventures',
+      '/accommodations',
+      '/dining',
+      '/itineraries/weekend-getaway',
+      '/plan/maps-guides',
+    ],
+    photoRequired: true,
+    blurb: 'Three days maximizing Auburn trails—Lake Clementine, Hidden Falls, canyon exploration, and river swimming.',
+  },
+
+  '/itineraries/gold-rush-history': {
+    path: '/itineraries/gold-rush-history',
+    breadcrumbLabel: 'Gold Rush History',
+    parentSection: '/itineraries',
+    relatedPages: [
+      '/itineraries',
+      '/things-to-do/history-culture',
+      '/accommodations',
+      '/dining',
+      '/discover',
+      '/itineraries/weekend-getaway',
+    ],
+    photoRequired: true,
+    blurb: 'Two-day deep dive into California Gold Rush heritage through Auburn\'s museums, historic sites, and walking tours.',
+  },
+
+  '/itineraries/family-fun': {
+    path: '/itineraries/family-fun',
+    breadcrumbLabel: 'Family Fun',
+    parentSection: '/itineraries',
+    relatedPages: [
+      '/itineraries',
+      '/things-to-do',
+      '/accommodations',
+      '/things-to-do/outdoor-adventures',
+      '/things-to-do/history-culture',
+      '/dining',
+    ],
+    photoRequired: true,
+    blurb: 'Kid-friendly Auburn adventure balancing easy trails, gold panning, swimming holes, and family dining.',
+  },
+
+  '/itineraries/romantic-escape': {
+    path: '/itineraries/romantic-escape',
+    breadcrumbLabel: 'Romantic Escape',
+    parentSection: '/itineraries',
+    relatedPages: [
+      '/itineraries',
+      '/accommodations',
+      '/dining',
+      '/things-to-do/outdoor-adventures',
+      '/things-to-do/arts-culture',
+      '/itineraries/weekend-getaway',
+    ],
+    photoRequired: true,
+    blurb: 'Intimate Auburn couples retreat featuring scenic trails, farm-to-table dining, wine tasting, and canyon sunsets.',
+  },
+
+  // ============================================
   // PLAN YOUR VISIT
   // ============================================
   '/plan/visitor-information': {
