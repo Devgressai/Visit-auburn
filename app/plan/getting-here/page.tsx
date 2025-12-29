@@ -1,4 +1,7 @@
 import { buildMetadata, SITE_URL } from '@/lib/seo'
+import { Breadcrumbs } from '@/components/navigation/Breadcrumbs'
+import { RelatedPages } from '@/components/ui/RelatedPages'
+import { generateBreadcrumbs } from '@/lib/routes'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Car, Plane, Train, MapPin, Clock, Navigation, ExternalLink, ChevronRight } from 'lucide-react'
