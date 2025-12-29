@@ -1,4 +1,7 @@
 import { buildMetadata, SITE_URL } from '@/lib/seo'
+import { Breadcrumbs } from '@/components/navigation/Breadcrumbs'
+import { RelatedPages } from '@/components/ui/RelatedPages'
+import { generateBreadcrumbs } from '@/lib/routes'
 import { Search as SearchIcon } from 'lucide-react'
 import Link from 'next/link'
 import type { Metadata } from 'next'
@@ -25,6 +28,7 @@ export default async function SearchPage({
 }) {
   const params = await searchParams
   const query = params.q || ''
+  const breadcrumbs = generateBreadcrumbs('/search')
 
   // Mock results - replace with actual search implementation
   const mockResults = query ? [
@@ -83,6 +87,11 @@ export default async function SearchPage({
             </button>
           </form>
         </div>
+      </div>
+
+      {/* Breadcrumbs */}
+      <div className="container py-8 max-w-4xl">
+        <Breadcrumbs items={breadcrumbs} />
       </div>
 
       {/* Results */}
@@ -163,6 +172,9 @@ export default async function SearchPage({
           </div>
         )}
       </div>
+
+      {/* Related Pages */}
+      <RelatedPages currentPath="/search" />
     </div>
   )
 }

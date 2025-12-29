@@ -8,18 +8,30 @@ import { getPlaceholderImage } from '@/lib/images'
 
 const footerLinks = {
   explore: [
-    { name: 'Stay', href: '/accommodations' },
-    { name: 'Things To Do', href: '/activities' },
+    { name: 'Accommodations', href: '/accommodations' },
+    { name: 'Things To Do', href: '/things-to-do' },
     { name: 'Food & Drink', href: '/dining' },
     { name: 'Events', href: '/events' },
-    { name: 'Plan My Visit', href: '/plan/visitor-information' },
+    { name: 'Discover Auburn', href: '/discover' },
   ],
-  connect: [
-    { name: 'Weddings', href: '/plan/weddings' },
-    { name: 'Meetings', href: '/plan/meetings' },
-    { name: 'Special Offers', href: '/special-offers' },
+  plan: [
+    { name: 'Visitor Information', href: '/plan/visitor-information' },
+    { name: 'Getting Here', href: '/plan/getting-here' },
     { name: 'Maps & Guides', href: '/plan/maps-guides' },
-    { name: 'About Auburn', href: '/discover' },
+    { name: 'FAQ', href: '/plan/faq' },
+    { name: 'Respect Auburn', href: '/plan/respect-auburn' },
+  ],
+  groups: [
+    { name: 'Weddings', href: '/plan/weddings' },
+    { name: 'Meetings & Groups', href: '/plan/meetings' },
+    { name: 'Venues', href: '/plan/venues' },
+    { name: 'Special Offers', href: '/special-offers' },
+  ],
+  discover: [
+    { name: 'Outdoor Adventures', href: '/things-to-do/outdoor-adventures' },
+    { name: 'History & Culture', href: '/things-to-do/history-culture' },
+    { name: 'Arts & Culture', href: '/things-to-do/arts-culture' },
+    { name: 'Search', href: '/search' },
   ],
 }
 
@@ -176,25 +188,51 @@ export function FooterNew() {
                 </form>
               </div>
 
-              {/* Navigation Links */}
-              <div className="grid grid-cols-2 gap-8">
+              {/* Navigation Links - 4 Columns */}
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
                 <div>
+                  <h4 className="font-bold text-charcoal-900 mb-3 text-sm uppercase tracking-wider">Explore</h4>
                   {footerLinks.explore.map((link) => (
                     <Link
                       key={link.name}
                       href={link.href}
-                      className="block py-2 text-charcoal-600 hover:text-forest-600 transition-colors"
+                      className="block py-2 text-sm text-charcoal-600 hover:text-forest-600 transition-colors"
                     >
                       {link.name}
                     </Link>
                   ))}
                 </div>
                 <div>
-                  {footerLinks.connect.map((link) => (
+                  <h4 className="font-bold text-charcoal-900 mb-3 text-sm uppercase tracking-wider">Plan</h4>
+                  {footerLinks.plan.map((link) => (
                     <Link
                       key={link.name}
                       href={link.href}
-                      className="block py-2 text-charcoal-600 hover:text-forest-600 transition-colors"
+                      className="block py-2 text-sm text-charcoal-600 hover:text-forest-600 transition-colors"
+                    >
+                      {link.name}
+                    </Link>
+                  ))}
+                </div>
+                <div>
+                  <h4 className="font-bold text-charcoal-900 mb-3 text-sm uppercase tracking-wider">Groups & Events</h4>
+                  {footerLinks.groups.map((link) => (
+                    <Link
+                      key={link.name}
+                      href={link.href}
+                      className="block py-2 text-sm text-charcoal-600 hover:text-forest-600 transition-colors"
+                    >
+                      {link.name}
+                    </Link>
+                  ))}
+                </div>
+                <div>
+                  <h4 className="font-bold text-charcoal-900 mb-3 text-sm uppercase tracking-wider">Discover</h4>
+                  {footerLinks.discover.map((link) => (
+                    <Link
+                      key={link.name}
+                      href={link.href}
+                      className="block py-2 text-sm text-charcoal-600 hover:text-forest-600 transition-colors"
                     >
                       {link.name}
                     </Link>

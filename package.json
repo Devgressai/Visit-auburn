@@ -4,9 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "npm run validate:links && npm run validate:images && next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "validate:links": "tsx scripts/validate-interlinking.ts",
+    "validate:images": "tsx scripts/validate-images.ts"
   },
   "dependencies": {
     "@portabletext/react": "^6.0.0",
@@ -29,6 +31,7 @@
     "eslint": "^9.39.2",
     "eslint-config-next": "^16.1.1",
     "postcss": "^8.5.6",
+    "tsx": "^4.19.2",
     "typescript": "^5.9.3"
   }
 }

@@ -1,6 +1,9 @@
 import { buildMetadata, SITE_URL } from '@/lib/seo'
 import { PageHero } from '@/components/ui/PageHero'
 import { SpecialOffersGrid } from '@/components/offers/SpecialOffersGrid'
+import { Breadcrumbs } from '@/components/navigation/Breadcrumbs'
+import { RelatedPages } from '@/components/ui/RelatedPages'
+import { generateBreadcrumbs } from '@/lib/routes'
 import { Tag, Gift, Sparkles } from 'lucide-react'
 import Link from 'next/link'
 import type { Metadata } from 'next'
@@ -106,6 +109,8 @@ const mockOffers = [
 ]
 
 export default function SpecialOffersPage() {
+  const breadcrumbs = generateBreadcrumbs('/special-offers')
+
   return (
     <div className="min-h-screen bg-cream-50">
       {/* Hero Section */}
@@ -136,6 +141,11 @@ export default function SpecialOffersPage() {
           </p>
         </div>
       </section>
+
+      {/* Breadcrumbs Section */}
+      <div className="container mx-auto px-4 pt-8">
+        <Breadcrumbs items={breadcrumbs} />
+      </div>
 
       {/* Filter Tabs */}
       <div className="bg-white border-b border-charcoal-100 sticky top-16 z-30 shadow-sm">
@@ -199,6 +209,9 @@ export default function SpecialOffersPage() {
           </Link>
         </div>
       </section>
+
+      {/* Related Pages */}
+      <RelatedPages currentPath="/special-offers" />
     </div>
   )
 }

@@ -13,16 +13,18 @@ const navigation = [
       { name: 'All Accommodations', href: '/accommodations' },
       { name: 'Hotels', href: '/accommodations?category=hotel' },
       { name: 'Cabins & Rentals', href: '/accommodations?category=cabin' },
+      { name: 'Special Offers', href: '/special-offers' },
     ],
   },
   {
     name: 'Things To Do',
     href: '/things-to-do',
     submenu: [
-      { name: 'All Activities', href: '/activities' },
+      { name: 'All Activities', href: '/things-to-do' },
       { name: 'Outdoor Adventures', href: '/things-to-do/outdoor-adventures' },
       { name: 'History & Culture', href: '/things-to-do/history-culture' },
       { name: 'Arts & Culture', href: '/things-to-do/arts-culture' },
+      { name: 'Events Calendar', href: '/events' },
     ],
   },
   {
@@ -40,16 +42,21 @@ const navigation = [
     href: '/events',
   },
   {
-    name: 'Plan My Visit',
-    href: '/plan',
+    name: 'Discover',
+    href: '/discover',
+  },
+  {
+    name: 'Plan',
+    href: '/plan/visitor-information',
     submenu: [
-      { name: 'Getting Here', href: '/plan/getting-here' },
       { name: 'Visitor Information', href: '/plan/visitor-information' },
+      { name: 'Getting Here', href: '/plan/getting-here' },
       { name: 'Maps & Guides', href: '/plan/maps-guides' },
       { name: 'FAQ', href: '/plan/faq' },
       { name: 'Respect Auburn', href: '/plan/respect-auburn' },
-      { name: 'Weddings', href: '/plan/weddings' },
-      { name: 'Meetings', href: '/plan/meetings' },
+      { name: 'Weddings & Events', href: '/plan/weddings' },
+      { name: 'Meetings & Groups', href: '/plan/meetings' },
+      { name: 'Venues', href: '/plan/venues' },
     ],
   },
 ]

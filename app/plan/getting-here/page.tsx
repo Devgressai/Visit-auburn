@@ -106,6 +106,11 @@ export default function GettingHerePage() {
         </div>
       </section>
 
+      {/* Breadcrumbs */}
+      <div className="container mx-auto px-4 py-8">
+        <Breadcrumbs items={breadcrumbs} />
+      </div>
+
       {/* Quick Stats Bar */}
       <section className="bg-deep-surface border-y border-border-subtle">
         <div className="container mx-auto px-4">
@@ -307,6 +312,9 @@ export default function GettingHerePage() {
           </div>
         </div>
       </section>
+
+      {/* Related Pages */}
+      <RelatedPages currentPath="/plan/getting-here" />
     </div>
   )
 }

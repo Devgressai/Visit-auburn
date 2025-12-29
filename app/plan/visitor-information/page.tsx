@@ -1,4 +1,7 @@
 import { buildMetadata, SITE_URL } from '@/lib/seo'
+import { Breadcrumbs } from '@/components/navigation/Breadcrumbs'
+import { RelatedPages } from '@/components/ui/RelatedPages'
+import { generateBreadcrumbs } from '@/lib/routes'
 import Image from 'next/image'
 import Link from 'next/link'
 import { MapPin, Clock, Phone, Mail, Sun, Cloud, Thermometer, Droplets, Wifi, Car, CreditCard, Shield, ChevronRight } from 'lucide-react'
@@ -11,6 +14,8 @@ export async function generateMetadata(): Promise<Metadata> {
     canonical: `${SITE_URL}/plan/visitor-information`,
   })
 }
+
+const breadcrumbs = generateBreadcrumbs('/plan/visitor-information')
 
 const seasons = [
   {
@@ -93,6 +98,11 @@ export default function VisitorInformationPage() {
           </p>
         </div>
       </section>
+
+      {/* Breadcrumbs */}
+      <div className="container mx-auto px-4 py-8">
+        <Breadcrumbs items={breadcrumbs} />
+      </div>
 
       {/* Visitor Center Section */}
       <section className="py-20 md:py-28 bg-deep-surface">
@@ -308,6 +318,9 @@ export default function VisitorInformationPage() {
           </div>
         </div>
       </section>
+
+      {/* Related Pages */}
+      <RelatedPages currentPath="/plan/visitor-information" />
     </div>
   )
 }

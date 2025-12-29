@@ -1,6 +1,9 @@
 import { thingsToDoCategories, thingsToDoItems, getItemsGroupedByCategory } from '@/lib/thingsToDo.data'
 import { buildMetadata, itemListJsonLd, SITE_URL } from '@/lib/seo'
 import { PageHero } from '@/components/ui/PageHero'
+import { Breadcrumbs } from '@/components/navigation/Breadcrumbs'
+import { RelatedPages } from '@/components/ui/RelatedPages'
+import { generateBreadcrumbs } from '@/lib/routes'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Mountain, Building, Utensils, Calendar, Bike } from 'lucide-react'
@@ -83,6 +86,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function ThingsToDoPage() {
   const groupedItems = getItemsGroupedByCategory()
+  const breadcrumbs = generateBreadcrumbs('/things-to-do')
   
   // Create JSON-LD ItemList
   const itemListSchema = itemListJsonLd(
@@ -112,6 +116,9 @@ export default async function ThingsToDoPage() {
         {/* Intro Section */}
         <section className="py-12 md:py-16 bg-white">
           <div className="container mx-auto px-4">
+            {/* Breadcrumbs */}
+            <Breadcrumbs items={breadcrumbs} />
+
             <div className="max-w-3xl mx-auto text-center">
               <h2 className="text-3xl md:text-4xl font-bold text-charcoal-900 mb-6">
                 Adventures Await in Gold Country
@@ -288,6 +295,9 @@ export default async function ThingsToDoPage() {
             </div>
           </div>
         </section>
+
+        {/* Related Pages */}
+        <RelatedPages currentPath="/things-to-do" />
       </div>
     </>
   )
