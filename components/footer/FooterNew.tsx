@@ -128,7 +128,7 @@ export function FooterNew() {
                     {/* Screen */}
                     <div className="relative rounded-[2rem] overflow-hidden aspect-[9/19]">
                       <Image
-                        src="/images/things-to-do.jpg"
+                        src="/images/hero-main.webp"
                         alt="Visit Auburn Mobile"
                         fill
                         className="object-cover"
