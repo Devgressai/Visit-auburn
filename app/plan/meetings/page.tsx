@@ -1,8 +1,13 @@
 import { buildMetadata, SITE_URL } from '@/lib/seo'
+import { Breadcrumbs } from '@/components/navigation/Breadcrumbs'
+import { RelatedPages } from '@/components/ui/RelatedPages'
+import { generateBreadcrumbs } from '@/lib/routes'
 import { Users, Building2, Coffee, Wifi, MapPin, Car, Mountain, Clock, Mail, Phone } from 'lucide-react'
 import Image from 'next/image'
 import { getPlaceholderImage } from '@/lib/images'
 import type { Metadata } from 'next'
+
+export const revalidate = 3600
 
 export const metadata: Metadata = buildMetadata({
   title: 'Meetings & Events in Auburn - Professional Event Planning',
@@ -65,6 +70,8 @@ const venueCapacities = [
 ]
 
 export default function MeetingsPage() {
+  const breadcrumbs = generateBreadcrumbs('/plan/meetings')
+
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
@@ -89,6 +96,11 @@ export default function MeetingsPage() {
             Host successful meetings and events in Auburn's unique Gold Country setting
           </p>
         </div>
+      </div>
+
+      {/* Breadcrumbs */}
+      <div className="container mx-auto px-4 py-4">
+        <Breadcrumbs items={breadcrumbs} />
       </div>
 
       {/* Why Auburn */}
@@ -393,6 +405,9 @@ export default function MeetingsPage() {
           </div>
         </div>
       </section>
+
+      {/* Related Pages */}
+      <RelatedPages currentPath="/plan/meetings" />
     </div>
   )
 }

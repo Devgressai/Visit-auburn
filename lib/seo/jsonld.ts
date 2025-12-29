@@ -10,7 +10,59 @@ export function organizationJsonLd() {
     name: 'Visit Auburn',
     url: SITE_URL,
     logo: `${SITE_URL}/logo.png`,
-    sameAs: [],
+    description: 'Official tourism guide for Auburn, California - your gateway to Gold Country adventures, history, and hospitality.',
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: 'Auburn',
+      addressRegion: 'CA',
+      addressCountry: 'US',
+      postalCode: '95603',
+    },
+    contactPoint: {
+      '@type': 'ContactPoint',
+      contactType: 'customer service',
+      email: 'info@visitauburn.com',
+    },
+    sameAs: [
+      'https://www.facebook.com/VisitAuburnCA',
+      'https://www.instagram.com/visitauburnca',
+      'https://twitter.com/visitauburn',
+    ],
+  }
+}
+
+/**
+ * Generate TouristDestination JSON-LD schema for Auburn
+ */
+export function touristDestinationJsonLd() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'TouristDestination',
+    name: 'Auburn, California',
+    description: 'Auburn is California\'s premier Gold Country destination, offering authentic Gold Rush history, world-class outdoor recreation in the American River canyon, vibrant arts culture, and farm-to-table dining in historic Old Town.',
+    url: SITE_URL,
+    image: `${SITE_URL}/auburn-hero.jpg`,
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: 'Auburn',
+      addressRegion: 'California',
+      addressCountry: 'US',
+      postalCode: '95603',
+    },
+    geo: {
+      '@type': 'GeoCoordinates',
+      latitude: '38.8966',
+      longitude: '-121.0770',
+    },
+    touristType: [
+      'Outdoor Enthusiasts',
+      'History Buffs',
+      'Families',
+      'Couples',
+      'Cultural Travelers',
+    ],
+    isAccessibleForFree: true, // Many Auburn attractions like trails are free
+    publicAccess: true,
   }
 }
 
@@ -259,4 +311,26 @@ export function itemListJsonLd(items: Array<{ position: number; name: string; ur
   }
 }
 
+/**
+ * Generate WebPage JSON-LD schema
+ */
+export function webPageJsonLd(page: {
+  name: string
+  description: string
+  url: string
+  breadcrumbs?: Array<{ name: string; url: string }>
+}) {
+  const schema: any = {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: page.name,
+    description: page.description,
+    url: page.url.startsWith('http') ? page.url : `${SITE_URL}${page.url}`,
+  }
 
+  if (page.breadcrumbs && page.breadcrumbs.length > 0) {
+    schema.breadcrumb = breadcrumbJsonLd(page.breadcrumbs)
+  }
+
+  return schema
+}

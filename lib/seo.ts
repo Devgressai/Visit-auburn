@@ -5,7 +5,17 @@ export { SITE_NAME, SITE_URL, DEFAULT_OG_IMAGE } from './seo/site'
 
 // Re-export functions from lib/seo modules
 export { buildMetadata, truncateDescription } from './seo/metadata'
-export { organizationJsonLd, breadcrumbJsonLd, localBusinessJsonLd, touristAttractionJsonLd, eventJsonLd, articleJsonLd, itemListJsonLd } from './seo/jsonld'
+export { 
+  organizationJsonLd, 
+  touristDestinationJsonLd, 
+  breadcrumbJsonLd, 
+  localBusinessJsonLd, 
+  touristAttractionJsonLd, 
+  eventJsonLd, 
+  articleJsonLd, 
+  itemListJsonLd,
+  webPageJsonLd 
+} from './seo/jsonld'
 
 // Legacy exports for backwards compatibility - these duplicate the functions below, removing to avoid conflicts
 // export { buildMetadata as generateMetadata } from './seo/metadata'

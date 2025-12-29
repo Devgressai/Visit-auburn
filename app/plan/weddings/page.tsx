@@ -1,8 +1,13 @@
 import { buildMetadata, SITE_URL } from '@/lib/seo'
+import { Breadcrumbs } from '@/components/navigation/Breadcrumbs'
+import { RelatedPages } from '@/components/ui/RelatedPages'
+import { generateBreadcrumbs } from '@/lib/routes'
 import { Heart, Camera, Utensils, Music, MapPin, Users, Mail, Phone } from 'lucide-react'
 import Image from 'next/image'
 import { getPlaceholderImage } from '@/lib/images'
 import type { Metadata } from 'next'
+
+export const revalidate = 3600
 
 export const metadata: Metadata = buildMetadata({
   title: 'Weddings in Auburn - Say "I Do" in Gold Country',
@@ -47,6 +52,8 @@ const services = [
 ]
 
 export default function WeddingsPage() {
+  const breadcrumbs = generateBreadcrumbs('/plan/weddings')
+
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
@@ -71,6 +78,11 @@ export default function WeddingsPage() {
             Celebrate your love story in Auburn's historic charm and natural beauty
           </p>
         </div>
+      </div>
+
+      {/* Breadcrumbs */}
+      <div className="container mx-auto px-4 py-4">
+        <Breadcrumbs items={breadcrumbs} />
       </div>
 
       {/* Why Auburn */}
@@ -304,6 +316,9 @@ export default function WeddingsPage() {
           </div>
         </div>
       </section>
+
+      {/* Related Pages */}
+      <RelatedPages currentPath="/plan/weddings" />
     </div>
   )
 }

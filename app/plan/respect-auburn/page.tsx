@@ -1,8 +1,13 @@
 import { buildMetadata, SITE_URL } from '@/lib/seo'
+import { Breadcrumbs } from '@/components/navigation/Breadcrumbs'
+import { RelatedPages } from '@/components/ui/RelatedPages'
+import { generateBreadcrumbs } from '@/lib/routes'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Leaf, Heart, Trash2, Camera, MapPin, Users, ShoppingBag, ChevronRight } from 'lucide-react'
 import type { Metadata } from 'next'
+
+export const revalidate = 3600
 
 export const metadata: Metadata = buildMetadata({
   title: 'Respect Auburn - Responsible Tourism Guidelines',
@@ -86,6 +91,8 @@ const principles = [
 ]
 
 export default function RespectAuburnPage() {
+  const breadcrumbs = generateBreadcrumbs('/plan/respect-auburn')
+
   return (
     <div className="min-h-screen bg-deep-bg">
       {/* Hero Section */}
@@ -125,6 +132,11 @@ export default function RespectAuburnPage() {
           </p>
         </div>
       </section>
+
+      {/* Breadcrumbs */}
+      <div className="container mx-auto px-4 py-4">
+        <Breadcrumbs items={breadcrumbs} />
+      </div>
 
       {/* Principles Grid */}
       <section className="py-20 md:py-28">
@@ -233,7 +245,7 @@ export default function RespectAuburnPage() {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/activities" className="btn-primary inline-flex items-center gap-2">
+              <Link href="/things-to-do" className="btn-primary inline-flex items-center gap-2">
                 Explore Responsibly
                 <ChevronRight className="w-5 h-5" />
               </Link>
@@ -245,6 +257,9 @@ export default function RespectAuburnPage() {
           </div>
         </div>
       </section>
+
+      {/* Related Pages */}
+      <RelatedPages currentPath="/plan/respect-auburn" />
     </div>
   )
 }

@@ -3,7 +3,7 @@ import './globals.css'
 import { NavigationNew } from '@/components/navigation/NavigationNew'
 import { FooterNew } from '@/components/footer/FooterNew'
 import { SavedItemsPill } from '@/components/ui/SavedItemsPill'
-import { organizationJsonLd } from '@/lib/seo'
+import { organizationJsonLd, touristDestinationJsonLd } from '@/lib/seo'
 
 export const metadata: Metadata = {
   title: {
@@ -49,13 +49,20 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   const organizationSchema = organizationJsonLd()
+  const destinationSchema = touristDestinationJsonLd()
 
   return (
     <html lang="en">
       <head>
+        {/* Organization Schema */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+        />
+        {/* Tourist Destination Schema */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(destinationSchema) }}
         />
       </head>
       <body className="font-sans">

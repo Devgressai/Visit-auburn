@@ -1,8 +1,13 @@
 import { buildMetadata, SITE_URL } from '@/lib/seo'
+import { Breadcrumbs } from '@/components/navigation/Breadcrumbs'
+import { RelatedPages } from '@/components/ui/RelatedPages'
+import { generateBreadcrumbs } from '@/lib/routes'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Download, Map, FileText, Smartphone, ExternalLink, MapPin, Mountain, Utensils, Calendar, ChevronRight } from 'lucide-react'
 import type { Metadata } from 'next'
+
+export const revalidate = 3600
 
 export async function generateMetadata(): Promise<Metadata> {
   return buildMetadata({
@@ -71,6 +76,8 @@ const interactiveMaps = [
 ]
 
 export default function MapsGuidesPage() {
+  const breadcrumbs = generateBreadcrumbs('/plan/maps-guides')
+
   return (
     <div className="min-h-screen bg-deep-bg">
       {/* Hero Section */}
@@ -97,6 +104,11 @@ export default function MapsGuidesPage() {
           </p>
         </div>
       </section>
+
+      {/* Breadcrumbs */}
+      <div className="container mx-auto px-4 py-4">
+        <Breadcrumbs items={breadcrumbs} />
+      </div>
 
       {/* Downloadable Guides Section */}
       <section className="py-20 md:py-28">
@@ -259,7 +271,7 @@ export default function MapsGuidesPage() {
             You've got the maps - now discover what Auburn has to offer.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/activities" className="btn-primary inline-flex items-center gap-2">
+            <Link href="/things-to-do" className="btn-primary inline-flex items-center gap-2">
               Things to Do
               <ChevronRight className="w-5 h-5" />
             </Link>
@@ -270,6 +282,9 @@ export default function MapsGuidesPage() {
           </div>
         </div>
       </section>
+
+      {/* Related Pages */}
+      <RelatedPages currentPath="/plan/maps-guides" />
     </div>
   )
 }

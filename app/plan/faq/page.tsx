@@ -1,9 +1,14 @@
 import { buildMetadata, SITE_URL } from '@/lib/seo'
 import { FAQSection } from '@/components/plan/FAQSection'
+import { Breadcrumbs } from '@/components/navigation/Breadcrumbs'
+import { RelatedPages } from '@/components/ui/RelatedPages'
+import { generateBreadcrumbs } from '@/lib/routes'
 import { Mail, Phone, MapPin, MessageCircle, ChevronRight } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import type { Metadata } from 'next'
+
+export const revalidate = 3600
 
 export const metadata: Metadata = buildMetadata({
   title: 'Frequently Asked Questions - Plan Your Visit to Auburn',
@@ -36,6 +41,8 @@ const contactOptions = [
 ]
 
 export default function FAQPage() {
+  const breadcrumbs = generateBreadcrumbs('/plan/faq')
+
   return (
     <div className="min-h-screen bg-deep-bg">
       {/* Hero Section */}
@@ -64,6 +71,11 @@ export default function FAQPage() {
           </p>
         </div>
       </section>
+
+      {/* Breadcrumbs */}
+      <div className="container mx-auto px-4 py-4">
+        <Breadcrumbs items={breadcrumbs} />
+      </div>
 
       {/* FAQ Content */}
       <section className="py-20 md:py-28">
@@ -126,7 +138,7 @@ export default function FAQPage() {
               { name: 'Visitor Information', href: '/plan/visitor-information' },
               { name: 'Getting Here', href: '/plan/getting-here' },
               { name: 'Maps & Guides', href: '/plan/maps-guides' },
-              { name: 'Things to Do', href: '/activities' },
+              { name: 'Things to Do', href: '/things-to-do' },
               { name: 'Where to Stay', href: '/accommodations' },
               { name: 'Events', href: '/events' },
             ].map((link) => (
@@ -142,6 +154,9 @@ export default function FAQPage() {
           </div>
         </div>
       </section>
+
+      {/* Related Pages */}
+      <RelatedPages currentPath="/plan/faq" />
     </div>
   )
 }

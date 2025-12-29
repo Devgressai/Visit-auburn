@@ -1,9 +1,14 @@
 import { buildMetadata, SITE_URL } from '@/lib/seo'
+import { Breadcrumbs } from '@/components/navigation/Breadcrumbs'
+import { RelatedPages } from '@/components/ui/RelatedPages'
+import { generateBreadcrumbs } from '@/lib/routes'
 import { MapPin, Users, Wifi, Accessibility } from 'lucide-react'
 import type { Metadata } from 'next'
 import { exampleVenues } from '@/types/venue'
 import Image from 'next/image'
 import { getPlaceholderImage } from '@/lib/images'
+
+export const revalidate = 3600
 
 export const metadata: Metadata = buildMetadata({
   title: 'Event Venues in Auburn - Find the Perfect Space',
@@ -12,6 +17,8 @@ export const metadata: Metadata = buildMetadata({
 })
 
 export default function VenuesPage() {
+  const breadcrumbs = generateBreadcrumbs('/plan/venues')
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero */}
@@ -24,6 +31,11 @@ export default function VenuesPage() {
             From intimate gatherings to large-scale events, Auburn offers versatile venues for every occasion
           </p>
         </div>
+      </div>
+
+      {/* Breadcrumbs */}
+      <div className="container mx-auto px-4 py-4">
+        <Breadcrumbs items={breadcrumbs} />
       </div>
 
       {/* Venues Grid */}
@@ -132,6 +144,9 @@ export default function VenuesPage() {
           </div>
         </div>
       </div>
+
+      {/* Related Pages */}
+      <RelatedPages currentPath="/plan/venues" />
     </div>
   )
 }
