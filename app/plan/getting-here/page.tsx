@@ -82,6 +82,8 @@ const drivingRoutes = [
 ]
 
 export default function GettingHerePage() {
+  const breadcrumbs = generateBreadcrumbs('/plan/getting-here')
+
   return (
     <div className="min-h-screen bg-deep-bg">
       {/* Hero Section */}

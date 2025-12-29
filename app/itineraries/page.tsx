@@ -33,7 +33,7 @@ const itineraries = [
     slug: 'outdoor-adventure',
     duration: '3 Days',
     icon: Mountain,
-    description: 'Maximize Auburn's trails, swimming holes, and canyon views for outdoor enthusiasts',
+    description: "Maximize Auburn's trails, swimming holes, and canyon views for outdoor enthusiasts",
     highlights: ['Multiple trail hikes', 'American River swimming', 'Mountain biking', 'Canyon exploration'],
     bestFor: 'Active travelers, nature lovers, hikers',
     difficulty: 'Moderate to Challenging'

@@ -12,7 +12,7 @@ export const revalidate = 3600
 export async function generateMetadata(): Promise<Metadata> {
   return buildMetadata({
     title: 'Gold Rush History & Culture in Auburn, California - Museums & Historic Sites',
-    description: 'Explore Auburn's authentic Gold Rush heritage. Visit Gold Country Museum, Placer County Courthouse, Bernhard Museum Complex, and Old Town historic district where California's history lives.',
+    description: "Explore Auburn's authentic Gold Rush heritage. Visit Gold Country Museum, Placer County Courthouse, Bernhard Museum Complex, and Old Town historic district where California's history lives.",
     canonical: `${SITE_URL}/things-to-do/history-culture`,
   })
 }
@@ -27,7 +27,7 @@ const historyCategories = [
   {
     icon: Clock,
     title: 'Historic Buildings',
-    description: '1850s architecture from California's Gold Country era',
+    description: "1850s architecture from California's Gold Country era",
     count: '20+ preserved sites'
   },
   {

@@ -5,6 +5,7 @@ import { Breadcrumbs } from '@/components/navigation/Breadcrumbs'
 import { RelatedPages } from '@/components/ui/RelatedPages'
 import { AuburnHeroImage, AuburnImage } from '@/components/ui/AuburnImage'
 import { generateBreadcrumbs } from '@/lib/routes'
+import Link from 'next/link'
 import type { Metadata } from 'next'
 
 export const revalidate = 3600
