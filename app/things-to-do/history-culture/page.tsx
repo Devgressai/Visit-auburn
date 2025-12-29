@@ -3,8 +3,10 @@ import { Breadcrumbs } from '@/components/navigation/Breadcrumbs'
 import { RelatedPages } from '@/components/ui/RelatedPages'
 import { AuburnHeroImage, AuburnImage } from '@/components/ui/AuburnImage'
 import { generateBreadcrumbs } from '@/lib/routes'
+import { AttractionGrid } from '@/components/attractions'
+import { getHistoryCultureAttractions } from '@/data/attractions'
 import Link from 'next/link'
-import { Landmark, Clock, Book, Star } from 'lucide-react'
+import { Landmark, Clock, Book, Star, ArrowRight } from 'lucide-react'
 import type { Metadata } from 'next'
 
 export const revalidate = 3600
@@ -380,6 +382,20 @@ export default async function HistoryCulturePage() {
             </div>
           </div>
 
+          {/* Attraction Cards Grid */}
+          <div className="my-16 py-12 bg-white -mx-4 px-4 md:-mx-8 md:px-8">
+            <div className="max-w-6xl mx-auto">
+              <AttractionGrid
+                attractions={getHistoryCultureAttractions()}
+                title="Historic Sites & Museums"
+                subtitle="Gold Rush heritage, museums, and cultural attractions in Auburn"
+                showFilters={true}
+                filterTypes={['museum', 'historic-site', 'cultural']}
+                columns={3}
+              />
+            </div>
+          </div>
+
           {/* Nearby Pairings */}
           <div className="max-w-4xl mx-auto my-16">
             <h2 className="text-3xl font-bold text-charcoal-900 mb-8">
@@ -402,12 +418,12 @@ export default async function HistoryCulturePage() {
                   Old Town restaurants occupy 1850s buildings. Enjoy farm-to-table meals where miners once traded gold dust.
                 </p>
               </Link>
-              <Link href="/itineraries/gold-rush-history" className="card card-hover p-6 group">
+              <Link href="/itineraries/history-and-wine" className="card card-hover p-6 group">
                 <h3 className="text-xl font-bold text-charcoal-900 mb-3 group-hover:text-amber-600 transition-colors">
-                  Gold Rush Itinerary →
+                  History & Wine Itinerary →
                 </h3>
                 <p className="text-charcoal-600">
-                  Follow our curated 2-day history tour hitting all major museums, sites, and hidden gems.
+                  Follow our curated history and wine tour hitting museums, historic sites, and foothill wineries.
                 </p>
               </Link>
             </div>

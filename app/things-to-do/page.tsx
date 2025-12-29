@@ -4,9 +4,11 @@ import { PageHero } from '@/components/ui/PageHero'
 import { Breadcrumbs } from '@/components/navigation/Breadcrumbs'
 import { RelatedPages } from '@/components/ui/RelatedPages'
 import { generateBreadcrumbs } from '@/lib/routes'
+import { AttractionGrid, FeaturedAttractionGrid } from '@/components/attractions'
+import { getFeaturedAttractions } from '@/data/attractions'
 import Link from 'next/link'
 import Image from 'next/image'
-import { Mountain, Building, Utensils, Calendar, Bike } from 'lucide-react'
+import { Mountain, Building, Utensils, Calendar, Bike, ArrowRight } from 'lucide-react'
 import type { Metadata } from 'next'
 
 export const revalidate = 3600
@@ -131,6 +133,26 @@ export default async function ThingsToDoPage() {
                 Explore over {thingsToDoItems.length} curated attractions across {thingsToDoCategories.length} categories.
               </p>
             </div>
+          </div>
+        </section>
+
+        {/* Featured Attractions */}
+        <section className="py-12 md:py-16 bg-white">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-10">
+              <h2 className="text-2xl md:text-3xl font-bold text-charcoal-900 mb-3">
+                Top Auburn Attractions
+              </h2>
+              <p className="text-charcoal-600 max-w-2xl mx-auto">
+                The best of Gold Country—trails, history, and experiences that define Auburn
+              </p>
+            </div>
+            <AttractionGrid
+              attractions={getFeaturedAttractions(6)}
+              showFilters={false}
+              variant="mixed"
+              columns={3}
+            />
           </div>
         </section>
 

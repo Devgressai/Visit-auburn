@@ -3,8 +3,10 @@ import { Breadcrumbs } from '@/components/navigation/Breadcrumbs'
 import { RelatedPages } from '@/components/ui/RelatedPages'
 import { AuburnHeroImage, AuburnImage } from '@/components/ui/AuburnImage'
 import { generateBreadcrumbs } from '@/lib/routes'
+import { AttractionGrid } from '@/components/attractions'
+import { getOutdoorAttractions } from '@/data/attractions'
 import Link from 'next/link'
-import { Mountain, Waves, Bike, Compass, MapPin } from 'lucide-react'
+import { Mountain, Waves, Bike, Compass, MapPin, ArrowRight } from 'lucide-react'
 import type { Metadata } from 'next'
 
 export const revalidate = 3600
@@ -293,6 +295,20 @@ export default async function OutdoorAdventuresPage() {
             </div>
           </div>
 
+          {/* Attraction Cards Grid */}
+          <div className="my-16 py-12 bg-white -mx-4 px-4 md:-mx-8 md:px-8">
+            <div className="max-w-6xl mx-auto">
+              <AttractionGrid
+                attractions={getOutdoorAttractions()}
+                title="Outdoor Attractions"
+                subtitle="Trails, parks, viewpoints, and water activities in Auburn"
+                showFilters={true}
+                filterTypes={['trail', 'park', 'viewpoint', 'water-activity']}
+                columns={3}
+              />
+            </div>
+          </div>
+
           {/* Nearby Pairings */}
           <div className="max-w-4xl mx-auto my-16">
             <h2 className="text-3xl font-bold text-charcoal-900 mb-8">
@@ -315,12 +331,12 @@ export default async function OutdoorAdventuresPage() {
                   Old Town Auburn restaurants welcome muddy hikers. Farm-to-table meals, craft beer, and patio seating.
                 </p>
               </Link>
-              <Link href="/itineraries/outdoor-adventure" className="card card-hover p-6 group">
+              <Link href="/itineraries/outdoor-adventure-day" className="card card-hover p-6 group">
                 <h3 className="text-xl font-bold text-charcoal-900 mb-3 group-hover:text-green-600 transition-colors">
                   Plan Your Trip →
                 </h3>
                 <p className="text-charcoal-600">
-                  Follow our 3-day outdoor itinerary: best trails, swimming spots, and post-hike dining.
+                  Follow our outdoor itinerary: best trails, swimming spots, and post-hike dining.
                 </p>
               </Link>
             </div>

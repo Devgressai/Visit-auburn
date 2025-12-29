@@ -5,6 +5,9 @@ import { Breadcrumbs } from '@/components/navigation/Breadcrumbs'
 import { RelatedPages } from '@/components/ui/RelatedPages'
 import { AuburnHeroImage, AuburnImage } from '@/components/ui/AuburnImage'
 import { generateBreadcrumbs } from '@/lib/routes'
+import { AttractionGrid } from '@/components/attractions'
+import { getFoodDrinkAttractions } from '@/data/attractions'
+import Link from 'next/link'
 import type { Metadata } from 'next'
 
 export const revalidate = 3600
@@ -80,6 +83,42 @@ export default async function DiningPage() {
             itemType="dining"
             showFilters={true}
           />
+
+          {/* Featured Food & Drink Attractions */}
+          <div className="my-16 py-12 bg-white -mx-4 px-4 rounded-xl">
+            <AttractionGrid
+              attractions={getFoodDrinkAttractions()}
+              title="Featured Food & Drink"
+              subtitle="Restaurants, breweries, wineries, and markets that define Auburn's culinary scene"
+              showFilters={true}
+              filterTypes={['restaurant', 'brewery', 'winery', 'market']}
+              columns={3}
+            />
+          </div>
+
+          {/* Dining CTA */}
+          <div className="bg-gradient-to-r from-amber-600 to-amber-700 rounded-2xl p-8 md:p-12 text-white text-center">
+            <h2 className="text-2xl md:text-3xl font-bold mb-4">
+              Plan Your Culinary Adventure
+            </h2>
+            <p className="text-amber-100 mb-8 max-w-2xl mx-auto">
+              From wine tasting to craft beer, farm-to-table to food festivals—Auburn's food scene awaits.
+            </p>
+            <div className="flex flex-wrap justify-center gap-4">
+              <Link 
+                href="/itineraries/history-and-wine" 
+                className="px-6 py-3 bg-white text-amber-700 font-bold rounded-full hover:bg-amber-50 transition-colors"
+              >
+                Wine & History Itinerary
+              </Link>
+              <Link 
+                href="/events" 
+                className="px-6 py-3 border-2 border-white text-white font-bold rounded-full hover:bg-white/10 transition-colors"
+              >
+                Food Events
+              </Link>
+            </div>
+          </div>
         </div>
       </section>
 
