@@ -142,16 +142,25 @@ export function Navigation({ navigation }: NavigationProps) {
                     <span className={`absolute bottom-0 left-3 right-3 h-0.5 transform scale-x-0 group-hover:scale-x-100 transition-transform ${isHomepage ? 'bg-blue-400' : 'bg-blue-600'}`}></span>
                   </Link>
                 ) : (
-                  <button className={`px-3 py-2 text-sm font-semibold transition-all flex items-center gap-1 relative group ${isHomepage ? 'text-white hover:text-blue-300' : 'text-gray-700 hover:text-blue-600'}`}>
+                  <button 
+                    className={`px-3 py-2 text-sm font-semibold transition-all flex items-center gap-1 relative group focus:outline-none focus:ring-2 focus:ring-lake-500 focus:ring-offset-2 rounded ${isHomepage ? 'text-white hover:text-blue-300' : 'text-gray-700 hover:text-blue-600'}`}
+                    aria-expanded={activeDropdown === item.title}
+                    aria-haspopup="true"
+                    aria-label={`${item.title} menu`}
+                  >
                     {item.title}
-                    {item.children && <ChevronDown className="w-4 h-4" />}
+                    {item.children && <ChevronDown className="w-4 h-4" aria-hidden="true" />}
                     <span className={`absolute bottom-0 left-3 right-3 h-0.5 transform scale-x-0 group-hover:scale-x-100 transition-transform ${isHomepage ? 'bg-blue-400' : 'bg-blue-600'}`}></span>
                   </button>
                 )}
 
                 {/* Mega Menu */}
                 {item.children && activeDropdown === item.title && (
-                  <div className="absolute left-0 mt-2 w-96 bg-white rounded-2xl shadow-2xl border border-gray-100 py-6 animate-in fade-in slide-in-from-top-2 duration-200">
+                  <div 
+                    className="absolute left-0 mt-2 w-96 bg-white rounded-2xl shadow-2xl border border-gray-100 py-6 animate-in fade-in slide-in-from-top-2 duration-200"
+                    role="menu"
+                    aria-label={`${item.title} submenu`}
+                  >
                     <div className="px-6 mb-4">
                       <h3 className="text-lg font-bold text-gray-900 mb-1">{item.title}</h3>
                       {item.description && (
@@ -187,17 +196,24 @@ export function Navigation({ navigation }: NavigationProps) {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className={`lg:hidden p-2 transition-colors ${isHomepage ? 'text-white hover:text-white/80' : 'text-gray-700 hover:text-gray-900'}`}
+            className={`lg:hidden p-2 transition-colors focus:outline-none focus:ring-2 focus:ring-lake-500 focus:ring-offset-2 rounded ${isHomepage ? 'text-white hover:text-white/80' : 'text-gray-700 hover:text-gray-900'}`}
             aria-label="Toggle menu"
+            aria-expanded={isOpen}
+            aria-controls="mobile-menu"
           >
-            {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            {isOpen ? <X className="w-6 h-6" aria-hidden="true" /> : <Menu className="w-6 h-6" aria-hidden="true" />}
           </button>
         </div>
       </div>
 
       {/* Mobile Menu */}
       {isOpen && (
-        <div className="lg:hidden fixed inset-0 top-20 md:top-24 bg-white z-50 overflow-y-auto">
+        <div 
+          id="mobile-menu"
+          className="lg:hidden fixed inset-0 top-20 md:top-24 bg-white z-50 overflow-y-auto"
+          role="menu"
+          aria-label="Main navigation"
+        >
           <div className="container py-6">
             {navItems.map((item) => (
               <div key={item.title} className="border-b border-gray-200">
@@ -213,19 +229,25 @@ export function Navigation({ navigation }: NavigationProps) {
                   <>
                     <button
                       onClick={() => toggleMobileItem(item.title)}
-                      className="w-full flex items-center justify-between py-4 text-base font-semibold text-gray-900 hover:text-blue-600 transition-colors"
+                      className="w-full flex items-center justify-between py-4 text-base font-semibold text-gray-900 hover:text-blue-600 transition-colors focus:outline-none focus:ring-2 focus:ring-lake-500 focus:ring-inset"
+                      aria-expanded={mobileOpenItems.has(item.title)}
+                      aria-controls={`mobile-submenu-${item.title}`}
                     >
                       <span>{item.title}</span>
                       {item.children && (
                         mobileOpenItems.has(item.title) ? (
-                          <ChevronUp className="w-5 h-5" />
+                          <ChevronUp className="w-5 h-5" aria-hidden="true" />
                         ) : (
-                          <ChevronDown className="w-5 h-5" />
+                          <ChevronDown className="w-5 h-5" aria-hidden="true" />
                         )
                       )}
                     </button>
                     {item.children && mobileOpenItems.has(item.title) && (
-                      <div className="pb-4 pl-4 space-y-2">
+                      <div 
+                        id={`mobile-submenu-${item.title}`}
+                        className="pb-4 pl-4 space-y-2"
+                        role="menu"
+                      >
                         {item.description && (
                           <p className="text-sm text-gray-600 mb-3">{item.description}</p>
                         )}
