@@ -469,6 +469,238 @@ export const auburnImages: AuburnImage[] = [
     height: 800,
     description: 'Historic theater hosting concerts and performances'
   },
+
+  // ==========================================
+  // ADDITIONAL OUTDOOR ATTRACTIONS
+  // ==========================================
+  {
+    id: 'outdoor-lake-clementine',
+    src: 'outdoor-lake-clementine.jpg',
+    alt: 'Lake Clementine Trail hiking along North Fork American River canyon',
+    locationName: 'Lake Clementine Trail',
+    category: 'outdoor',
+    photographerCredit: 'Auburn State Recreation Area',
+    licenseType: 'city-owned',
+    width: 1200,
+    height: 800,
+    description: 'Auburn\'s signature 8-mile canyon hike with swimming holes'
+  },
+  {
+    id: 'outdoor-confluence-trails',
+    src: 'outdoor-confluence-trails.jpg',
+    alt: 'Confluence of North and Middle Fork American River in Auburn',
+    locationName: 'Auburn Confluence',
+    category: 'outdoor',
+    photographerCredit: 'Auburn State Recreation Area',
+    licenseType: 'city-owned',
+    width: 1200,
+    height: 800,
+    description: 'Where two forks of the American River meet in dramatic canyon'
+  },
+  {
+    id: 'outdoor-foresthill-bridge',
+    src: 'outdoor-foresthill-bridge.jpg',
+    alt: 'Foresthill Bridge spanning American River canyon near Auburn',
+    locationName: 'Foresthill Bridge',
+    category: 'outdoor',
+    photographerCredit: 'Placer County',
+    licenseType: 'city-owned',
+    width: 1200,
+    height: 800,
+    description: 'California\'s highest bridge at 730 feet above the river'
+  },
+  {
+    id: 'outdoor-training-hill',
+    src: 'outdoor-training-hill.jpg',
+    alt: 'Training Hill trail used by Western States ultrarunners near Auburn',
+    locationName: 'Training Hill',
+    category: 'outdoor',
+    photographerCredit: 'Western States Endurance Run',
+    licenseType: 'contributed',
+    width: 1200,
+    height: 800,
+    description: 'Legendary 700ft climb in 1 mile - ultrarunner training ground'
+  },
+  {
+    id: 'outdoor-river-rafting',
+    src: 'outdoor-river-rafting.jpg',
+    alt: 'Whitewater rafting on American River near Auburn California',
+    locationName: 'American River',
+    category: 'outdoor',
+    photographerCredit: 'American River Outfitters',
+    licenseType: 'contributed',
+    width: 1200,
+    height: 800,
+    description: 'World-class whitewater from Class II to IV rapids'
+  },
+
+  // ==========================================
+  // ADDITIONAL HISTORIC SITES
+  // ==========================================
+  {
+    id: 'historic-placer-courthouse',
+    src: 'historic-placer-courthouse.jpg',
+    alt: 'Placer County Courthouse classical architecture in Auburn California',
+    locationName: 'Placer County Courthouse',
+    category: 'historic',
+    photographerCredit: 'Placer County Historical Society',
+    licenseType: 'city-owned',
+    width: 1200,
+    height: 800,
+    description: 'Stunning 1898 Classical Revival courthouse'
+  },
+  {
+    id: 'historic-old-town-clocktower',
+    src: 'historic-old-town-clocktower.jpg',
+    alt: 'Historic Firehouse Tower and clocktower in Old Town Auburn',
+    locationName: 'Auburn Firehouse Tower',
+    category: 'historic',
+    photographerCredit: 'Auburn Historical Society',
+    licenseType: 'city-owned',
+    width: 1200,
+    height: 800,
+    description: 'Auburn\'s iconic 1891 landmark firehouse'
+  },
+  {
+    id: 'historic-chinese-joss-house',
+    src: 'historic-chinese-joss-house.jpg',
+    alt: 'Chinese Joss House historic temple in Auburn California',
+    locationName: 'Chinese Joss House',
+    category: 'historic',
+    photographerCredit: 'Auburn Historical Society',
+    licenseType: 'city-owned',
+    width: 1200,
+    height: 800,
+    description: 'Rare surviving temple honoring Chinese mining community'
+  },
+
+  // ==========================================
+  // ADDITIONAL DINING & FOOD
+  // ==========================================
+  {
+    id: 'dining-auburn-alehouse',
+    src: 'dining-auburn-alehouse.jpg',
+    alt: 'Auburn Alehouse craft brewery in historic Gold Rush building',
+    locationName: 'Auburn Alehouse',
+    category: 'dining',
+    photographerCredit: 'Auburn Alehouse',
+    licenseType: 'contributed',
+    width: 1200,
+    height: 800,
+    description: 'Award-winning craft brewery in Old Town'
+  },
+  {
+    id: 'dining-bootleggers',
+    src: 'dining-bootleggers.jpg',
+    alt: 'Bootleggers Old Town Tavern speakeasy-style gastropub Auburn',
+    locationName: 'Bootleggers Old Town Tavern',
+    category: 'dining',
+    photographerCredit: 'Bootleggers',
+    licenseType: 'contributed',
+    width: 1200,
+    height: 800,
+    description: 'Speakeasy-inspired gastropub with craft cocktails'
+  },
+  {
+    id: 'dining-knee-deep',
+    src: 'dining-knee-deep.jpg',
+    alt: 'Knee Deep Brewing Company taproom in Auburn California',
+    locationName: 'Knee Deep Brewing',
+    category: 'dining',
+    photographerCredit: 'Knee Deep Brewing',
+    licenseType: 'contributed',
+    width: 1200,
+    height: 800,
+    description: 'Local brewery known for IPAs and creative releases'
+  },
+  {
+    id: 'dining-farm-table',
+    src: 'dining-farm-table.jpg',
+    alt: 'Farm-to-table dining experience in Auburn Gold Country restaurant',
+    locationName: 'Auburn Fine Dining',
+    category: 'dining',
+    photographerCredit: 'Visit Auburn',
+    licenseType: 'licensed',
+    width: 1200,
+    height: 800,
+    description: 'Seasonal California cuisine with Sierra Foothills wines'
+  },
+  {
+    id: 'wine-foothill-vineyard',
+    src: 'wine-foothill-vineyard.jpg',
+    alt: 'Sierra Foothills vineyard and wine tasting near Auburn California',
+    locationName: 'Sierra Foothills Wine Region',
+    category: 'dining',
+    photographerCredit: 'Sierra Foothills Wine Alliance',
+    licenseType: 'contributed',
+    width: 1200,
+    height: 800,
+    description: 'California\'s original wine region with Old Vine Zinfandel'
+  },
+  {
+    id: 'dining-intimate-setting',
+    src: 'dining-intimate-setting.jpg',
+    alt: 'Intimate candlelit dinner setting in Auburn restaurant',
+    locationName: 'Auburn Dining',
+    category: 'dining',
+    photographerCredit: 'Visit Auburn',
+    licenseType: 'licensed',
+    width: 1200,
+    height: 800,
+    description: 'Romantic dining atmosphere in Gold Country'
+  },
+
+  // ==========================================
+  // ADDITIONAL ARTS & CULTURE
+  // ==========================================
+  {
+    id: 'arts-old-town-gallery',
+    src: 'arts-old-town-gallery.jpg',
+    alt: 'Art gallery featuring local artists in Old Town Auburn',
+    locationName: 'Old Town Art Galleries',
+    category: 'culture',
+    photographerCredit: 'Auburn Arts District',
+    licenseType: 'contributed',
+    width: 1200,
+    height: 800,
+    description: 'Artist-owned galleries featuring regional fine art'
+  },
+  {
+    id: 'arts-state-theatre',
+    src: 'arts-state-theatre.jpg',
+    alt: 'Auburn State Theatre art deco venue for live performances',
+    locationName: 'Auburn State Theatre',
+    category: 'culture',
+    photographerCredit: 'State Theatre Foundation',
+    licenseType: 'contributed',
+    width: 1200,
+    height: 800,
+    description: 'Historic 1930 art deco theatre with live performances'
+  },
+  {
+    id: 'events-county-fair',
+    src: 'events-county-fair.jpg',
+    alt: 'Placer County Fair with carnival rides and livestock shows',
+    locationName: 'Placer County Fairgrounds',
+    category: 'event',
+    photographerCredit: 'Placer County Fair',
+    licenseType: 'contributed',
+    width: 1200,
+    height: 800,
+    description: 'Annual summer celebration with rides and entertainment'
+  },
+  {
+    id: 'shopping-antiques',
+    src: 'shopping-antiques.jpg',
+    alt: 'Antique shops and vintage stores in Old Town Auburn',
+    locationName: 'Old Town Auburn',
+    category: 'culture',
+    photographerCredit: 'Auburn Old Town Business Association',
+    licenseType: 'contributed',
+    width: 1200,
+    height: 800,
+    description: 'Multi-dealer antique stores in historic buildings'
+  },
 ]
 
 /**
@@ -492,9 +724,34 @@ export function getRandomAuburnImage(category?: AuburnImage['category']): Auburn
 }
 
 // Get image path (for use in Next.js Image component)
+/**
+ * Image fallback mapping for when specific Auburn images don't exist yet
+ * Maps image categories to placeholder images in /public/images/
+ */
+const imageFallbacks: Record<string, string> = {
+  // Outdoor images
+  'outdoor': '/images/Hiking_trails.jpg',
+  'hero': '/images/hero-main.webp',
+  'historic': '/images/museum-gold-panning.webp',
+  'dining': '/images/dining.jpg',
+  'accommodation': '/images/stay.jpg',
+  'event': '/images/events-hiking.webp',
+  'culture': '/images/discover.jpg',
+  'nature': '/images/Hiking_trails.jpg',
+  'downtown': '/images/hero-main.webp',
+  'wine': '/images/dining.jpg',
+  'shopping': '/images/discover.jpg',
+  'arts': '/images/discover.jpg',
+}
+
 export function getAuburnImagePath(id: string): string {
   const image = getAuburnImageById(id)
-  return image ? `/auburn/${image.src}` : ''
+  if (!image) return '/images/hero-main.webp' // Ultimate fallback
+  
+  // Check if the specific Auburn image exists (in /public/auburn/)
+  // For now, use category-based fallbacks from /public/images/
+  const category = image.category || id.split('-')[0]
+  return imageFallbacks[category] || '/images/hero-main.webp'
 }
 
 // Validate image exists in registry
@@ -507,7 +764,7 @@ export function isAuburnImage(src: string): boolean {
 
 // Get all image paths (for build validation)
 export function getAllAuburnImagePaths(): string[] {
-  return auburnImages.map(img => `/auburn/${img.src}`)
+  return auburnImages.map(img => getAuburnImagePath(img.id))
 }
 
 // Search images by location
