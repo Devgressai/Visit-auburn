@@ -4,7 +4,7 @@ import { RelatedPages } from '@/components/ui/RelatedPages'
 import { generateBreadcrumbs } from '@/lib/routes'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Car, Plane, Train, MapPin, Clock, Navigation, ExternalLink, ChevronRight } from 'lucide-react'
+import { Car, Plane, Train, MapPin, Clock, Navigation, ExternalLink, ChevronRight, Route } from 'lucide-react'
 import type { Metadata } from 'next'
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -21,7 +21,7 @@ const airports = [
     name: 'Sacramento International',
     distance: '35 miles',
     driveTime: '45 min',
-    description: 'Closest major airport with direct flights from most US cities',
+    description: 'Closest major airport with direct flights from most US cities. Easy access via I-80 East.',
     highlight: true,
   },
   {
@@ -29,7 +29,7 @@ const airports = [
     name: 'San Francisco International',
     distance: '140 miles',
     driveTime: '2.5 hrs',
-    description: 'Major hub with extensive international connections',
+    description: 'Major international hub with extensive connections. Scenic drive through the Bay Area and Central Valley.',
     highlight: false,
   },
   {
@@ -37,7 +37,7 @@ const airports = [
     name: 'Oakland International',
     distance: '120 miles',
     driveTime: '2 hrs',
-    description: 'Budget-friendly alternative with Southwest & Spirit',
+    description: 'Budget-friendly alternative with Southwest & Spirit Airlines. Slightly shorter drive than SFO.',
     highlight: false,
   },
   {
@@ -45,7 +45,7 @@ const airports = [
     name: 'Reno-Tahoe International',
     distance: '95 miles',
     driveTime: '1.5 hrs',
-    description: 'Great option if continuing to Lake Tahoe',
+    description: 'Great option if continuing to Lake Tahoe or coming from the east. Beautiful mountain drive over Donner Pass.',
     highlight: false,
   },
 ]
@@ -56,28 +56,32 @@ const drivingRoutes = [
     distance: '35 miles',
     time: '40 min',
     route: 'I-80 East',
-    directions: 'Head east on I-80, take exit 119A for Elm Ave/Auburn',
+    directions: 'Head east on I-80, take exit 119A for Elm Ave/Auburn. Follow signs to Old Town.',
+    icon: '🌉',
   },
   {
     from: 'San Francisco',
     distance: '140 miles',
     time: '2.5 hrs',
     route: 'I-80 East',
-    directions: 'Cross Bay Bridge, continue I-80 East through Sacramento to Auburn',
+    directions: 'Cross Bay Bridge, continue I-80 East through Sacramento. Exit 119A for Auburn.',
+    icon: '🌁',
   },
   {
     from: 'Lake Tahoe',
     distance: '55 miles',
     time: '1 hr',
     route: 'I-80 West',
-    directions: 'Take I-80 West from Truckee, exit at Auburn',
+    directions: 'Take I-80 West from Truckee through the Sierra Nevada. Exit 119A for Auburn.',
+    icon: '🏔️',
   },
   {
     from: 'Reno',
     distance: '95 miles',
     time: '1.5 hrs',
     route: 'I-80 West',
-    directions: 'Head west on I-80 over Donner Pass to Auburn',
+    directions: 'Head west on I-80 over Donner Pass. Descend into the foothills and exit 119A for Auburn.',
+    icon: '⛰️',
   },
 ]
 
@@ -85,26 +89,49 @@ export default function GettingHerePage() {
   const breadcrumbs = generateBreadcrumbs('/plan/getting-here')
 
   return (
-    <div className="min-h-screen bg-deep-bg">
-      {/* Hero Section */}
-      <section className="relative py-24 md:py-32 overflow-hidden">
+    <div className="min-h-screen bg-white">
+      {/* ═══════════════════════════════════════════════════════════════════
+          HERO SECTION - Cinematic style with Auburn image
+          ═══════════════════════════════════════════════════════════════════ */}
+      <section className="relative min-h-[60vh] md:min-h-[70vh] w-full overflow-hidden">
         <div className="absolute inset-0">
           <Image
-            src="/images/hero.jpg"
-            alt="Road to Auburn"
+            src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&q=80"
+            alt="Scenic highway through California Gold Country near Auburn"
             fill
             className="object-cover"
             priority
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-deep-bg/90 via-deep-bg/70 to-deep-bg" />
+          <div 
+            className="absolute inset-0"
+            style={{
+              background: `linear-gradient(
+                to bottom,
+                rgba(0, 0, 0, 0.3) 0%,
+                rgba(0, 0, 0, 0.15) 50%,
+                rgba(0, 0, 0, 0.5) 100%
+              )`
+            }}
+          />
         </div>
         
-        <div className="container mx-auto px-4 relative z-10">
-          <p className="section-eyebrow text-center mb-4">Plan Your Journey</p>
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-text-primary text-center mb-6 font-display">
+        <div className="relative z-10 min-h-[60vh] md:min-h-[70vh] flex flex-col justify-end items-start text-left px-4 sm:px-6 md:px-12 lg:px-20 pb-16 md:pb-24">
+          <p 
+            className="uppercase tracking-[0.2em] text-sm font-medium mb-4 text-white/80"
+            style={{ textShadow: '0 2px 8px rgba(0,0,0,0.5)' }}
+          >
+            Plan Your Journey
+          </p>
+          <h1 
+            className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6"
+            style={{ textShadow: '0 4px 20px rgba(0,0,0,0.6)' }}
+          >
             Getting to Auburn
           </h1>
-          <p className="text-xl text-text-muted text-center max-w-2xl mx-auto">
+          <p 
+            className="text-lg md:text-xl text-white/90 max-w-2xl"
+            style={{ textShadow: '0 2px 8px rgba(0,0,0,0.5)' }}
+          >
             Located in the heart of California's Gold Country, Auburn is easily accessible 
             from major cities and airports throughout Northern California.
           </p>
@@ -112,14 +139,18 @@ export default function GettingHerePage() {
       </section>
 
       {/* Breadcrumbs */}
-      <div className="container mx-auto px-4 py-8">
-        <Breadcrumbs items={breadcrumbs} />
+      <div className="bg-cream-50 border-b border-charcoal-100">
+        <div className="container mx-auto px-4 py-4">
+          <Breadcrumbs items={breadcrumbs} />
+        </div>
       </div>
 
-      {/* Quick Stats Bar */}
-      <section className="bg-deep-surface border-y border-border-subtle">
+      {/* ═══════════════════════════════════════════════════════════════════
+          QUICK STATS BAR - Cream background
+          ═══════════════════════════════════════════════════════════════════ */}
+      <section className="bg-cream-50 border-y border-charcoal-100">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-border-subtle">
+          <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-charcoal-200">
             {[
               { label: 'From Sacramento', value: '35 mi' },
               { label: 'From SF', value: '140 mi' },
@@ -127,59 +158,70 @@ export default function GettingHerePage() {
               { label: 'On Interstate', value: 'I-80' },
             ].map((stat) => (
               <div key={stat.label} className="py-6 px-4 text-center">
-                <div className="text-2xl md:text-3xl font-bold text-text-primary">{stat.value}</div>
-                <div className="text-sm text-text-muted">{stat.label}</div>
+                <div className="text-2xl md:text-3xl font-bold text-charcoal-900">{stat.value}</div>
+                <div className="text-sm text-charcoal-600">{stat.label}</div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* By Car Section */}
-      <section className="py-20 md:py-28">
+      {/* ═══════════════════════════════════════════════════════════════════
+          BY CAR SECTION - White background with white cards
+          ═══════════════════════════════════════════════════════════════════ */}
+      <section className="py-16 md:py-24 bg-white">
         <div className="container mx-auto px-4">
           <div className="flex items-center gap-4 mb-12">
-            <div className="w-14 h-14 rounded-full bg-pine-500 flex items-center justify-center">
+            <div className="w-14 h-14 rounded-full bg-forest-500 flex items-center justify-center">
               <Car className="w-7 h-7 text-white" />
             </div>
             <div>
-              <p className="section-eyebrow mb-1">Most Popular</p>
-              <h2 className="text-3xl md:text-4xl font-bold text-text-primary font-display">By Car</h2>
+              <p className="section-eyebrow-light mb-1">Most Popular</p>
+              <h2 className="text-3xl md:text-4xl font-bold text-charcoal-900 font-display">By Car</h2>
             </div>
           </div>
+
+          <p className="text-charcoal-600 mb-8 max-w-3xl">
+            Auburn is conveniently located on Interstate 80, making it easily accessible from major cities 
+            throughout Northern California. The drive offers stunning views of the Sierra Nevada foothills 
+            and Gold Country landscapes.
+          </p>
 
           <div className="grid md:grid-cols-2 gap-6 mb-12">
             {drivingRoutes.map((route) => (
               <div 
                 key={route.from}
-                className="card-glass p-6 hover:bg-white/[0.08] transition-colors"
+                className="bg-white rounded-2xl border border-charcoal-100 p-6 shadow-card hover:shadow-card-hover transition-shadow duration-300"
               >
                 <div className="flex items-start justify-between mb-4">
-                  <div>
-                    <h3 className="text-xl font-bold text-text-primary mb-1">From {route.from}</h3>
-                    <p className="text-pine-400 font-medium">{route.route}</p>
+                  <div className="flex items-start gap-3">
+                    <span className="text-3xl">{route.icon}</span>
+                    <div>
+                      <h3 className="text-xl font-bold text-charcoal-900 mb-1">From {route.from}</h3>
+                      <p className="text-forest-600 font-semibold text-sm">{route.route}</p>
+                    </div>
                   </div>
                   <div className="text-right">
-                    <div className="text-2xl font-bold text-text-primary">{route.time}</div>
-                    <div className="text-sm text-text-muted">{route.distance}</div>
+                    <div className="text-2xl font-bold text-charcoal-900">{route.time}</div>
+                    <div className="text-sm text-charcoal-600">{route.distance}</div>
                   </div>
                 </div>
-                <p className="text-text-muted text-sm">{route.directions}</p>
+                <p className="text-charcoal-600 text-sm">{route.directions}</p>
               </div>
             ))}
           </div>
 
           {/* Google Maps Embed Placeholder */}
-          <div className="card-glass p-2 rounded-2xl overflow-hidden">
-            <div className="aspect-[16/9] md:aspect-[21/9] bg-deep-surface rounded-xl flex items-center justify-center">
+          <div className="bg-white rounded-2xl border border-charcoal-100 p-2 shadow-card overflow-hidden">
+            <div className="aspect-[16/9] md:aspect-[21/9] bg-cream-50 rounded-xl flex items-center justify-center">
               <div className="text-center">
-                <MapPin className="w-12 h-12 text-pine-500 mx-auto mb-4" />
-                <p className="text-text-muted mb-4">Interactive Map</p>
+                <MapPin className="w-12 h-12 text-forest-500 mx-auto mb-4" />
+                <p className="text-charcoal-600 mb-4 font-medium">Interactive Map</p>
                 <a 
                   href="https://maps.google.com/?q=Auburn,CA"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 text-pine-400 hover:text-pine-300 font-medium"
+                  className="inline-flex items-center gap-2 text-forest-600 hover:text-forest-700 font-semibold transition-colors"
                 >
                   Open in Google Maps
                   <ExternalLink className="w-4 h-4" />
@@ -190,44 +232,57 @@ export default function GettingHerePage() {
         </div>
       </section>
 
-      {/* By Air Section */}
-      <section className="py-20 md:py-28 bg-deep-surface">
+      {/* ═══════════════════════════════════════════════════════════════════
+          BY AIR SECTION - Cream background
+          ═══════════════════════════════════════════════════════════════════ */}
+      <section className="py-16 md:py-24 bg-cream-50">
         <div className="container mx-auto px-4">
           <div className="flex items-center gap-4 mb-12">
-            <div className="w-14 h-14 rounded-full bg-lake-400 flex items-center justify-center">
-              <Plane className="w-7 h-7 text-deep-bg" />
+            <div className="w-14 h-14 rounded-full bg-forest-500 flex items-center justify-center">
+              <Plane className="w-7 h-7 text-white" />
             </div>
             <div>
-              <p className="section-eyebrow mb-1">Fly In</p>
-              <h2 className="text-3xl md:text-4xl font-bold text-text-primary font-display">Nearby Airports</h2>
+              <p className="section-eyebrow-light mb-1">Fly In</p>
+              <h2 className="text-3xl md:text-4xl font-bold text-charcoal-900 font-display">Nearby Airports</h2>
             </div>
           </div>
+
+          <p className="text-charcoal-600 mb-8 max-w-3xl">
+            Several major airports serve Auburn, with Sacramento International being the closest and most convenient. 
+            All airports offer rental car services, and we recommend booking in advance during peak travel seasons.
+          </p>
 
           <div className="grid md:grid-cols-2 gap-6">
             {airports.map((airport) => (
               <div 
                 key={airport.code}
-                className={`card-glass p-6 relative overflow-hidden ${airport.highlight ? 'ring-2 ring-pine-500' : ''}`}
+                className={`bg-white rounded-2xl border p-6 shadow-card hover:shadow-card-hover transition-shadow duration-300 relative overflow-hidden ${
+                  airport.highlight 
+                    ? 'border-forest-500 ring-2 ring-forest-500/20' 
+                    : 'border-charcoal-100'
+                }`}
               >
                 {airport.highlight && (
                   <div className="absolute top-4 right-4">
-                    <span className="pine-badge">Recommended</span>
+                    <span className="bg-forest-500 text-white text-xs font-semibold px-3 py-1 rounded-full">
+                      Recommended
+                    </span>
                   </div>
                 )}
                 <div className="flex items-start gap-4">
-                  <div className="w-16 h-16 rounded-xl bg-white/5 flex items-center justify-center flex-shrink-0">
-                    <span className="text-2xl font-bold text-pine-400">{airport.code}</span>
+                  <div className="w-16 h-16 rounded-xl bg-forest-500/10 flex items-center justify-center flex-shrink-0">
+                    <span className="text-2xl font-bold text-forest-600">{airport.code}</span>
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-xl font-bold text-text-primary mb-1">{airport.name}</h3>
-                    <p className="text-text-muted text-sm mb-3">{airport.description}</p>
+                    <h3 className="text-xl font-bold text-charcoal-900 mb-1">{airport.name}</h3>
+                    <p className="text-charcoal-600 text-sm mb-3">{airport.description}</p>
                     <div className="flex items-center gap-4 text-sm">
-                      <span className="flex items-center gap-1 text-text-muted">
-                        <Navigation className="w-4 h-4 text-pine-500" />
+                      <span className="flex items-center gap-1 text-charcoal-600">
+                        <Navigation className="w-4 h-4 text-forest-500" />
                         {airport.distance}
                       </span>
-                      <span className="flex items-center gap-1 text-text-muted">
-                        <Clock className="w-4 h-4 text-pine-500" />
+                      <span className="flex items-center gap-1 text-charcoal-600">
+                        <Clock className="w-4 h-4 text-forest-500" />
                         {airport.driveTime}
                       </span>
                     </div>
@@ -238,55 +293,70 @@ export default function GettingHerePage() {
           </div>
 
           <div className="mt-8 text-center">
-            <p className="text-text-muted">
-              Rental cars available at all airports. We recommend booking in advance during peak season.
+            <p className="text-charcoal-600">
+              Rental cars available at all airports. We recommend booking in advance during peak season (summer and holidays).
             </p>
           </div>
         </div>
       </section>
 
-      {/* Public Transit Section */}
-      <section className="py-20 md:py-28">
+      {/* ═══════════════════════════════════════════════════════════════════
+          PUBLIC TRANSIT SECTION - White background
+          ═══════════════════════════════════════════════════════════════════ */}
+      <section className="py-16 md:py-24 bg-white">
         <div className="container mx-auto px-4">
           <div className="flex items-center gap-4 mb-12">
             <div className="w-14 h-14 rounded-full bg-gold-500 flex items-center justify-center">
               <Train className="w-7 h-7 text-white" />
             </div>
             <div>
-              <p className="section-eyebrow mb-1">Alternative Options</p>
-              <h2 className="text-3xl md:text-4xl font-bold text-text-primary font-display">Public Transportation</h2>
+              <p className="section-eyebrow-light mb-1">Alternative Options</p>
+              <h2 className="text-3xl md:text-4xl font-bold text-charcoal-900 font-display">Public Transportation</h2>
             </div>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8">
-            <div className="card-glass p-8">
-              <h3 className="text-xl font-bold text-text-primary mb-4">Amtrak Capitol Corridor</h3>
-              <p className="text-text-muted mb-6">
-                The Capitol Corridor train runs from the Bay Area through Sacramento. 
-                From Sacramento station, connect to Placer County Transit bus service to Auburn.
+          <p className="text-charcoal-600 mb-8 max-w-3xl">
+            While driving is the most convenient option, public transportation is available for those who prefer 
+            not to drive. Both train and bus services connect Auburn to the greater Sacramento region and Bay Area.
+          </p>
+
+          <div className="grid md:grid-cols-2 gap-6">
+            <div className="bg-white rounded-2xl border border-charcoal-100 p-8 shadow-card">
+              <div className="flex items-center gap-3 mb-4">
+                <Train className="w-6 h-6 text-forest-500" />
+                <h3 className="text-xl font-bold text-charcoal-900">Amtrak Capitol Corridor</h3>
+              </div>
+              <p className="text-charcoal-600 mb-6">
+                The Capitol Corridor train runs from the Bay Area through Sacramento with multiple daily departures. 
+                From Sacramento station, connect to Placer County Transit bus service to Auburn. The scenic train 
+                ride offers beautiful views of the Central Valley and Sierra Nevada foothills.
               </p>
               <a 
                 href="https://www.capitolcorridor.org"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-pine-400 hover:text-pine-300 font-medium"
+                className="inline-flex items-center gap-2 text-forest-600 hover:text-forest-700 font-semibold transition-colors"
               >
                 Visit Capitol Corridor
                 <ExternalLink className="w-4 h-4" />
               </a>
             </div>
 
-            <div className="card-glass p-8">
-              <h3 className="text-xl font-bold text-text-primary mb-4">Placer County Transit</h3>
-              <p className="text-text-muted mb-6">
-                Local bus service connects Auburn to surrounding communities including 
-                Sacramento, Roseville, and Lincoln. Routes run Monday through Saturday.
+            <div className="bg-white rounded-2xl border border-charcoal-100 p-8 shadow-card">
+              <div className="flex items-center gap-3 mb-4">
+                <Route className="w-6 h-6 text-forest-500" />
+                <h3 className="text-xl font-bold text-charcoal-900">Placer County Transit</h3>
+              </div>
+              <p className="text-charcoal-600 mb-6">
+                Local bus service connects Auburn to surrounding communities including Sacramento, Roseville, 
+                and Lincoln. Routes run Monday through Saturday with convenient stops throughout Auburn. 
+                Perfect for day trips and exploring the region without a car.
               </p>
               <a 
                 href="https://www.placer.ca.gov/transit"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-pine-400 hover:text-pine-300 font-medium"
+                className="inline-flex items-center gap-2 text-forest-600 hover:text-forest-700 font-semibold transition-colors"
               >
                 View Routes & Schedules
                 <ExternalLink className="w-4 h-4" />
@@ -296,21 +366,39 @@ export default function GettingHerePage() {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-20 md:py-28 bg-deep-surface border-t border-border-subtle">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-text-primary mb-6 font-display">
+      {/* ═══════════════════════════════════════════════════════════════════
+          CTA SECTION - Forest green gradient like "Respect Auburn"
+          ═══════════════════════════════════════════════════════════════════ */}
+      <section className="relative py-20 md:py-28 overflow-hidden">
+        <div className="absolute inset-0">
+          <Image
+            src="https://images.unsplash.com/photo-1501594907352-04cda38ebc29?w=1920&q=80"
+            alt="Auburn, California scenic view"
+            fill
+            className="object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-forest-600/95 to-forest-500/90" />
+        </div>
+        
+        <div className="container mx-auto px-4 text-center relative z-10">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-6 font-display">
             Ready to Explore?
           </h2>
-          <p className="text-xl text-text-muted mb-8 max-w-2xl mx-auto">
+          <p className="text-xl text-white/80 mb-8 max-w-2xl mx-auto">
             Now that you know how to get here, discover what awaits you in Auburn.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/activities" className="btn-primary inline-flex items-center gap-2">
+            <Link 
+              href="/things-to-do" 
+              className="bg-white text-forest-600 font-semibold px-8 py-4 rounded-full hover:bg-cream-50 transition-colors inline-flex items-center justify-center gap-2"
+            >
               Things to Do
               <ChevronRight className="w-5 h-5" />
             </Link>
-            <Link href="/accommodations" className="btn-outline-white inline-flex items-center gap-2">
+            <Link 
+              href="/accommodations" 
+              className="border-2 border-white/70 text-white font-semibold px-8 py-4 rounded-full hover:bg-white/10 transition-colors inline-flex items-center justify-center gap-2"
+            >
               Where to Stay
               <ChevronRight className="w-5 h-5" />
             </Link>
