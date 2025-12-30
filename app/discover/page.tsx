@@ -48,12 +48,12 @@ export default async function DiscoverPage() {
   const breadcrumbs = generateBreadcrumbs('/discover')
 
   return (
-    <div className="min-h-screen bg-cream-50">
+    <div className="min-h-screen bg-white">
       {/* Hero */}
       <section className="relative h-[500px] md:h-[600px]">
         <AuburnHeroImage imageId="hero-foresthill-bridge">
           <div className="container mx-auto px-4 text-center">
-            <span className="inline-block px-4 py-2 bg-blue-600/90 text-white text-sm font-semibold rounded-full mb-4">
+            <span className="inline-block px-4 py-2 bg-lake-500/90 text-white text-sm font-semibold rounded-full mb-4">
               Stories from Auburn
             </span>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4">
@@ -66,9 +66,14 @@ export default async function DiscoverPage() {
         </AuburnHeroImage>
       </section>
 
-      <section className="py-12 md:py-16">
+      {/* Breadcrumbs */}
+      <div className="container mx-auto px-4 py-4 bg-white">
+        <Breadcrumbs items={breadcrumbs} />
+      </div>
+
+      {/* Main Content - White background */}
+      <section className="py-12 md:py-16 bg-white">
         <div className="container mx-auto px-4">
-          <Breadcrumbs items={breadcrumbs} />
 
           {/* Intro */}
           <div className="max-w-4xl mx-auto mb-16 text-center">
@@ -87,9 +92,9 @@ export default async function DiscoverPage() {
             {categories.map((category) => {
               const Icon = category.icon
               return (
-                <div key={category.title} className="card card-hover p-6 text-center">
-                  <div className="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center mx-auto mb-4">
-                    <Icon className="w-8 h-8 text-blue-700" />
+                <div key={category.title} className="bg-white rounded-xl p-6 text-center shadow-md hover:shadow-lg transition-shadow border border-charcoal-100">
+                  <div className="w-16 h-16 rounded-full bg-lake-100 flex items-center justify-center mx-auto mb-4">
+                    <Icon className="w-8 h-8 text-lake-600" />
                   </div>
                   <h3 className="text-xl font-bold text-charcoal-900 mb-2">{category.title}</h3>
                   <p className="text-charcoal-600 text-sm">{category.description}</p>
@@ -106,7 +111,7 @@ export default async function DiscoverPage() {
                 <h2 className="text-3xl font-bold text-charcoal-900">Outdoor Adventure Guides</h2>
                 <Link 
                   href="/things-to-do/outdoor-adventures" 
-                  className="text-blue-600 hover:text-blue-700 font-semibold text-sm"
+                  className="text-lake-600 hover:text-lake-700 font-semibold text-sm"
                 >
                   View All Outdoor Activities →
                 </Link>
@@ -127,7 +132,7 @@ export default async function DiscoverPage() {
                       Everything you need to know about Auburn's most popular trail—parking, best times, swimming 
                       holes, and what to bring.
                     </p>
-                    <Link href="/things-to-do/outdoor-adventures" className="text-blue-600 hover:text-blue-700 text-sm font-semibold">
+                    <Link href="/things-to-do/outdoor-adventures" className="text-lake-600 hover:text-lake-700 text-sm font-semibold">
                       Read More →
                     </Link>
                   </div>
@@ -146,7 +151,7 @@ export default async function DiscoverPage() {
                     <p className="text-charcoal-600 text-sm mb-4">
                       Trail options, seasonal differences, and why this regional park became an instant Auburn favorite.
                     </p>
-                    <Link href="/things-to-do/outdoor-adventures" className="text-blue-600 hover:text-blue-700 text-sm font-semibold">
+                    <Link href="/things-to-do/outdoor-adventures" className="text-lake-600 hover:text-lake-700 text-sm font-semibold">
                       Read More →
                     </Link>
                   </div>
@@ -165,7 +170,7 @@ export default async function DiscoverPage() {
                     <p className="text-charcoal-600 text-sm mb-4">
                       Where locals cool off in the American River: access points, safety tips, and what to expect.
                     </p>
-                    <Link href="/things-to-do/outdoor-adventures" className="text-blue-600 hover:text-blue-700 text-sm font-semibold">
+                    <Link href="/things-to-do/outdoor-adventures" className="text-lake-600 hover:text-lake-700 text-sm font-semibold">
                       Read More →
                     </Link>
                   </div>
@@ -179,7 +184,7 @@ export default async function DiscoverPage() {
                 <h2 className="text-3xl font-bold text-charcoal-900">History & Heritage Stories</h2>
                 <Link 
                   href="/things-to-do/history-culture" 
-                  className="text-blue-600 hover:text-blue-700 font-semibold text-sm"
+                  className="text-lake-600 hover:text-lake-700 font-semibold text-sm"
                 >
                   Explore Auburn History →
                 </Link>
@@ -200,7 +205,7 @@ export default async function DiscoverPage() {
                       How Auburn survived when other Gold Rush towns became ghost settlements, and why these historic 
                       buildings still house daily businesses instead of becoming museums.
                     </p>
-                    <Link href="/things-to-do/history-culture" className="text-blue-600 hover:text-blue-700 text-sm font-semibold">
+                    <Link href="/things-to-do/history-culture" className="text-lake-600 hover:text-lake-700 text-sm font-semibold">
                       Read the Story →
                     </Link>
                   </div>
@@ -220,7 +225,7 @@ export default async function DiscoverPage() {
                       Inside Auburn's three major museums—what you'll actually see, why they matter, and which exhibits 
                       reveal Gold Country history you won't find in textbooks.
                     </p>
-                    <Link href="/things-to-do/history-culture" className="text-blue-600 hover:text-blue-700 text-sm font-semibold">
+                    <Link href="/things-to-do/history-culture" className="text-lake-600 hover:text-lake-700 text-sm font-semibold">
                       Read the Guide →
                     </Link>
                   </div>
@@ -233,9 +238,9 @@ export default async function DiscoverPage() {
               <h2 className="text-3xl font-bold text-charcoal-900 mb-8">Plan Your Auburn Visit</h2>
               
               <div className="grid md:grid-cols-3 gap-6">
-                <Link href="/itineraries" className="card card-hover p-6 group">
-                  <Map className="w-10 h-10 text-blue-600 mb-4" />
-                  <h3 className="text-xl font-bold text-charcoal-900 mb-2 group-hover:text-blue-600 transition-colors">
+                <Link href="/itineraries" className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow group border border-charcoal-100">
+                  <Map className="w-10 h-10 text-lake-600 mb-4" />
+                  <h3 className="text-xl font-bold text-charcoal-900 mb-2 group-hover:text-lake-600 transition-colors">
                     Auburn Itineraries
                   </h3>
                   <p className="text-charcoal-600 text-sm">
@@ -243,9 +248,9 @@ export default async function DiscoverPage() {
                   </p>
                 </Link>
 
-                <Link href="/plan/visitor-information" className="card card-hover p-6 group">
-                  <BookOpen className="w-10 h-10 text-blue-600 mb-4" />
-                  <h3 className="text-xl font-bold text-charcoal-900 mb-2 group-hover:text-blue-600 transition-colors">
+                <Link href="/plan/visitor-information" className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow group border border-charcoal-100">
+                  <BookOpen className="w-10 h-10 text-lake-600 mb-4" />
+                  <h3 className="text-xl font-bold text-charcoal-900 mb-2 group-hover:text-lake-600 transition-colors">
                     Visitor Information
                   </h3>
                   <p className="text-charcoal-600 text-sm">
@@ -253,9 +258,9 @@ export default async function DiscoverPage() {
                   </p>
                 </Link>
 
-                <Link href="/events" className="card card-hover p-6 group">
-                  <Calendar className="w-10 h-10 text-blue-600 mb-4" />
-                  <h3 className="text-xl font-bold text-charcoal-900 mb-2 group-hover:text-blue-600 transition-colors">
+                <Link href="/events" className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow group border border-charcoal-100">
+                  <Calendar className="w-10 h-10 text-lake-600 mb-4" />
+                  <h3 className="text-xl font-bold text-charcoal-900 mb-2 group-hover:text-lake-600 transition-colors">
                     Events Calendar
                   </h3>
                   <p className="text-charcoal-600 text-sm">
@@ -265,8 +270,8 @@ export default async function DiscoverPage() {
               </div>
             </div>
 
-            {/* Seasonal Highlights */}
-            <div className="bg-gradient-to-r from-blue-50 to-green-50 rounded-2xl p-8 md:p-12 mb-20">
+            {/* Seasonal Highlights - Cream background */}
+            <div className="bg-cream-50 rounded-2xl p-8 md:p-12 mb-20">
               <h2 className="text-3xl font-bold text-charcoal-900 mb-6 text-center">
                 Auburn Through the Seasons
               </h2>
@@ -285,7 +290,7 @@ export default async function DiscoverPage() {
                   </ul>
                 </div>
                 <div className="bg-white rounded-lg p-6">
-                  <h4 className="font-bold text-lg text-blue-700 mb-2">Summer</h4>
+                  <h4 className="font-bold text-lg text-lake-700 mb-2">Summer</h4>
                   <ul className="text-sm text-charcoal-700 space-y-1">
                     <li>• River swimming</li>
                     <li>• Early morning hikes</li>
@@ -313,6 +318,32 @@ export default async function DiscoverPage() {
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section - Blue accent band */}
+      <section className="py-20 md:py-28 bg-gradient-to-br from-lake-500 to-lake-600 text-white">
+        <div className="container mx-auto px-4 text-center">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-6 font-display">
+            Start Exploring Auburn Today
+          </h2>
+          <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
+            Discover hidden gems, plan your visit, and experience authentic Gold Country in Auburn, California.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link
+              href="/things-to-do"
+              className="bg-white text-lake-600 font-semibold px-8 py-4 rounded-lg hover:bg-cream-50 transition-colors inline-flex items-center justify-center gap-2 shadow-lg"
+            >
+              Things to Do
+            </Link>
+            <Link
+              href="/itineraries"
+              className="border-2 border-white/70 text-white font-semibold px-8 py-4 rounded-lg hover:bg-white/10 transition-colors inline-flex items-center justify-center gap-2"
+            >
+              View Itineraries
+            </Link>
           </div>
         </div>
       </section>

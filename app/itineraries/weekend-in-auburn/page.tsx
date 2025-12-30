@@ -21,12 +21,12 @@ export default function WeekendInAuburnPage() {
   const breadcrumbs = generateBreadcrumbs('/itineraries/weekend-in-auburn')
 
   return (
-    <div className="min-h-screen bg-cream-50">
+    <div className="min-h-screen bg-white">
       {/* Hero */}
       <section className="relative h-[500px] md:h-[600px]">
         <AuburnHeroImage imageId="hero-downtown-autumn">
           <div className="container mx-auto px-4 text-center">
-            <span className="inline-block px-4 py-2 bg-amber-600/90 text-white text-sm font-semibold rounded-full mb-4">
+            <span className="inline-block px-4 py-2 bg-lake-500/90 text-white text-sm font-semibold rounded-full mb-4">
               48-Hour Itinerary
             </span>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4">
@@ -39,31 +39,36 @@ export default function WeekendInAuburnPage() {
         </AuburnHeroImage>
       </section>
 
-      <section className="py-12 md:py-16">
+      {/* Breadcrumbs */}
+      <div className="container mx-auto px-4 py-4 bg-white">
+        <Breadcrumbs items={breadcrumbs} />
+      </div>
+
+      {/* Main Content - White background */}
+      <section className="py-12 md:py-16 bg-white">
         <div className="container mx-auto px-4">
-          <Breadcrumbs items={breadcrumbs} />
 
           {/* Intro */}
           <div className="max-w-4xl mx-auto mb-12">
-            <div className="card p-8 bg-gradient-to-br from-amber-50 to-cream-100">
+            <div className="card p-8 bg-cream-50">
               <div className="grid md:grid-cols-4 gap-6 mb-6">
                 <div className="text-center">
-                  <Calendar className="w-8 h-8 text-amber-600 mx-auto mb-2" />
+                  <Calendar className="w-8 h-8 text-lake-600 mx-auto mb-2" />
                   <p className="text-sm text-charcoal-600">Duration</p>
                   <p className="font-bold text-charcoal-900">2 Days / 2 Nights</p>
                 </div>
                 <div className="text-center">
-                  <Star className="w-8 h-8 text-amber-600 mx-auto mb-2" />
+                  <Star className="w-8 h-8 text-lake-600 mx-auto mb-2" />
                   <p className="text-sm text-charcoal-600">Best For</p>
                   <p className="font-bold text-charcoal-900">Couples & Friends</p>
                 </div>
                 <div className="text-center">
-                  <Mountain className="w-8 h-8 text-amber-600 mx-auto mb-2" />
+                  <Mountain className="w-8 h-8 text-lake-600 mx-auto mb-2" />
                   <p className="text-sm text-charcoal-600">Activity Level</p>
                   <p className="font-bold text-charcoal-900">Moderate</p>
                 </div>
                 <div className="text-center">
-                  <MapPin className="w-8 h-8 text-amber-600 mx-auto mb-2" />
+                  <MapPin className="w-8 h-8 text-lake-600 mx-auto mb-2" />
                   <p className="text-sm text-charcoal-600">Starting Point</p>
                   <p className="font-bold text-charcoal-900">Old Town Auburn</p>
                 </div>
@@ -81,7 +86,7 @@ export default function WeekendInAuburnPage() {
           {/* Friday Evening */}
           <div className="max-w-4xl mx-auto mb-16">
             <div className="flex items-center gap-4 mb-6">
-              <div className="w-20 h-20 rounded-full bg-amber-600 text-white flex flex-col items-center justify-center flex-shrink-0">
+              <div className="w-20 h-20 rounded-full bg-lake-600 text-white flex flex-col items-center justify-center flex-shrink-0">
                 <span className="text-xs uppercase font-semibold">Day 1</span>
                 <span className="text-lg font-bold">FRI</span>
               </div>
@@ -92,40 +97,40 @@ export default function WeekendInAuburnPage() {
             </div>
 
             <div className="space-y-6">
-              <div className="card p-6 border-l-4 border-amber-500">
+              <div className="card p-6 border-l-4 border-lake-500">
                 <div className="flex items-center gap-3 mb-3">
-                  <Clock className="w-5 h-5 text-amber-600" />
+                  <Clock className="w-5 h-5 text-lake-600" />
                   <span className="font-bold text-charcoal-900">4:00 PM</span>
                   <span className="text-charcoal-600">— Check into your Auburn hotel</span>
                 </div>
                 <p className="text-charcoal-700 mb-3">
-                  Drop bags at your <Link href="/accommodations" className="text-amber-600 hover:text-amber-700 font-semibold">Auburn accommodation</Link>—ideally 
+                  Drop bags at your <Link href="/accommodations" className="text-lake-600 hover:text-lake-700 font-semibold">Auburn accommodation</Link>—ideally 
                   in Old Town for walkability. Take 30 minutes to refresh before heading out.
                 </p>
               </div>
 
-              <div className="card p-6 border-l-4 border-amber-500">
+              <div className="card p-6 border-l-4 border-lake-500">
                 <div className="flex items-center gap-3 mb-3">
-                  <Clock className="w-5 h-5 text-amber-600" />
+                  <Clock className="w-5 h-5 text-lake-600" />
                   <span className="font-bold text-charcoal-900">5:00 PM</span>
                   <span className="text-charcoal-600">— Golden Hour Stroll</span>
                 </div>
                 <p className="text-charcoal-700 mb-3">
-                  Walk <Link href="/things-to-do/history-culture" className="text-amber-600 hover:text-amber-700 font-semibold">historic Old Town Auburn</Link> as 
+                  Walk <Link href="/things-to-do/history-culture" className="text-lake-600 hover:text-lake-700 font-semibold">historic Old Town Auburn</Link> as 
                   afternoon light illuminates 1850s brick buildings. Start at the iconic Firehouse Tower, browse 
                   antique shops, and soak in the Gold Rush atmosphere. This casual orientation sets the stage for 
                   two days of adventure.
                 </p>
               </div>
 
-              <div className="card p-6 border-l-4 border-amber-500">
+              <div className="card p-6 border-l-4 border-lake-500">
                 <div className="flex items-center gap-3 mb-3">
-                  <Utensils className="w-5 h-5 text-amber-600" />
+                  <Utensils className="w-5 h-5 text-lake-600" />
                   <span className="font-bold text-charcoal-900">6:30 PM</span>
                   <span className="text-charcoal-600">— Dinner in a Historic Building</span>
                 </div>
                 <p className="text-charcoal-700 mb-3">
-                  <Link href="/dining" className="text-amber-600 hover:text-amber-700 font-semibold">Auburn's restaurants</Link> occupy 
+                  <Link href="/dining" className="text-lake-600 hover:text-lake-700 font-semibold">Auburn's restaurants</Link> occupy 
                   buildings miners once used as saloons, hotels, and trading posts. Choose a farm-to-table spot 
                   serving seasonal California cuisine with Sierra Foothills wines. Outdoor patios offer warm-evening 
                   dining spring through fall.
@@ -246,7 +251,7 @@ export default function WeekendInAuburnPage() {
           {/* Sunday */}
           <div className="max-w-4xl mx-auto mb-16">
             <div className="flex items-center gap-4 mb-6">
-              <div className="w-20 h-20 rounded-full bg-blue-600 text-white flex flex-col items-center justify-center flex-shrink-0">
+              <div className="w-20 h-20 rounded-full bg-lake-600 text-white flex flex-col items-center justify-center flex-shrink-0">
                 <span className="text-xs uppercase font-semibold">Day 3</span>
                 <span className="text-lg font-bold">SUN</span>
               </div>
@@ -259,7 +264,7 @@ export default function WeekendInAuburnPage() {
             <div className="space-y-6">
               <div className="card p-6 border-l-4 border-blue-500">
                 <div className="flex items-center gap-3 mb-3">
-                  <Clock className="w-5 h-5 text-blue-600" />
+                  <Clock className="w-5 h-5 text-lake-600" />
                   <span className="font-bold text-charcoal-900">9:00 AM</span>
                   <span className="text-charcoal-600">— Leisurely Brunch</span>
                 </div>
@@ -271,12 +276,12 @@ export default function WeekendInAuburnPage() {
 
               <div className="card p-6 border-l-4 border-blue-500">
                 <div className="flex items-center gap-3 mb-3">
-                  <Camera className="w-5 h-5 text-blue-600" />
+                  <Camera className="w-5 h-5 text-lake-600" />
                   <span className="font-bold text-charcoal-900">10:30 AM</span>
                   <span className="text-charcoal-600">— Gold Country Museum</span>
                 </div>
                 <p className="text-charcoal-700 mb-3">
-                  Spend 90 minutes at Auburn's <Link href="/things-to-do/history-culture" className="text-blue-600 hover:text-blue-700 font-semibold">Gold Country Museum</Link>. 
+                  Spend 90 minutes at Auburn's <Link href="/things-to-do/history-culture" className="text-lake-600 hover:text-lake-700 font-semibold">Gold Country Museum</Link>. 
                   Walk through the replica mine, try gold panning (you keep what you find!), and understand 
                   how 1848's gold discovery transformed California.
                 </p>
@@ -284,7 +289,7 @@ export default function WeekendInAuburnPage() {
 
               <div className="card p-6 border-l-4 border-blue-500">
                 <div className="flex items-center gap-3 mb-3">
-                  <MapPin className="w-5 h-5 text-blue-600" />
+                  <MapPin className="w-5 h-5 text-lake-600" />
                   <span className="font-bold text-charcoal-900">12:30 PM</span>
                   <span className="text-charcoal-600">— Final Old Town Stroll</span>
                 </div>
@@ -309,32 +314,32 @@ export default function WeekendInAuburnPage() {
 
           {/* Plan Your Visit CTA */}
           <div className="max-w-4xl mx-auto mb-16">
-            <div className="card p-8 md:p-12 bg-gradient-to-br from-amber-600 to-amber-700 text-white">
+            <div className="card p-8 md:p-12 bg-gradient-to-br from-lake-500 to-lake-600 text-white">
               <div className="text-center mb-8">
                 <h2 className="text-3xl md:text-4xl font-bold mb-4">Plan Your Auburn Weekend</h2>
-                <p className="text-xl text-amber-100 max-w-2xl mx-auto">
+                <p className="text-xl text-white/90 max-w-2xl mx-auto">
                   Ready to experience Gold Country's best-kept secret? Start planning your 48-hour escape today.
                 </p>
               </div>
 
               <div className="grid md:grid-cols-3 gap-6 mb-8">
                 <Link href="/accommodations" className="bg-white/10 backdrop-blur-sm rounded-xl p-6 hover:bg-white/20 transition-colors group">
-                  <h3 className="text-xl font-bold mb-2 group-hover:text-amber-200 transition-colors">Find Lodging</h3>
-                  <p className="text-amber-100 text-sm mb-3">Historic inns to modern hotels—book your Auburn stay</p>
+                  <h3 className="text-xl font-bold mb-2 group-hover:text-white transition-colors">Find Lodging</h3>
+                  <p className="text-white/90 text-sm mb-3">Historic inns to modern hotels—book your Auburn stay</p>
                   <span className="inline-flex items-center text-sm font-semibold">
                     Browse Hotels <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
                   </span>
                 </Link>
                 <Link href="/dining" className="bg-white/10 backdrop-blur-sm rounded-xl p-6 hover:bg-white/20 transition-colors group">
-                  <h3 className="text-xl font-bold mb-2 group-hover:text-amber-200 transition-colors">Reserve Dinner</h3>
-                  <p className="text-amber-100 text-sm mb-3">Farm-to-table restaurants in Gold Rush buildings</p>
+                  <h3 className="text-xl font-bold mb-2 group-hover:text-white transition-colors">Reserve Dinner</h3>
+                  <p className="text-white/90 text-sm mb-3">Farm-to-table restaurants in Gold Rush buildings</p>
                   <span className="inline-flex items-center text-sm font-semibold">
                     View Restaurants <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
                   </span>
                 </Link>
                 <Link href="/events" className="bg-white/10 backdrop-blur-sm rounded-xl p-6 hover:bg-white/20 transition-colors group">
-                  <h3 className="text-xl font-bold mb-2 group-hover:text-amber-200 transition-colors">Check Events</h3>
-                  <p className="text-amber-100 text-sm mb-3">What's happening during your visit?</p>
+                  <h3 className="text-xl font-bold mb-2 group-hover:text-white transition-colors">Check Events</h3>
+                  <p className="text-white/90 text-sm mb-3">What's happening during your visit?</p>
                   <span className="inline-flex items-center text-sm font-semibold">
                     See Calendar <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
                   </span>
@@ -344,7 +349,7 @@ export default function WeekendInAuburnPage() {
               <div className="text-center">
                 <Link 
                   href="/plan/visitor-information" 
-                  className="inline-flex items-center gap-2 px-8 py-4 bg-white text-amber-700 font-bold rounded-full hover:bg-amber-50 transition-colors shadow-lg"
+                  className="inline-flex items-center gap-2 px-8 py-4 bg-white text-lake-600 font-bold rounded-full hover:bg-cream-50 transition-colors shadow-lg"
                 >
                   Get Visitor Information
                   <ArrowRight className="w-5 h-5" />
@@ -379,7 +384,7 @@ export default function WeekendInAuburnPage() {
                   <strong>From Sacramento:</strong> 35 min via I-80<br />
                   <strong>From SF:</strong> 2 hours via I-80<br />
                   <strong>From Tahoe:</strong> 90 min via I-80<br />
-                  <Link href="/plan/getting-here" className="text-amber-600 hover:text-amber-700 font-semibold">Detailed directions →</Link>
+                  <Link href="/plan/getting-here" className="text-lake-600 hover:text-lake-700 font-semibold">Detailed directions →</Link>
                 </p>
               </div>
               <div className="card p-6">

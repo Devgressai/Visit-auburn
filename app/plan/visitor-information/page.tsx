@@ -2,7 +2,7 @@ import { buildMetadata, SITE_URL } from '@/lib/seo'
 import { Breadcrumbs } from '@/components/navigation/Breadcrumbs'
 import { RelatedPages } from '@/components/ui/RelatedPages'
 import { generateBreadcrumbs } from '@/lib/routes'
-import Image from 'next/image'
+import { AuburnHeroImage } from '@/components/ui/AuburnImage'
 import Link from 'next/link'
 import { MapPin, Clock, Phone, Mail, Sun, Thermometer, Wifi, Car, CreditCard, Shield, ChevronRight, Sparkles, Map, Mountain, Coffee } from 'lucide-react'
 import type { Metadata } from 'next'
@@ -105,48 +105,29 @@ export default function VisitorInformationPage() {
           HERO SECTION - Cinematic style matching homepage
           ═══════════════════════════════════════════════════════════════════ */}
       <section className="relative min-h-[60vh] md:min-h-[70vh] w-full overflow-hidden">
-        <div className="absolute inset-0">
-          <Image
-            src="/images/things-to-do.jpg"
-            alt="Auburn Visitor Center"
-            fill
-            className="object-cover"
-            priority
-          />
-          <div 
-            className="absolute inset-0"
-            style={{
-              background: `linear-gradient(
-                to bottom,
-                rgba(0, 0, 0, 0.3) 0%,
-                rgba(0, 0, 0, 0.15) 50%,
-                rgba(0, 0, 0, 0.5) 100%
-              )`
-            }}
-          />
-        </div>
-        
-        <div className="relative z-10 min-h-[60vh] md:min-h-[70vh] flex flex-col justify-end items-start text-left px-4 sm:px-6 md:px-12 lg:px-20 pb-16 md:pb-24">
-          <p 
-            className="uppercase tracking-[0.2em] text-sm font-medium mb-4 text-white/80"
-            style={{ textShadow: '0 2px 8px rgba(0,0,0,0.5)' }}
-          >
-            Plan Your Visit
-          </p>
-          <h1 
-            className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6"
-            style={{ textShadow: '0 4px 20px rgba(0,0,0,0.6)' }}
-          >
-            Visitor Information
-          </h1>
-          <p 
-            className="text-lg md:text-xl text-white/90 max-w-2xl"
-            style={{ textShadow: '0 2px 8px rgba(0,0,0,0.5)' }}
-          >
-            Everything you need to know for an amazing visit to Auburn, California — 
-            the heart of Gold Country.
-          </p>
-        </div>
+        <AuburnHeroImage imageId="hero-old-town-clocktower">
+          <div className="relative z-10 min-h-[60vh] md:min-h-[70vh] flex flex-col justify-end items-start text-left px-4 sm:px-6 md:px-12 lg:px-20 pb-16 md:pb-24">
+            <p 
+              className="uppercase tracking-[0.2em] text-sm font-medium mb-4 text-white/80"
+              style={{ textShadow: '0 2px 8px rgba(0,0,0,0.5)' }}
+            >
+              Plan Your Visit
+            </p>
+            <h1 
+              className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6"
+              style={{ textShadow: '0 4px 20px rgba(0,0,0,0.6)' }}
+            >
+              Visitor Information
+            </h1>
+            <p 
+              className="text-lg md:text-xl text-white/90 max-w-2xl"
+              style={{ textShadow: '0 2px 8px rgba(0,0,0,0.5)' }}
+            >
+              Everything you need to know for an amazing visit to Auburn, California — 
+              the heart of Gold Country.
+            </p>
+          </div>
+        </AuburnHeroImage>
       </section>
 
       {/* Breadcrumbs */}
@@ -209,8 +190,8 @@ export default function VisitorInformationPage() {
                     <Mail className="w-5 h-5 text-forest-500" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-charcoal-900">Email</h3>
-                    <p className="text-charcoal-600">info@visitauburn.com</p>
+                    <h3 className="font-semibold text-charcoal-900">Contact</h3>
+                    <p className="text-charcoal-600">Use our contact form below or visit in person</p>
                   </div>
                 </div>
               </div>
@@ -357,37 +338,27 @@ export default function VisitorInformationPage() {
       </section>
 
       {/* ═══════════════════════════════════════════════════════════════════
-          CTA SECTION - Forest green gradient like "Respect Auburn"
+          CTA SECTION - Blue accent band matching homepage
           ═══════════════════════════════════════════════════════════════════ */}
-      <section className="relative py-20 md:py-28 overflow-hidden">
-        <div className="absolute inset-0">
-          <Image
-            src="/images/bridge.webp"
-            alt="Auburn scenic view"
-            fill
-            className="object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-forest-600/95 to-forest-500/90" />
-        </div>
-        
+      <section className="relative py-20 md:py-28 overflow-hidden bg-gradient-to-br from-lake-500 to-lake-600 text-white">
         <div className="container mx-auto px-4 text-center relative z-10">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-6 font-display">
             Ready to Plan Your Trip?
           </h2>
-          <p className="text-xl text-white/80 mb-8 max-w-2xl mx-auto">
+          <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
             Download our guides, check out activities, or find the perfect place to stay.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link 
               href="/plan/maps-guides" 
-              className="bg-white text-forest-600 font-semibold px-8 py-4 rounded-full hover:bg-cream-50 transition-colors inline-flex items-center justify-center gap-2"
+              className="bg-white text-lake-600 font-semibold px-8 py-4 rounded-lg hover:bg-cream-50 transition-colors inline-flex items-center justify-center gap-2 shadow-lg"
             >
               Maps & Guides
               <ChevronRight className="w-5 h-5" />
             </Link>
             <Link 
               href="/things-to-do" 
-              className="border-2 border-white/70 text-white font-semibold px-8 py-4 rounded-full hover:bg-white/10 transition-colors inline-flex items-center justify-center gap-2"
+              className="border-2 border-white/70 text-white font-semibold px-8 py-4 rounded-lg hover:bg-white/10 transition-colors inline-flex items-center justify-center gap-2"
             >
               Things to Do
               <ChevronRight className="w-5 h-5" />

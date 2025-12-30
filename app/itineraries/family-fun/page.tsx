@@ -21,11 +21,11 @@ export default async function FamilyFunPage() {
   const breadcrumbs = generateBreadcrumbs('/itineraries/family-fun')
 
   return (
-    <div className="min-h-screen bg-cream-50">
+    <div className="min-h-screen bg-white">
       <section className="relative h-[500px] md:h-[600px]">
         <AuburnHeroImage imageId="outdoor-quarry-ponds">
           <div className="container mx-auto px-4 text-center">
-            <span className="inline-block px-4 py-2 bg-purple-600/90 text-white text-sm font-semibold rounded-full mb-4">
+            <span className="inline-block px-4 py-2 bg-lake-500/90 text-white text-sm font-semibold rounded-full mb-4">
               Family-Friendly Adventure
             </span>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4">
@@ -38,9 +38,14 @@ export default async function FamilyFunPage() {
         </AuburnHeroImage>
       </section>
 
-      <section className="py-12 md:py-16">
+      {/* Breadcrumbs */}
+      <div className="container mx-auto px-4 py-4 bg-white">
+        <Breadcrumbs items={breadcrumbs} />
+      </div>
+
+      {/* Main Content - White background */}
+      <section className="py-12 md:py-16 bg-white">
         <div className="container mx-auto px-4">
-          <Breadcrumbs items={breadcrumbs} />
 
           <div className="max-w-4xl mx-auto mb-12">
             <div className="card p-8">
@@ -71,7 +76,7 @@ export default async function FamilyFunPage() {
           {/* Day 1 */}
           <div className="max-w-4xl mx-auto mb-16">
             <div className="flex items-center gap-4 mb-6">
-              <div className="w-16 h-16 rounded-full bg-blue-600 text-white flex items-center justify-center text-2xl font-bold">1</div>
+              <div className="w-16 h-16 rounded-full bg-lake-600 text-white flex items-center justify-center text-2xl font-bold">1</div>
               <div>
                 <h2 className="text-3xl font-bold text-charcoal-900">Day 1: Gentle Introduction</h2>
                 <p className="text-charcoal-600">Quarry Ponds Trail & Gold Country Museum</p>
@@ -81,7 +86,7 @@ export default async function FamilyFunPage() {
             <div className="space-y-6">
               <div className="card p-6">
                 <div className="flex items-center gap-3 mb-4">
-                  <MapPin className="w-6 h-6 text-blue-600" />
+                  <MapPin className="w-6 h-6 text-lake-600" />
                   <h3 className="text-xl font-bold text-charcoal-900">10:00 AM - Quarry Ponds Loop</h3>
                   <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full font-semibold">3 miles • Easy</span>
                 </div>
@@ -100,7 +105,7 @@ export default async function FamilyFunPage() {
 
               <div className="card p-6">
                 <div className="flex items-center gap-3 mb-4">
-                  <Smile className="w-6 h-6 text-blue-600" />
+                  <Smile className="w-6 h-6 text-lake-600" />
                   <h3 className="text-xl font-bold text-charcoal-900">1:00 PM - Gold Country Museum</h3>
                   <span className="text-xs bg-amber-100 text-amber-800 px-2 py-1 rounded-full font-semibold">$5 adults, kids under 5 free</span>
                 </div>
@@ -119,7 +124,7 @@ export default async function FamilyFunPage() {
                 </p>
               </div>
 
-              <div className="card p-6 bg-blue-50">
+              <div className="card p-6 bg-lake-50">
                 <h3 className="text-xl font-bold text-charcoal-900 mb-3">Evening: Family-Friendly Dining</h3>
                 <p className="text-charcoal-700 mb-3">
                   Auburn restaurants welcome families enthusiastically. Look for places with:
@@ -220,7 +225,7 @@ export default async function FamilyFunPage() {
           {/* Day 3 Optional */}
           <div className="max-w-4xl mx-auto mb-16">
             <div className="flex items-center gap-4 mb-6">
-              <div className="w-16 h-16 rounded-full bg-purple-600 text-white flex items-center justify-center text-2xl font-bold">3</div>
+              <div className="w-16 h-16 rounded-full bg-lake-600 text-white flex items-center justify-center text-2xl font-bold">3</div>
               <div>
                 <h2 className="text-3xl font-bold text-charcoal-900">Day 3: History & Departure (Optional)</h2>
                 <p className="text-charcoal-600">Old Town exploration before heading home</p>
@@ -230,7 +235,7 @@ export default async function FamilyFunPage() {
             <div className="space-y-6">
               <div className="card p-6">
                 <div className="flex items-center gap-3 mb-4">
-                  <MapPin className="w-6 h-6 text-purple-600" />
+                  <MapPin className="w-6 h-6 text-lake-600" />
                   <h3 className="text-xl font-bold text-charcoal-900">10:00 AM - Old Town Scavenger Hunt</h3>
                 </div>
                 <p className="text-charcoal-700 mb-4">
@@ -251,7 +256,7 @@ export default async function FamilyFunPage() {
 
               <div className="card p-6">
                 <div className="flex items-center gap-3 mb-4">
-                  <Heart className="w-6 h-6 text-purple-600" />
+                  <Heart className="w-6 h-6 text-lake-600" />
                   <h3 className="text-xl font-bold text-charcoal-900">12:00 PM - Final Auburn Memory</h3>
                 </div>
                 <p className="text-charcoal-700">
@@ -323,7 +328,7 @@ export default async function FamilyFunPage() {
 
           {/* Pro Tips */}
           <div className="max-w-4xl mx-auto mb-16">
-            <div className="card p-8 bg-gradient-to-br from-blue-50 to-purple-50">
+            <div className="card p-8 bg-cream-50">
               <h2 className="text-2xl font-bold text-charcoal-900 mb-6">Pro Tips from Auburn Parents</h2>
               <div className="space-y-4">
                 <div>
@@ -356,23 +361,23 @@ export default async function FamilyFunPage() {
           </div>
 
           <div className="max-w-4xl mx-auto">
-            <div className="card p-8 bg-gradient-to-br from-green-50 to-blue-50">
+            <div className="card p-8 bg-cream-50">
               <h2 className="text-2xl font-bold text-charcoal-900 mb-6 text-center">More Auburn Itineraries</h2>
               <div className="grid md:grid-cols-3 gap-6">
                 <Link href="/itineraries/weekend-getaway" className="text-center group">
-                  <h3 className="font-bold text-charcoal-900 mb-2 group-hover:text-purple-600 transition-colors">
+                  <h3 className="font-bold text-charcoal-900 mb-2 group-hover:text-lake-600 transition-colors">
                     Weekend Getaway →
                   </h3>
                   <p className="text-sm text-charcoal-600">Couples or friends—more challenging hikes</p>
                 </Link>
                 <Link href="/itineraries/outdoor-adventure" className="text-center group">
-                  <h3 className="font-bold text-charcoal-900 mb-2 group-hover:text-purple-600 transition-colors">
+                  <h3 className="font-bold text-charcoal-900 mb-2 group-hover:text-lake-600 transition-colors">
                     Outdoor Adventure →
                   </h3>
                   <p className="text-sm text-charcoal-600">For families with older teens who love hiking</p>
                 </Link>
                 <Link href="/itineraries/gold-rush-history" className="text-center group">
-                  <h3 className="font-bold text-charcoal-900 mb-2 group-hover:text-purple-600 transition-colors">
+                  <h3 className="font-bold text-charcoal-900 mb-2 group-hover:text-lake-600 transition-colors">
                     Gold Rush History →
                   </h3>
                   <p className="text-sm text-charcoal-600">Educational focus for history-loving families</p>

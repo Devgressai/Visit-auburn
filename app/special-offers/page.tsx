@@ -16,13 +16,21 @@ export const metadata: Metadata = buildMetadata({
 
 export const revalidate = 1800
 
+// TODO: Replace with real Auburn images from /public/images/auburn/special-offers/
+// Expected filenames:
+// - accommodation-summer.jpg
+// - dining-gold-rush.jpg
+// - activity-trails.jpg
+// - accommodation-midweek.jpg
+// - package-family.jpg
+// - dining-wine.jpg
 const mockOffers = [
   {
     _id: '1',
     title: 'Summer Escape Package',
     slug: { current: 'summer-escape-package' },
     description: 'Book 2 nights and get the 3rd night free at participating hotels. Perfect for extended summer getaways!',
-    image: { url: 'https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=600&q=80', alt: 'Auburn Hotel' },
+    image: { url: '/images/stay.jpg', alt: 'Auburn Hotel accommodation' },
     discountAmount: '33% OFF',
     discountType: 'package',
     startDate: '2025-06-01',
@@ -37,7 +45,7 @@ const mockOffers = [
     title: 'Gold Rush Dining Experience',
     slug: { current: 'gold-rush-dining' },
     description: 'Enjoy 20% off dinner at select historic downtown restaurants. Taste the flavors of Gold Country!',
-    image: { url: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80', alt: 'Auburn Dining' },
+    image: { url: '/images/dining.jpg', alt: 'Auburn dining in historic Old Town' },
     discountAmount: '20% OFF',
     discountType: 'percentage',
     startDate: '2025-01-01',
@@ -52,7 +60,7 @@ const mockOffers = [
     title: 'Trail Adventure Bundle',
     slug: { current: 'trail-adventure-bundle' },
     description: 'Get 25% off guided hiking tours and mountain bike rentals. Explore Auburn State Recreation Area!',
-    image: { url: 'https://images.unsplash.com/photo-1551632811-561732d1e306?w=600&q=80', alt: 'Auburn Trails' },
+    image: { url: '/images/things-to-do.jpg', alt: 'Auburn hiking trails and outdoor recreation' },
     discountAmount: '25% OFF',
     discountType: 'percentage',
     startDate: '2025-03-01',
@@ -67,7 +75,7 @@ const mockOffers = [
     title: 'Midweek Special',
     slug: { current: 'midweek-special' },
     description: 'Save on accommodations Sunday through Thursday. The perfect excuse for a midweek escape.',
-    image: { url: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&q=80', alt: 'Auburn Lodging' },
+    image: { url: '/images/stay.jpg', alt: 'Auburn lodging and accommodations' },
     discountAmount: '$50 OFF',
     discountType: 'dollar',
     startDate: '2025-01-01',
@@ -82,7 +90,7 @@ const mockOffers = [
     title: 'Family Fun Package',
     slug: { current: 'family-fun-package' },
     description: 'Special family rate includes accommodation, breakfast, and tickets to local attractions. Kids stay free!',
-    image: { url: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&q=80', alt: 'Family Activities' },
+    image: { url: '/images/things-to-do.jpg', alt: 'Family activities in Auburn' },
     discountAmount: 'SPECIAL RATE',
     discountType: 'package',
     startDate: '2025-06-15',
@@ -96,7 +104,7 @@ const mockOffers = [
     title: 'Wine & Dine Experience',
     slug: { current: 'wine-dine-experience' },
     description: 'Complimentary wine tasting flight with purchase of entrée at participating restaurants.',
-    image: { url: 'https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?w=600&q=80', alt: 'Wine and Dining' },
+    image: { url: '/images/dining.jpg', alt: 'Wine and dining in Auburn Gold Country' },
     discountAmount: 'FREE WINE',
     discountType: 'upgrade',
     startDate: '2025-01-01',

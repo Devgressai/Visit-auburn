@@ -48,12 +48,12 @@ export default async function ArtsCulturePage() {
   const breadcrumbs = generateBreadcrumbs('/things-to-do/arts-culture')
 
   return (
-    <div className="min-h-screen bg-cream-50">
+    <div className="min-h-screen bg-white">
       {/* Hero */}
       <section className="relative h-[500px] md:h-[600px]">
         <AuburnHeroImage imageId="hero-downtown-autumn">
           <div className="container mx-auto px-4 text-center">
-            <span className="inline-block px-4 py-2 bg-purple-600/90 text-white text-sm font-semibold rounded-full mb-4">
+            <span className="inline-block px-4 py-2 bg-lake-500/90 text-white text-sm font-semibold rounded-full mb-4">
               Auburn Creative Scene
             </span>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4">
@@ -66,9 +66,14 @@ export default async function ArtsCulturePage() {
         </AuburnHeroImage>
       </section>
 
-      <section className="py-12 md:py-16">
+      {/* Breadcrumbs */}
+      <div className="container mx-auto px-4 py-4 bg-white">
+        <Breadcrumbs items={breadcrumbs} />
+      </div>
+
+      {/* Main Content - White background */}
+      <section className="py-12 md:py-16 bg-white">
         <div className="container mx-auto px-4">
-          <Breadcrumbs items={breadcrumbs} />
 
           {/* Intro Content */}
           <div className="max-w-4xl mx-auto mb-16">
@@ -281,30 +286,30 @@ export default async function ArtsCulturePage() {
             </p>
           </div>
 
-          {/* Nearby Pairings */}
-          <div className="max-w-4xl mx-auto my-16">
+          {/* Nearby Pairings - Cream background */}
+          <div className="max-w-4xl mx-auto my-16 py-12 bg-cream-50 rounded-xl px-6">
             <h2 className="text-3xl font-bold text-charcoal-900 mb-8">
               Experience Auburn Arts & Culture
             </h2>
             <div className="grid md:grid-cols-3 gap-6">
-              <Link href="/events" className="card card-hover p-6 group">
-                <h3 className="text-xl font-bold text-charcoal-900 mb-3 group-hover:text-purple-600 transition-colors">
+              <Link href="/events" className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow group border border-charcoal-100">
+                <h3 className="text-xl font-bold text-charcoal-900 mb-3 group-hover:text-lake-600 transition-colors">
                   Auburn Events Calendar →
                 </h3>
                 <p className="text-charcoal-600">
                   Check upcoming art walks, concerts, theater productions, and cultural festivals happening in Auburn.
                 </p>
               </Link>
-              <Link href="/dining" className="card card-hover p-6 group">
-                <h3 className="text-xl font-bold text-charcoal-900 mb-3 group-hover:text-purple-600 transition-colors">
+              <Link href="/dining" className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow group border border-charcoal-100">
+                <h3 className="text-xl font-bold text-charcoal-900 mb-3 group-hover:text-lake-600 transition-colors">
                   Dine in Old Town →
                 </h3>
                 <p className="text-charcoal-600">
                   Many restaurants feature live music. Enjoy dinner, then stroll galleries during First Saturday Art Walk.
                 </p>
               </Link>
-              <Link href="/accommodations" className="card card-hover p-6 group">
-                <h3 className="text-xl font-bold text-charcoal-900 mb-3 group-hover:text-purple-600 transition-colors">
+              <Link href="/accommodations" className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow group border border-charcoal-100">
+                <h3 className="text-xl font-bold text-charcoal-900 mb-3 group-hover:text-lake-600 transition-colors">
                   Stay Near the Arts →
                 </h3>
                 <p className="text-charcoal-600">
@@ -312,6 +317,32 @@ export default async function ArtsCulturePage() {
                 </p>
               </Link>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section - Blue accent band */}
+      <section className="py-20 md:py-28 bg-gradient-to-br from-lake-500 to-lake-600 text-white">
+        <div className="container mx-auto px-4 text-center">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-6 font-display">
+            Experience Auburn's Creative Scene
+          </h2>
+          <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
+            Discover galleries, live music, theater, and monthly art walks in California's Gold Country.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link
+              href="/events"
+              className="bg-white text-lake-600 font-semibold px-8 py-4 rounded-lg hover:bg-cream-50 transition-colors inline-flex items-center justify-center gap-2 shadow-lg"
+            >
+              View Events
+            </Link>
+            <Link
+              href="/things-to-do"
+              className="border-2 border-white/70 text-white font-semibold px-8 py-4 rounded-lg hover:bg-white/10 transition-colors inline-flex items-center justify-center gap-2"
+            >
+              All Things to Do
+            </Link>
           </div>
         </div>
       </section>

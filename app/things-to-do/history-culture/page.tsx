@@ -50,12 +50,12 @@ export default async function HistoryCulturePage() {
   const breadcrumbs = generateBreadcrumbs('/things-to-do/history-culture')
 
   return (
-    <div className="min-h-screen bg-cream-50">
+    <div className="min-h-screen bg-white">
       {/* Hero */}
       <section className="relative h-[500px] md:h-[600px]">
         <AuburnHeroImage imageId="hero-old-town-clocktower">
           <div className="container mx-auto px-4 text-center">
-            <span className="inline-block px-4 py-2 bg-amber-600/90 text-white text-sm font-semibold rounded-full mb-4">
+            <span className="inline-block px-4 py-2 bg-lake-500/90 text-white text-sm font-semibold rounded-full mb-4">
               Gold Rush Heritage
             </span>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4">
@@ -68,9 +68,14 @@ export default async function HistoryCulturePage() {
         </AuburnHeroImage>
       </section>
 
-      <section className="py-12 md:py-16">
+      {/* Breadcrumbs */}
+      <div className="container mx-auto px-4 py-4 bg-white">
+        <Breadcrumbs items={breadcrumbs} />
+      </div>
+
+      {/* Main Content - White background */}
+      <section className="py-12 md:py-16 bg-white">
         <div className="container mx-auto px-4">
-          <Breadcrumbs items={breadcrumbs} />
 
           {/* Intro Content */}
           <div className="max-w-4xl mx-auto mb-16">
@@ -396,30 +401,30 @@ export default async function HistoryCulturePage() {
             </div>
           </div>
 
-          {/* Nearby Pairings */}
-          <div className="max-w-4xl mx-auto my-16">
+          {/* Nearby Pairings - Cream background */}
+          <div className="max-w-4xl mx-auto my-16 py-12 bg-cream-50 rounded-xl px-6">
             <h2 className="text-3xl font-bold text-charcoal-900 mb-8">
               Plan Your Auburn History Experience
             </h2>
             <div className="grid md:grid-cols-3 gap-6">
-              <Link href="/accommodations" className="card card-hover p-6 group">
-                <h3 className="text-xl font-bold text-charcoal-900 mb-3 group-hover:text-amber-600 transition-colors">
+              <Link href="/accommodations" className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow group border border-charcoal-100">
+                <h3 className="text-xl font-bold text-charcoal-900 mb-3 group-hover:text-lake-600 transition-colors">
                   Stay in Old Town →
                 </h3>
                 <p className="text-charcoal-600">
                   Auburn's historic hotels and inns place you steps from museums, walking tours, and Gold Rush architecture.
                 </p>
               </Link>
-              <Link href="/dining" className="card card-hover p-6 group">
-                <h3 className="text-xl font-bold text-charcoal-900 mb-3 group-hover:text-amber-600 transition-colors">
+              <Link href="/dining" className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow group border border-charcoal-100">
+                <h3 className="text-xl font-bold text-charcoal-900 mb-3 group-hover:text-lake-600 transition-colors">
                   Dine in History →
                 </h3>
                 <p className="text-charcoal-600">
                   Old Town restaurants occupy 1850s buildings. Enjoy farm-to-table meals where miners once traded gold dust.
                 </p>
               </Link>
-              <Link href="/itineraries/history-and-wine" className="card card-hover p-6 group">
-                <h3 className="text-xl font-bold text-charcoal-900 mb-3 group-hover:text-amber-600 transition-colors">
+              <Link href="/itineraries/history-and-wine" className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow group border border-charcoal-100">
+                <h3 className="text-xl font-bold text-charcoal-900 mb-3 group-hover:text-lake-600 transition-colors">
                   History & Wine Itinerary →
                 </h3>
                 <p className="text-charcoal-600">
@@ -427,6 +432,32 @@ export default async function HistoryCulturePage() {
                 </p>
               </Link>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section - Blue accent band */}
+      <section className="py-20 md:py-28 bg-gradient-to-br from-lake-500 to-lake-600 text-white">
+        <div className="container mx-auto px-4 text-center">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-6 font-display">
+            Ready to Explore Auburn's History?
+          </h2>
+          <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
+            Discover California's Gold Rush heritage through museums, historic sites, and walking tours in Old Town Auburn.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link
+              href="/things-to-do"
+              className="bg-white text-lake-600 font-semibold px-8 py-4 rounded-lg hover:bg-cream-50 transition-colors inline-flex items-center justify-center gap-2 shadow-lg"
+            >
+              All Things to Do
+            </Link>
+            <Link
+              href="/plan/visitor-information"
+              className="border-2 border-white/70 text-white font-semibold px-8 py-4 rounded-lg hover:bg-white/10 transition-colors inline-flex items-center justify-center gap-2"
+            >
+              Visitor Information
+            </Link>
           </div>
         </div>
       </section>

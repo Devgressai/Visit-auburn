@@ -21,11 +21,11 @@ export default async function OutdoorAdventurePage() {
   const breadcrumbs = generateBreadcrumbs('/itineraries/outdoor-adventure')
 
   return (
-    <div className="min-h-screen bg-cream-50">
+    <div className="min-h-screen bg-white">
       <section className="relative h-[500px] md:h-[600px]">
         <AuburnHeroImage imageId="hero-american-river-canyon">
           <div className="container mx-auto px-4 text-center">
-            <span className="inline-block px-4 py-2 bg-green-600/90 text-white text-sm font-semibold rounded-full mb-4">
+            <span className="inline-block px-4 py-2 bg-lake-500/90 text-white text-sm font-semibold rounded-full mb-4">
               3-Day Active Itinerary
             </span>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4">
@@ -38,9 +38,14 @@ export default async function OutdoorAdventurePage() {
         </AuburnHeroImage>
       </section>
 
-      <section className="py-12 md:py-16">
+      {/* Breadcrumbs */}
+      <div className="container mx-auto px-4 py-4 bg-white">
+        <Breadcrumbs items={breadcrumbs} />
+      </div>
+
+      {/* Main Content - White background */}
+      <section className="py-12 md:py-16 bg-white">
         <div className="container mx-auto px-4">
-          <Breadcrumbs items={breadcrumbs} />
 
           <div className="max-w-4xl mx-auto mb-12">
             <div className="card p-8">
@@ -75,7 +80,7 @@ export default async function OutdoorAdventurePage() {
           {/* Day 1: Lake Clementine */}
           <div className="max-w-4xl mx-auto mb-16">
             <div className="flex items-center gap-4 mb-6">
-              <div className="w-16 h-16 rounded-full bg-blue-600 text-white flex items-center justify-center text-2xl font-bold">1</div>
+              <div className="w-16 h-16 rounded-full bg-lake-600 text-white flex items-center justify-center text-2xl font-bold">1</div>
               <div>
                 <h2 className="text-3xl font-bold text-charcoal-900">Day 1: Lake Clementine & River Swimming</h2>
                 <p className="text-charcoal-600">10 miles • 800 ft gain • North Fork American River</p>
@@ -85,7 +90,7 @@ export default async function OutdoorAdventurePage() {
             <div className="space-y-6">
               <div className="card p-6">
                 <div className="flex items-center gap-3 mb-4">
-                  <Sunrise className="w-6 h-6 text-blue-600" />
+                  <Sunrise className="w-6 h-6 text-lake-600" />
                   <h3 className="text-xl font-bold text-charcoal-900">7:00 AM - Early Start</h3>
                 </div>
                 <p className="text-charcoal-700 mb-3">
@@ -96,7 +101,7 @@ export default async function OutdoorAdventurePage() {
 
               <div className="card p-6">
                 <div className="flex items-center gap-3 mb-4">
-                  <Mountain className="w-6 h-6 text-blue-600" />
+                  <Mountain className="w-6 h-6 text-lake-600" />
                   <h3 className="text-xl font-bold text-charcoal-900">7:30 AM - Lake Clementine Extended Loop</h3>
                 </div>
                 <p className="text-charcoal-700 mb-4">
@@ -115,7 +120,7 @@ export default async function OutdoorAdventurePage() {
 
               <div className="card p-6">
                 <div className="flex items-center gap-3 mb-4">
-                  <Waves className="w-6 h-6 text-blue-600" />
+                  <Waves className="w-6 h-6 text-lake-600" />
                   <h3 className="text-xl font-bold text-charcoal-900">12:00 PM - River Swimming & Lunch</h3>
                 </div>
                 <p className="text-charcoal-700">
@@ -126,7 +131,7 @@ export default async function OutdoorAdventurePage() {
                 </p>
               </div>
 
-              <div className="card p-6 bg-blue-50">
+              <div className="card p-6 bg-lake-50">
                 <h3 className="text-xl font-bold text-charcoal-900 mb-3">Afternoon: Rest & Explore</h3>
                 <p className="text-charcoal-700 mb-3">
                   Return to Auburn mid-afternoon. After 10 miles, your body needs recovery. Options:

@@ -22,12 +22,12 @@ export default async function AccommodationsPage() {
   const breadcrumbs = generateBreadcrumbs('/accommodations')
 
   return (
-    <div className="min-h-screen bg-cream-50">
+    <div className="min-h-screen bg-white">
       {/* Hero Section with Auburn Image */}
       <section className="relative h-[400px] md:h-[500px]">
         <AuburnHeroImage imageId="hero-old-town-clocktower">
           <div className="container mx-auto px-4 text-center">
-            <span className="inline-block px-4 py-2 bg-gold-500/90 text-white text-sm font-semibold rounded-full mb-4">
+            <span className="inline-block px-4 py-2 bg-lake-500/90 text-white text-sm font-semibold rounded-full mb-4">
               Auburn Lodging
             </span>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4">
@@ -40,10 +40,13 @@ export default async function AccommodationsPage() {
         </AuburnHeroImage>
       </section>
 
-      <section className="py-12 md:py-16">
+      {/* Breadcrumbs */}
+      <div className="container mx-auto px-4 py-4 bg-white">
+        <Breadcrumbs items={breadcrumbs} />
+      </div>
+
+      <section className="py-12 md:py-16 bg-white">
         <div className="container mx-auto px-4">
-          {/* Breadcrumbs */}
-          <Breadcrumbs items={breadcrumbs} />
 
           {/* Main Content */}
           <div className="max-w-4xl mx-auto mb-16">
@@ -234,24 +237,32 @@ export default async function AccommodationsPage() {
           />
           </div>
 
-          {/* Nearby Pairings Section */}
+          {/* Nearby Pairings Section - Cream background */}
           <div className="max-w-4xl mx-auto my-16">
             <h2 className="text-3xl font-bold text-charcoal-900 mb-8">
               Plan Your Auburn Stay
             </h2>
-            <div className="grid md:grid-cols-2 gap-6">
-              <Link href="/dining" className="card card-hover p-6 group">
-                <h3 className="text-xl font-bold text-charcoal-900 mb-3 group-hover:text-gold-600 transition-colors">
-                  Where to Eat in Auburn →
+            <div className="grid md:grid-cols-3 gap-6">
+              <Link href="/dining" className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow group border border-charcoal-100">
+                <h3 className="text-xl font-bold text-charcoal-900 mb-3 group-hover:text-lake-600 transition-colors">
+                  Where to Eat →
                 </h3>
                 <p className="text-charcoal-600">
                   Discover farm-to-table restaurants, historic taverns, and Gold Country wineries all within walking 
                   distance of Auburn lodging.
                 </p>
               </Link>
-              <Link href="/events" className="card card-hover p-6 group">
-                <h3 className="text-xl font-bold text-charcoal-900 mb-3 group-hover:text-gold-600 transition-colors">
-                  Auburn Events Calendar →
+              <Link href="/things-to-do" className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow group border border-charcoal-100">
+                <h3 className="text-xl font-bold text-charcoal-900 mb-3 group-hover:text-lake-600 transition-colors">
+                  Things to Do →
+                </h3>
+                <p className="text-charcoal-600">
+                  Explore hiking trails, Gold Rush history, museums, and outdoor adventures near your Auburn accommodation.
+                </p>
+              </Link>
+              <Link href="/events" className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow group border border-charcoal-100">
+                <h3 className="text-xl font-bold text-charcoal-900 mb-3 group-hover:text-lake-600 transition-colors">
+                  Events Calendar →
                 </h3>
                 <p className="text-charcoal-600">
                   Time your visit around Gold Rush Days, farmers markets, concerts, and community celebrations throughout 
@@ -259,6 +270,32 @@ export default async function AccommodationsPage() {
                 </p>
               </Link>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section - Blue accent band */}
+      <section className="py-20 md:py-28 bg-gradient-to-br from-lake-500 to-lake-600 text-white">
+        <div className="container mx-auto px-4 text-center">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-6 font-display">
+            Ready to Book Your Stay?
+          </h2>
+          <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
+            Find the perfect accommodation for your Auburn adventure in California's Gold Country.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link
+              href="/plan/visitor-information"
+              className="bg-white text-lake-600 font-semibold px-8 py-4 rounded-lg hover:bg-cream-50 transition-colors inline-flex items-center justify-center gap-2 shadow-lg"
+            >
+              Visitor Information
+            </Link>
+            <Link
+              href="/plan/getting-here"
+              className="border-2 border-white/70 text-white font-semibold px-8 py-4 rounded-lg hover:bg-white/10 transition-colors inline-flex items-center justify-center gap-2"
+            >
+              Getting Here
+            </Link>
           </div>
         </div>
       </section>

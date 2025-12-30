@@ -121,11 +121,11 @@ export default async function HubPage({ params }: { params: Promise<{ hubType: s
       />
 
       <article className="min-h-screen bg-white">
-        <div className="bg-gradient-to-r from-amber-600 to-orange-500 text-white py-16">
+        <div className="bg-gradient-to-r from-lake-500 to-lake-600 text-white py-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h1 className="text-4xl md:text-5xl font-bold mb-4">{hubPage.title}</h1>
             {hubPage.excerpt && (
-              <p className="text-xl text-amber-100">{hubPage.excerpt}</p>
+              <p className="text-xl text-white/90">{hubPage.excerpt}</p>
             )}
           </div>
         </div>
@@ -154,7 +154,7 @@ export default async function HubPage({ params }: { params: Promise<{ hubType: s
                           </div>
                         )}
                         <div className="p-6">
-                          <h3 className="text-xl font-semibold text-gray-900 mb-2 group-hover:text-amber-600 transition-colors">
+                          <h3 className="text-xl font-semibold text-gray-900 mb-2 group-hover:text-lake-600 transition-colors">
                             {item.title}
                           </h3>
                           {item.excerpt && (

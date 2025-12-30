@@ -50,12 +50,12 @@ export default async function OutdoorAdventuresPage() {
   const breadcrumbs = generateBreadcrumbs('/things-to-do/outdoor-adventures')
 
   return (
-    <div className="min-h-screen bg-cream-50">
+    <div className="min-h-screen bg-white">
       {/* Hero */}
       <section className="relative h-[500px] md:h-[600px]">
         <AuburnHeroImage imageId="hero-american-river-canyon">
           <div className="container mx-auto px-4 text-center">
-            <span className="inline-block px-4 py-2 bg-green-600/90 text-white text-sm font-semibold rounded-full mb-4">
+            <span className="inline-block px-4 py-2 bg-lake-500/90 text-white text-sm font-semibold rounded-full mb-4">
               Auburn Outdoor Recreation
             </span>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4">
@@ -68,9 +68,14 @@ export default async function OutdoorAdventuresPage() {
         </AuburnHeroImage>
       </section>
 
-      <section className="py-12 md:py-16">
+      {/* Breadcrumbs */}
+      <div className="container mx-auto px-4 py-4 bg-white">
+        <Breadcrumbs items={breadcrumbs} />
+      </div>
+
+      {/* Main Content - White background */}
+      <section className="py-12 md:py-16 bg-white">
         <div className="container mx-auto px-4">
-          <Breadcrumbs items={breadcrumbs} />
 
           {/* Intro Content */}
           <div className="max-w-4xl mx-auto mb-16">
@@ -105,8 +110,8 @@ export default async function OutdoorAdventuresPage() {
                 return (
                   <div key={activity.title} className="card p-6">
                     <div className="flex items-start gap-4 mb-4">
-                      <div className="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0">
-                        <Icon className="w-6 h-6 text-green-700" />
+                      <div className="w-12 h-12 rounded-full bg-lake-100 flex items-center justify-center flex-shrink-0">
+                        <Icon className="w-6 h-6 text-lake-700" />
                       </div>
                       <div>
                         <h3 className="text-xl font-bold text-charcoal-900 mb-2">{activity.title}</h3>
@@ -116,7 +121,7 @@ export default async function OutdoorAdventuresPage() {
                     <ul className="space-y-2 text-sm text-charcoal-700">
                       {activity.highlights.map((highlight) => (
                         <li key={highlight} className="flex items-center gap-2">
-                          <MapPin className="w-4 h-4 text-green-600 flex-shrink-0" />
+                          <MapPin className="w-4 h-4 text-lake-600 flex-shrink-0" />
                           {highlight}
                         </li>
                       ))}
@@ -145,7 +150,7 @@ export default async function OutdoorAdventuresPage() {
             </h2>
 
             <div className="space-y-8">
-              <div className="border-l-4 border-green-600 pl-6">
+              <div className="border-l-4 border-lake-600 pl-6">
                 <h3 className="text-2xl font-bold text-charcoal-900 mb-3">
                   Lake Clementine Trail
                 </h3>
@@ -163,7 +168,7 @@ export default async function OutdoorAdventuresPage() {
                 </p>
               </div>
 
-              <div className="border-l-4 border-blue-600 pl-6">
+              <div className="border-l-4 border-lake-600 pl-6">
                 <h3 className="text-2xl font-bold text-charcoal-900 mb-3">
                   Hidden Falls Regional Park
                 </h3>
@@ -223,7 +228,7 @@ export default async function OutdoorAdventuresPage() {
               beaches ideal for kids. Always check flow rates before visiting—safe levels are 1,000-3,000 CFS.
             </p>
 
-            <div className="bg-blue-50 border-l-4 border-blue-600 p-6 rounded-r-lg mb-6">
+            <div className="bg-lake-50 border-l-4 border-lake-600 p-6 rounded-r-lg mb-6">
               <h4 className="font-bold text-lg mb-3">Popular Swimming Spots</h4>
               <ul className="space-y-2">
                 <li><strong>Lake Clementine:</strong> Reservoir swimming with sandy beach access</li>
@@ -316,7 +321,7 @@ export default async function OutdoorAdventuresPage() {
             </h2>
             <div className="grid md:grid-cols-3 gap-6">
               <Link href="/accommodations" className="card card-hover p-6 group">
-                <h3 className="text-xl font-bold text-charcoal-900 mb-3 group-hover:text-green-600 transition-colors">
+                <h3 className="text-xl font-bold text-charcoal-900 mb-3 group-hover:text-lake-600 transition-colors">
                   Stay Near Trailheads →
                 </h3>
                 <p className="text-charcoal-600">
@@ -324,7 +329,7 @@ export default async function OutdoorAdventuresPage() {
                 </p>
               </Link>
               <Link href="/dining" className="card card-hover p-6 group">
-                <h3 className="text-xl font-bold text-charcoal-900 mb-3 group-hover:text-green-600 transition-colors">
+                <h3 className="text-xl font-bold text-charcoal-900 mb-3 group-hover:text-lake-600 transition-colors">
                   Refuel After Adventures →
                 </h3>
                 <p className="text-charcoal-600">
@@ -332,7 +337,7 @@ export default async function OutdoorAdventuresPage() {
                 </p>
               </Link>
               <Link href="/itineraries/outdoor-adventure-day" className="card card-hover p-6 group">
-                <h3 className="text-xl font-bold text-charcoal-900 mb-3 group-hover:text-green-600 transition-colors">
+                <h3 className="text-xl font-bold text-charcoal-900 mb-3 group-hover:text-lake-600 transition-colors">
                   Plan Your Trip →
                 </h3>
                 <p className="text-charcoal-600">

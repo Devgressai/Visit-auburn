@@ -125,6 +125,43 @@ const weddingVenues: WeddingVenue[] = [
     imageSrc: '/images/auburn/weddings/winery-venue.jpg',
     venueType: 'Winery & Vineyard',
   },
+  {
+    name: 'Auburn State Theatre',
+    areaLabel: 'Auburn 95603',
+    shortDescription: 'Historic 1930s art deco theater with elegant character, perfect for unique ceremonies and intimate receptions.',
+    mapSearchQuery: 'Auburn State Theatre Auburn CA',
+    imageSrc: '/images/auburn/weddings/historic-building.jpg',
+    website: 'https://auburnstatetheatre.org',
+    capacity: 'Up to 400 guests',
+    venueType: 'Historic Theater',
+  },
+  {
+    name: 'Bernhard Museum Complex',
+    areaLabel: 'Auburn 95603',
+    shortDescription: 'Authentic Gold Rush era museum complex with historic buildings and charming courtyard for intimate ceremonies.',
+    mapSearchQuery: 'Bernhard Museum Auburn CA',
+    imageSrc: '/images/auburn/weddings/historic-building.jpg',
+    capacity: 'Up to 80 guests',
+    venueType: 'Historic Museum',
+  },
+  {
+    name: 'Auburn Alehouse Event Space',
+    areaLabel: 'Auburn 95603',
+    shortDescription: 'Historic Gold Rush building with private event space, craft brewery atmosphere, and full catering options.',
+    mapSearchQuery: 'Auburn Alehouse Auburn CA',
+    imageSrc: '/images/auburn/weddings/historic-building.jpg',
+    capacity: 'Up to 120 guests',
+    venueType: 'Historic Brewery',
+  },
+  {
+    name: 'Lake Clementine Recreation Area',
+    areaLabel: 'Auburn 95603',
+    shortDescription: 'Scenic outdoor venue along Lake Clementine with covered areas and stunning natural backdrop for ceremonies.',
+    mapSearchQuery: 'Lake Clementine Recreation Area Auburn CA',
+    imageSrc: '/images/auburn/weddings/american-river-scenic.jpg',
+    capacity: 'Up to 150 guests',
+    venueType: 'Outdoor Recreation',
+  },
 ]
 
 const photoSpots = [

@@ -6,42 +6,49 @@ import Link from 'next/link'
 import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react'
 import { editorials } from '@/lib/data'
 import { getImageUrl } from '@/lib/images'
+import { getAuburnImagePath } from '@/data/auburnImages'
 
 // Extended articles for the carousel
+// TODO: Replace fallback images with specific Auburn images from /public/images/auburn/insider-tips/
+// Expected filenames:
+// - hiking-trails.jpg
+// - gold-rush-history.jpg
+// - wine-tasting.jpg
+// - family-itinerary.jpg
 const articles = [
   {
     id: '1',
     title: "Best Hiking Trails for Every Skill Level",
     excerpt: "From easy strolls to challenging climbs, discover Auburn's most scenic trails...",
-    image: 'https://images.unsplash.com/photo-1551632811-561732d1e306?w=600&q=80',
+    image: getAuburnImagePath('outdoor-lake-clementine'), // Fallback to existing Auburn image
     href: '/things-to-do/outdoor-adventures',
   },
   {
     id: '2',
     title: "Gold Rush History Walking Tour",
     excerpt: "Step back in time and explore the historic sites of Old Town Auburn...",
-    image: 'https://images.unsplash.com/photo-1464207687429-7505649dae38?w=600&q=80',
+    image: getAuburnImagePath('historic-old-town-clocktower'), // Fallback to existing Auburn image
     href: '/things-to-do/history-culture',
   },
   {
     id: '3',
     title: "Wine Tasting in the Foothills",
     excerpt: "Discover boutique wineries and tasting rooms in Auburn's wine country...",
-    image: 'https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?w=600&q=80',
+    image: getAuburnImagePath('dining-winery-tasting'), // Fallback to existing Auburn image
     href: '/dining',
   },
   {
     id: '4',
     title: "Family-Friendly Weekend Itinerary",
     excerpt: "Two days of adventure, history, and fun for the whole family...",
-    image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&q=80',
+    image: getAuburnImagePath('outdoor-quarry-ponds'), // Fallback to existing Auburn image
     href: '/plan/visitor-information',
   },
   ...editorials.map(e => ({
     id: e._id,
     title: e.title,
     excerpt: e.excerpt || '',
-    image: e.featuredImage ? getImageUrl(e.featuredImage) : 'https://images.unsplash.com/photo-1464207687429-7505649dae38?w=600&q=80',
+    image: e.featuredImage ? getImageUrl(e.featuredImage) : getAuburnImagePath('hero-old-town-clocktower'), // Fallback to existing Auburn image
     href: `/discover/${e.slug.current}`,
   })),
 ]

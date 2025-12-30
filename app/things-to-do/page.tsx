@@ -106,7 +106,7 @@ export default async function ThingsToDoPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }}
       />
 
-      <div className="min-h-screen bg-cream-50">
+      <div className="min-h-screen bg-white">
         <PageHero
           title="Things to Do in Auburn"
           subtitle="From scenic trails to Gold Rush history, discover everything Auburn has to offer"
@@ -115,7 +115,7 @@ export default async function ThingsToDoPage() {
           size="md"
         />
 
-        {/* Intro Section */}
+        {/* Intro Section - White background */}
         <section className="py-12 md:py-16 bg-white">
           <div className="container mx-auto px-4">
             {/* Breadcrumbs */}
@@ -156,8 +156,8 @@ export default async function ThingsToDoPage() {
           </div>
         </section>
 
-        {/* Category Cards */}
-        <section className="py-12 md:py-16">
+        {/* Category Cards - Cream background */}
+        <section className="py-12 md:py-16 bg-cream-50">
           <div className="container mx-auto px-4">
             <h2 className="text-2xl md:text-3xl font-bold text-charcoal-900 mb-8 text-center">
               Explore by Category
@@ -197,12 +197,12 @@ export default async function ThingsToDoPage() {
         </section>
 
         {/* All Attractions by Category */}
-        {thingsToDoCategories.map((category) => {
+        {thingsToDoCategories.map((category, index) => {
           const items = groupedItems[category.slug] || []
           if (items.length === 0) return null
 
           return (
-            <section key={category.slug} className="py-12 md:py-16 bg-white odd:bg-cream-50">
+            <section key={category.slug} className={`py-12 md:py-16 ${index % 2 === 0 ? 'bg-white' : 'bg-cream-50'}`}>
               <div className="container mx-auto px-4">
                 {/* Category Header with Image */}
                 <div className="mb-8">
@@ -292,10 +292,10 @@ export default async function ThingsToDoPage() {
           )
         })}
 
-        {/* CTA Section */}
-        <section className="py-16 md:py-20 bg-gradient-to-r from-forest-600 to-forest-700 text-white">
+        {/* CTA Section - Blue accent band */}
+        <section className="py-16 md:py-20 bg-gradient-to-br from-lake-500 to-lake-600 text-white">
           <div className="container mx-auto px-4 text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 font-display">
               Ready to Explore Auburn?
             </h2>
             <p className="text-xl mb-8 text-white/90 max-w-2xl mx-auto">
@@ -304,13 +304,13 @@ export default async function ThingsToDoPage() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 href="/accommodations"
-                className="btn-outline-white"
+                className="bg-white text-lake-600 font-semibold px-8 py-4 rounded-lg hover:bg-cream-50 transition-colors inline-flex items-center justify-center gap-2 shadow-lg"
               >
                 Find Places to Stay
               </Link>
               <Link
                 href="/plan/visitor-information"
-                className="btn-outline-white"
+                className="border-2 border-white/70 text-white font-semibold px-8 py-4 rounded-lg hover:bg-white/10 transition-colors inline-flex items-center justify-center gap-2"
               >
                 Visitor Information
               </Link>

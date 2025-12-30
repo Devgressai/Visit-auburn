@@ -58,15 +58,32 @@ export default async function SearchPage({
     },
   ] : []
 
+  const featuredCategories = [
+    { name: 'Outdoor Adventures', href: '/things-to-do/outdoor-adventures', icon: '🏔️', count: '20+ trails' },
+    { name: 'Historic Sites', href: '/things-to-do/history-culture', icon: '🏛️', count: '15+ sites' },
+    { name: 'Restaurants', href: '/dining', icon: '🍽️', count: '30+ options' },
+    { name: 'Hotels & Lodging', href: '/accommodations', icon: '🛏️', count: '12+ properties' },
+    { name: 'Events', href: '/events', icon: '📅', count: 'Year-round' },
+    { name: 'Wineries', href: '/dining', icon: '🍷', count: '10+ wineries' },
+  ]
+
+  const popularDirectories = [
+    { name: 'Gold Rush History', href: '/things-to-do/history-culture', description: 'Museums, historic sites, and Gold Country heritage' },
+    { name: 'Hiking & Trails', href: '/things-to-do/outdoor-adventures', description: 'Scenic trails, waterfalls, and outdoor recreation' },
+    { name: 'Old Town Dining', href: '/dining', description: 'Restaurants, cafes, and breweries in historic downtown' },
+    { name: 'Wedding Venues', href: '/plan/weddings', description: 'Historic estates, gardens, and scenic outdoor spaces' },
+    { name: 'Meeting Spaces', href: '/plan/meetings', description: 'Conference centers and corporate event venues' },
+  ]
+
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Hero */}
-      <div className="bg-gradient-to-br from-blue-600 to-purple-700 text-white py-16">
-        <div className="container max-w-4xl">
+    <div className="min-h-screen bg-white">
+      {/* Hero Section - White background with blue accent */}
+      <section className="relative py-16 md:py-24 bg-gradient-to-br from-lake-500 to-lake-600 text-white">
+        <div className="container max-w-4xl mx-auto px-4">
           <div className="flex items-center justify-center mb-6">
             <SearchIcon className="w-16 h-16" />
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold mb-6 text-center">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-center font-display">
             {query ? `Search Results for "${query}"` : 'Search Auburn'}
           </h1>
           
@@ -77,48 +94,95 @@ export default async function SearchPage({
               name="q"
               defaultValue={query}
               placeholder="Search for places, activities, restaurants..."
-              className="w-full px-6 py-4 pr-14 text-lg rounded-2xl text-gray-900 shadow-2xl focus:outline-none focus:ring-4 focus:ring-white/30"
+              className="w-full px-6 py-4 pr-14 text-lg rounded-2xl text-charcoal-900 shadow-2xl focus:outline-none focus:ring-4 focus:ring-white/30"
             />
             <button
               type="submit"
-              className="absolute right-2 top-1/2 -translate-y-1/2 p-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors"
+              className="absolute right-2 top-1/2 -translate-y-1/2 p-3 bg-lake-600 text-white rounded-xl hover:bg-lake-700 transition-colors"
+              aria-label="Search"
             >
               <SearchIcon className="w-5 h-5" />
             </button>
           </form>
         </div>
-      </div>
+      </section>
 
       {/* Breadcrumbs */}
-      <div className="container py-8 max-w-4xl">
+      <div className="container mx-auto px-4 py-4 bg-white">
         <Breadcrumbs items={breadcrumbs} />
       </div>
 
       {/* Results */}
-      <div className="container py-16 max-w-4xl">
+      <div className="container mx-auto px-4 py-16 max-w-6xl">
         {!query ? (
-          <div className="text-center py-16">
-            <p className="text-xl text-gray-600">Enter a search term to find what you're looking for.</p>
-            
-            <div className="mt-12">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Popular Searches</h2>
+          <div className="space-y-16">
+            {/* Featured Categories */}
+            <section>
+              <h2 className="text-3xl font-bold text-charcoal-900 mb-6 text-center font-display">
+                Featured Categories
+              </h2>
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+                {featuredCategories.map((category) => (
+                  <Link
+                    key={category.name}
+                    href={category.href}
+                    className="bg-cream-50 rounded-xl p-6 text-center hover:bg-cream-100 transition-colors border border-charcoal-100 group"
+                  >
+                    <div className="text-4xl mb-2">{category.icon}</div>
+                    <h3 className="font-bold text-charcoal-900 mb-1 group-hover:text-lake-600 transition-colors">
+                      {category.name}
+                    </h3>
+                    <p className="text-sm text-charcoal-600">{category.count}</p>
+                  </Link>
+                ))}
+              </div>
+            </section>
+
+            {/* Popular Directories */}
+            <section>
+              <h2 className="text-3xl font-bold text-charcoal-900 mb-6 text-center font-display">
+                Popular Directories
+              </h2>
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {popularDirectories.map((directory) => (
+                  <Link
+                    key={directory.name}
+                    href={directory.href}
+                    className="bg-white rounded-xl p-6 border border-charcoal-200 hover:border-lake-500 hover:shadow-lg transition-all group"
+                  >
+                    <h3 className="text-xl font-bold text-charcoal-900 mb-2 group-hover:text-lake-600 transition-colors font-display">
+                      {directory.name}
+                    </h3>
+                    <p className="text-charcoal-600 leading-relaxed">
+                      {directory.description}
+                    </p>
+                  </Link>
+                ))}
+              </div>
+            </section>
+
+            {/* Popular Searches */}
+            <section>
+              <h2 className="text-3xl font-bold text-charcoal-900 mb-6 text-center font-display">
+                Popular Searches
+              </h2>
               <div className="flex flex-wrap justify-center gap-3">
-                {['Hiking Trails', 'Historic Sites', 'Restaurants', 'Hotels', 'Events', 'Gold Rush'].map((term) => (
+                {['Hiking Trails', 'Historic Sites', 'Restaurants', 'Hotels', 'Events', 'Gold Rush', 'Wineries', 'Museums', 'Parks', 'Breweries'].map((term) => (
                   <Link
                     key={term}
                     href={`/search?q=${encodeURIComponent(term)}`}
-                    className="px-6 py-3 bg-white border border-gray-200 rounded-full hover:border-blue-500 hover:text-blue-600 transition-colors shadow-sm hover:shadow-md"
+                    className="px-6 py-3 bg-cream-50 border border-charcoal-200 rounded-full hover:border-lake-500 hover:text-lake-600 hover:bg-white transition-colors shadow-sm hover:shadow-md font-semibold"
                   >
                     {term}
                   </Link>
                 ))}
               </div>
-            </div>
+            </section>
           </div>
         ) : mockResults.length > 0 ? (
           <>
-            <p className="text-gray-600 mb-8">
-              Found {mockResults.length} result{mockResults.length !== 1 ? 's' : ''} for "{query}"
+            <p className="text-charcoal-600 mb-8 text-lg">
+              Found {mockResults.length} result{mockResults.length !== 1 ? 's' : ''} for "<strong>{query}</strong>"
             </p>
             
             <div className="space-y-6">
@@ -126,17 +190,17 @@ export default async function SearchPage({
                 <Link
                   key={result.id}
                   href={result.slug}
-                  className="block bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-200 p-6 border border-gray-200 hover:border-blue-500"
+                  className="block bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-200 p-6 border border-charcoal-200 hover:border-lake-500"
                 >
                   <div className="flex items-start justify-between gap-4 mb-2">
-                    <h2 className="text-2xl font-bold text-gray-900 hover:text-blue-600">
+                    <h2 className="text-2xl font-bold text-charcoal-900 hover:text-lake-600 transition-colors font-display">
                       {result.title}
                     </h2>
-                    <span className="px-3 py-1 bg-blue-100 text-blue-700 text-sm font-semibold rounded-full whitespace-nowrap">
+                    <span className="px-3 py-1 bg-lake-100 text-lake-700 text-sm font-semibold rounded-full whitespace-nowrap">
                       {result.category}
                     </span>
                   </div>
-                  <p className="text-gray-600 leading-relaxed">
+                  <p className="text-charcoal-600 leading-relaxed">
                     {result.description}
                   </p>
                 </Link>
@@ -145,15 +209,15 @@ export default async function SearchPage({
           </>
         ) : (
           <div className="text-center py-16">
-            <SearchIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">No Results Found</h2>
-            <p className="text-gray-600 mb-8">
-              We couldn't find anything matching "{query}". Try a different search term.
+            <SearchIcon className="w-16 h-16 text-charcoal-300 mx-auto mb-4" />
+            <h2 className="text-2xl font-bold text-charcoal-900 mb-2 font-display">No Results Found</h2>
+            <p className="text-charcoal-600 mb-8 text-lg">
+              We couldn't find anything matching "<strong>{query}</strong>". Try a different search term or browse our categories below.
             </p>
             
-            <div className="mt-8">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Suggestions:</h3>
-              <ul className="text-left max-w-md mx-auto space-y-2 text-gray-600">
+            <div className="mt-12">
+              <h3 className="text-lg font-semibold text-charcoal-900 mb-4">Suggestions:</h3>
+              <ul className="text-left max-w-md mx-auto space-y-2 text-charcoal-600 mb-8">
                 <li>• Check your spelling</li>
                 <li>• Try more general keywords</li>
                 <li>• Try different keywords</li>
@@ -161,11 +225,14 @@ export default async function SearchPage({
               </ul>
               
               <div className="mt-8 flex flex-wrap justify-center gap-4">
-                <Link href="/things-to-do" className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-full hover:bg-blue-700 transition-colors">
+                <Link href="/things-to-do" className="px-6 py-3 bg-lake-600 text-white font-semibold rounded-lg hover:bg-lake-700 transition-colors">
                   Browse Activities
                 </Link>
-                <Link href="/dining" className="px-6 py-3 bg-white border-2 border-gray-300 text-gray-900 font-semibold rounded-full hover:border-blue-600 hover:text-blue-600 transition-colors">
+                <Link href="/dining" className="px-6 py-3 bg-white border-2 border-charcoal-300 text-charcoal-900 font-semibold rounded-lg hover:border-lake-600 hover:text-lake-600 transition-colors">
                   Browse Dining
+                </Link>
+                <Link href="/accommodations" className="px-6 py-3 bg-white border-2 border-charcoal-300 text-charcoal-900 font-semibold rounded-lg hover:border-lake-600 hover:text-lake-600 transition-colors">
+                  Browse Lodging
                 </Link>
               </div>
             </div>

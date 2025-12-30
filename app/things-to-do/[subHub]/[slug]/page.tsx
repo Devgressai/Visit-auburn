@@ -82,12 +82,12 @@ export default async function AttractionDetailPage({ params }: { params: Promise
       />
 
       <article className="min-h-screen bg-white">
-        <div className="bg-gradient-to-r from-forest-600 to-forest-700 text-white py-16 md:py-20">
+        <div className="bg-gradient-to-br from-lake-500 to-lake-600 text-white py-16 md:py-20">
           <div className="container mx-auto px-4">
             <div className="mb-6">
               <Breadcrumbs items={breadcrumbItems} />
             </div>
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">{item.title}</h1>
+            <h1 className="text-4xl md:text-5xl font-bold mb-4 font-display">{item.title}</h1>
             <p className="text-xl text-white/90 max-w-3xl">
               {item.shortDescription}
             </p>
@@ -101,7 +101,7 @@ export default async function AttractionDetailPage({ params }: { params: Promise
               {item.goodFor.map((tag) => (
                 <span
                   key={tag}
-                  className="text-sm bg-gold-100 text-gold-800 px-3 py-1.5 rounded-full font-medium"
+                  className="text-sm bg-lake-100 text-lake-800 px-3 py-1.5 rounded-full font-medium"
                 >
                   {tag}
                 </span>
@@ -115,7 +115,7 @@ export default async function AttractionDetailPage({ params }: { params: Promise
                 <ul className="grid grid-cols-1 md:grid-cols-2 gap-3">
                   {item.highlights.map((highlight, idx) => (
                     <li key={idx} className="flex items-start">
-                      <span className="text-gold-500 mr-3 text-xl">✓</span>
+                      <span className="text-lake-500 mr-3 text-xl">✓</span>
                       <span className="text-charcoal-700">{highlight}</span>
                     </li>
                   ))}
@@ -126,7 +126,7 @@ export default async function AttractionDetailPage({ params }: { params: Promise
             {/* Location */}
             <div className="mb-8 p-6 bg-cream-50 rounded-xl border border-charcoal-200">
               <h2 className="text-xl font-bold text-charcoal-900 mb-3 flex items-center gap-2">
-                <MapPin className="w-5 h-5 text-gold-600" />
+                <MapPin className="w-5 h-5 text-lake-600" />
                 Location
               </h2>
               <div className="text-charcoal-700">
@@ -163,7 +163,7 @@ export default async function AttractionDetailPage({ params }: { params: Promise
                   href={item.website}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 bg-gradient-gold text-white px-6 py-3 rounded-full font-semibold hover:shadow-lg transition-shadow"
+                  className="inline-flex items-center gap-2 bg-gradient-to-br from-lake-500 to-lake-600 text-white px-6 py-3 rounded-lg font-semibold hover:shadow-lg transition-shadow"
                 >
                   Visit Official Website
                   <ExternalLink className="w-4 h-4" />
@@ -182,7 +182,7 @@ export default async function AttractionDetailPage({ params }: { params: Promise
                         href={source.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-gold-600 hover:text-gold-700 hover:underline inline-flex items-center gap-2"
+                        className="text-lake-600 hover:text-lake-700 hover:underline inline-flex items-center gap-2"
                       >
                         {source.label}
                         <ExternalLink className="w-3 h-3" />
@@ -206,7 +206,7 @@ export default async function AttractionDetailPage({ params }: { params: Promise
                       href={`/things-to-do/${subHub}/${related.slug}`}
                       className="card card-hover p-5"
                     >
-                      <h3 className="text-lg font-bold text-charcoal-900 mb-2 group-hover:text-gold-600 transition-colors line-clamp-2">
+                      <h3 className="text-lg font-bold text-charcoal-900 mb-2 group-hover:text-lake-600 transition-colors line-clamp-2">
                         {related.title}
                       </h3>
                       <p className="text-charcoal-600 text-sm line-clamp-2">

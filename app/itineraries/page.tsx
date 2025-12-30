@@ -74,12 +74,12 @@ export default async function ItinerariesPage() {
   const breadcrumbs = generateBreadcrumbs('/itineraries')
 
   return (
-    <div className="min-h-screen bg-cream-50">
+    <div className="min-h-screen bg-white">
       {/* Hero */}
       <section className="relative h-[500px] md:h-[600px]">
         <AuburnHeroImage imageId="hero-american-river-canyon">
           <div className="container mx-auto px-4 text-center">
-            <span className="inline-block px-4 py-2 bg-blue-600/90 text-white text-sm font-semibold rounded-full mb-4">
+            <span className="inline-block px-4 py-2 bg-lake-500/90 text-white text-sm font-semibold rounded-full mb-4">
               Trip Planning Made Easy
             </span>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4">
@@ -92,9 +92,14 @@ export default async function ItinerariesPage() {
         </AuburnHeroImage>
       </section>
 
-      <section className="py-12 md:py-16">
+      {/* Breadcrumbs */}
+      <div className="container mx-auto px-4 py-4 bg-white">
+        <Breadcrumbs items={breadcrumbs} />
+      </div>
+
+      {/* Main Content - White background */}
+      <section className="py-12 md:py-16 bg-white">
         <div className="container mx-auto px-4">
-          <Breadcrumbs items={breadcrumbs} />
 
           {/* Intro */}
           <div className="max-w-4xl mx-auto mb-16 text-center">
@@ -169,8 +174,8 @@ export default async function ItinerariesPage() {
             })}
           </div>
 
-          {/* Planning Tips */}
-          <div className="max-w-4xl mx-auto mb-16">
+          {/* Planning Tips - Cream background */}
+          <div className="max-w-4xl mx-auto mb-16 py-12 bg-cream-50 rounded-xl px-6">
             <h2 className="text-3xl font-bold text-charcoal-900 mb-8 text-center">
               Tips for Planning Your Auburn Trip
             </h2>
@@ -230,33 +235,33 @@ export default async function ItinerariesPage() {
             </div>
           </div>
 
-          {/* Related Links */}
+          {/* Related Links - White background */}
           <div className="max-w-4xl mx-auto">
             <h2 className="text-3xl font-bold text-charcoal-900 mb-8 text-center">
               More Auburn Planning Resources
             </h2>
             <div className="grid md:grid-cols-3 gap-6">
-              <Link href="/things-to-do" className="card card-hover p-6 text-center group">
-                <Mountain className="w-10 h-10 text-blue-600 mx-auto mb-3" />
-                <h3 className="text-lg font-bold text-charcoal-900 mb-2 group-hover:text-blue-600 transition-colors">
+              <Link href="/things-to-do" className="bg-white rounded-xl p-6 text-center shadow-md hover:shadow-lg transition-shadow group border border-charcoal-100">
+                <Mountain className="w-10 h-10 text-lake-600 mx-auto mb-3" />
+                <h3 className="text-lg font-bold text-charcoal-900 mb-2 group-hover:text-lake-600 transition-colors">
                   Things to Do
                 </h3>
                 <p className="text-sm text-charcoal-600">
                   Browse all Auburn activities by category—outdoor, history, arts, dining, events
                 </p>
               </Link>
-              <Link href="/plan/visitor-information" className="card card-hover p-6 text-center group">
-                <MapPin className="w-10 h-10 text-blue-600 mx-auto mb-3" />
-                <h3 className="text-lg font-bold text-charcoal-900 mb-2 group-hover:text-blue-600 transition-colors">
+              <Link href="/plan/visitor-information" className="bg-white rounded-xl p-6 text-center shadow-md hover:shadow-lg transition-shadow group border border-charcoal-100">
+                <MapPin className="w-10 h-10 text-lake-600 mx-auto mb-3" />
+                <h3 className="text-lg font-bold text-charcoal-900 mb-2 group-hover:text-lake-600 transition-colors">
                   Visitor Info
                 </h3>
                 <p className="text-sm text-charcoal-600">
                   Weather, transportation, visitor centers, and essential Auburn information
                 </p>
               </Link>
-              <Link href="/events" className="card card-hover p-6 text-center group">
-                <Calendar className="w-10 h-10 text-blue-600 mx-auto mb-3" />
-                <h3 className="text-lg font-bold text-charcoal-900 mb-2 group-hover:text-blue-600 transition-colors">
+              <Link href="/events" className="bg-white rounded-xl p-6 text-center shadow-md hover:shadow-lg transition-shadow group border border-charcoal-100">
+                <Calendar className="w-10 h-10 text-lake-600 mx-auto mb-3" />
+                <h3 className="text-lg font-bold text-charcoal-900 mb-2 group-hover:text-lake-600 transition-colors">
                   Events Calendar
                 </h3>
                 <p className="text-sm text-charcoal-600">
@@ -264,6 +269,32 @@ export default async function ItinerariesPage() {
                 </p>
               </Link>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section - Blue accent band */}
+      <section className="py-20 md:py-28 bg-gradient-to-br from-lake-500 to-lake-600 text-white">
+        <div className="container mx-auto px-4 text-center">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-6 font-display">
+            Ready to Plan Your Auburn Adventure?
+          </h2>
+          <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
+            Choose an itinerary and start exploring California's Gold Country today.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link
+              href="/accommodations"
+              className="bg-white text-lake-600 font-semibold px-8 py-4 rounded-lg hover:bg-cream-50 transition-colors inline-flex items-center justify-center gap-2 shadow-lg"
+            >
+              Find Places to Stay
+            </Link>
+            <Link
+              href="/plan/getting-here"
+              className="border-2 border-white/70 text-white font-semibold px-8 py-4 rounded-lg hover:bg-white/10 transition-colors inline-flex items-center justify-center gap-2"
+            >
+              Getting Here
+            </Link>
           </div>
         </div>
       </section>

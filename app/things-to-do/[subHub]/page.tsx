@@ -83,7 +83,7 @@ export default async function SubHubPage({ params }: { params: Promise<{ subHub:
         dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }}
       />
 
-      <div className="min-h-screen bg-cream-50">
+      <div className="min-h-screen bg-white">
         <PageHero
           title={category.title}
           subtitle={category.description}
@@ -92,8 +92,12 @@ export default async function SubHubPage({ params }: { params: Promise<{ subHub:
           size="sm"
         />
 
-        <div className="container mx-auto px-4 py-12">
+        {/* Breadcrumbs */}
+        <div className="container mx-auto px-4 py-4 bg-white">
           <Breadcrumbs items={breadcrumbItems} />
+        </div>
+
+        <div className="container mx-auto px-4 py-12 bg-white">
 
           <div className="mt-8">
             <div className="flex items-center justify-between mb-6">
@@ -110,7 +114,7 @@ export default async function SubHubPage({ params }: { params: Promise<{ subHub:
                   className="card card-hover overflow-hidden group"
                 >
                   <div className="p-6">
-                    <h3 className="text-xl font-bold text-charcoal-900 mb-3 group-hover:text-gold-600 transition-colors">
+                    <h3 className="text-xl font-bold text-charcoal-900 mb-3 group-hover:text-lake-600 transition-colors">
                       {item.title}
                     </h3>
                     <p className="text-charcoal-600 text-sm mb-4 line-clamp-3">
@@ -122,7 +126,7 @@ export default async function SubHubPage({ params }: { params: Promise<{ subHub:
                       <ul className="text-sm text-charcoal-700 mb-4 space-y-1">
                         {item.highlights.slice(0, 3).map((highlight, idx) => (
                           <li key={idx} className="flex items-start">
-                            <span className="text-gold-500 mr-2">•</span>
+                            <span className="text-lake-500 mr-2">•</span>
                             <span className="line-clamp-1">{highlight}</span>
                           </li>
                         ))}
@@ -134,7 +138,7 @@ export default async function SubHubPage({ params }: { params: Promise<{ subHub:
                       {item.goodFor.slice(0, 3).map((tag) => (
                         <span
                           key={tag}
-                          className="text-xs bg-gold-50 text-gold-700 px-2 py-1 rounded-full border border-gold-200"
+                          className="text-xs bg-lake-50 text-lake-700 px-2 py-1 rounded-full border border-lake-200"
                         >
                           {tag}
                         </span>

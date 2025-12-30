@@ -93,7 +93,7 @@ export default async function DiscoverPage({ params }: { params: Promise<{ slug:
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
       />
 
-      <article className="min-h-screen bg-cream-50">
+      <article className="min-h-screen bg-white">
         {/* Hero Image */}
         <div className="relative h-[50vh] md:h-[60vh] overflow-hidden">
           {imageUrl ? (
@@ -105,7 +105,7 @@ export default async function DiscoverPage({ params }: { params: Promise<{ slug:
               className="object-cover"
             />
           ) : (
-            <div className="h-full bg-gradient-to-br from-gold-200 to-gold-400" />
+            <div className="h-full bg-gradient-to-br from-lake-400 to-lake-500" />
           )}
 
           {/* Gradient Overlay */}
@@ -215,11 +215,11 @@ export default async function DiscoverPage({ params }: { params: Promise<{ slug:
                               className="object-cover transition-transform duration-500 group-hover:scale-110"
                             />
                           ) : (
-                            <div className="h-full bg-gradient-to-br from-gold-100 to-gold-200" />
+                            <div className="h-full bg-gradient-to-br from-lake-100 to-lake-200" />
                           )}
                         </div>
                         <div className="p-5">
-                          <h3 className="font-bold text-charcoal-900 group-hover:text-gold-600 transition-colors mb-2">
+                          <h3 className="font-bold text-charcoal-900 group-hover:text-lake-600 transition-colors mb-2">
                             {related.title}
                           </h3>
                           {related.excerpt && (

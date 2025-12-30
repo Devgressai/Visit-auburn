@@ -2,7 +2,7 @@ import { buildMetadata, SITE_URL } from '@/lib/seo'
 import { Breadcrumbs } from '@/components/navigation/Breadcrumbs'
 import { RelatedPages } from '@/components/ui/RelatedPages'
 import { generateBreadcrumbs } from '@/lib/routes'
-import Image from 'next/image'
+import { AuburnHeroImage } from '@/components/ui/AuburnImage'
 import Link from 'next/link'
 import { Leaf, Heart, Trash2, Camera, MapPin, Users, ShoppingBag, ChevronRight } from 'lucide-react'
 import type { Metadata } from 'next'
@@ -97,40 +97,21 @@ export default function RespectAuburnPage() {
     <div className="min-h-screen bg-deep-bg">
       {/* Hero Section */}
       <section className="relative py-24 md:py-32 overflow-hidden">
-        <div className="absolute inset-0">
-          <Image
-            src="/images/discover.jpg"
-            alt="Auburn Nature"
-            fill
-            className="object-cover"
-            priority
-          />
-          <div 
-            className="absolute inset-0"
-            style={{
-              background: `linear-gradient(
-                to bottom,
-                rgba(20, 50, 80, 0.2) 0%,
-                rgba(20, 50, 80, 0.15) 50%,
-                rgba(20, 50, 80, 0.25) 100%
-              )`
-            }}
-          />
-        </div>
-        
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="pine-badge mb-6 mx-auto flex items-center justify-center w-fit">
-            <Leaf className="w-4 h-4 mr-2" />
-            Responsible Tourism
+        <AuburnHeroImage imageId="outdoor-hidden-falls">
+          <div className="container mx-auto px-4 relative z-10">
+            <div className="pine-badge mb-6 mx-auto flex items-center justify-center w-fit">
+              <Leaf className="w-4 h-4 mr-2" />
+              Responsible Tourism
+            </div>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white text-center mb-6 font-display">
+              Respect Auburn
+            </h1>
+            <p className="text-xl text-white/90 text-center max-w-2xl mx-auto">
+              The stunning trails. The rich history. The welcoming community. 
+              It all starts with mutual respect. Here's how to keep Auburn awesome.
+            </p>
           </div>
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-text-primary text-center mb-6 font-display">
-            Respect Auburn
-          </h1>
-          <p className="text-xl text-text-muted text-center max-w-2xl mx-auto">
-            The stunning trails. The rich history. The welcoming community. 
-            It all starts with mutual respect. Here's how to keep Auburn awesome.
-          </p>
-        </div>
+        </AuburnHeroImage>
       </section>
 
       {/* Breadcrumbs */}

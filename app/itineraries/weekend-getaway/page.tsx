@@ -21,12 +21,12 @@ export default async function WeekendGetawayPage() {
   const breadcrumbs = generateBreadcrumbs('/itineraries/weekend-getaway')
 
   return (
-    <div className="min-h-screen bg-cream-50">
+    <div className="min-h-screen bg-white">
       {/* Hero */}
       <section className="relative h-[500px] md:h-[600px]">
         <AuburnHeroImage imageId="hero-downtown-autumn">
           <div className="container mx-auto px-4 text-center">
-            <span className="inline-block px-4 py-2 bg-blue-600/90 text-white text-sm font-semibold rounded-full mb-4">
+            <span className="inline-block px-4 py-2 bg-lake-500/90 text-white text-sm font-semibold rounded-full mb-4">
               2-3 Day Itinerary
             </span>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4">
@@ -39,9 +39,14 @@ export default async function WeekendGetawayPage() {
         </AuburnHeroImage>
       </section>
 
-      <section className="py-12 md:py-16">
+      {/* Breadcrumbs */}
+      <div className="container mx-auto px-4 py-4 bg-white">
+        <Breadcrumbs items={breadcrumbs} />
+      </div>
+
+      {/* Main Content - White background */}
+      <section className="py-12 md:py-16 bg-white">
         <div className="container mx-auto px-4">
-          <Breadcrumbs items={breadcrumbs} />
 
           {/* Overview */}
           <div className="max-w-4xl mx-auto mb-12">
@@ -73,7 +78,7 @@ export default async function WeekendGetawayPage() {
           {/* Day 1 */}
           <div className="max-w-4xl mx-auto mb-16">
             <div className="flex items-center gap-4 mb-6">
-              <div className="w-16 h-16 rounded-full bg-blue-600 text-white flex items-center justify-center text-2xl font-bold flex-shrink-0">
+              <div className="w-16 h-16 rounded-full bg-lake-600 text-white flex items-center justify-center text-2xl font-bold flex-shrink-0">
                 1
               </div>
               <div>
@@ -85,7 +90,7 @@ export default async function WeekendGetawayPage() {
             <div className="space-y-6">
               <div className="card p-6">
                 <div className="flex items-center gap-3 mb-4">
-                  <MapPin className="w-6 h-6 text-blue-600" />
+                  <MapPin className="w-6 h-6 text-lake-600" />
                   <div>
                     <h3 className="text-xl font-bold text-charcoal-900">3:00 PM - Check-In & Settle</h3>
                     <p className="text-sm text-charcoal-600">Auburn accommodation</p>
@@ -97,13 +102,13 @@ export default async function WeekendGetawayPage() {
                 </p>
                 <p className="text-sm text-charcoal-600">
                   <strong>Lodging Tip:</strong> Auburn hotels include historic inns in Old Town and chain hotels near 
-                  Interstate 80. <Link href="/accommodations" className="text-blue-600 hover:text-blue-700">View Auburn accommodations →</Link>
+                  Interstate 80. <Link href="/accommodations" className="text-lake-600 hover:text-lake-700">View Auburn accommodations →</Link>
                 </p>
               </div>
 
               <div className="card p-6">
                 <div className="flex items-center gap-3 mb-4">
-                  <Coffee className="w-6 h-6 text-blue-600" />
+                  <Coffee className="w-6 h-6 text-lake-600" />
                   <div>
                     <h3 className="text-xl font-bold text-charcoal-900">4:00 PM - Old Town Walking Tour</h3>
                     <p className="text-sm text-charcoal-600">Self-guided • 60 minutes • Easy</p>
@@ -122,7 +127,7 @@ export default async function WeekendGetawayPage() {
 
               <div className="card p-6">
                 <div className="flex items-center gap-3 mb-4">
-                  <UtensilsCrossed className="w-6 h-6 text-blue-600" />
+                  <UtensilsCrossed className="w-6 h-6 text-lake-600" />
                   <div>
                     <h3 className="text-xl font-bold text-charcoal-900">6:00 PM - Dinner in Old Town</h3>
                     <p className="text-sm text-charcoal-600">Farm-to-table Auburn dining</p>
@@ -135,13 +140,13 @@ export default async function WeekendGetawayPage() {
                   offer pleasant evening ambiance spring through fall.
                 </p>
                 <p className="text-sm text-charcoal-600">
-                  <Link href="/dining" className="text-blue-600 hover:text-blue-700">Explore Auburn restaurants →</Link>
+                  <Link href="/dining" className="text-lake-600 hover:text-lake-700">Explore Auburn restaurants →</Link>
                 </p>
               </div>
 
               <div className="card p-6">
                 <div className="flex items-center gap-3 mb-4">
-                  <Moon className="w-6 h-6 text-blue-600" />
+                  <Moon className="w-6 h-6 text-lake-600" />
                   <div>
                     <h3 className="text-xl font-bold text-charcoal-900">8:00 PM - Evening Stroll</h3>
                     <p className="text-sm text-charcoal-600">Optional</p>
@@ -341,7 +346,7 @@ export default async function WeekendGetawayPage() {
                 </p>
               </div>
 
-              <div className="card p-6 bg-blue-50 border-l-4 border-blue-600">
+              <div className="card p-6 bg-lake-50 border-l-4 border-lake-600">
                 <h3 className="text-xl font-bold text-charcoal-900 mb-3">Extending Your Weekend?</h3>
                 <p className="text-charcoal-700 mb-4">
                   If staying Sunday night or adding Monday, consider:
@@ -436,19 +441,19 @@ export default async function WeekendGetawayPage() {
               </h2>
               <div className="grid md:grid-cols-3 gap-6">
                 <Link href="/itineraries/outdoor-adventure" className="text-center group">
-                  <h3 className="font-bold text-charcoal-900 mb-2 group-hover:text-blue-600 transition-colors">
+                  <h3 className="font-bold text-charcoal-900 mb-2 group-hover:text-lake-600 transition-colors">
                     Outdoor Adventure →
                   </h3>
                   <p className="text-sm text-charcoal-600">3 days focused on hiking, biking, and river activities</p>
                 </Link>
                 <Link href="/itineraries/gold-rush-history" className="text-center group">
-                  <h3 className="font-bold text-charcoal-900 mb-2 group-hover:text-blue-600 transition-colors">
+                  <h3 className="font-bold text-charcoal-900 mb-2 group-hover:text-lake-600 transition-colors">
                     Gold Rush History →
                   </h3>
                   <p className="text-sm text-charcoal-600">Deep dive into Auburn's Gold Rush heritage and museums</p>
                 </Link>
                 <Link href="/itineraries/romantic-escape" className="text-center group">
-                  <h3 className="font-bold text-charcoal-900 mb-2 group-hover:text-blue-600 transition-colors">
+                  <h3 className="font-bold text-charcoal-900 mb-2 group-hover:text-lake-600 transition-colors">
                     Romantic Escape →
                   </h3>
                   <p className="text-sm text-charcoal-600">Couples-focused Auburn weekend with wine and dining</p>

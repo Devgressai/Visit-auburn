@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: process.env.NEXT_PUBLIC_SITE_URL || 'https://visitauburn.com',
+    url: process.env.NEXT_PUBLIC_SITE_URL || 'https://visit-auburn.com',
     siteName: 'Visit Auburn',
   },
   twitter: {

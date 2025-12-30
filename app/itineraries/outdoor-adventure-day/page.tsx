@@ -21,12 +21,12 @@ export default function OutdoorAdventureDayPage() {
   const breadcrumbs = generateBreadcrumbs('/itineraries/outdoor-adventure-day')
 
   return (
-    <div className="min-h-screen bg-cream-50">
+    <div className="min-h-screen bg-white">
       {/* Hero */}
       <section className="relative h-[500px] md:h-[600px]">
         <AuburnHeroImage imageId="outdoor-confluence-trails">
           <div className="container mx-auto px-4 text-center">
-            <span className="inline-block px-4 py-2 bg-green-600/90 text-white text-sm font-semibold rounded-full mb-4">
+            <span className="inline-block px-4 py-2 bg-lake-500/90 text-white text-sm font-semibold rounded-full mb-4">
               Adventure Itinerary
             </span>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4">
@@ -39,13 +39,18 @@ export default function OutdoorAdventureDayPage() {
         </AuburnHeroImage>
       </section>
 
-      <section className="py-12 md:py-16">
+      {/* Breadcrumbs */}
+      <div className="container mx-auto px-4 py-4 bg-white">
+        <Breadcrumbs items={breadcrumbs} />
+      </div>
+
+      {/* Main Content - White background */}
+      <section className="py-12 md:py-16 bg-white">
         <div className="container mx-auto px-4">
-          <Breadcrumbs items={breadcrumbs} />
 
           {/* Intro */}
           <div className="max-w-4xl mx-auto mb-12">
-            <div className="card p-8 bg-gradient-to-br from-green-50 to-cream-100">
+            <div className="card p-8 bg-cream-50">
               <div className="grid md:grid-cols-4 gap-6 mb-6">
                 <div className="text-center">
                   <Clock className="w-8 h-8 text-green-600 mx-auto mb-2" />
@@ -99,12 +104,12 @@ export default function OutdoorAdventureDayPage() {
                 <p className="text-orange-600 font-semibold text-sm">15-20 miles / 2,000ft gain</p>
               </div>
               <div className="card p-6 border-2 border-blue-200 hover:border-blue-400 transition-colors">
-                <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-4">
+                <div className="w-12 h-12 bg-lake-100 rounded-full flex items-center justify-center mb-4">
                   <span className="text-xl">🏃</span>
                 </div>
                 <h3 className="font-bold text-charcoal-900 mb-2">Trail Runner</h3>
                 <p className="text-charcoal-600 text-sm mb-3">Western States route, tempo trails</p>
-                <p className="text-blue-600 font-semibold text-sm">12-18 miles / 2,500ft gain</p>
+                <p className="text-lake-600 font-semibold text-sm">12-18 miles / 2,500ft gain</p>
               </div>
             </div>
           </div>
@@ -209,7 +214,7 @@ export default function OutdoorAdventureDayPage() {
 
               <div className="card p-6 border-l-4 border-blue-500">
                 <div className="flex items-center gap-3 mb-3">
-                  <span className="text-blue-600">💧</span>
+                  <span className="text-lake-600">💧</span>
                   <span className="font-bold text-charcoal-900">Hydration Check</span>
                 </div>
                 <p className="text-charcoal-700">
@@ -234,7 +239,7 @@ export default function OutdoorAdventureDayPage() {
           {/* Afternoon */}
           <div className="max-w-4xl mx-auto mb-16">
             <div className="flex items-center gap-4 mb-6">
-              <div className="w-20 h-20 rounded-full bg-blue-600 text-white flex flex-col items-center justify-center flex-shrink-0">
+              <div className="w-20 h-20 rounded-full bg-lake-600 text-white flex flex-col items-center justify-center flex-shrink-0">
                 <span className="text-2xl">🏊</span>
                 <span className="text-xs font-bold">PM</span>
               </div>
@@ -247,12 +252,12 @@ export default function OutdoorAdventureDayPage() {
             <div className="space-y-6">
               <div className="card p-6 border-l-4 border-blue-500">
                 <div className="flex items-center gap-3 mb-3">
-                  <span className="text-blue-600">🏊</span>
+                  <span className="text-lake-600">🏊</span>
                   <span className="font-bold text-charcoal-900">12:30 PM</span>
                   <span className="text-charcoal-600">— River Recovery</span>
                 </div>
                 <p className="text-charcoal-700 mb-3">
-                  Find a <Link href="/things-to-do/outdoor-adventures" className="text-blue-600 hover:text-blue-700 font-semibold">swimming hole on your route</Link> and 
+                  Find a <Link href="/things-to-do/outdoor-adventures" className="text-lake-600 hover:text-lake-700 font-semibold">swimming hole on your route</Link> and 
                   dive in. The American River is nature's ice bath. Spend 20-30 minutes soaking tired legs 
                   and lowering core temp. This isn't leisure—it's recovery protocol.
                 </p>
@@ -307,32 +312,32 @@ export default function OutdoorAdventureDayPage() {
 
           {/* Plan Your Visit CTA */}
           <div className="max-w-4xl mx-auto mb-16">
-            <div className="card p-8 md:p-12 bg-gradient-to-br from-green-600 to-green-700 text-white">
+            <div className="card p-8 md:p-12 bg-gradient-to-br from-lake-500 to-lake-600 text-white">
               <div className="text-center mb-8">
                 <h2 className="text-3xl md:text-4xl font-bold mb-4">Plan Your Adventure</h2>
-                <p className="text-xl text-green-100 max-w-2xl mx-auto">
+                <p className="text-xl text-white/90 max-w-2xl mx-auto">
                   Turn a day trip into an adventure weekend—Auburn's trails deserve more than one day.
                 </p>
               </div>
 
               <div className="grid md:grid-cols-3 gap-6 mb-8">
                 <Link href="/accommodations" className="bg-white/10 backdrop-blur-sm rounded-xl p-6 hover:bg-white/20 transition-colors group">
-                  <h3 className="text-xl font-bold mb-2 group-hover:text-green-200 transition-colors">Athlete Lodging</h3>
-                  <p className="text-green-100 text-sm mb-3">Hotels near trailheads with early checkout</p>
+                  <h3 className="text-xl font-bold mb-2 group-hover:text-white transition-colors">Athlete Lodging</h3>
+                  <p className="text-white/90 text-sm mb-3">Hotels near trailheads with early checkout</p>
                   <span className="inline-flex items-center text-sm font-semibold">
                     Find Hotels <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
                   </span>
                 </Link>
                 <Link href="/things-to-do/outdoor-adventures" className="bg-white/10 backdrop-blur-sm rounded-xl p-6 hover:bg-white/20 transition-colors group">
-                  <h3 className="text-xl font-bold mb-2 group-hover:text-green-200 transition-colors">Trail Maps</h3>
-                  <p className="text-green-100 text-sm mb-3">100+ miles of trails to explore</p>
+                  <h3 className="text-xl font-bold mb-2 group-hover:text-white transition-colors">Trail Maps</h3>
+                  <p className="text-white/90 text-sm mb-3">100+ miles of trails to explore</p>
                   <span className="inline-flex items-center text-sm font-semibold">
                     View Trails <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
                   </span>
                 </Link>
                 <Link href="/events" className="bg-white/10 backdrop-blur-sm rounded-xl p-6 hover:bg-white/20 transition-colors group">
-                  <h3 className="text-xl font-bold mb-2 group-hover:text-green-200 transition-colors">Race Calendar</h3>
-                  <p className="text-green-100 text-sm mb-3">Runs, rides, and outdoor events</p>
+                  <h3 className="text-xl font-bold mb-2 group-hover:text-white transition-colors">Race Calendar</h3>
+                  <p className="text-white/90 text-sm mb-3">Runs, rides, and outdoor events</p>
                   <span className="inline-flex items-center text-sm font-semibold">
                     See Events <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
                   </span>
@@ -342,7 +347,7 @@ export default function OutdoorAdventureDayPage() {
               <div className="text-center">
                 <Link 
                   href="/plan/visitor-information" 
-                  className="inline-flex items-center gap-2 px-8 py-4 bg-white text-green-700 font-bold rounded-full hover:bg-green-50 transition-colors shadow-lg"
+                  className="inline-flex items-center gap-2 px-8 py-4 bg-white text-lake-600 font-bold rounded-full hover:bg-cream-50 transition-colors shadow-lg"
                 >
                   Get Visitor Information
                   <ArrowRight className="w-5 h-5" />

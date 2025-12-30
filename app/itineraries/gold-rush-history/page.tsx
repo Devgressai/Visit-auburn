@@ -21,11 +21,11 @@ export default async function GoldRushHistoryPage() {
   const breadcrumbs = generateBreadcrumbs('/itineraries/gold-rush-history')
 
   return (
-    <div className="min-h-screen bg-cream-50">
+    <div className="min-h-screen bg-white">
       <section className="relative h-[500px] md:h-[600px]">
         <AuburnHeroImage imageId="historic-old-town-clocktower">
           <div className="container mx-auto px-4 text-center">
-            <span className="inline-block px-4 py-2 bg-amber-600/90 text-white text-sm font-semibold rounded-full mb-4">
+            <span className="inline-block px-4 py-2 bg-lake-500/90 text-white text-sm font-semibold rounded-full mb-4">
               2-Day History Tour
             </span>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4">
@@ -38,9 +38,14 @@ export default async function GoldRushHistoryPage() {
         </AuburnHeroImage>
       </section>
 
-      <section className="py-12 md:py-16">
+      {/* Breadcrumbs */}
+      <div className="container mx-auto px-4 py-4 bg-white">
+        <Breadcrumbs items={breadcrumbs} />
+      </div>
+
+      {/* Main Content - White background */}
+      <section className="py-12 md:py-16 bg-white">
         <div className="container mx-auto px-4">
-          <Breadcrumbs items={breadcrumbs} />
 
           <div className="max-w-4xl mx-auto mb-12">
             <div className="card p-8">
@@ -71,7 +76,7 @@ export default async function GoldRushHistoryPage() {
           {/* Day 1 */}
           <div className="max-w-4xl mx-auto mb-16">
             <div className="flex items-center gap-4 mb-6">
-              <div className="w-16 h-16 rounded-full bg-amber-600 text-white flex items-center justify-center text-2xl font-bold">1</div>
+              <div className="w-16 h-16 rounded-full bg-lake-600 text-white flex items-center justify-center text-2xl font-bold">1</div>
               <div>
                 <h2 className="text-3xl font-bold text-charcoal-900">Day 1: Museums & Gold Country</h2>
                 <p className="text-charcoal-600">Three museums revealing Auburn's past</p>
@@ -81,9 +86,9 @@ export default async function GoldRushHistoryPage() {
             <div className="space-y-6">
               <div className="card p-6">
                 <div className="flex items-center gap-3 mb-4">
-                  <BookOpen className="w-6 h-6 text-amber-600" />
+                  <BookOpen className="w-6 h-6 text-lake-600" />
                   <h3 className="text-xl font-bold text-charcoal-900">10:00 AM - Gold Country Museum</h3>
-                  <span className="text-xs bg-amber-100 text-amber-800 px-2 py-1 rounded-full font-semibold">$5 admission</span>
+                  <span className="text-xs bg-lake-100 text-lake-800 px-2 py-1 rounded-full font-semibold">$5 admission</span>
                 </div>
                 <p className="text-charcoal-700 mb-4">
                   Start your history journey at Auburn's premier Gold Rush museum (1273 High Street). Plan 2 hours to explore:
@@ -102,7 +107,7 @@ export default async function GoldRushHistoryPage() {
 
               <div className="card p-6">
                 <div className="flex items-center gap-3 mb-4">
-                  <Clock className="w-6 h-6 text-amber-600" />
+                  <Clock className="w-6 h-6 text-lake-600" />
                   <h3 className="text-xl font-bold text-charcoal-900">12:30 PM - Lunch in Historic Building</h3>
                 </div>
                 <p className="text-charcoal-700">
@@ -114,7 +119,7 @@ export default async function GoldRushHistoryPage() {
 
               <div className="card p-6">
                 <div className="flex items-center gap-3 mb-4">
-                  <BookOpen className="w-6 h-6 text-amber-600" />
+                  <BookOpen className="w-6 h-6 text-lake-600" />
                   <h3 className="text-xl font-bold text-charcoal-900">2:00 PM - Placer County Museum</h3>
                   <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full font-semibold ml-auto">FREE</span>
                 </div>
@@ -134,7 +139,7 @@ export default async function GoldRushHistoryPage() {
                 </p>
               </div>
 
-              <div className="card p-6 bg-amber-50">
+              <div className="card p-6 bg-lake-50">
                 <h3 className="text-xl font-bold text-charcoal-900 mb-3">Evening: Victorian Dinner</h3>
                 <p className="text-charcoal-700">
                   Choose a restaurant emphasizing Gold Country heritage—ideally one in a historic building with period 
@@ -156,7 +161,7 @@ export default async function GoldRushHistoryPage() {
           {/* Day 2 */}
           <div className="max-w-4xl mx-auto mb-16">
             <div className="flex items-center gap-4 mb-6">
-              <div className="w-16 h-16 rounded-full bg-blue-600 text-white flex items-center justify-center text-2xl font-bold">2</div>
+              <div className="w-16 h-16 rounded-full bg-lake-600 text-white flex items-center justify-center text-2xl font-bold">2</div>
               <div>
                 <h2 className="text-3xl font-bold text-charcoal-900">Day 2: Walking Tours & Living History</h2>
                 <p className="text-charcoal-600">Experience Old Town's preserved Gold Rush architecture</p>
@@ -168,7 +173,7 @@ export default async function GoldRushHistoryPage() {
                 <div className="flex items-center gap-3 mb-4">
                   <BookOpen className="w-6 h-6 text-blue-600" />
                   <h3 className="text-xl font-bold text-charcoal-900">10:00 AM - Bernhard Museum Complex</h3>
-                  <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full font-semibold">$5 admission</span>
+                  <span className="text-xs bg-lake-100 text-lake-800 px-2 py-1 rounded-full font-semibold">$5 admission</span>
                 </div>
                 <p className="text-charcoal-700 mb-4">
                   This 1851 Traveler's Rest Hotel and Winery (291 Auburn-Folsom Road) shows post-Gold Rush Auburn life. 
@@ -187,7 +192,7 @@ export default async function GoldRushHistoryPage() {
 
               <div className="card p-6">
                 <div className="flex items-center gap-3 mb-4">
-                  <Map className="w-6 h-6 text-blue-600" />
+                  <Map className="w-6 h-6 text-lake-600" />
                   <h3 className="text-xl font-bold text-charcoal-900">12:30 PM - Self-Guided Walking Tour</h3>
                 </div>
                 <p className="text-charcoal-700 mb-4">
@@ -195,22 +200,22 @@ export default async function GoldRushHistoryPage() {
                   601 Lincoln Way). Key stops:
                 </p>
                 <div className="space-y-4">
-                  <div className="border-l-4 border-amber-600 pl-4">
+                  <div className="border-l-4 border-lake-600 pl-4">
                     <h4 className="font-bold text-charcoal-900">Old Town Firehouse (1891)</h4>
                     <p className="text-sm text-charcoal-700">Three-story tower built to spot fires threatening wooden buildings. 
                     Now houses firefighting museum. Auburn's iconic landmark.</p>
                   </div>
-                  <div className="border-l-4 border-amber-600 pl-4">
+                  <div className="border-l-4 border-lake-600 pl-4">
                     <h4 className="font-bold text-charcoal-900">Union Bar Building (1856)</h4>
                     <p className="text-sm text-charcoal-700">One of Auburn's oldest structures. Originally saloon where miners 
                     traded gold for whiskey. Note brick construction—fire prevention after devastating 1850s fires.</p>
                   </div>
-                  <div className="border-l-4 border-amber-600 pl-4">
+                  <div className="border-l-4 border-lake-600 pl-4">
                     <h4 className="font-bold text-charcoal-900">Auburn City Hall (1893)</h4>
                     <p className="text-sm text-charcoal-700">Victorian architecture built into hillside (classic Gold Rush 
                     adaptation to terrain). Still functioning government building after 130+ years.</p>
                   </div>
-                  <div className="border-l-4 border-amber-600 pl-4">
+                  <div className="border-l-4 border-lake-600 pl-4">
                     <h4 className="font-bold text-charcoal-900">Shanghai Restaurant Building (1890s)</h4>
                     <p className="text-sm text-charcoal-700">Represents Auburn's substantial Chinese community. Now antique store 
                     where you can explore two floors while standing in actual Gold Rush-era building.</p>
@@ -220,7 +225,7 @@ export default async function GoldRushHistoryPage() {
 
               <div className="card p-6">
                 <div className="flex items-center gap-3 mb-4">
-                  <Camera className="w-6 h-6 text-blue-600" />
+                  <Camera className="w-6 h-6 text-lake-600" />
                   <h3 className="text-xl font-bold text-charcoal-900">2:30 PM - Photography & Reflection</h3>
                 </div>
                 <p className="text-charcoal-700 mb-3">
@@ -305,19 +310,19 @@ export default async function GoldRushHistoryPage() {
               <h2 className="text-2xl font-bold text-charcoal-900 mb-6 text-center">More Auburn Itineraries</h2>
               <div className="grid md:grid-cols-3 gap-6">
                 <Link href="/itineraries/weekend-getaway" className="text-center group">
-                  <h3 className="font-bold text-charcoal-900 mb-2 group-hover:text-amber-600 transition-colors">
+                  <h3 className="font-bold text-charcoal-900 mb-2 group-hover:text-lake-600 transition-colors">
                     Weekend Getaway →
                   </h3>
                   <p className="text-sm text-charcoal-600">Balance history with outdoor activities and dining</p>
                 </Link>
                 <Link href="/itineraries/outdoor-adventure" className="text-center group">
-                  <h3 className="font-bold text-charcoal-900 mb-2 group-hover:text-amber-600 transition-colors">
+                  <h3 className="font-bold text-charcoal-900 mb-2 group-hover:text-lake-600 transition-colors">
                     Outdoor Adventure →
                   </h3>
                   <p className="text-sm text-charcoal-600">Explore trails miners once walked during Gold Rush</p>
                 </Link>
                 <Link href="/itineraries/family-fun" className="text-center group">
-                  <h3 className="font-bold text-charcoal-900 mb-2 group-hover:text-amber-600 transition-colors">
+                  <h3 className="font-bold text-charcoal-900 mb-2 group-hover:text-lake-600 transition-colors">
                     Family Fun →
                   </h3>
                   <p className="text-sm text-charcoal-600">Kid-friendly history with hands-on museum activities</p>

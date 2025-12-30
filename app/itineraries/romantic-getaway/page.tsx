@@ -21,12 +21,12 @@ export default function RomanticGetawayPage() {
   const breadcrumbs = generateBreadcrumbs('/itineraries/romantic-getaway')
 
   return (
-    <div className="min-h-screen bg-cream-50">
+    <div className="min-h-screen bg-white">
       {/* Hero */}
       <section className="relative h-[500px] md:h-[600px]">
         <AuburnHeroImage imageId="hero-downtown-autumn">
           <div className="container mx-auto px-4 text-center">
-            <span className="inline-block px-4 py-2 bg-pink-600/90 text-white text-sm font-semibold rounded-full mb-4">
+            <span className="inline-block px-4 py-2 bg-lake-500/90 text-white text-sm font-semibold rounded-full mb-4">
               Couples Itinerary
             </span>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4">
@@ -39,31 +39,36 @@ export default function RomanticGetawayPage() {
         </AuburnHeroImage>
       </section>
 
-      <section className="py-12 md:py-16">
+      {/* Breadcrumbs */}
+      <div className="container mx-auto px-4 py-4 bg-white">
+        <Breadcrumbs items={breadcrumbs} />
+      </div>
+
+      {/* Main Content - White background */}
+      <section className="py-12 md:py-16 bg-white">
         <div className="container mx-auto px-4">
-          <Breadcrumbs items={breadcrumbs} />
 
           {/* Intro */}
           <div className="max-w-4xl mx-auto mb-12">
-            <div className="card p-8 bg-gradient-to-br from-pink-50 to-cream-100">
+            <div className="card p-8 bg-cream-50">
               <div className="grid md:grid-cols-4 gap-6 mb-6">
                 <div className="text-center">
-                  <Clock className="w-8 h-8 text-pink-600 mx-auto mb-2" />
+                  <Clock className="w-8 h-8 text-lake-600 mx-auto mb-2" />
                   <p className="text-sm text-charcoal-600">Duration</p>
                   <p className="font-bold text-charcoal-900">1-2 Nights</p>
                 </div>
                 <div className="text-center">
-                  <Heart className="w-8 h-8 text-pink-600 mx-auto mb-2" />
+                  <Heart className="w-8 h-8 text-lake-600 mx-auto mb-2" />
                   <p className="text-sm text-charcoal-600">Perfect For</p>
                   <p className="font-bold text-charcoal-900">Couples</p>
                 </div>
                 <div className="text-center">
-                  <Star className="w-8 h-8 text-pink-600 mx-auto mb-2" />
+                  <Star className="w-8 h-8 text-lake-600 mx-auto mb-2" />
                   <p className="text-sm text-charcoal-600">Vibe</p>
                   <p className="font-bold text-charcoal-900">Slow & Romantic</p>
                 </div>
                 <div className="text-center">
-                  <Wine className="w-8 h-8 text-pink-600 mx-auto mb-2" />
+                  <Wine className="w-8 h-8 text-lake-600 mx-auto mb-2" />
                   <p className="text-sm text-charcoal-600">Highlights</p>
                   <p className="font-bold text-charcoal-900">Wine, Dining, Views</p>
                 </div>
@@ -82,7 +87,7 @@ export default function RomanticGetawayPage() {
           {/* Arrival */}
           <div className="max-w-4xl mx-auto mb-16">
             <div className="flex items-center gap-4 mb-6">
-              <div className="w-20 h-20 rounded-full bg-pink-500 text-white flex flex-col items-center justify-center flex-shrink-0">
+              <div className="w-20 h-20 rounded-full bg-lake-500 text-white flex flex-col items-center justify-center flex-shrink-0">
                 <Heart className="w-8 h-8" />
                 <span className="text-xs font-bold">START</span>
               </div>
@@ -93,14 +98,14 @@ export default function RomanticGetawayPage() {
             </div>
 
             <div className="space-y-6">
-              <div className="card p-6 border-l-4 border-pink-400">
+              <div className="card p-6 border-l-4 border-lake-400">
                 <div className="flex items-center gap-3 mb-3">
-                  <Clock className="w-5 h-5 text-pink-600" />
+                  <Clock className="w-5 h-5 text-lake-600" />
                   <span className="font-bold text-charcoal-900">3:00 PM</span>
                   <span className="text-charcoal-600">— Check Into Your Boutique Stay</span>
                 </div>
                 <p className="text-charcoal-700 mb-4">
-                  <Link href="/accommodations" className="text-pink-600 hover:text-pink-700 font-semibold">Auburn's accommodations</Link> include 
+                  <Link href="/accommodations" className="text-lake-600 hover:text-lake-700 font-semibold">Auburn's accommodations</Link> include 
                   charming boutique hotels, historic inns, and elegant B&Bs perfect for romance. Look for:
                 </p>
                 <ul className="text-charcoal-700 text-sm space-y-1 mb-4">
@@ -116,14 +121,14 @@ export default function RomanticGetawayPage() {
                 </p>
               </div>
 
-              <div className="card p-6 border-l-4 border-pink-400">
+              <div className="card p-6 border-l-4 border-lake-400">
                 <div className="flex items-center gap-3 mb-3">
-                  <MapPin className="w-5 h-5 text-pink-600" />
+                  <MapPin className="w-5 h-5 text-lake-600" />
                   <span className="font-bold text-charcoal-900">4:30 PM</span>
                   <span className="text-charcoal-600">— Golden Hour Stroll</span>
                 </div>
                 <p className="text-charcoal-700 mb-3">
-                  Walk <Link href="/things-to-do/history-culture" className="text-pink-600 hover:text-pink-700 font-semibold">Old Town Auburn</Link> as 
+                  Walk <Link href="/things-to-do/history-culture" className="text-lake-600 hover:text-lake-700 font-semibold">Old Town Auburn</Link> as 
                   afternoon light turns the brick buildings to gold. Window-shop antique stores, peek into 
                   galleries, take photos in front of the Firehouse Tower. Hold hands. Remember dating.
                 </p>
@@ -183,7 +188,7 @@ export default function RomanticGetawayPage() {
                   Request a corner table or patio seat. Let the server guide wine pairings. Order dessert 
                   even if you're full. Linger over every course.
                 </p>
-                <div className="bg-pink-50 p-4 rounded-lg">
+                <div className="bg-lake-50 p-4 rounded-lg">
                   <h4 className="font-bold text-charcoal-900 mb-2">Evening Dining Tips</h4>
                   <ul className="text-charcoal-700 text-sm space-y-1">
                     <li>💝 <strong>Mention</strong> anniversary/special occasion when booking</li>
@@ -299,32 +304,32 @@ export default function RomanticGetawayPage() {
 
           {/* Plan Your Visit CTA */}
           <div className="max-w-4xl mx-auto mb-16">
-            <div className="card p-8 md:p-12 bg-gradient-to-br from-pink-600 to-rose-700 text-white">
+            <div className="card p-8 md:p-12 bg-gradient-to-br from-lake-500 to-lake-600 text-white">
               <div className="text-center mb-8">
                 <h2 className="text-3xl md:text-4xl font-bold mb-4">Plan Your Romantic Escape</h2>
-                <p className="text-xl text-pink-100 max-w-2xl mx-auto">
+                <p className="text-xl text-white/90 max-w-2xl mx-auto">
                   Book your Auburn getaway and start counting down to reconnection.
                 </p>
               </div>
 
               <div className="grid md:grid-cols-3 gap-6 mb-8">
                 <Link href="/accommodations" className="bg-white/10 backdrop-blur-sm rounded-xl p-6 hover:bg-white/20 transition-colors group">
-                  <h3 className="text-xl font-bold mb-2 group-hover:text-pink-200 transition-colors">Romantic Stays</h3>
-                  <p className="text-pink-100 text-sm mb-3">Boutique hotels & charming inns</p>
+                  <h3 className="text-xl font-bold mb-2 group-hover:text-white transition-colors">Romantic Stays</h3>
+                  <p className="text-white/90 text-sm mb-3">Boutique hotels & charming inns</p>
                   <span className="inline-flex items-center text-sm font-semibold">
                     Browse Hotels <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
                   </span>
                 </Link>
                 <Link href="/dining" className="bg-white/10 backdrop-blur-sm rounded-xl p-6 hover:bg-white/20 transition-colors group">
-                  <h3 className="text-xl font-bold mb-2 group-hover:text-pink-200 transition-colors">Date Night Dining</h3>
-                  <p className="text-pink-100 text-sm mb-3">Intimate restaurants & wine bars</p>
+                  <h3 className="text-xl font-bold mb-2 group-hover:text-white transition-colors">Date Night Dining</h3>
+                  <p className="text-white/90 text-sm mb-3">Intimate restaurants & wine bars</p>
                   <span className="inline-flex items-center text-sm font-semibold">
                     View Restaurants <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
                   </span>
                 </Link>
                 <Link href="/events" className="bg-white/10 backdrop-blur-sm rounded-xl p-6 hover:bg-white/20 transition-colors group">
-                  <h3 className="text-xl font-bold mb-2 group-hover:text-pink-200 transition-colors">Special Events</h3>
-                  <p className="text-pink-100 text-sm mb-3">Wine releases & live music</p>
+                  <h3 className="text-xl font-bold mb-2 group-hover:text-white transition-colors">Special Events</h3>
+                  <p className="text-white/90 text-sm mb-3">Wine releases & live music</p>
                   <span className="inline-flex items-center text-sm font-semibold">
                     See Calendar <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
                   </span>
@@ -334,7 +339,7 @@ export default function RomanticGetawayPage() {
               <div className="text-center">
                 <Link 
                   href="/plan/visitor-information" 
-                  className="inline-flex items-center gap-2 px-8 py-4 bg-white text-pink-700 font-bold rounded-full hover:bg-pink-50 transition-colors shadow-lg"
+                  className="inline-flex items-center gap-2 px-8 py-4 bg-white text-lake-600 font-bold rounded-full hover:bg-cream-50 transition-colors shadow-lg"
                 >
                   Get Visitor Information
                   <ArrowRight className="w-5 h-5" />
@@ -375,7 +380,7 @@ export default function RomanticGetawayPage() {
                   <strong>Mid-week:</strong> Often 20-30% cheaper
                 </p>
                 <p className="text-sm mt-2">
-                  <Link href="/special-offers" className="text-pink-600 hover:text-pink-700 font-semibold">Check special offers →</Link>
+                  <Link href="/special-offers" className="text-lake-600 hover:text-lake-700 font-semibold">Check special offers →</Link>
                 </p>
               </div>
               <div className="card p-6">

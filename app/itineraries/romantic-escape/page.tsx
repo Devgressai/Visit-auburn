@@ -38,9 +38,14 @@ export default async function RomanticEscapePage() {
         </AuburnHeroImage>
       </section>
 
-      <section className="py-12 md:py-16">
+      {/* Breadcrumbs */}
+      <div className="container mx-auto px-4 py-4 bg-white">
+        <Breadcrumbs items={breadcrumbs} />
+      </div>
+
+      {/* Main Content - White background */}
+      <section className="py-12 md:py-16 bg-white">
         <div className="container mx-auto px-4">
-          <Breadcrumbs items={breadcrumbs} />
 
           <div className="max-w-4xl mx-auto mb-12">
             <div className="card p-8">
@@ -72,7 +77,7 @@ export default async function RomanticEscapePage() {
           {/* Day 1 */}
           <div className="max-w-4xl mx-auto mb-16">
             <div className="flex items-center gap-4 mb-6">
-              <div className="w-16 h-16 rounded-full bg-rose-600 text-white flex items-center justify-center text-2xl font-bold">1</div>
+              <div className="w-16 h-16 rounded-full bg-lake-600 text-white flex items-center justify-center text-2xl font-bold">1</div>
               <div>
                 <h2 className="text-3xl font-bold text-charcoal-900">Day 1: Arrival & Old Town Romance</h2>
                 <p className="text-charcoal-600">Leisurely exploration and intimate dining</p>
@@ -82,7 +87,7 @@ export default async function RomanticEscapePage() {
             <div className="space-y-6">
               <div className="card p-6">
                 <div className="flex items-center gap-3 mb-4">
-                  <Heart className="w-6 h-6 text-rose-600" />
+                  <Heart className="w-6 h-6 text-lake-600" />
                   <h3 className="text-xl font-bold text-charcoal-900">2:00 PM - Check-In & Refresh</h3>
                 </div>
                 <p className="text-charcoal-700 mb-3">
@@ -98,7 +103,7 @@ export default async function RomanticEscapePage() {
 
               <div className="card p-6">
                 <div className="flex items-center gap-3 mb-4">
-                  <Camera className="w-6 h-6 text-rose-600" />
+                  <Camera className="w-6 h-6 text-lake-600" />
                   <h3 className="text-xl font-bold text-charcoal-900">4:00 PM - Golden Hour Stroll</h3>
                 </div>
                 <p className="text-charcoal-700 mb-4">
@@ -119,7 +124,7 @@ export default async function RomanticEscapePage() {
 
               <div className="card p-6">
                 <div className="flex items-center gap-3 mb-4">
-                  <Wine className="w-6 h-6 text-rose-600" />
+                  <Wine className="w-6 h-6 text-lake-600" />
                   <h3 className="text-xl font-bold text-charcoal-900">6:30 PM - Intimate Dinner</h3>
                 </div>
                 <p className="text-charcoal-700 mb-4">
@@ -136,13 +141,13 @@ export default async function RomanticEscapePage() {
                   quality without the pretension.
                 </p>
                 <p className="text-sm text-charcoal-600">
-                  <Link href="/dining" className="text-rose-600 hover:text-rose-700 font-semibold">
+                  <Link href="/dining" className="text-lake-600 hover:text-lake-700 font-semibold">
                     Browse Auburn restaurants →
                   </Link>
                 </p>
               </div>
 
-              <div className="card p-6 bg-rose-50">
+              <div className="card p-6 bg-lake-50">
                 <h3 className="text-xl font-bold text-charcoal-900 mb-3">Evening: Stargazing or Nightcap</h3>
                 <p className="text-charcoal-700 mb-3">
                   Auburn's dark skies (minimal light pollution) make stargazing exceptional. Options:
@@ -304,7 +309,7 @@ export default async function RomanticEscapePage() {
                   <li>• <strong>Room Features to Request:</strong> King bed, quiet location, views, jacuzzi tub (some have!)</li>
                 </ul>
                 <p className="text-sm text-charcoal-600 mt-3">
-                  <Link href="/accommodations" className="text-rose-600 hover:text-rose-700 font-semibold">
+                  <Link href="/accommodations" className="text-lake-600 hover:text-lake-700 font-semibold">
                     Explore Auburn accommodations →
                   </Link>
                 </p>
@@ -374,19 +379,19 @@ export default async function RomanticEscapePage() {
               <h2 className="text-2xl font-bold text-charcoal-900 mb-6 text-center">More Auburn Itineraries</h2>
               <div className="grid md:grid-cols-3 gap-6">
                 <Link href="/itineraries/weekend-getaway" className="text-center group">
-                  <h3 className="font-bold text-charcoal-900 mb-2 group-hover:text-rose-600 transition-colors">
+                  <h3 className="font-bold text-charcoal-900 mb-2 group-hover:text-lake-600 transition-colors">
                     Weekend Getaway →
                   </h3>
                   <p className="text-sm text-charcoal-600">Balanced intro to Auburn for first-time couples</p>
                 </Link>
                 <Link href="/itineraries/outdoor-adventure" className="text-center group">
-                  <h3 className="font-bold text-charcoal-900 mb-2 group-hover:text-rose-600 transition-colors">
+                  <h3 className="font-bold text-charcoal-900 mb-2 group-hover:text-lake-600 transition-colors">
                     Outdoor Adventure →
                   </h3>
                   <p className="text-sm text-charcoal-600">For active couples who love challenging hikes</p>
                 </Link>
                 <Link href="/itineraries/gold-rush-history" className="text-center group">
-                  <h3 className="font-bold text-charcoal-900 mb-2 group-hover:text-rose-600 transition-colors">
+                  <h3 className="font-bold text-charcoal-900 mb-2 group-hover:text-lake-600 transition-colors">
                     Gold Rush History →
                   </h3>
                   <p className="text-sm text-charcoal-600">Cultural focus for history-loving couples</p>
