@@ -335,7 +335,7 @@ export function VenuesPageClient() {
       </section>
 
       {/* Related Pages */}
-      <RelatedPages currentPath="/plan/venues" />
+      {/* RelatedPages are rendered in server component */}
     </div>
   )
 }
