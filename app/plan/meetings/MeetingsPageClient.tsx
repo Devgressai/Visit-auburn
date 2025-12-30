@@ -76,6 +76,9 @@ export function MeetingsPageClient() {
   const [imageErrors, setImageErrors] = useState<Set<string>>(new Set())
 
   useEffect(() => {
+    // Only run on client side
+    if (typeof window === 'undefined') return
+
     // Track page view
     trackPageView('/plan/meetings')
 
@@ -97,17 +100,27 @@ export function MeetingsPageClient() {
     }
     
     window.addEventListener('scroll', throttledHandleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', throttledHandleScroll)
+    return () => {
+      window.removeEventListener('scroll', throttledHandleScroll)
+    }
   }, [])
 
   const scrollToForm = () => {
+    if (typeof window === 'undefined') return
     trackCTAClick('meetings_page', '#request-proposal', 'Request Proposal')
-    document.getElementById('request-proposal')?.scrollIntoView({ behavior: 'smooth' })
+    const element = document.getElementById('request-proposal')
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }
   }
 
   const scrollToVenues = () => {
+    if (typeof window === 'undefined') return
     trackCTAClick('meetings_page', '#featured-venues', 'Explore Venues')
-    document.getElementById('featured-venues')?.scrollIntoView({ behavior: 'smooth' })
+    const element = document.getElementById('featured-venues')
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }
   }
 
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -136,7 +149,13 @@ export function MeetingsPageClient() {
         body: JSON.stringify(formData),
       })
 
-      const data = await response.json()
+      let data
+      try {
+        data = await response.json()
+      } catch (jsonError) {
+        // Handle non-JSON responses
+        throw new Error('Invalid response from server')
+      }
 
       if (response.ok) {
         setFormSubmitted(true)
@@ -147,9 +166,14 @@ export function MeetingsPageClient() {
           number_of_attendees: formData.numberOfAttendees,
         })
         // Scroll to success message
-        setTimeout(() => {
-          document.getElementById('request-proposal')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-        }, 100)
+        if (typeof window !== 'undefined') {
+          setTimeout(() => {
+            const element = document.getElementById('request-proposal')
+            if (element) {
+              element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+            }
+          }, 100)
+        }
         // Reset form after 10 seconds
         setTimeout(() => {
           setFormSubmitted(false)
@@ -157,17 +181,27 @@ export function MeetingsPageClient() {
       } else {
         setSubmitError(data.error || 'Failed to submit. Please try again.')
         // Scroll to error message
-        setTimeout(() => {
-          document.getElementById('request-proposal')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-        }, 100)
+        if (typeof window !== 'undefined') {
+          setTimeout(() => {
+            const element = document.getElementById('request-proposal')
+            if (element) {
+              element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+            }
+          }, 100)
+        }
       }
     } catch (error) {
       console.error('Form submission error:', error)
       setSubmitError('Network error. Please try again or contact us directly.')
       // Scroll to error message
-      setTimeout(() => {
-        document.getElementById('request-proposal')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-      }, 100)
+      if (typeof window !== 'undefined') {
+        setTimeout(() => {
+          const element = document.getElementById('request-proposal')
+          if (element) {
+            element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+          }
+        }, 100)
+      }
     } finally {
       setIsSubmitting(false)
     }
@@ -268,11 +302,11 @@ export function MeetingsPageClient() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {whyAuburn.map((reason, index) => {
+            {whyAuburn.map((reason) => {
               const Icon = reason.icon
               return (
                 <div
-                  key={index}
+                  key={reason.title}
                   className="bg-cream-50 rounded-xl p-6 shadow-md hover:shadow-xl transition-shadow border border-charcoal-100"
                 >
                   <div className="w-12 h-12 bg-lake-500 rounded-full flex items-center justify-center mb-4">
@@ -304,14 +338,14 @@ export function MeetingsPageClient() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {meetingVenues.map((venue, index) => {
+            {meetingVenues.map((venue) => {
               const venueImage = getAuburnImagePath(venue.imageId)
               const fallbackVenueImage = '/images/discover.jpg'
               const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(venue.googleMapsQuery)}`
               
               return (
                 <div
-                  key={index}
+                  key={venue.name}
                   className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-white/20"
                 >
                   <div className="relative h-48">
@@ -387,13 +421,13 @@ export function MeetingsPageClient() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {teamBuildingActivities.map((activity, index) => {
+            {teamBuildingActivities.map((activity) => {
               const activityImage = getAuburnImagePath(activity.imageId)
               const fallbackActivityImage = '/images/things-to-do.jpg'
               
               return (
                 <div
-                  key={index}
+                  key={activity.title}
                   className="bg-cream-50 rounded-2xl overflow-hidden shadow-lg border border-charcoal-100"
                 >
                   <div className="relative h-64">
@@ -414,8 +448,8 @@ export function MeetingsPageClient() {
                       {activity.description}
                     </p>
                     <ul className="space-y-2">
-                      {activity.activities.map((item, actIndex) => (
-                        <li key={actIndex} className="flex items-center gap-3 text-charcoal-700">
+                      {activity.activities.map((item) => (
+                        <li key={item} className="flex items-center gap-3 text-charcoal-700">
                           <Check className="w-5 h-5 text-pine-500 flex-shrink-0" />
                           <span>{item}</span>
                         </li>
@@ -445,6 +479,7 @@ export function MeetingsPageClient() {
               <Link
                 href="/accommodations"
                 className="btn-primary inline-flex items-center gap-2"
+                onClick={() => trackCTAClick('meetings_page', '/accommodations', 'Explore Lodging')}
               >
                 Explore Lodging
                 <ArrowRight className="w-5 h-5" />
@@ -452,6 +487,7 @@ export function MeetingsPageClient() {
               <Link
                 href="/dining"
                 className="btn-outline-pine inline-flex items-center gap-2"
+                onClick={() => trackCTAClick('meetings_page', '/dining', 'Discover Dining')}
               >
                 Discover Dining
                 <ArrowRight className="w-5 h-5" />
@@ -506,6 +542,7 @@ export function MeetingsPageClient() {
                 <Link
                   href="/plan/getting-here"
                   className="inline-flex items-center gap-2 text-lake-600 hover:text-lake-700 font-semibold"
+                  onClick={() => trackCTAClick('meetings_page', '/plan/getting-here', 'More Travel Information')}
                 >
                   More Travel Information
                   <ArrowRight className="w-5 h-5" />

@@ -18,17 +18,81 @@ export async function POST(request: Request) {
       eventDetails,
     } = formData
 
-    // Validation
-    if (!organizationName || !contactName || !email || !phone || !eventType || !numberOfAttendees || !eventDetails) {
+    // Validation - check for required fields
+    if (!organizationName || typeof organizationName !== 'string' || organizationName.trim() === '') {
       return Response.json(
-        { error: 'All required fields must be filled' },
+        { error: 'Organization name is required' },
         { status: 400 }
       )
     }
 
-    if (!email.includes('@')) {
+    if (!contactName || typeof contactName !== 'string' || contactName.trim() === '') {
       return Response.json(
-        { error: 'Valid email address required' },
+        { error: 'Contact name is required' },
+        { status: 400 }
+      )
+    }
+
+    if (!email || typeof email !== 'string' || !email.includes('@') || !email.includes('.')) {
+      return Response.json(
+        { error: 'Valid email address is required' },
+        { status: 400 }
+      )
+    }
+
+    if (!phone || typeof phone !== 'string' || phone.trim() === '') {
+      return Response.json(
+        { error: 'Phone number is required' },
+        { status: 400 }
+      )
+    }
+
+    if (!eventType || typeof eventType !== 'string' || eventType.trim() === '') {
+      return Response.json(
+        { error: 'Event type is required' },
+        { status: 400 }
+      )
+    }
+
+    if (!numberOfAttendees || isNaN(Number(numberOfAttendees)) || Number(numberOfAttendees) < 1) {
+      return Response.json(
+        { error: 'Number of attendees must be at least 1' },
+        { status: 400 }
+      )
+    }
+
+    if (!eventDetails || typeof eventDetails !== 'string' || eventDetails.trim() === '') {
+      return Response.json(
+        { error: 'Event details are required' },
+        { status: 400 }
+      )
+    }
+
+    // Sanitize input lengths to prevent abuse
+    if (organizationName.length > 200) {
+      return Response.json(
+        { error: 'Organization name is too long' },
+        { status: 400 }
+      )
+    }
+
+    if (contactName.length > 100) {
+      return Response.json(
+        { error: 'Contact name is too long' },
+        { status: 400 }
+      )
+    }
+
+    if (email.length > 255) {
+      return Response.json(
+        { error: 'Email address is too long' },
+        { status: 400 }
+      )
+    }
+
+    if (eventDetails.length > 5000) {
+      return Response.json(
+        { error: 'Event details are too long' },
         { status: 400 }
       )
     }
