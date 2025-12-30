@@ -283,10 +283,7 @@ export function MeetingsPageClient() {
         </div>
       </section>
 
-      {/* Breadcrumbs */}
-      <div className="container mx-auto px-4 py-4 bg-white">
-        <Breadcrumbs items={breadcrumbs} />
-      </div>
+      {/* Breadcrumbs are rendered in server component */}
 
       {/* Why Auburn Section - White background */}
       <section className="py-16 md:py-24 bg-white">
@@ -755,12 +752,7 @@ export function MeetingsPageClient() {
         </div>
       </section>
 
-      {/* Related Pages */}
-      <section className="py-16 bg-cream-50" aria-label="Related pages">
-        <div className="container mx-auto px-4">
-          <RelatedPages currentPath="/plan/meetings" />
-        </div>
-      </section>
+      {/* Related Pages are rendered in server component */}
     </main>
   )
 }

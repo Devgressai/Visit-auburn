@@ -1,7 +1,10 @@
 import { activities } from '@/lib/data'
 import { buildMetadata, SITE_URL } from '@/lib/seo'
+import { Breadcrumbs } from '@/components/navigation/Breadcrumbs'
+import { RelatedPages } from '@/components/ui/RelatedPages'
 import { AuburnHeroImage, AuburnImage } from '@/components/ui/AuburnImage'
 import { ListingGrid } from '@/components/listings/ListingGrid'
+import { generateBreadcrumbs } from '@/lib/routes'
 import Link from 'next/link'
 import { Mountain, BookOpen, Camera, Map, Calendar, UtensilsCrossed } from 'lucide-react'
 import type { Metadata } from 'next'
@@ -17,6 +20,8 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function ActivitiesPage() {
+  const breadcrumbs = generateBreadcrumbs('/activities')
+
   return (
     <div className="min-h-screen bg-white">
       {/* Hero */}
@@ -36,6 +41,11 @@ export default async function ActivitiesPage() {
         </AuburnHeroImage>
       </section>
 
+      {/* Breadcrumbs */}
+      <div className="container mx-auto px-4 py-4 bg-white">
+        <Breadcrumbs items={breadcrumbs} />
+      </div>
+
       {/* Main Content - White background */}
       <section className="py-12 md:py-16 bg-white">
         <div className="container mx-auto px-4">
@@ -44,9 +54,16 @@ export default async function ActivitiesPage() {
             <h2 className="text-2xl md:text-3xl font-bold text-charcoal-900 mb-4">
               Adventures Await in Gold Country
             </h2>
-            <p className="text-charcoal-600 text-lg leading-relaxed">
+            <p className="text-charcoal-600 text-lg leading-relaxed mb-6">
               Whether you're seeking outdoor thrills, cultural experiences, or a glimpse into 
               California's Gold Rush past, Auburn offers unforgettable activities for every interest.
+            </p>
+            <p className="text-charcoal-600 leading-relaxed">
+              Located at the gateway to the Sierra Nevada, Auburn combines easy access from Sacramento 
+              and the Bay Area with world-class outdoor recreation, rich Gold Rush history, and authentic 
+              small-town charm. From hiking the legendary Western States Trail to exploring 1850s mining 
+              sites, every activity connects you to Auburn's unique character as California's Gold Country 
+              capital.
             </p>
           </div>
 
@@ -192,6 +209,8 @@ export default async function ActivitiesPage() {
           </div>
         </div>
       </section>
+
+      <RelatedPages currentPath="/activities" />
     </div>
   )
 }

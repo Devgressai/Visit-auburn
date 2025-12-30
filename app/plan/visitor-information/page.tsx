@@ -2,7 +2,7 @@ import { buildMetadata, SITE_URL } from '@/lib/seo'
 import { Breadcrumbs } from '@/components/navigation/Breadcrumbs'
 import { RelatedPages } from '@/components/ui/RelatedPages'
 import { generateBreadcrumbs } from '@/lib/routes'
-import { AuburnHeroImage } from '@/components/ui/AuburnImage'
+import { AuburnHeroImage, AuburnImage } from '@/components/ui/AuburnImage'
 import Link from 'next/link'
 import { MapPin, Clock, Phone, Mail, Sun, Thermometer, Wifi, Car, CreditCard, Shield, ChevronRight, Sparkles, Map, Mountain, Coffee } from 'lucide-react'
 import type { Metadata } from 'next'
@@ -203,14 +203,10 @@ export default function VisitorInformationPage() {
             </div>
 
             <div className="bg-white p-2 rounded-2xl shadow-card">
-              <div className="aspect-square rounded-xl overflow-hidden relative">
-                <Image
-                  src="/images/discover.jpg"
-                  alt="Auburn Visitor Center"
-                  fill
-                  className="object-cover"
-                />
-              </div>
+              <AuburnImage
+                imageId="historic-old-town-clocktower"
+                className="aspect-square rounded-xl object-cover"
+              />
             </div>
           </div>
         </div>
