@@ -1,8 +1,10 @@
 import { buildMetadata, SITE_URL } from '@/lib/seo'
 import { Breadcrumbs } from '@/components/navigation/Breadcrumbs'
 import { RelatedPages } from '@/components/ui/RelatedPages'
+import { AuburnImage } from '@/components/ui/AuburnImage'
 import { generateBreadcrumbs } from '@/lib/routes'
 import { Accessibility, Eye, MousePointer, Volume2, Keyboard } from 'lucide-react'
+import Link from 'next/link'
 import type { Metadata } from 'next'
 
 export const revalidate = 3600
@@ -60,15 +62,29 @@ export default function AccessibilityPage() {
             <section className="mb-12">
               <h2 className="text-2xl font-bold text-charcoal-900 mb-4">Our Commitment</h2>
               <p className="text-charcoal-700 leading-relaxed mb-4">
-                Visit Auburn is committed to ensuring digital accessibility for people with disabilities. We are continually improving the user experience for everyone and applying the relevant accessibility standards to achieve these goals.
+                Visit Auburn is committed to ensuring digital accessibility for people with disabilities. We are continually improving the user experience for everyone and applying the relevant accessibility standards to achieve these goals. Our website serves as a gateway to discovering Auburn, California's Gold Country heritage, and we believe everyone should have equal access to information about our community's attractions, events, accommodations, and activities.
               </p>
               <p className="text-charcoal-700 leading-relaxed mb-4">
-                We aim to conform to the Web Content Accessibility Guidelines (WCAG) 2.1 Level AA standards, which explain how to make web content more accessible for people with disabilities.
+                We aim to conform to the Web Content Accessibility Guidelines (WCAG) 2.1 Level AA standards, which explain how to make web content more accessible for people with disabilities. This commitment extends to all pages on our site, including our <Link href="/things-to-do" className="text-lake-600 hover:text-lake-700 font-semibold underline">activities directory</Link>, <Link href="/events" className="text-lake-600 hover:text-lake-700 font-semibold underline">events calendar</Link>, and <Link href="/plan/visitor-information" className="text-lake-600 hover:text-lake-700 font-semibold underline">visitor information pages</Link>.
               </p>
             </section>
 
             <section className="mb-12">
               <h2 className="text-2xl font-bold text-charcoal-900 mb-6">Accessibility Features</h2>
+              
+              {/* Auburn Images */}
+              <div className="grid md:grid-cols-3 gap-6 mb-8">
+                <div className="relative h-48 rounded-xl overflow-hidden">
+                  <AuburnImage imageId="historic-old-town-clocktower" />
+                </div>
+                <div className="relative h-48 rounded-xl overflow-hidden">
+                  <AuburnImage imageId="downtown-lincoln-way" />
+                </div>
+                <div className="relative h-48 rounded-xl overflow-hidden">
+                  <AuburnImage imageId="outdoor-lake-clementine" />
+                </div>
+              </div>
+              
               <div className="grid md:grid-cols-2 gap-6">
                 {accessibilityFeatures.map((feature, index) => {
                   const Icon = feature.icon
@@ -148,7 +164,7 @@ export default function AccessibilityPage() {
             <section className="mb-8">
               <h2 className="text-2xl font-bold text-charcoal-900 mb-4">Physical Accessibility</h2>
               <p className="text-charcoal-700 leading-relaxed mb-4">
-                For information about physical accessibility of Auburn businesses, venues, and attractions, please contact individual businesses directly or visit our visitor information center for assistance.
+                For information about physical accessibility of Auburn businesses, venues, and attractions, please contact individual businesses directly or visit our <Link href="/plan/visitor-information" className="text-lake-600 hover:text-lake-700 font-semibold underline">visitor information center</Link> for assistance. Many of Auburn's historic sites, parks, and recreational areas are accessible, and we're working with local businesses to improve physical accessibility throughout our community.
               </p>
             </section>
 
