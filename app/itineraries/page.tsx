@@ -110,8 +110,27 @@ export default async function ItinerariesPage() {
               overwhelming when planning a visit. These itineraries solve that problem: each provides day-by-day schedules, 
               specific recommendations, timing suggestions, and practical tips based on hundreds of visits to Auburn.
             </p>
-            <p className="text-lg text-charcoal-600">
+            <p className="text-lg text-charcoal-600 mb-8">
               Choose your style, follow the plan, customize as desired—then experience the best of Gold Country.
+            </p>
+            
+            {/* Additional Auburn Images */}
+            <div className="grid md:grid-cols-2 gap-6 mb-8">
+              <div className="relative h-64 rounded-xl overflow-hidden">
+                <AuburnImage imageId="historic-old-town-clocktower" />
+              </div>
+              <div className="relative h-64 rounded-xl overflow-hidden">
+                <AuburnImage imageId="outdoor-lake-clementine" />
+              </div>
+            </div>
+            
+            <p className="text-charcoal-700 leading-relaxed">
+              Whether you're planning a quick weekend escape or a longer stay, these curated itineraries help you 
+              make the most of your time in Auburn. Each plan balances must-see attractions with hidden gems, 
+              providing a mix of activities that showcase different aspects of Gold Country life. From outdoor 
+              adventures that take advantage of Auburn's stunning natural setting to cultural experiences that 
+              connect you with the region's rich history, these itineraries ensure you'll leave with lasting 
+              memories and a deep appreciation for what makes Auburn special.
             </p>
           </div>
 
@@ -172,6 +191,36 @@ export default async function ItinerariesPage() {
                 </Link>
               )
             })}
+          </div>
+
+          {/* Additional Content Section */}
+          <div className="max-w-4xl mx-auto mb-12">
+            <div className="bg-white rounded-xl p-8 border border-charcoal-100">
+              <h3 className="text-2xl font-bold text-charcoal-900 mb-4">
+                Why Use These Itineraries?
+              </h3>
+              <div className="space-y-4 text-charcoal-700 leading-relaxed">
+                <p>
+                  Planning a trip to Auburn can be overwhelming given the sheer number of activities, trails, 
+                  restaurants, and attractions available. These itineraries eliminate the guesswork by providing 
+                  tested, day-by-day plans that maximize your time and ensure you experience the best of what 
+                  Auburn has to offer.
+                </p>
+                <p>
+                  Each itinerary has been carefully crafted based on real visits, local knowledge, and an 
+                  understanding of how to balance different types of activities. They account for travel times, 
+                  seasonal considerations, and the practical realities of visiting Auburn. Whether you're a 
+                  first-time visitor or returning to explore new aspects of the area, these plans provide a 
+                  solid foundation that you can customize to match your interests and schedule.
+                </p>
+                <p>
+                  The itineraries also help you understand how different parts of Auburn connect, making it 
+                  easier to navigate the area and discover unexpected gems along the way. By following a 
+                  structured plan, you'll experience a more cohesive visit that tells the story of Auburn's 
+                  Gold Country heritage, natural beauty, and vibrant community.
+                </p>
+              </div>
+            </div>
           </div>
 
           {/* Planning Tips - Cream background */}
