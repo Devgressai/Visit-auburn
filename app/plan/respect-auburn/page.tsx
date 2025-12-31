@@ -2,7 +2,7 @@ import { buildMetadata, SITE_URL } from '@/lib/seo'
 import { Breadcrumbs } from '@/components/navigation/Breadcrumbs'
 import { RelatedPages } from '@/components/ui/RelatedPages'
 import { generateBreadcrumbs } from '@/lib/routes'
-import { AuburnHeroImage } from '@/components/ui/AuburnImage'
+import { AuburnHeroImage, AuburnImage } from '@/components/ui/AuburnImage'
 import Link from 'next/link'
 import { Leaf, Heart, Trash2, Camera, MapPin, Users, ShoppingBag, ChevronRight } from 'lucide-react'
 import type { Metadata } from 'next'
@@ -234,6 +234,24 @@ export default function RespectAuburnPage() {
                 Visitor Information
                 <ChevronRight className="w-5 h-5" />
               </Link>
+              <Link href="/plan/getting-here" className="btn-outline-white inline-flex items-center gap-2">
+                Getting Here
+                <ChevronRight className="w-5 h-5" />
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      {/* Additional Images Section */}
+      <section className="py-12 bg-deep-bg">
+        <div className="container mx-auto px-4">
+          <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+            <div className="relative h-64 rounded-xl overflow-hidden">
+              <AuburnImage imageId="historic-old-town-clocktower" />
+            </div>
+            <div className="relative h-64 rounded-xl overflow-hidden">
+              <AuburnImage imageId="outdoor-lake-clementine" />
             </div>
           </div>
         </div>
