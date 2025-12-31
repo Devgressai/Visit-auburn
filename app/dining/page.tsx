@@ -58,13 +58,29 @@ export default async function DiningPage() {
                 <h2 className="text-2xl md:text-3xl font-bold text-charcoal-900 mb-4">
                   A Taste of Gold Country
                 </h2>
-                <p className="text-charcoal-600 text-lg mb-6">
+                <p className="text-charcoal-600 text-lg mb-6 leading-relaxed">
                   From farm-to-fork dining to award-winning wineries, Auburn's culinary scene 
                   reflects the rich bounty of the Sierra foothills. Pull up a chair and dig in.
                 </p>
-                <p className="text-charcoal-600">
+                <p className="text-charcoal-600 mb-6 leading-relaxed">
                   Explore historic Old Town restaurants, discover local wineries, and enjoy fresh 
-                  ingredients from the weekly farmers market.
+                  ingredients from the weekly farmers market. Auburn's dining landscape has evolved 
+                  from Gold Rush-era saloons to modern establishments that celebrate California's 
+                  agricultural heritage while embracing contemporary culinary trends.
+                </p>
+                <p className="text-charcoal-600 mb-6 leading-relaxed">
+                  The Sierra Foothills region surrounding Auburn is renowned for its wine production, 
+                  with over 200 wineries within a short drive. Many tasting rooms and wine bars have 
+                  opened in downtown Auburn, making it easy to sample the region's best vintages without 
+                  leaving the city limits. The area's Mediterranean climate and diverse terroir produce 
+                  exceptional Zinfandel, Syrah, and Rhône varietals that have gained national recognition.
+                </p>
+                <p className="text-charcoal-600 leading-relaxed">
+                  Beyond wine, Auburn's food scene showcases the best of California's farm-to-table movement. 
+                  Local chefs source ingredients from nearby farms, ranches, and orchards, creating menus 
+                  that change with the seasons. From spring asparagus to summer stone fruits, fall apples 
+                  to winter root vegetables, Auburn restaurants celebrate the region's agricultural abundance 
+                  year-round.
                 </p>
               </div>
               <div>
@@ -84,6 +100,40 @@ export default async function DiningPage() {
               <p className="text-sm text-charcoal-600 mt-3 italic text-center">
                 Sierra Foothills wineries offer tastings and tours just minutes from Auburn
               </p>
+            </div>
+            
+            {/* Additional Content Section */}
+            <div className="bg-cream-50 rounded-xl p-8 mb-12">
+              <h3 className="text-2xl font-bold text-charcoal-900 mb-4">
+                Dining Experiences in Auburn
+              </h3>
+              <div className="space-y-4 text-charcoal-700 leading-relaxed">
+                <p>
+                  Auburn's dining scene offers something for every palate and occasion. In historic Old Town, 
+                  you'll find charming cafes perfect for breakfast or lunch, serving everything from artisanal 
+                  coffee to hearty Gold Country fare. Many restaurants occupy beautifully preserved 19th-century 
+                  buildings, creating an atmosphere that connects diners to Auburn's rich history.
+                </p>
+                <p>
+                  For dinner, Auburn boasts an impressive selection of restaurants ranging from casual family 
+                  favorites to upscale establishments. Many feature outdoor patios perfect for enjoying 
+                  California's mild climate, and several offer live music on weekends. The city's walkable 
+                  downtown makes it easy to enjoy a multi-course dining experience, starting with appetizers 
+                  at one restaurant and moving to another for your main course.
+                </p>
+                <p>
+                  Craft beer enthusiasts will find several breweries in and around Auburn, each with its own 
+                  unique character and selection of locally brewed beers. These establishments often host 
+                  food trucks, live music, and community events, making them popular gathering spots for 
+                  locals and visitors alike.
+                </p>
+                <p>
+                  Throughout the year, Auburn hosts food-focused events that showcase the region's culinary 
+                  excellence. From wine festivals to farmers markets, food truck gatherings to harvest 
+                  celebrations, these events provide opportunities to taste the best of what Auburn and 
+                  the surrounding Sierra Foothills have to offer.
+                </p>
+              </div>
             </div>
           </div>
         </div>
