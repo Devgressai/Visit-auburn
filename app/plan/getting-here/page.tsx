@@ -163,11 +163,26 @@ export default function GettingHerePage() {
             </div>
           </div>
 
-          <p className="text-charcoal-600 mb-8 max-w-3xl">
+          <p className="text-charcoal-600 mb-8 max-w-3xl leading-relaxed">
             Auburn is conveniently located on Interstate 80, making it easily accessible from major cities 
             throughout Northern California. The drive offers stunning views of the Sierra Nevada foothills 
-            and Gold Country landscapes.
+            and Gold Country landscapes. Whether you're coming from Sacramento, the Bay Area, Lake Tahoe, or 
+            points beyond, Auburn's central location in Gold Country makes it an ideal destination for a 
+            weekend getaway or extended stay.
           </p>
+          
+          {/* Additional Auburn Images */}
+          <div className="grid md:grid-cols-3 gap-6 mb-12">
+            <div className="relative h-48 rounded-xl overflow-hidden">
+              <AuburnImage imageId="downtown-lincoln-way" />
+            </div>
+            <div className="relative h-48 rounded-xl overflow-hidden">
+              <AuburnImage imageId="historic-old-town-clocktower" />
+            </div>
+            <div className="relative h-48 rounded-xl overflow-hidden">
+              <AuburnImage imageId="outdoor-lake-clementine" />
+            </div>
+          </div>
 
           <div className="grid md:grid-cols-2 gap-6 mb-12">
             {drivingRoutes.map((route) => (
@@ -193,7 +208,7 @@ export default function GettingHerePage() {
             ))}
           </div>
 
-          {/* Google Maps Embed Placeholder */}
+          {/* Interactive Map Section */}
           <div className="bg-white rounded-2xl border border-charcoal-100 p-2 shadow-card overflow-hidden">
             <div className="aspect-[16/9] md:aspect-[21/9] bg-cream-50 rounded-xl flex items-center justify-center">
               <div className="text-center">
@@ -229,9 +244,14 @@ export default function GettingHerePage() {
             </div>
           </div>
 
-          <p className="text-charcoal-600 mb-8 max-w-3xl">
+          <p className="text-charcoal-600 mb-8 max-w-3xl leading-relaxed">
             Several major airports serve Auburn, with Sacramento International being the closest and most convenient. 
-            All airports offer rental car services, and we recommend booking in advance during peak travel seasons.
+            All airports offer rental car services, and we recommend booking in advance during peak travel seasons. 
+            Once you arrive, Auburn's compact size and walkable downtown make it easy to explore on foot, though 
+            having a car is recommended for accessing trailheads, wineries, and attractions outside the city center. 
+            For those interested in <Link href="/things-to-do/outdoor-adventures" className="text-lake-600 hover:text-lake-700 font-semibold underline">outdoor adventures</Link> or 
+            exploring the surrounding Gold Country region, a vehicle provides the flexibility to visit multiple 
+            destinations during your stay.
           </p>
 
           <div className="grid md:grid-cols-2 gap-6">
@@ -297,9 +317,13 @@ export default function GettingHerePage() {
             </div>
           </div>
 
-          <p className="text-charcoal-600 mb-8 max-w-3xl">
+          <p className="text-charcoal-600 mb-8 max-w-3xl leading-relaxed">
             While driving is the most convenient option, public transportation is available for those who prefer 
-            not to drive. Both train and bus services connect Auburn to the greater Sacramento region and Bay Area.
+            not to drive. Both train and bus services connect Auburn to the greater Sacramento region and Bay Area. 
+            For visitors planning to stay primarily in downtown Auburn and explore <Link href="/plan/visitor-information" className="text-lake-600 hover:text-lake-700 font-semibold underline">visitor attractions</Link> 
+            within walking distance, public transit can be a viable option. However, for the most flexibility in 
+            experiencing Auburn's full range of activities, including <Link href="/dining" className="text-lake-600 hover:text-lake-700 font-semibold underline">dining</Link> at restaurants throughout 
+            the area and visiting nearby wineries, a car is recommended.
           </p>
 
           <div className="grid md:grid-cols-2 gap-6">
