@@ -142,13 +142,24 @@ export default async function EventsPage({
               <h2 className="text-2xl md:text-3xl font-bold text-charcoal-900 mb-4 font-display">
                 Experience Auburn's Community Spirit
               </h2>
-              <p className="text-charcoal-600 text-lg mb-6">
+              <p className="text-charcoal-600 text-lg mb-6 leading-relaxed">
                 Join us for annual traditions, seasonal celebrations, and special events that 
-                bring our Gold Country community together throughout the year.
+                bring our Gold Country community together throughout the year. Auburn's event 
+                calendar reflects the city's rich heritage, vibrant arts scene, and strong 
+                community bonds that make this Gold Country destination special.
               </p>
-              <p className="text-charcoal-600">
+              <p className="text-charcoal-600 mb-6 leading-relaxed">
                 From the historic Gold Rush Days festival to summer concerts and art walks, 
-                Auburn's calendar is packed with authentic experiences.
+                Auburn's calendar is packed with authentic experiences. Whether you're interested 
+                in <Link href="/things-to-do/history-culture" className="text-lake-600 hover:text-lake-700 font-semibold underline">history and culture</Link>, 
+                outdoor recreation, or <Link href="/dining" className="text-lake-600 hover:text-lake-700 font-semibold underline">culinary experiences</Link>, 
+                you'll find events that celebrate what makes Auburn unique.
+              </p>
+              <p className="text-charcoal-600 leading-relaxed">
+                Many events take place in Auburn's beautiful outdoor settings, from the American 
+                River Canyon to historic Old Town. The city's mild climate makes it ideal for 
+                year-round outdoor events, while indoor venues like theaters and community centers 
+                host cultural performances and gatherings during all seasons.
               </p>
             </div>
             <div>
@@ -217,6 +228,42 @@ export default async function EventsPage({
               imageId="event-art-walk"
               className="rounded-lg w-full h-[400px] object-cover"
             />
+          </div>
+          
+          {/* Expanded Content Section */}
+          <div className="bg-cream-50 rounded-xl p-8 mb-12">
+            <h3 className="text-2xl font-bold text-charcoal-900 mb-4 font-display">
+              Year-Round Events in Auburn
+            </h3>
+            <div className="space-y-4 text-charcoal-700 leading-relaxed">
+              <p>
+                Auburn's event calendar offers something for everyone, with activities that showcase 
+                the best of Gold Country culture, natural beauty, and community spirit. Spring brings 
+                wildflower festivals and outdoor markets, while summer features concerts, art walks, 
+                and outdoor recreation events that take advantage of the warm weather and long days.
+              </p>
+              <p>
+                Fall is particularly vibrant in Auburn, with harvest festivals, wine tasting events, 
+                and celebrations of the region's agricultural heritage. The changing colors of the 
+                Sierra foothills provide a stunning backdrop for outdoor events, and many activities 
+                are designed to help visitors experience the natural beauty of the area.
+              </p>
+              <p>
+                Winter events focus on community gatherings, holiday celebrations, and indoor cultural 
+                activities. Despite the cooler temperatures, Auburn's location in the Sierra foothills 
+                means winters are generally mild, allowing for outdoor events throughout the season. 
+                Many winter activities celebrate the region's Gold Rush history and provide opportunities 
+                to learn about Auburn's past while enjoying contemporary community events.
+              </p>
+              <p>
+                Throughout the year, Auburn hosts regular farmers markets, art walks, and community 
+                gatherings that bring residents and visitors together. These recurring events create 
+                a sense of community and provide consistent opportunities to experience local culture, 
+                cuisine, and crafts. For those planning a visit, checking the <Link href="/plan/visitor-information" className="text-lake-600 hover:text-lake-700 font-semibold underline">visitor information</Link> 
+                page or contacting the Auburn Area Chamber of Commerce can help you discover events 
+                happening during your stay.
+              </p>
+            </div>
           </div>
 
           {/* Monthly Grouping */}
