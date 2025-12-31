@@ -71,6 +71,33 @@ export default function FAQPage() {
       {/* FAQ Content - White background */}
       <section className="py-20 md:py-28 bg-white">
         <div className="container mx-auto px-4">
+          {/* Intro Content */}
+          <div className="max-w-4xl mx-auto mb-12">
+            <div className="text-center mb-8">
+              <h2 className="text-2xl md:text-3xl font-bold text-charcoal-900 mb-4 font-display">
+                Planning Your Visit to Auburn
+              </h2>
+              <p className="text-charcoal-700 text-lg leading-relaxed mb-6">
+                Whether you're planning your first visit to Auburn or returning to explore more of Gold Country, 
+                you likely have questions about the best time to visit, what to see and do, where to stay, and 
+                how to make the most of your time in this historic California destination.
+              </p>
+              <p className="text-charcoal-700 leading-relaxed mb-6">
+                Auburn, California, located in the heart of Gold Country, offers a unique blend of outdoor 
+                recreation, Gold Rush history, and small-town charm. From world-class hiking trails in the 
+                American River Canyon to historic museums and farm-to-table dining, Auburn provides diverse 
+                experiences for every type of traveler. Planning ahead helps ensure you experience the best 
+                of what Auburn has to offer.
+              </p>
+              <p className="text-charcoal-700 leading-relaxed">
+                Below, you'll find answers to the most frequently asked questions about visiting Auburn. 
+                For additional information, explore our <Link href="/plan/visitor-information" className="text-lake-600 hover:text-lake-700 font-semibold underline">visitor information</Link> page, 
+                check out our <Link href="/itineraries" className="text-lake-600 hover:text-lake-700 font-semibold underline">curated itineraries</Link>, or 
+                browse our <Link href="/things-to-do" className="text-lake-600 hover:text-lake-700 font-semibold underline">things to do</Link> directory for detailed activity information.
+              </p>
+            </div>
+          </div>
+          
           <FAQSection />
         </div>
       </section>
