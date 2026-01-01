@@ -148,9 +148,20 @@ export default function VisitorInformationPage() {
               <h2 className="text-3xl md:text-4xl font-bold text-charcoal-900 mb-6 font-display">
                 Auburn Visitor Center
               </h2>
-              <p className="text-charcoal-600 text-lg mb-8">
+              <p className="text-charcoal-600 text-lg mb-6 leading-relaxed">
                 Stop by our visitor center for maps, brochures, local recommendations, 
-                and personalized trip planning assistance from our friendly staff.
+                and personalized trip planning assistance from our friendly staff. Our knowledgeable 
+                team members are passionate about Auburn and can help you discover hidden gems, plan 
+                your itinerary, and make the most of your visit to Gold Country.
+              </p>
+              <p className="text-charcoal-600 mb-8 leading-relaxed">
+                The visitor center is your one-stop resource for everything Auburn. Whether you're 
+                interested in <Link href="/things-to-do/outdoor-adventures" className="text-lake-600 hover:text-lake-700 font-semibold underline">outdoor adventures</Link>, 
+                <Link href="/things-to-do/history-culture" className="text-lake-600 hover:text-lake-700 font-semibold underline"> Gold Rush history</Link>, 
+                or <Link href="/dining" className="text-lake-600 hover:text-lake-700 font-semibold underline">local dining</Link>, 
+                we can point you in the right direction. We also maintain current information about 
+                trail conditions, event schedules, and seasonal activities that might not be widely 
+                advertised.
               </p>
               
               <div className="space-y-4 mb-8">
@@ -222,9 +233,18 @@ export default function VisitorInformationPage() {
             <h2 className="text-3xl md:text-4xl font-bold text-charcoal-900 mb-4 font-display">
               Weather & Seasons
             </h2>
-            <p className="text-charcoal-600 max-w-2xl mx-auto">
+            <p className="text-charcoal-600 max-w-2xl mx-auto leading-relaxed mb-4">
               Auburn enjoys a Mediterranean climate with over 300 days of sunshine. 
-              Every season offers unique experiences.
+              Every season offers unique experiences, from spring wildflowers and rushing waterfalls 
+              to summer river activities, fall wine harvest celebrations, and mild winter days perfect 
+              for exploring historic sites and museums.
+            </p>
+            <p className="text-charcoal-600 max-w-2xl mx-auto leading-relaxed">
+              The Sierra foothills location means Auburn experiences distinct seasonal changes while 
+              maintaining generally pleasant weather year-round. Elevation plays a role too—Auburn sits 
+              at 1,255 feet, providing cooler temperatures than the Central Valley while remaining 
+              accessible even when higher elevations have snow. This makes Auburn an ideal base for 
+              exploring the region in any season.
             </p>
           </div>
 
@@ -272,6 +292,13 @@ export default function VisitorInformationPage() {
             <h2 className="text-3xl md:text-4xl font-bold text-charcoal-900 mb-4 font-display">
               Practical Information
             </h2>
+            <p className="text-charcoal-600 max-w-2xl mx-auto leading-relaxed">
+              Auburn is a welcoming, accessible destination with modern amenities while maintaining 
+              its historic Gold Country character. Most services you'll need are available in town, 
+              and the community is known for being friendly and helpful to visitors. Whether you're 
+              planning a day trip or an extended stay, these practical details will help you navigate 
+              Auburn with confidence.
+            </p>
           </div>
 
           <div className="grid sm:grid-cols-2 gap-6 max-w-4xl mx-auto">
