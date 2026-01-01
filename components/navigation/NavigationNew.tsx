@@ -78,8 +78,8 @@ export function NavigationNew() {
     <header 
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled 
-          ? 'bg-deep-surface/95 backdrop-blur-md border-b border-border-subtle py-2 md:py-3' 
-          : 'bg-transparent py-3 md:py-5'
+          ? 'bg-deep-surface/95 backdrop-blur-md border-b border-border-subtle py-1 md:py-2' 
+          : 'bg-transparent py-2 md:py-3'
       }`}
     >
       <div className="w-full px-0">
@@ -91,9 +91,9 @@ export function NavigationNew() {
               alt="Visit Auburn - California Gold Country"
               width={293}
               height={183}
-              className="h-[90px] md:h-[117px] lg:h-[137px] w-auto object-contain rounded-lg"
+              className="h-[60px] md:h-[75px] lg:h-[90px] w-auto object-contain rounded-lg"
               priority
-              sizes="(max-width: 768px) 180px, (max-width: 1024px) 234px, 293px"
+              sizes="(max-width: 768px) 120px, (max-width: 1024px) 150px, 180px"
             />
           </Link>
 
@@ -165,7 +165,7 @@ export function NavigationNew() {
 
         {/* Mobile Menu - Full height, thumb-friendly */}
         {isOpen && (
-          <div className="lg:hidden fixed inset-x-0 top-[96px] md:top-[120px] bottom-0 bg-deep-surface/98 backdrop-blur-lg border-t border-border-subtle overflow-y-auto">
+          <div className="lg:hidden fixed inset-x-0 top-[68px] md:top-[84px] bottom-0 bg-deep-surface/98 backdrop-blur-lg border-t border-border-subtle overflow-y-auto">
             <nav className="flex flex-col p-4 pb-24">
               {navigation.map((item) => (
                 <div key={item.name} className="border-b border-border-subtle last:border-0">
