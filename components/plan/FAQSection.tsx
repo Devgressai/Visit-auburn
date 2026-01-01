@@ -60,7 +60,8 @@ function FAQAccordion({ category, items, searchQuery = '' }: FAQCategory & { sea
                 onKeyDown={(e) => handleKeyDown(e, originalIndex)}
                 aria-expanded={isOpen}
                 aria-controls={answerId}
-                className="w-full px-6 py-5 flex items-center justify-between text-left gap-4 hover:bg-cream-50 transition-colors focus:outline-none focus:ring-2 focus:ring-lake-500 focus:ring-offset-2 rounded-t-xl"
+                className="w-full px-6 py-5 min-h-[44px] flex items-center justify-between text-left gap-4 hover:bg-cream-50 transition-colors focus:outline-none focus:ring-2 focus:ring-lake-500 focus:ring-offset-2 rounded-t-xl"
+                style={{ minHeight: '44px' }}
               >
                 <span className="text-lg font-semibold text-charcoal-900 flex-1">
                   {item.question}

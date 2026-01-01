@@ -7,7 +7,7 @@ import { Breadcrumbs } from '@/components/navigation/Breadcrumbs'
 import { RelatedPages } from '@/components/ui/RelatedPages'
 import { generateBreadcrumbs } from '@/lib/routes'
 import { AuburnHeroImage } from '@/components/ui/AuburnImage'
-import { Mail, Phone, MapPin, MessageCircle, ChevronRight } from 'lucide-react'
+import { MapPin, MessageCircle, ChevronRight } from 'lucide-react'
 import Link from 'next/link'
 import type { Metadata } from 'next'
 
@@ -21,17 +21,10 @@ export const metadata: Metadata = buildMetadata({
 
 const contactOptions = [
   {
-    icon: Phone,
-    title: 'Call Us',
-    description: 'Mon-Sat, 10am - 4pm',
-    action: '(530) 885-5616',
-    href: 'tel:+15308855616',
-  },
-  {
     icon: MapPin,
-    title: 'Visit Us',
-    description: 'Auburn Visitor Center',
-    action: '1103 High Street',
+    title: 'California Welcome Center (Auburn)',
+    description: 'Visit our visitor center',
+    action: 'See official details',
     href: '/plan/visitor-information',
   },
   {
@@ -126,6 +119,13 @@ export default function FAQPage() {
           </div>
           
           <FAQSection />
+          
+          {/* Last Updated */}
+          <div className="max-w-4xl mx-auto mt-12 pt-8 border-t border-charcoal-200">
+            <p className="text-sm text-charcoal-500 text-center">
+              Last updated: January 2026
+            </p>
+          </div>
         </div>
       </section>
 
@@ -143,7 +143,7 @@ export default function FAQPage() {
             </p>
           </div>
           
-          <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+          <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
             {contactOptions.map((option) => {
               const Icon = option.icon
               const isExternal = option.href.startsWith('mailto:') || option.href.startsWith('tel:')

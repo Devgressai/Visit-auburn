@@ -1,6 +1,7 @@
 /**
  * FAQ Content for Auburn, California
  * Single source of truth for all FAQ questions and answers
+ * Last updated: January 2026
  */
 
 export interface FAQItem {
@@ -91,7 +92,7 @@ export const faqAuburnData: FAQCategory[] = [
     items: [
       {
         question: 'Where is the visitor center?',
-        answer: 'The Auburn Visitor Center is located in historic Old Town at 1103 High Street. Hours are typically 9am-5pm weekdays. They offer maps, brochures, and local expertise. You can also find information at the Gold Country Museum.',
+        answer: 'The California Welcome Center (Auburn) is located in historic Old Town at 1103 High Street. The center offers maps, brochures, and local expertise to help you plan your visit. For current hours and contact information, check our visitor information page. You can also find information at the Gold Country Museum.',
         links: [
           { text: 'Visitor information', href: '/plan/visitor-information' }
         ]
