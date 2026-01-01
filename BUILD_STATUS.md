@@ -88,3 +88,4 @@ const event = mockEvents.find(e => e.slug.current === slug)
 The new features are production-ready. The pre-existing errors need to be fixed by updating those detail pages to use the available mock data properly.
 
 
+

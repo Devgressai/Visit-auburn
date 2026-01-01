@@ -1,5 +1,8 @@
 import { buildMetadata, SITE_URL } from '@/lib/seo'
 import { FAQSection } from '@/components/plan/FAQSection'
+import { FAQStructuredData } from '@/components/plan/FAQStructuredData'
+import { FAQSearchProvider } from '@/components/plan/FAQSearchContext'
+import { faqAuburnData } from '@/lib/content/faq-auburn'
 import { Breadcrumbs } from '@/components/navigation/Breadcrumbs'
 import { RelatedPages } from '@/components/ui/RelatedPages'
 import { generateBreadcrumbs } from '@/lib/routes'
@@ -43,8 +46,37 @@ const contactOptions = [
 export default function FAQPage() {
   const breadcrumbs = generateBreadcrumbs('/plan/faq')
 
+  // Create initial FAQPage JSON-LD with all FAQs (for SEO)
+  const allFAQs = faqAuburnData.flatMap(cat => 
+    cat.items.map(item => ({ question: item.question, answer: item.answer }))
+  )
+
+  const initialFAQSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: allFAQs.map(faq => ({
+      '@type': 'Question',
+      name: faq.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: faq.answer
+      }
+    }))
+  }
+
   return (
     <div className="min-h-screen bg-white">
+      {/* Initial Structured Data - All FAQs for SEO */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(initialFAQSchema) }}
+      />
+      
+      {/* FAQ Search Provider - Manages search state */}
+      <FAQSearchProvider>
+        {/* Dynamic Structured Data - Updates based on search */}
+        <FAQStructuredData />
+      
       {/* Hero Section */}
       <section className="relative py-24 md:py-32 overflow-hidden">
         <AuburnHeroImage imageId="hero-old-town-clocktower">
@@ -53,7 +85,7 @@ export default function FAQPage() {
               <MessageCircle className="w-8 h-8 text-white" />
             </div>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white text-center mb-6 font-display">
-              Frequently Asked Questions
+              Auburn, CA Travel FAQ
             </h1>
             <p className="text-xl text-white/90 text-center max-w-2xl mx-auto">
               Everything you need to know before visiting Auburn, California - 
@@ -74,26 +106,21 @@ export default function FAQPage() {
           {/* Intro Content */}
           <div className="max-w-4xl mx-auto mb-12">
             <div className="text-center mb-8">
-              <h2 className="text-2xl md:text-3xl font-bold text-charcoal-900 mb-4 font-display">
-                Planning Your Visit to Auburn
-              </h2>
               <p className="text-charcoal-700 text-lg leading-relaxed mb-6">
-                Whether you're planning your first visit to Auburn or returning to explore more of Gold Country, 
-                you likely have questions about the best time to visit, what to see and do, where to stay, and 
-                how to make the most of your time in this historic California destination.
+                Planning a <strong>day trip from Sacramento</strong> or exploring <strong>California's Gold Country</strong>? 
+                <strong> Auburn, California</strong> offers world-class <strong>hiking</strong> in the American River Canyon, 
+                historic <strong>Old Town</strong> with Gold Rush charm, and diverse outdoor recreation. Whether you're 
+                visiting for the first time or returning to explore more, find answers to common questions about 
+                visiting this charming Gold Country destination.
               </p>
               <p className="text-charcoal-700 leading-relaxed mb-6">
-                Auburn, California, located in the heart of Gold Country, offers a unique blend of outdoor 
-                recreation, Gold Rush history, and small-town charm. From world-class hiking trails in the 
-                American River Canyon to historic museums and farm-to-table dining, Auburn provides diverse 
-                experiences for every type of traveler. Planning ahead helps ensure you experience the best 
-                of what Auburn has to offer.
-              </p>
-              <p className="text-charcoal-700 leading-relaxed">
-                Below, you'll find answers to the most frequently asked questions about visiting Auburn. 
-                For additional information, explore our <Link href="/plan/visitor-information" className="text-lake-600 hover:text-lake-700 font-semibold underline">visitor information</Link> page, 
-                check out our <Link href="/itineraries" className="text-lake-600 hover:text-lake-700 font-semibold underline">curated itineraries</Link>, or 
-                browse our <Link href="/things-to-do" className="text-lake-600 hover:text-lake-700 font-semibold underline">things to do</Link> directory for detailed activity information.
+                From <Link href="/things-to-do" className="text-lake-600 hover:text-lake-700 font-semibold underline">things to do</Link> and 
+                <Link href="/accommodations" className="text-lake-600 hover:text-lake-700 font-semibold underline"> where to stay</Link> to 
+                <Link href="/dining" className="text-lake-600 hover:text-lake-700 font-semibold underline"> dining options</Link> and 
+                <Link href="/plan/getting-here" className="text-lake-600 hover:text-lake-700 font-semibold underline"> getting here</Link>, 
+                we've compiled answers to help you plan your perfect Auburn visit. Explore our 
+                <Link href="/plan/visitor-information" className="text-lake-600 hover:text-lake-700 font-semibold underline"> visitor information</Link> page for 
+                additional planning resources.
               </p>
             </div>
           </div>
@@ -207,6 +234,7 @@ export default function FAQPage() {
 
       {/* Related Pages */}
       <RelatedPages currentPath="/plan/faq" />
+      </FAQSearchProvider>
     </div>
   )
 }

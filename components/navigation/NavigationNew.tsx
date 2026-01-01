@@ -3,7 +3,9 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { usePathname } from 'next/navigation'
 import { Menu, X, ChevronDown } from 'lucide-react'
+import { WeatherWidget } from '@/components/ui/WeatherWidget'
 
 const navigation = [
   {
@@ -65,6 +67,8 @@ export function NavigationNew() {
   const [isOpen, setIsOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
   const [activeMenu, setActiveMenu] = useState<string | null>(null)
+  const pathname = usePathname()
+  const isHomepage = pathname === '/'
 
   useEffect(() => {
     const handleScroll = () => {
@@ -141,8 +145,9 @@ export function NavigationNew() {
             ))}
           </nav>
 
-          {/* Right Side - CTA Button */}
+          {/* Right Side - Weather Widget & CTA Button */}
           <div className="hidden lg:flex items-center gap-4 flex-shrink-0">
+            <WeatherWidget isHomepage={isHomepage && !isScrolled} />
             <Link 
               href="/special-offers"
               className="px-5 py-2.5 bg-gradient-forest hover:bg-forest-600 text-white font-semibold rounded-full transition-all duration-300 shadow-md hover:shadow-lg hover:shadow-forest-500/20 whitespace-nowrap"
@@ -194,6 +199,10 @@ export function NavigationNew() {
                   )}
                 </div>
               ))}
+              {/* Mobile Weather Widget */}
+              <div className="px-4 py-4 border-b border-border-subtle">
+                <WeatherWidget isHomepage={false} />
+              </div>
               <Link
                 href="/special-offers"
                 onClick={() => setIsOpen(false)}
