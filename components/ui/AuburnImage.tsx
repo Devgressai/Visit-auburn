@@ -70,16 +70,24 @@ export function AuburnImage({
 
 /**
  * AuburnHeroImage - Specialized for hero sections
+ * 
+ * contentPosition options:
+ * - "center" (default): Centers content both horizontally and vertically
+ * - "bottom-left": Positions content at bottom-left (for cinematic heroes)
+ * - "bottom-center": Positions content at bottom-center
+ * - "custom": No positioning applied - children handle their own layout
  */
 export function AuburnHeroImage({
   imageId,
   overlay = true,
   showCredit = true,
+  contentPosition = 'center',
   children,
 }: {
   imageId: string
   overlay?: boolean
   showCredit?: boolean
+  contentPosition?: 'center' | 'bottom-left' | 'bottom-center' | 'custom'
   children?: React.ReactNode
 }) {
   const image = getAuburnImageById(imageId)
@@ -87,6 +95,14 @@ export function AuburnHeroImage({
   if (!image) {
     console.error(`[AuburnHeroImage] Invalid imageId: "${imageId}"`)
     return null
+  }
+
+  // Position classes based on contentPosition prop
+  const positionClasses = {
+    'center': 'flex items-center justify-center',
+    'bottom-left': 'flex items-end justify-start pb-16 md:pb-24 px-4 sm:px-6 md:px-12 lg:px-20',
+    'bottom-center': 'flex items-end justify-center pb-16 md:pb-24',
+    'custom': '',
   }
 
   return (
@@ -103,7 +119,7 @@ export function AuburnHeroImage({
         <div className="absolute inset-0 bg-gradient-to-b from-charcoal-900/60 via-charcoal-900/40 to-charcoal-900/70" />
       )}
       {children && (
-        <div className="absolute inset-0">
+        <div className={`absolute inset-0 ${positionClasses[contentPosition]}`}>
           {children}
         </div>
       )}

@@ -1,8 +1,6 @@
 import { buildMetadata, SITE_URL } from '@/lib/seo'
-import { Breadcrumbs } from '@/components/navigation/Breadcrumbs'
 import { RelatedPages } from '@/components/ui/RelatedPages'
-import { AuburnHeroImage, AuburnImage } from '@/components/ui/AuburnImage'
-import { generateBreadcrumbs } from '@/lib/routes'
+import { AuburnImage } from '@/components/ui/AuburnImage'
 import Link from 'next/link'
 import { MeetingsPageClient } from './MeetingsPageClient'
 import type { Metadata } from 'next'
@@ -16,33 +14,9 @@ export const metadata: Metadata = buildMetadata({
 })
 
 export default function MeetingsPage() {
-  const breadcrumbs = generateBreadcrumbs('/plan/meetings')
-  
   return (
-    <div className="min-h-screen bg-white">
-      {/* Hero Section */}
-      <section className="relative h-[450px] md:h-[500px]">
-        <AuburnHeroImage imageId="meeting-professional-space">
-          <div className="container mx-auto px-4 text-center">
-            <span className="inline-block px-4 py-2 bg-forest-500/90 text-white text-sm font-semibold rounded-full mb-4">
-              Corporate Meetings & Events
-            </span>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 font-display">
-              Meetings & Corporate Events
-            </h1>
-            <p className="text-xl md:text-2xl text-white/90 max-w-3xl mx-auto leading-relaxed">
-              Professional venues and world-class hospitality for your next meeting, conference, or corporate retreat
-            </p>
-          </div>
-        </AuburnHeroImage>
-      </section>
-
-      {/* Breadcrumbs */}
-      <div className="container mx-auto px-4 py-4 bg-white">
-        <Breadcrumbs items={breadcrumbs} />
-      </div>
-      
-      {/* Main content in client component */}
+    <>
+      {/* Main content in client component - includes hero, breadcrumbs, and all sections */}
       <MeetingsPageClient />
       
       {/* Related Pages */}
@@ -72,6 +46,6 @@ export default function MeetingsPage() {
           </div>
         </div>
       </section>
-    </div>
+    </>
   )
 }

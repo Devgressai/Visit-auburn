@@ -90,14 +90,14 @@ export function EventsCalendar({ events }: EventsCalendarProps) {
             <div className="flex gap-2">
               <button
                 onClick={prevMonth}
-                className="p-2 hover:bg-cream-50 rounded-lg transition-colors"
+                className="p-2 hover:bg-cream-50 rounded-lg transition-colors text-charcoal-700"
                 aria-label="Previous month"
               >
                 <ChevronLeft className="w-5 h-5" />
               </button>
               <button
                 onClick={nextMonth}
-                className="p-2 hover:bg-cream-50 rounded-lg transition-colors"
+                className="p-2 hover:bg-cream-50 rounded-lg transition-colors text-charcoal-700"
                 aria-label="Next month"
               >
                 <ChevronRight className="w-5 h-5" />

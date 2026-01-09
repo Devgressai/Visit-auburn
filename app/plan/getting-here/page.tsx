@@ -94,9 +94,9 @@ export default function GettingHerePage() {
       {/* ═══════════════════════════════════════════════════════════════════
           HERO SECTION - Cinematic style with Auburn image
           ═══════════════════════════════════════════════════════════════════ */}
-      <section className="relative min-h-[450px] md:min-h-[500px] w-full overflow-hidden flex items-center">
-        <AuburnHeroImage imageId="hero-american-river-canyon">
-          <div className="relative z-10 flex flex-col justify-center items-start text-left px-4 sm:px-6 md:px-12 lg:px-20">
+      <section className="relative min-h-[450px] md:min-h-[500px] w-full overflow-hidden">
+        <AuburnHeroImage imageId="hero-american-river-canyon" contentPosition="bottom-left">
+          <div className="relative z-10">
             <p 
               className="uppercase tracking-[0.2em] text-sm font-medium mb-4 text-white/80"
               style={{ textShadow: '0 2px 8px rgba(0,0,0,0.5)' }}

@@ -223,7 +223,7 @@ export function MeetingsPageClient() {
   }
 
   return (
-    <main className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white">
       {/* Sticky CTA Bar */}
       {isStickyVisible && (
         <div className="fixed top-16 left-0 right-0 z-40 bg-charcoal-800 text-white shadow-lg border-b-2 border-gold-500" role="banner" aria-label="Request proposal">
@@ -753,7 +753,7 @@ export function MeetingsPageClient() {
       </section>
 
       {/* Related Pages are rendered in server component */}
-    </main>
+    </div>
   )
 }
 

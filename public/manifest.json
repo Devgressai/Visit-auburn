@@ -5,20 +5,14 @@
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#2563EB",
+  "theme_color": "#D4A017",
   "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "/icon-192.png",
+      "src": "/images/logo.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "/icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     }
   ],
   "categories": ["travel", "lifestyle", "tourism"],
@@ -27,29 +21,25 @@
       "name": "Things To Do",
       "short_name": "Things To Do",
       "description": "Explore activities and attractions",
-      "url": "/things-to-do",
-      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+      "url": "/things-to-do"
     },
     {
       "name": "Dining",
       "short_name": "Dining",
       "description": "Find restaurants and cafes",
-      "url": "/dining",
-      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+      "url": "/dining"
     },
     {
       "name": "Events",
       "short_name": "Events",
       "description": "See upcoming events",
-      "url": "/events",
-      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+      "url": "/events"
     },
     {
       "name": "Accommodations",
       "short_name": "Stay",
       "description": "Browse places to stay",
-      "url": "/accommodations",
-      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+      "url": "/accommodations"
     }
   ],
   "screenshots": [],

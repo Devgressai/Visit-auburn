@@ -105,8 +105,8 @@ export default function VisitorInformationPage() {
           HERO SECTION - Cinematic style matching homepage
           ═══════════════════════════════════════════════════════════════════ */}
       <section className="relative min-h-[60vh] md:min-h-[70vh] w-full overflow-hidden">
-        <AuburnHeroImage imageId="hero-old-town-clocktower">
-          <div className="relative z-10 min-h-[60vh] md:min-h-[70vh] flex flex-col justify-end items-start text-left px-4 sm:px-6 md:px-12 lg:px-20 pb-16 md:pb-24">
+        <AuburnHeroImage imageId="hero-old-town-clocktower" contentPosition="bottom-left">
+          <div className="relative z-10">
             <p 
               className="uppercase tracking-[0.2em] text-sm font-medium mb-4 text-white/80"
               style={{ textShadow: '0 2px 8px rgba(0,0,0,0.5)' }}
