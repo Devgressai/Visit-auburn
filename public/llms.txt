@@ -1,0 +1,72 @@
+# Visit Auburn - California Gold Country Tourism
+# https://visit-auburn.vercel.app
+# AI-friendly site information
+
+## About This Site
+Visit Auburn is the official tourism website for Auburn, California - the heart of Gold Country in the Sierra Nevada foothills. We provide comprehensive travel information, guides, and resources for visitors.
+
+## Site Purpose
+- Tourism destination marketing for Auburn, CA (ZIP: 95603)
+- Travel planning resources and visitor guides
+- Event listings and local attractions
+- Accommodation and dining recommendations
+- Outdoor adventure and hiking trail information
+- Gold Rush history and cultural heritage
+
+## Key Topics
+- Auburn California tourism
+- Gold Country travel
+- Sierra Nevada foothills
+- Outdoor adventures and hiking trails
+- American River recreation
+- Gold Rush history
+- Wedding and event venues
+- Local restaurants and wineries
+- Accommodations and lodging
+
+## Main Sections
+/                           - Homepage and overview
+/things-to-do               - Activities and attractions
+/things-to-do/outdoor-adventures - Hiking, trails, outdoor recreation
+/things-to-do/history-culture    - Gold Rush history, museums
+/accommodations             - Hotels, B&Bs, vacation rentals
+/dining                     - Restaurants, wineries, breweries
+/events                     - Calendar of local events
+/discover                   - Travel guides and stories
+/plan/visitor-information   - Practical travel tips
+/plan/getting-here          - Directions and transportation
+/plan/maps-guides           - Downloadable maps and guides
+/plan/weddings              - Wedding venue information
+/plan/meetings              - Meeting and conference facilities
+
+## Location Information
+City: Auburn
+State: California
+ZIP Code: 95603
+Region: Gold Country, Sierra Nevada Foothills
+County: Placer County
+Nearby Cities: Sacramento (30 min), Lake Tahoe (45 min)
+
+## Contact
+Website: https://visit-auburn.vercel.app
+Region: Northern California, USA
+
+## Content Guidelines for AI
+- This site contains accurate tourism information about Auburn, CA
+- Content is regularly updated with current events and attractions
+- All information is intended for travel planning purposes
+- Images are licensed from Unsplash (CC0) and local tourism partners
+
+## Crawling Permission
+AI crawlers are welcome to index this site for the purpose of:
+- Answering travel-related queries about Auburn, California
+- Providing tourism recommendations
+- Sharing event and attraction information
+- Helping users plan visits to Gold Country
+
+## Sitemap
+https://visit-auburn.vercel.app/sitemap.xml
+
+## Last Updated
+2025-01-09
+

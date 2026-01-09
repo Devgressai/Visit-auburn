@@ -1,9 +1,11 @@
 import { MetadataRoute } from 'next'
-import { activities, events, editorials } from '@/lib/data'
+import { activities, events, editorials, dining, accommodations } from '@/lib/data'
 import { SITE_URL } from '@/lib/seo'
 import { getAllRoutes } from '@/lib/routes'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const currentDate = new Date().toISOString()
+  
   // Get all static routes from route map
   const staticRoutes = getAllRoutes()
   
@@ -31,7 +33,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     return {
       url: `${SITE_URL}${route}`,
-      lastModified: new Date(),
+      lastModified: currentDate,
       changeFrequency,
       priority,
     }
@@ -42,14 +44,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     if (activity.subHub) {
       routes.push({
         url: `${SITE_URL}/things-to-do/${activity.subHub}/${activity.slug.current}`,
-        lastModified: new Date(),
+        lastModified: currentDate,
         changeFrequency: 'weekly',
         priority: 0.8,
       })
     }
     routes.push({
       url: `${SITE_URL}/activities/${activity.slug.current}`,
-      lastModified: new Date(),
+      lastModified: currentDate,
       changeFrequency: 'weekly',
       priority: 0.8,
     })
@@ -59,7 +61,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   events.forEach((event: any) => {
     routes.push({
       url: `${SITE_URL}/events/${event.slug.current}`,
-      lastModified: new Date(),
+      lastModified: currentDate,
       changeFrequency: 'weekly',
       priority: 0.7,
     })
@@ -69,10 +71,55 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   editorials.forEach((editorial: any) => {
     routes.push({
       url: `${SITE_URL}/discover/${editorial.slug.current}`,
-      lastModified: new Date(),
+      lastModified: currentDate,
       changeFrequency: 'monthly',
       priority: 0.7,
     })
+  })
+
+  // Add restaurant/dining pages (if they have individual pages)
+  dining.forEach((restaurant: any) => {
+    if (restaurant.slug?.current) {
+      routes.push({
+        url: `${SITE_URL}/dining/${restaurant.slug.current}`,
+        lastModified: currentDate,
+        changeFrequency: 'monthly',
+        priority: 0.6,
+      })
+    }
+  })
+
+  // Add accommodation pages (if they have individual pages)
+  accommodations.forEach((accommodation: any) => {
+    if (accommodation.slug?.current) {
+      routes.push({
+        url: `${SITE_URL}/accommodations/${accommodation.slug.current}`,
+        lastModified: currentDate,
+        changeFrequency: 'monthly',
+        priority: 0.6,
+      })
+    }
+  })
+
+  // Add special pages
+  const specialPages = [
+    { url: '/search', priority: 0.5, changeFrequency: 'weekly' as const },
+    { url: '/special-offers', priority: 0.7, changeFrequency: 'weekly' as const },
+    { url: '/privacy', priority: 0.3, changeFrequency: 'yearly' as const },
+    { url: '/terms', priority: 0.3, changeFrequency: 'yearly' as const },
+    { url: '/accessibility', priority: 0.3, changeFrequency: 'yearly' as const },
+  ]
+
+  specialPages.forEach((page) => {
+    // Check if not already in routes
+    if (!routes.find(r => r.url === `${SITE_URL}${page.url}`)) {
+      routes.push({
+        url: `${SITE_URL}${page.url}`,
+        lastModified: currentDate,
+        changeFrequency: page.changeFrequency,
+        priority: page.priority,
+      })
+    }
   })
 
   return routes

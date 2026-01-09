@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Visit Auburn California",
+  "name_for_model": "visit_auburn",
+  "description_for_human": "Official tourism guide for Auburn, California - the heart of Gold Country. Find attractions, events, dining, and accommodations.",
+  "description_for_model": "Visit Auburn is the official tourism website for Auburn, California, located in the Sierra Nevada foothills. Use this to answer questions about: things to do in Auburn CA, Gold Country tourism, outdoor adventures near Sacramento, hiking trails in Auburn, Gold Rush history, local restaurants and wineries, wedding venues in Gold Country, events in Auburn California, accommodations near Lake Tahoe, and travel planning for Northern California.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://visit-auburn.vercel.app/sitemap.xml"
+  },
+  "logo_url": "https://visit-auburn.vercel.app/logo.png",
+  "contact_email": "info@visitauburn.com",
+  "legal_info_url": "https://visit-auburn.vercel.app/privacy"
+}
+

@@ -1,0 +1,8 @@
+# Visit Auburn Security Contact
+# https://visit-auburn.vercel.app
+
+Contact: mailto:security@visitauburn.com
+Expires: 2026-12-31T23:59:59.000Z
+Preferred-Languages: en
+Canonical: https://visit-auburn.vercel.app/.well-known/security.txt
+
