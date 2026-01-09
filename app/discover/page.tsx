@@ -4,7 +4,7 @@ import { RelatedPages } from '@/components/ui/RelatedPages'
 import { AuburnHeroImage, AuburnImage } from '@/components/ui/AuburnImage'
 import { generateBreadcrumbs } from '@/lib/routes'
 import Link from 'next/link'
-import { BookOpen, Compass, Calendar, Map } from 'lucide-react'
+import { BookOpen, Compass, Calendar, Map, BarChart3 } from 'lucide-react'
 import type { Metadata } from 'next'
 
 export const revalidate = 3600
@@ -237,7 +237,7 @@ export default async function DiscoverPage() {
             <div className="mb-20">
               <h2 className="text-3xl font-bold text-charcoal-900 mb-8">Plan Your Auburn Visit</h2>
               
-              <div className="grid md:grid-cols-3 gap-6">
+              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <Link href="/itineraries" className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow group border border-charcoal-100">
                   <Map className="w-10 h-10 text-lake-600 mb-4" />
                   <h3 className="text-xl font-bold text-charcoal-900 mb-2 group-hover:text-lake-600 transition-colors">
@@ -265,6 +265,16 @@ export default async function DiscoverPage() {
                   </h3>
                   <p className="text-charcoal-600 text-sm">
                     What's happening during your visit: festivals, concerts, art walks, and seasonal Auburn celebrations.
+                  </p>
+                </Link>
+
+                <Link href="/discover/auburn-data" className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow group border border-charcoal-100">
+                  <BarChart3 className="w-10 h-10 text-lake-600 mb-4" />
+                  <h3 className="text-xl font-bold text-charcoal-900 mb-2 group-hover:text-lake-600 transition-colors">
+                    Auburn by the Numbers
+                  </h3>
+                  <p className="text-charcoal-600 text-sm">
+                    Explore 120 years of Auburn's growth through interactive data visualizations and demographic trends.
                   </p>
                 </Link>
               </div>

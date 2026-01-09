@@ -184,6 +184,22 @@ export const ROUTE_MAP: Record<string, RouteMetadata> = {
     blurb: 'Read insider stories, travel tips, and local insights about Auburn and California\'s Gold Country.',
   },
 
+  '/discover/auburn-data': {
+    path: '/discover/auburn-data',
+    breadcrumbLabel: 'Auburn by the Numbers',
+    parentSection: '/discover',
+    relatedPages: [
+      '/discover',
+      '/things-to-do/history-culture',
+      '/plan/visitor-information',
+      '/itineraries',
+      '/things-to-do',
+      '/events',
+    ],
+    photoRequired: true,
+    blurb: 'Explore 120 years of Auburn\'s growth through interactive data visualizations and demographic trends.',
+  },
+
   // ============================================
   // ITINERARIES
   // ============================================
