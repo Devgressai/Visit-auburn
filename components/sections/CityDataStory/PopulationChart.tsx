@@ -23,7 +23,7 @@
 import { useEffect, useRef, useState, useCallback, useMemo } from 'react'
 import { motion, useReducedMotion, AnimatePresence } from 'framer-motion'
 import { useStoryStore } from './storyStore'
-import type { CityThroughTimeRow } from '@/lib/data/cityThroughTime'
+import type { CityThroughTimeRow, CityDataStoryConfig } from '@/lib/data/cityThroughTime'
 import { cn } from '@/lib/utils'
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -31,7 +31,7 @@ import { cn } from '@/lib/utils'
 // ═══════════════════════════════════════════════════════════════════════════
 
 interface PopulationChartProps {
-  data: CityThroughTimeRow[]
+  config: CityDataStoryConfig
   width?: number
   height?: number
   className?: string
@@ -131,7 +131,7 @@ function getNiceTicks(min: number, max: number, count: number = 5): number[] {
 // ═══════════════════════════════════════════════════════════════════════════
 
 export function PopulationChart({
-  data,
+  config,
   width = 800,
   height = 400,
   className = '',
@@ -139,6 +139,7 @@ export function PopulationChart({
   showGrid = true,
   showAxes = true,
 }: PopulationChartProps) {
+  const { data, cityName, countyName, stateName } = config
   const {
     activeYear,
     hoveredYear,
@@ -564,13 +565,21 @@ export function PopulationChart({
             data={tooltipData}
             compareMode={compareMode}
             formatPopulation={formatPopulation}
+            cityName={cityName}
+            countyName={countyName}
+            stateName={stateName}
           />
         )}
       </AnimatePresence>
 
       {/* Legend */}
       {showLegend && (
-        <ChartLegend compareMode={compareMode} />
+        <ChartLegend 
+          compareMode={compareMode} 
+          cityName={cityName}
+          countyName={countyName}
+          stateName={stateName}
+        />
       )}
 
       {/* Screen Reader Announcements */}
@@ -603,10 +612,16 @@ function ChartTooltip({
   data,
   compareMode,
   formatPopulation,
+  cityName = 'City',
+  countyName = 'County',
+  stateName = 'State',
 }: {
   data: TooltipData
   compareMode: 'city' | 'county' | 'state'
   formatPopulation: (n: number | undefined) => string
+  cityName?: string
+  countyName?: string
+  stateName?: string
 }) {
   const shouldReduceMotion = useReducedMotion()
 
@@ -631,7 +646,7 @@ function ChartTooltip({
           <div className="flex items-center justify-between gap-4">
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 rounded-full bg-forest-500" />
-              <span className="text-sm text-charcoal-700">City</span>
+              <span className="text-sm text-charcoal-700">{cityName}</span>
             </div>
             <span className="text-sm font-semibold text-charcoal-900">
               {formatPopulation(data.city)}
@@ -642,7 +657,7 @@ function ChartTooltip({
             <div className="flex items-center justify-between gap-4">
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 rounded-full bg-lake-400 border-2 border-lake-600" />
-                <span className="text-sm text-charcoal-700">County</span>
+                <span className="text-sm text-charcoal-700">{countyName}</span>
               </div>
               <span className="text-sm font-semibold text-charcoal-900">
                 {formatPopulation(data.county)}
@@ -654,7 +669,7 @@ function ChartTooltip({
             <div className="flex items-center justify-between gap-4">
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 rounded-full bg-rust-400" />
-                <span className="text-sm text-charcoal-700">State</span>
+                <span className="text-sm text-charcoal-700">{stateName}</span>
               </div>
               <span className="text-sm font-semibold text-charcoal-900">
                 {formatPopulation(data.state)}
@@ -673,8 +688,14 @@ function ChartTooltip({
 
 function ChartLegend({
   compareMode,
+  cityName = 'City',
+  countyName = 'County',
+  stateName = 'State',
 }: {
   compareMode: 'city' | 'county' | 'state'
+  cityName?: string
+  countyName?: string
+  stateName?: string
 }) {
   return (
     <div 
@@ -684,20 +705,20 @@ function ChartLegend({
     >
       <div className="flex items-center gap-2" role="listitem">
         <div className="w-4 h-4 rounded-full bg-forest-500" />
-        <span className="text-sm font-medium text-charcoal-700">City</span>
+        <span className="text-sm font-medium text-charcoal-700">{cityName}</span>
       </div>
 
       {compareMode !== 'city' && (
         <div className="flex items-center gap-2" role="listitem">
           <div className="w-4 h-1 bg-lake-400 rounded" />
-          <span className="text-sm font-medium text-charcoal-700">County</span>
+          <span className="text-sm font-medium text-charcoal-700">{countyName}</span>
         </div>
       )}
 
       {compareMode === 'state' && (
         <div className="flex items-center gap-2" role="listitem">
           <div className="w-4 h-4 rounded-full bg-rust-400" />
-          <span className="text-sm font-medium text-charcoal-700">State</span>
+          <span className="text-sm font-medium text-charcoal-700">{stateName}</span>
         </div>
       )}
     </div>

@@ -86,6 +86,45 @@ export interface CityConfig {
   dataEndYear: number
 }
 
+/**
+ * Complete configuration for CityDataStory component.
+ * This type allows the component to be used for ANY city without code changes.
+ * 
+ * @example
+ * const myConfig: CityDataStoryConfig = {
+ *   cityName: 'Sacramento',
+ *   countyName: 'Sacramento County',
+ *   stateName: 'California',
+ *   data: sacramentoData,
+ *   chapters: sacramentoChapters,
+ * }
+ */
+export interface CityDataStoryConfig {
+  /** Display name of the city (e.g., "Auburn", "Sacramento") */
+  cityName: string
+  
+  /** Display name of the county (optional, e.g., "Placer County") */
+  countyName?: string
+  
+  /** Display name of the state (optional, e.g., "California") */
+  stateName?: string
+  
+  /** Year the city was established (optional, for display) */
+  established?: number
+  
+  /** Theme customization (optional) */
+  theme?: {
+    /** Tailwind class for accent color (default: 'gold') */
+    accentClassName?: string
+  }
+  
+  /** Population data through time */
+  data: CityThroughTimeRow[]
+  
+  /** Narrative chapters for scrollytelling */
+  chapters: StoryChapter[]
+}
+
 // ═══════════════════════════════════════════════════════════════════════════
 // CITY CONFIGURATION
 // ═══════════════════════════════════════════════════════════════════════════
@@ -98,6 +137,64 @@ export const auburnConfig: CityConfig = {
   dataStartYear: 1900,
   dataEndYear: 2020,
 }
+
+/**
+ * Complete CityDataStory configuration for Auburn
+ */
+export const auburnDataStoryConfig: CityDataStoryConfig = {
+  cityName: 'Auburn',
+  countyName: 'Placer County',
+  stateName: 'California',
+  established: 1849,
+  theme: {
+    accentClassName: 'gold', // Uses gold-500, gold-600, etc.
+  },
+  data: [], // Will be populated below after data definition
+  chapters: [], // Will be populated below after chapters definition
+}
+
+/**
+ * EXAMPLE: DemoCity Configuration
+ * 
+ * This example shows how to configure CityDataStory for a different city.
+ * Simply create your own data and chapters arrays, then pass this config.
+ * 
+ * const demoCityConfig: CityDataStoryConfig = {
+ *   cityName: 'DemoCity',
+ *   countyName: 'Demo County',
+ *   stateName: 'Demo State',
+ *   established: 1850,
+ *   theme: {
+ *     accentClassName: 'blue', // Or 'pine', 'lake', 'rust', etc.
+ *   },
+ *   data: [
+ *     {
+ *       year: 1900,
+ *       city: 5000,
+ *       county: 50000,
+ *       state: 1000000,
+ *       milestoneTitle: 'Turn of the Century',
+ *       milestoneBody: 'DemoCity enters the 20th century...',
+ *       sources: [{ label: 'Census 1900', url: 'https://...' }],
+ *     },
+ *     // ... more data points
+ *   ],
+ *   chapters: [
+ *     {
+ *       id: 'early-days',
+ *       title: 'Early Days',
+ *       startYear: 1900,
+ *       endYear: 1950,
+ *       takeaway: 'DemoCity establishes itself',
+ *       detail: 'The early years saw rapid growth...',
+ *       metricHighlights: [
+ *         { label: 'Population Growth', value: '+200%', note: '1900-1950' },
+ *       ],
+ *     },
+ *     // ... more chapters
+ *   ],
+ * }
+ */
 
 // ═══════════════════════════════════════════════════════════════════════════
 // SEED DATA - AUBURN THROUGH TIME
@@ -477,6 +574,13 @@ export function getMilestones(data: CityThroughTimeRow[]) {
     body: row.milestoneBody,
   }))
 }
+
+// ═══════════════════════════════════════════════════════════════════════════
+// POPULATE AUBURN CONFIG (after data and chapters are defined)
+// ═══════════════════════════════════════════════════════════════════════════
+
+auburnDataStoryConfig.data = auburnThroughTimeData
+auburnDataStoryConfig.chapters = auburnStoryChapters
 
 // ═══════════════════════════════════════════════════════════════════════════
 // DATA SOURCES & REPLACEMENT GUIDE

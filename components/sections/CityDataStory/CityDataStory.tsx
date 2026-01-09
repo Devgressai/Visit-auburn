@@ -15,7 +15,7 @@
 
 'use client'
 
-import { useEffect, useRef, useState, useCallback } from 'react'
+import { useEffect, useRef, useState, useCallback, useMemo, memo } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
 import { 
   ChevronDown, 
@@ -30,10 +30,10 @@ import { StoryStoreProvider, useStoryStore, type CompareMode } from './storyStor
 import { PopulationChart } from './PopulationChart'
 import { StatsPanel } from './StatsPanel'
 import { 
-  auburnThroughTimeData, 
-  auburnStoryChapters,
-  auburnConfig,
+  auburnDataStoryConfig,
+  type CityDataStoryConfig,
   type StoryChapter,
+  type CityThroughTimeRow,
 } from '@/lib/data/cityThroughTime'
 import { cn } from '@/lib/utils'
 
@@ -42,30 +42,23 @@ import { cn } from '@/lib/utils'
 // ═══════════════════════════════════════════════════════════════════════════
 
 interface CityDataStoryProps {
-  /** Optional: override default data */
-  data?: typeof auburnThroughTimeData
-  /** Optional: override default chapters */
-  chapters?: typeof auburnStoryChapters
-  /** Optional: city configuration */
-  config?: typeof auburnConfig
+  /** Complete city configuration (data, chapters, metadata) */
+  config?: CityDataStoryConfig
   /** Optional: initial chapter to show */
   initialChapterIndex?: number
 }
 
 export function CityDataStory({
-  data = auburnThroughTimeData,
-  chapters = auburnStoryChapters,
-  config = auburnConfig,
+  config = auburnDataStoryConfig,
   initialChapterIndex = 0,
 }: CityDataStoryProps) {
+  const { data, chapters } = config
   const initialChapter = chapters[initialChapterIndex]
   const initialYear = initialChapter?.endYear || data[data.length - 1]?.year || null
 
   return (
     <StoryStoreProvider initialYear={initialYear} initialCompareMode="city">
       <CityDataStoryContent 
-        data={data} 
-        chapters={chapters} 
         config={config}
         initialChapterIndex={initialChapterIndex}
       />
@@ -78,17 +71,53 @@ export function CityDataStory({
 // ═══════════════════════════════════════════════════════════════════════════
 
 function CityDataStoryContent({
-  data,
-  chapters,
   config,
   initialChapterIndex,
 }: Required<CityDataStoryProps>) {
+  const { data, chapters, cityName, established } = config
   const [activeChapterIndex, setActiveChapterIndex] = useState(initialChapterIndex)
   const [expandedChapters, setExpandedChapters] = useState<Set<number>>(new Set([initialChapterIndex]))
   const shouldReduceMotion = useReducedMotion()
   
   const chapterRefs = useRef<(HTMLElement | null)[]>([])
   const { setActiveYear } = useStoryStore()
+
+  // Error handling: Validate data and chapters
+  const hasValidData = useMemo(() => {
+    return data && data.length > 0 && data.every(d => 
+      typeof d.year === 'number' && 
+      typeof d.city === 'number' &&
+      !isNaN(d.year) &&
+      !isNaN(d.city)
+    )
+  }, [data])
+
+  const hasValidChapters = useMemo(() => {
+    return chapters && chapters.length > 0
+  }, [chapters])
+
+  // Show error state if data is invalid
+  if (!hasValidData || !hasValidChapters) {
+    return (
+      <section className="py-12 md:py-20 lg:py-28 bg-gradient-cream">
+        <div className="container">
+          <div className="max-w-2xl mx-auto text-center">
+            <div className="bg-white rounded-2xl shadow-card p-8">
+              <Info className="w-12 h-12 mx-auto mb-4 text-charcoal-400" />
+              <h2 className="text-2xl font-bold text-charcoal-900 mb-2">
+                Data Unavailable
+              </h2>
+              <p className="text-charcoal-600">
+                {!hasValidData && 'Population data is missing or invalid. '}
+                {!hasValidChapters && 'Story chapters are missing or invalid. '}
+                Please check the data configuration.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    )
+  }
 
   // ─────────────────────────────────────────────────────────────────────────
   // INTERSECTION OBSERVER - Detect active chapter
@@ -187,10 +216,10 @@ function CityDataStoryContent({
             id="data-story-title" 
             className="section-title-light mb-6"
           >
-            {config.name} Through Time
+            {cityName} Through Time
           </h1>
           <p className="text-lg md:text-xl text-charcoal-600 max-w-3xl mx-auto leading-relaxed">
-            Explore {config.name}&apos;s journey from {config.established} to today through 
+            Explore {cityName}&apos;s journey{established ? ` from ${established}` : ''} to today through 
             interactive data visualizations and historical narratives.
           </p>
         </header>
@@ -208,7 +237,7 @@ function CityDataStoryContent({
         <div className="md:hidden">
           {/* Sticky Visualization on Mobile */}
           <div className="sticky top-16 z-10 mb-8 bg-white rounded-2xl shadow-card p-6">
-            <VisualizationPanel data={data} chapters={chapters} />
+            <VisualizationPanel config={config} />
           </div>
 
           {/* Accordion Chapters */}
@@ -225,7 +254,13 @@ function CityDataStoryContent({
                 >
                   <button
                     onClick={() => toggleChapter(index)}
-                    className="w-full px-6 py-4 flex items-center justify-between text-left"
+                    className={cn(
+                      "w-full px-6 py-4 flex items-center justify-between text-left",
+                      "transition-colors duration-200 ease-out",
+                      "active:bg-charcoal-50",
+                      "min-h-[44px]", // Touch target size
+                      !shouldReduceMotion && "hover:bg-charcoal-25"
+                    )}
                     aria-expanded={expandedChapters.has(index)}
                     aria-controls={`chapter-${index}-content`}
                   >
@@ -244,11 +279,13 @@ function CityDataStoryContent({
                         {chapter.title}
                       </h3>
                     </div>
-                    {expandedChapters.has(index) ? (
-                      <ChevronUp className="w-5 h-5 text-charcoal-400" />
-                    ) : (
+                    <div className={cn(
+                      "transition-transform duration-200 ease-out",
+                      expandedChapters.has(index) && "rotate-180",
+                      shouldReduceMotion && "transition-none"
+                    )}>
                       <ChevronDown className="w-5 h-5 text-charcoal-400" />
-                    )}
+                    </div>
                   </button>
 
                   {expandedChapters.has(index) && (
@@ -284,12 +321,13 @@ function CityDataStoryContent({
                   }}
                   onKeyDown={(e) => handleChapterKeyDown(e, index)}
                   className={cn(
-                    'bg-white rounded-2xl shadow-card p-8 transition-all duration-300 cursor-pointer',
+                    'bg-white rounded-2xl shadow-card p-8 transition-all duration-300 ease-out cursor-pointer',
                     'focus:outline-none focus:ring-2 focus:ring-gold-500 focus:ring-offset-2',
-                    'hover:shadow-card-hover hover:-translate-y-1',
+                    'hover:shadow-card-hover hover:-translate-y-1 hover:scale-[1.01]',
                     activeChapterIndex === index 
-                      ? 'ring-2 ring-gold-500 shadow-glow' 
-                      : 'opacity-75 hover:opacity-100'
+                      ? 'ring-2 ring-gold-500 shadow-glow scale-[1.02]' 
+                      : 'opacity-75 hover:opacity-100',
+                    shouldReduceMotion && 'transition-none'
                   )}
                   aria-current={activeChapterIndex === index ? 'true' : undefined}
                 >
@@ -317,7 +355,7 @@ function CityDataStoryContent({
           {/* RIGHT: Sticky Visualization Panel */}
           <div className="sticky top-24 self-start">
             <div className="bg-white rounded-2xl shadow-card p-8">
-              <VisualizationPanel data={data} chapters={chapters} />
+              <VisualizationPanel config={config} />
             </div>
           </div>
         </div>
@@ -337,7 +375,7 @@ function CityDataStoryContent({
 // CHAPTER CONTENT COMPONENT
 // ═══════════════════════════════════════════════════════════════════════════
 
-function ChapterContent({ chapter }: { chapter: StoryChapter }) {
+const ChapterContent = memo(function ChapterContent({ chapter }: { chapter: StoryChapter }) {
   return (
     <>
       {/* Takeaway */}
@@ -376,19 +414,18 @@ function ChapterContent({ chapter }: { chapter: StoryChapter }) {
       </div>
     </>
   )
-}
+})
 
 // ═══════════════════════════════════════════════════════════════════════════
 // VISUALIZATION PANEL (Placeholder for charts)
 // ═══════════════════════════════════════════════════════════════════════════
 
-function VisualizationPanel({ 
-  data, 
-  chapters 
+const VisualizationPanel = memo(function VisualizationPanel({ 
+  config 
 }: { 
-  data: typeof auburnThroughTimeData
-  chapters: typeof auburnStoryChapters
+  config: CityDataStoryConfig
 }) {
+  const { data, cityName } = config
   const { 
     activeYear, 
     compareMode, 
@@ -397,8 +434,9 @@ function VisualizationPanel({
     getYearRange,
   } = useStoryStore()
   
-  const activeRow = getActiveRow(data)
-  const yearRange = getYearRange(data)
+  // Memoize derived data to prevent recalculation on every render
+  const activeRow = useMemo(() => getActiveRow(data), [getActiveRow, data, activeYear])
+  const yearRange = useMemo(() => getYearRange(data), [getYearRange, data])
   const shouldReduceMotion = useReducedMotion()
 
   return (
@@ -406,7 +444,7 @@ function VisualizationPanel({
       {/* Header */}
       <div className="mb-6">
         <h2 className="font-display text-xl font-bold text-charcoal-900 mb-2">
-          Population Over Time
+          {cityName || 'City'} Population Over Time
         </h2>
         <p className="text-sm text-charcoal-600">
           {yearRange && `${yearRange.min}–${yearRange.max}`}
@@ -416,7 +454,7 @@ function VisualizationPanel({
       {/* Population Chart */}
       <div className="mb-6">
         <PopulationChart 
-          data={data} 
+          config={config}
           height={300}
           showLegend={false}
           showGrid={true}
@@ -426,14 +464,14 @@ function VisualizationPanel({
 
       {/* Stats Panel */}
       <StatsPanel 
-        data={data}
+        config={config}
         showSources={true}
         showMilestone={true}
         showGrowth={true}
       />
     </div>
   )
-}
+})
 
 // ═══════════════════════════════════════════════════════════════════════════
 // PLACEHOLDER CHART (To be replaced with Recharts)
@@ -443,7 +481,7 @@ function PlaceholderChart({
   data, 
   compareMode 
 }: { 
-  data: typeof auburnThroughTimeData
+  data: CityThroughTimeRow[]
   compareMode: CompareMode
 }) {
   const { activeYear, hoveredYear, setHoveredYear } = useStoryStore()
@@ -537,8 +575,9 @@ function PlaceholderChart({
 // COMPARISON CONTROLS
 // ═══════════════════════════════════════════════════════════════════════════
 
-function ComparisonControls() {
+const ComparisonControls = memo(function ComparisonControls() {
   const { compareMode, setCompareMode } = useStoryStore()
+  const shouldReduceMotion = useReducedMotion()
 
   const modes: Array<{ value: CompareMode; label: string; icon: typeof TrendingUp }> = [
     { value: 'city', label: 'City Only', icon: MapPin },
@@ -558,16 +597,21 @@ function ComparisonControls() {
             key={value}
             onClick={() => setCompareMode(value)}
             className={cn(
-              'px-4 md:px-6 py-2 md:py-3 rounded-full font-semibold text-sm md:text-base transition-all',
+              'px-4 md:px-6 py-2 md:py-3 rounded-full font-semibold text-sm md:text-base transition-all duration-200 ease-out',
               'focus:outline-none focus:ring-2 focus:ring-gold-500 focus:ring-offset-2',
               'flex items-center gap-2',
+              'active:scale-95',
               compareMode === value
-                ? 'bg-gradient-gold text-white shadow-md'
-                : 'text-charcoal-700 hover:bg-charcoal-50'
+                ? 'bg-gradient-gold text-white shadow-md scale-105'
+                : 'text-charcoal-700 hover:bg-charcoal-50 hover:scale-102',
+              shouldReduceMotion && 'transition-none scale-100'
             )}
             aria-pressed={compareMode === value}
           >
-            <Icon className="w-4 h-4" />
+            <Icon className={cn(
+              "w-4 h-4 transition-transform duration-200",
+              compareMode === value && !shouldReduceMotion && "rotate-12"
+            )} />
             <span className="hidden sm:inline">{label}</span>
             <span className="sm:hidden">{value === 'city' ? 'City' : value === 'county' ? 'County' : 'State'}</span>
           </button>
@@ -575,17 +619,18 @@ function ComparisonControls() {
       </div>
     </div>
   )
-}
+})
 
 // ═══════════════════════════════════════════════════════════════════════════
 // YEAR SCRUBBER (Optional decade buttons)
 // ═══════════════════════════════════════════════════════════════════════════
 
-function YearScrubber({ data }: { data: typeof auburnThroughTimeData }) {
+const YearScrubber = memo(function YearScrubber({ data }: { data: CityThroughTimeRow[] }) {
   const { activeYear, setActiveYear } = useStoryStore()
+  const shouldReduceMotion = useReducedMotion()
   
-  // Get decade markers
-  const decades = data.filter(d => d.year % 10 === 0)
+  // Get decade markers - memoize to prevent recalculation
+  const decades = useMemo(() => data.filter(d => d.year % 10 === 0), [data])
 
   return (
     <div className="bg-white rounded-2xl shadow-card p-6">
@@ -598,11 +643,13 @@ function YearScrubber({ data }: { data: typeof auburnThroughTimeData }) {
             key={row.year}
             onClick={() => setActiveYear(row.year)}
             className={cn(
-              'px-4 py-2 rounded-lg font-semibold text-sm transition-all',
+              'px-4 py-2 rounded-lg font-semibold text-sm transition-all duration-200 ease-out',
               'focus:outline-none focus:ring-2 focus:ring-gold-500',
+              'active:scale-95',
               activeYear === row.year
-                ? 'bg-gold-500 text-white shadow-md'
-                : 'bg-charcoal-100 text-charcoal-700 hover:bg-charcoal-200'
+                ? 'bg-gold-500 text-white shadow-md scale-105'
+                : 'bg-charcoal-100 text-charcoal-700 hover:bg-charcoal-200 hover:scale-102',
+              shouldReduceMotion && 'transition-none scale-100'
             )}
             aria-pressed={activeYear === row.year}
           >
@@ -612,7 +659,7 @@ function YearScrubber({ data }: { data: typeof auburnThroughTimeData }) {
       </div>
     </div>
   )
-}
+})
 
 // ═══════════════════════════════════════════════════════════════════════════
 // EXPORTS

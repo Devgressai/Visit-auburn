@@ -26,15 +26,15 @@
 
 import { useEffect, useRef, useState, useCallback } from 'react'
 import { useStoryStore } from './storyStore'
-import type { StoryChapter } from '@/lib/data/cityThroughTime'
+import type { StoryChapter, CityDataStoryConfig } from '@/lib/data/cityThroughTime'
 
 // ═══════════════════════════════════════════════════════════════════════════
 // TYPE DEFINITIONS
 // ═══════════════════════════════════════════════════════════════════════════
 
 interface StoryChaptersProps {
-  /** Array of story chapters to display */
-  chapters: StoryChapter[]
+  /** Complete city configuration (includes chapters and city name) */
+  config: CityDataStoryConfig
   
   /** Whether to enable IntersectionObserver auto-activation (default: true) */
   enableAutoActivation?: boolean
@@ -57,13 +57,14 @@ interface StoryChaptersProps {
 // ═══════════════════════════════════════════════════════════════════════════
 
 export function StoryChapters({
-  chapters,
+  config,
   enableAutoActivation = true,
   intersectionThreshold = 0.5,
   intersectionRootMargin = '-20% 0px -20% 0px',
   onChapterActivate,
   className = '',
 }: StoryChaptersProps) {
+  const { chapters, cityName = 'City' } = config
   const { activeYear, setActiveYear, reset } = useStoryStore()
   
   // Track if user is manually scrubbing (disables auto-activation temporarily)
@@ -233,10 +234,10 @@ export function StoryChapters({
       <div className="flex items-center justify-between gap-4 mb-8">
         <div className="flex-1 min-w-0">
           <h3 className="text-2xl font-bold text-white font-display tracking-tight">
-            Auburn Through Time
+            {cityName} Through Time
           </h3>
           <p className="text-sm text-white/70 mt-1.5">
-            Explore chapters in our city&apos;s story
+            Explore chapters in {cityName}&apos;s story
           </p>
         </div>
         

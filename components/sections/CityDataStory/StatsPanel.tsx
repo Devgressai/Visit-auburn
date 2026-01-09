@@ -30,7 +30,7 @@ import {
   Info,
 } from 'lucide-react'
 import { useStoryStore } from './storyStore'
-import type { CityThroughTimeRow } from '@/lib/data/cityThroughTime'
+import type { CityThroughTimeRow, CityDataStoryConfig } from '@/lib/data/cityThroughTime'
 import { cn } from '@/lib/utils'
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -38,7 +38,7 @@ import { cn } from '@/lib/utils'
 // ═══════════════════════════════════════════════════════════════════════════
 
 interface StatsPanelProps {
-  data: CityThroughTimeRow[]
+  config: CityDataStoryConfig
   className?: string
   showSources?: boolean
   showMilestone?: boolean
@@ -145,12 +145,13 @@ function useCountUp(
 // ═══════════════════════════════════════════════════════════════════════════
 
 export function StatsPanel({
-  data,
+  config,
   className = '',
   showSources = true,
   showMilestone = true,
   showGrowth = true,
 }: StatsPanelProps) {
+  const { data } = config
   const {
     activeYear,
     hoveredYear,
@@ -426,12 +427,13 @@ function SourceChip({
 // ═══════════════════════════════════════════════════════════════════════════
 
 export function StatsPanelCompact({
-  data,
+  config,
   className = '',
 }: {
-  data: CityThroughTimeRow[]
+  config: CityDataStoryConfig
   className?: string
 }) {
+  const { data } = config
   const {
     activeYear,
     hoveredYear,

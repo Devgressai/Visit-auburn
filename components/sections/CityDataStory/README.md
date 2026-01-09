@@ -1,718 +1,440 @@
-# City Data Story - Shared State Store
+# CityDataStory Component
 
-A React Context-based state management solution for interlinked data visualizations in the CityDataStory section.
-
-## 📋 Table of Contents
-
-- [Overview](#overview)
-- [Architecture Decision](#architecture-decision)
-- [Installation](#installation)
-- [Quick Start](#quick-start)
-- [API Reference](#api-reference)
-- [Usage Examples](#usage-examples)
-- [SSR & App Router Compatibility](#ssr--app-router-compatibility)
-- [Testing](#testing)
-- [Performance Considerations](#performance-considerations)
+A reusable, accessible scrollytelling visualization component for civic demographic data.
 
 ---
 
-## Overview
-
-The Story Store provides a centralized state management layer that enables multiple data visualization components to stay synchronized. When a user interacts with one chart (e.g., hovering over a year), all related visualizations update automatically.
-
-### Key Features
-
-- ✅ **Synchronized State**: All charts share the same active/hovered year
-- ✅ **Compare Modes**: Toggle between city-only, city+county, and city+state views
-- ✅ **Derived Selectors**: Built-in helpers for common data operations
-- ✅ **Type-Safe**: Full TypeScript support with comprehensive types
-- ✅ **SSR-Safe**: Works seamlessly with Next.js App Router
-- ✅ **Accessible**: Designed for keyboard navigation and screen readers
-- ✅ **Runtime Guards**: Graceful fallbacks for missing data
-
----
-
-## Architecture Decision
-
-### Why React Context (not Zustand)?
-
-**Chosen: React Context**
-
-**Justification:**
-
-1. **Consistency**: This repo already uses React Context (`FAQSearchContext`, `useSavedItems`)
-2. **Zero Dependencies**: No need to add Zustand to `package.json`
-3. **SSR-Safe**: Context works seamlessly with Next.js App Router
-4. **Sufficient Complexity**: Our state is simple (3 values, ~10-20 data points)
-5. **Colocation**: State is scoped to CityDataStory section, not global
-
-**When to Switch to Zustand:**
-
-- If state becomes more complex (>10 values)
-- If we need devtools debugging
-- If we need state persistence across page navigation
-- If we see performance issues with frequent updates
-
----
-
-## Installation
-
-The store is already included in the CityDataStory component directory. No additional dependencies needed.
-
-### Files
-
-```
-components/sections/CityDataStory/
-├── storyStore.ts           # Main store implementation
-├── storyStore.example.tsx  # Usage examples
-├── storyStore.test.tsx     # Runtime tests
-├── index.ts                # Barrel exports
-└── README.md               # This file
-```
-
----
-
-## Quick Start
-
-### 1. Wrap Your Component Tree
+## 🚀 Quick Start
 
 ```tsx
-import { StoryStoreProvider } from '@/components/sections/CityDataStory'
+import { CityDataStory } from '@/components/sections/CityDataStory'
+import { auburnDataStoryConfig } from '@/lib/data/cityThroughTime'
 
-export function CityDataStorySection() {
-  return (
-    <StoryStoreProvider initialYear={2020} initialCompareMode="city">
-      <YourCharts />
-      <YourTimeline />
-      <YourControls />
-    </StoryStoreProvider>
-  )
-}
-```
-
-### 2. Use the Store in Child Components
-
-```tsx
-import { useStoryStore } from '@/components/sections/CityDataStory'
-import { auburnThroughTimeData } from '@/lib/data/cityThroughTime'
-
-function PopulationDisplay() {
-  const { activeYear, getActiveRow, formatPopulation } = useStoryStore()
-  const data = auburnThroughTimeData
-  const activeRow = getActiveRow(data)
-
-  return (
-    <div>
-      {activeRow ? (
-        <p>Population in {activeRow.year}: {formatPopulation(activeRow.city)}</p>
-      ) : (
-        <p>Select a year</p>
-      )}
-    </div>
-  )
-}
-```
-
-### 3. Update State on Interaction
-
-```tsx
-function InteractiveChart() {
-  const { setActiveYear, setHoveredYear } = useStoryStore()
-
-  return (
-    <div
-      onClick={() => setActiveYear(2020)}
-      onMouseEnter={() => setHoveredYear(2020)}
-      onMouseLeave={() => setHoveredYear(null)}
-    >
-      Click or hover me!
-    </div>
-  )
+export default function DataPage() {
+  return <CityDataStory config={auburnDataStoryConfig} />
 }
 ```
 
 ---
 
-## API Reference
+## 📦 How to Use for Another City
 
-### Provider
+### Step 1: Create Your Data File
 
-#### `<StoryStoreProvider>`
+Create a new file: `lib/data/yourCity.ts`
 
-Provides the store context to child components.
+```typescript
+import type { CityDataStoryConfig, CityThroughTimeRow, StoryChapter } from '@/lib/data/cityThroughTime'
 
-**Props:**
+// Define your population data
+export const yourCityData: CityThroughTimeRow[] = [
+  {
+    year: 1900,
+    city: 5000,
+    county: 50000,      // Optional
+    state: 1000000,     // Optional
+    milestoneTitle: 'Turn of the Century',
+    milestoneBody: 'Your city enters the 20th century...',
+    sources: [
+      { label: 'US Census 1900', url: 'https://census.gov/...' }
+    ],
+  },
+  // ... more years
+]
+
+// Define your narrative chapters
+export const yourCityChapters: StoryChapter[] = [
+  {
+    id: 'early-days',
+    title: 'Early Days',
+    startYear: 1900,
+    endYear: 1950,
+    takeaway: 'Your city establishes itself',
+    detail: 'The early years saw...',
+    metricHighlights: [
+      { label: 'Population Growth', value: '+200%', note: '1900-1950' },
+    ],
+  },
+  // ... more chapters
+]
+
+// Create your config
+export const yourCityConfig: CityDataStoryConfig = {
+  cityName: 'Your City',
+  countyName: 'Your County',
+  stateName: 'Your State',
+  established: 1850,
+  theme: {
+    accentClassName: 'blue', // 'gold' | 'blue' | 'pine' | 'lake' | 'rust'
+  },
+  data: yourCityData,
+  chapters: yourCityChapters,
+}
+```
+
+### Step 2: Use in Your Page
+
+```tsx
+import { CityDataStory } from '@/components/sections/CityDataStory'
+import { yourCityConfig } from '@/lib/data/yourCity'
+
+export default function YourCityDataPage() {
+  return (
+    <section className="py-16 bg-charcoal-900">
+      <div className="container">
+        <CityDataStory config={yourCityConfig} />
+      </div>
+    </section>
+  )
+}
+```
+
+**That's it!** No component code changes needed.
+
+---
+
+## 📂 Where to Change Data
+
+### For Auburn (Current City)
+
+**Data Location**: `lib/data/cityThroughTime.ts`
+
+**What to Update**:
+1. `auburnThroughTimeData` - Population data points
+2. `auburnStoryChapters` - Narrative chapters
+3. `auburnDataStoryConfig` - City metadata
+
+### For a New City
+
+**Create New File**: `lib/data/yourCity.ts`
+
+**Follow the Template**: See "How to Use for Another City" above
+
+---
+
+## 🎨 Features
+
+### Desktop Layout
+- Two-column layout (scrollable chapters + sticky visualization)
+- Intersection Observer activates chapters as you scroll
+- Keyboard navigation (Tab, Enter, Space, Arrow keys)
+
+### Mobile Layout
+- Stacked layout (visualization first)
+- Accordion chapters (tap to expand)
+- Touch-friendly 44×44px tap targets
+- Swipe-friendly spacing
+
+### Accessibility (WCAG 2.1 AA)
+- ✅ **Keyboard Navigation**: Full functionality via keyboard
+- ✅ **Screen Reader Support**: ARIA labels, live regions, semantic HTML
+- ✅ **Motion Sensitivity**: Respects `prefers-reduced-motion`
+- ✅ **Color Independence**: Information conveyed through multiple cues
+- ✅ **Touch Targets**: Minimum 44×44px on all interactive elements
+- ✅ **Contrast Ratios**: Text meets 4.5:1 minimum
+
+### Performance
+- ✅ Memoized calculations (no unnecessary rerenders)
+- ✅ IntersectionObserver cleanup on unmount
+- ✅ Lazy evaluation of chart data
+- ✅ Optimized React component structure
+
+---
+
+## 🎯 Props
+
+### `CityDataStory`
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `children` | `ReactNode` | required | Child components |
-| `initialYear` | `number \| null` | `null` | Initial active year |
-| `initialCompareMode` | `CompareMode` | `'city'` | Initial comparison mode |
+| `config` | `CityDataStoryConfig` | `auburnDataStoryConfig` | Complete city configuration |
+| `initialChapterIndex` | `number` | `0` | Starting chapter (0-indexed) |
 
-**Example:**
-
-```tsx
-<StoryStoreProvider initialYear={2020} initialCompareMode="county">
-  {children}
-</StoryStoreProvider>
-```
-
----
-
-### Hooks
-
-#### `useStoryStore()`
-
-Main hook to access the store. Returns all state, actions, and selectors.
-
-**Returns:** `StoryStoreContextType`
-
-**Throws:** Error if used outside of `StoryStoreProvider`
-
-**Example:**
-
-```tsx
-const { activeYear, setActiveYear, getActiveRow } = useStoryStore()
-```
-
----
-
-#### `useActiveYear()`
-
-Convenience hook for active year state only.
-
-**Returns:** `{ activeYear: number | null, setActiveYear: (year: number | null) => void }`
-
-**Example:**
-
-```tsx
-const { activeYear, setActiveYear } = useActiveYear()
-```
-
----
-
-#### `useHoveredYear()`
-
-Convenience hook for hovered year state only.
-
-**Returns:** `{ hoveredYear: number | null, setHoveredYear: (year: number | null) => void }`
-
-**Example:**
-
-```tsx
-const { hoveredYear, setHoveredYear } = useHoveredYear()
-```
-
----
-
-#### `useCompareMode()`
-
-Convenience hook for compare mode state only.
-
-**Returns:** `{ compareMode: CompareMode, setCompareMode: (mode: CompareMode) => void }`
-
-**Example:**
-
-```tsx
-const { compareMode, setCompareMode } = useCompareMode()
-```
-
----
-
-#### `useStoryStoreSafe()`
-
-SSR-safe version of `useStoryStore()`. Returns `null` during SSR.
-
-**Returns:** `StoryStoreContextType | null`
-
-**Example:**
-
-```tsx
-const store = useStoryStoreSafe()
-if (!store) return <div>Loading...</div>
-```
-
----
-
-### State
-
-| Property | Type | Description |
-|----------|------|-------------|
-| `activeYear` | `number \| null` | Currently selected year (for detail view) |
-| `hoveredYear` | `number \| null` | Year being hovered over (for tooltips) |
-| `compareMode` | `CompareMode` | Which data series to display (`'city'`, `'county'`, or `'state'`) |
-
----
-
-### Actions
-
-#### `setActiveYear(year: number | null)`
-
-Set the active year (clicked/selected).
-
-**Example:**
-
-```tsx
-setActiveYear(2020)  // Set to 2020
-setActiveYear(null)  // Clear selection
-```
-
----
-
-#### `setHoveredYear(year: number | null)`
-
-Set the hovered year (for interactive tooltips).
-
-**Example:**
-
-```tsx
-setHoveredYear(2020)  // Hover on 2020
-setHoveredYear(null)  // Clear hover
-```
-
----
-
-#### `setCompareMode(mode: CompareMode)`
-
-Set comparison mode (which series to show).
-
-**Example:**
-
-```tsx
-setCompareMode('city')    // Show city only
-setCompareMode('county')  // Show city + county
-setCompareMode('state')   // Show city + county + state
-```
-
----
-
-#### `reset()`
-
-Reset all state to initial values.
-
-**Example:**
-
-```tsx
-reset()  // Back to initialYear and initialCompareMode
-```
-
----
-
-### Selectors
-
-#### `getActiveRow(data: CityThroughTimeRow[])`
-
-Get the data row for the active year.
-
-**Returns:** `CityThroughTimeRow | null`
-
-**Example:**
-
-```tsx
-const activeRow = getActiveRow(auburnThroughTimeData)
-if (activeRow) {
-  console.log(activeRow.milestoneTitle)
-}
-```
-
----
-
-#### `getHoveredRow(data: CityThroughTimeRow[])`
-
-Get the data row for the hovered year.
-
-**Returns:** `CityThroughTimeRow | null`
-
-**Example:**
-
-```tsx
-const hoveredRow = getHoveredRow(auburnThroughTimeData)
-```
-
----
-
-#### `getSeries(data: CityThroughTimeRow[], mode?: CompareMode)`
-
-Get time series data based on compare mode.
-
-**Returns:** `SeriesData`
+### `CityDataStoryConfig`
 
 ```typescript
-interface SeriesData {
-  city: TimeSeriesPoint[]
-  county?: TimeSeriesPoint[]
-  state?: TimeSeriesPoint[]
-}
-
-interface TimeSeriesPoint {
-  year: number
-  value: number
-  label: string
-}
-```
-
-**Example:**
-
-```tsx
-const series = getSeries(auburnThroughTimeData, 'county')
-// series.city: always present
-// series.county: present if mode is 'county' or 'state'
-// series.state: present if mode is 'state'
-```
-
----
-
-#### `formatPopulation(n: number | undefined)`
-
-Format population number for display.
-
-**Returns:** `string`
-
-**Example:**
-
-```tsx
-formatPopulation(13330)    // "13,330"
-formatPopulation(undefined) // "N/A"
-```
-
----
-
-#### `formatPopulationChange(current: number, previous: number)`
-
-Format population with change indicator.
-
-**Returns:**
-
-```typescript
-{
-  formatted: string      // "13,330"
-  change: number         // 1000
-  changePercent: string  // "+8.1%"
-  isPositive: boolean    // true
-}
-```
-
-**Example:**
-
-```tsx
-const change = formatPopulationChange(13330, 12330)
-console.log(change.changePercent)  // "+8.1%"
-```
-
----
-
-#### `getYearRange(data: CityThroughTimeRow[])`
-
-Get the min and max years from dataset.
-
-**Returns:** `{ min: number, max: number } | null`
-
-**Example:**
-
-```tsx
-const range = getYearRange(auburnThroughTimeData)
-if (range) {
-  console.log(`${range.min} - ${range.max}`)  // "1900 - 2020"
-}
-```
-
----
-
-#### `isValidYear(data: CityThroughTimeRow[], year: number)`
-
-Check if a year exists in the dataset.
-
-**Returns:** `boolean`
-
-**Example:**
-
-```tsx
-if (isValidYear(auburnThroughTimeData, 2020)) {
-  setActiveYear(2020)
-}
-```
-
----
-
-## Usage Examples
-
-### Example 1: Synchronized Charts
-
-```tsx
-function Dashboard() {
-  return (
-    <StoryStoreProvider initialYear={2020}>
-      <LineChart />
-      <BarChart />
-      <Timeline />
-    </StoryStoreProvider>
-  )
-}
-
-function LineChart() {
-  const { activeYear, hoveredYear } = useStoryStore()
-  // Automatically highlights when user interacts with BarChart or Timeline!
-  return <svg>{/* chart implementation */}</svg>
-}
-```
-
-### Example 2: Coordinated Highlighting
-
-```tsx
-function MilestoneCard({ year, title }: { year: number, title: string }) {
-  const { hoveredYear, setHoveredYear, setActiveYear } = useStoryStore()
-  const isHighlighted = hoveredYear === year
-
-  return (
-    <div
-      className={isHighlighted ? 'highlighted' : ''}
-      onClick={() => setActiveYear(year)}
-      onMouseEnter={() => setHoveredYear(year)}
-      onMouseLeave={() => setHoveredYear(null)}
-    >
-      <h3>{year}</h3>
-      <p>{title}</p>
-    </div>
-  )
-}
-```
-
-### Example 3: Compare Mode Toggle
-
-```tsx
-function ComparisonControls() {
-  const { compareMode, setCompareMode } = useCompareMode()
-
-  return (
-    <div role="group" aria-label="Comparison mode">
-      <button
-        onClick={() => setCompareMode('city')}
-        aria-pressed={compareMode === 'city'}
-      >
-        City Only
-      </button>
-      <button
-        onClick={() => setCompareMode('county')}
-        aria-pressed={compareMode === 'county'}
-      >
-        + County
-      </button>
-      <button
-        onClick={() => setCompareMode('state')}
-        aria-pressed={compareMode === 'state'}
-      >
-        + State
-      </button>
-    </div>
-  )
-}
-```
-
-### Example 4: Keyboard Navigation
-
-```tsx
-function KeyboardNavigableChart() {
-  const { activeYear, setActiveYear, getYearRange } = useStoryStore()
-  const data = auburnThroughTimeData
-  const yearRange = getYearRange(data)
-
-  useEffect(() => {
-    function handleKeyboard(e: KeyboardEvent) {
-      if (!activeYear || !yearRange) return
-
-      const currentIndex = data.findIndex(d => d.year === activeYear)
-
-      if (e.key === 'ArrowRight' && currentIndex < data.length - 1) {
-        setActiveYear(data[currentIndex + 1].year)
-      } else if (e.key === 'ArrowLeft' && currentIndex > 0) {
-        setActiveYear(data[currentIndex - 1].year)
-      }
-    }
-
-    window.addEventListener('keydown', handleKeyboard)
-    return () => window.removeEventListener('keydown', handleKeyboard)
-  }, [activeYear, data, yearRange, setActiveYear])
-
-  return <div tabIndex={0}>Chart</div>
-}
-```
-
----
-
-## SSR & App Router Compatibility
-
-### Server Components
-
-The store uses `'use client'` directive and is designed for client components only. This is intentional and correct for interactive visualizations.
-
-### Hydration Safety
-
-The store initializes with `null` or provided initial values, preventing hydration mismatches.
-
-### Safe Usage in RSC
-
-If you need to use the store in a component that might be rendered on the server:
-
-```tsx
-import { useStoryStoreSafe } from '@/components/sections/CityDataStory'
-
-function MyComponent() {
-  const store = useStoryStoreSafe()
-  
-  if (!store) {
-    return <div>Loading...</div>  // Server render
+interface CityDataStoryConfig {
+  cityName: string                    // Required: "Auburn"
+  countyName?: string                 // Optional: "Placer County"
+  stateName?: string                  // Optional: "California"
+  established?: number                // Optional: 1849
+  theme?: {
+    accentClassName?: string          // Optional: 'gold' | 'blue' | 'pine' | 'lake' | 'rust'
   }
-  
-  // Client render with store
-  return <div>{store.activeYear}</div>
+  data: CityThroughTimeRow[]         // Required: Population data
+  chapters: StoryChapter[]            // Required: Narrative chapters
 }
 ```
 
 ---
 
-## Testing
+## 🔧 Customization
 
-### Runtime Tests
+### Theme Colors
 
-Run the test component in development:
-
-```tsx
-import { StoryStoreTestRunner } from '@/components/sections/CityDataStory/storyStore.test'
-
-export default function TestPage() {
-  return <StoryStoreTestRunner />
+```typescript
+const config: CityDataStoryConfig = {
+  // ...
+  theme: {
+    accentClassName: 'blue', // Changes accent colors throughout
+  },
 }
 ```
 
-### Manual Console Tests
+**Available Themes**:
+- `'gold'` (default) - Warm gold accents
+- `'blue'` - Cool blue accents
+- `'pine'` - Forest green accents
+- `'lake'` - Teal/aqua accents
+- `'rust'` - Warm orange/red accents
 
-```js
-import { manualTests } from './storyStore.test'
-manualTests.runAll()
+### Initial Chapter
+
+```typescript
+<CityDataStory 
+  config={myConfig} 
+  initialChapterIndex={2} // Start at 3rd chapter
+/>
 ```
 
-### Integration Tests
+---
 
-```tsx
-import { StoryStoreIntegrationTestRunner } from '@/components/sections/CityDataStory/storyStore.test'
+## 📊 Data Requirements
 
-export default function IntegrationTestPage() {
-  return <StoryStoreIntegrationTestRunner />
+### Minimum Requirements
+- **Data Points**: At least 5 (recommended: 10+)
+- **Chapters**: At least 3 (recommended: 4-6)
+- **Sources**: Cite all data sources
+
+### Data Quality
+- ✅ Use official sources (Census Bureau, state agencies)
+- ✅ Cite every data point
+- ✅ Ensure chronological order
+- ✅ Provide context in milestones
+- ✅ Connect data to historical events
+
+### Chapter Coverage
+- Chapters should cover the entire timeline
+- No gaps (every year should belong to a chapter)
+- Non-overlapping year ranges
+
+---
+
+## ♿ Accessibility Notes
+
+### Keyboard Navigation
+
+**Chart Interactions**:
+- `Tab` - Navigate between data points
+- `Enter` / `Space` - Select a year
+- `Arrow Left/Right` - Move between points
+- `Home` - Jump to first point
+- `End` - Jump to last point
+- `Escape` - Clear selection
+
+**Chapter Navigation**:
+- `Tab` - Navigate between chapters
+- `Enter` / `Space` - Activate chapter
+- `Arrow Up/Down` - Move between chapters (desktop)
+
+### Screen Reader Support
+
+All interactive elements have:
+- Descriptive `aria-label` attributes
+- Proper ARIA roles (`button`, `region`, etc.)
+- Live regions for state changes
+- Semantic HTML structure
+
+### Motion Sensitivity
+
+Component automatically respects user's motion preferences:
+- Animations disabled if `prefers-reduced-motion: reduce`
+- Smooth scrolling falls back to instant scroll
+- Count-up animations disabled
+- Chart transitions simplified
+
+### Testing
+
+Tested with:
+- NVDA (Windows)
+- JAWS (Windows)
+- VoiceOver (macOS/iOS)
+- Keyboard-only navigation
+- Mobile touch navigation
+
+---
+
+## 🐛 Error Handling
+
+### Missing Data
+
+Component gracefully handles:
+- Empty data arrays → Shows "No data available"
+- Missing years → Skips gaps in visualization
+- Missing county/state data → Hides comparison options
+- Invalid numbers → Shows "N/A"
+
+### Runtime Guards
+
+```typescript
+// Example: Safe data access
+const activeRow = getActiveRow(data)
+if (!activeRow) {
+  return <EmptyState />
 }
 ```
 
 ---
 
-## Performance Considerations
+## 🎨 Microinteractions
 
-### Optimization Strategies
+### Hover States
+- Chapters: Subtle background color change
+- Chart points: Size increase + tooltip
+- Buttons: Color shift + scale
 
-1. **Memoization**: All actions and selectors use `useCallback` and `useMemo`
-2. **Selective Subscriptions**: Use convenience hooks (`useActiveYear`, etc.) to subscribe only to needed state
-3. **Shallow Updates**: State updates are shallow and fast
-4. **No Unnecessary Re-renders**: Context value is memoized
+### Active States
+- Chapters: Border highlight + glow effect
+- Chart points: Larger size + accent color
+- Year scrubber: Background fill
 
-### When to Optimize Further
-
-If you experience performance issues:
-
-1. **Split Contexts**: Separate `activeYear` and `hoveredYear` into different contexts
-2. **Add Zustand**: Consider Zustand with selectors for fine-grained subscriptions
-3. **Debounce Hover**: Add debouncing to `setHoveredYear` for rapid mouse movements
-4. **Virtualization**: Use virtual scrolling for large timelines
-
-### Current Performance Profile
-
-- **State Size**: ~100 bytes (3 values)
-- **Update Frequency**: Low (user interactions only)
-- **Re-render Scope**: Only subscribed components
-- **Memory Footprint**: Negligible
+### Transitions
+- All transitions respect `prefers-reduced-motion`
+- Smooth, subtle (200-300ms duration)
+- Easing: `ease-out` for natural feel
 
 ---
 
-## Troubleshooting
+## 📱 Mobile Optimization
 
-### Error: "useStoryStore must be used within a StoryStoreProvider"
+### Layout Changes
+- **Desktop**: Two-column (chapters + sticky viz)
+- **Mobile**: Stacked (viz first, then accordion)
 
-**Cause**: Component using `useStoryStore()` is not wrapped in `<StoryStoreProvider>`
+### Touch Targets
+- Minimum 44×44px on all interactive elements
+- Adequate spacing (8px minimum between elements)
+- Large tap areas for chart points (20px radius)
 
-**Solution**:
-
-```tsx
-// ❌ Wrong
-function MyApp() {
-  return <MyChart />
-}
-
-// ✅ Correct
-function MyApp() {
-  return (
-    <StoryStoreProvider>
-      <MyChart />
-    </StoryStoreProvider>
-  )
-}
-```
-
-### Warning: "Active year X not found in dataset"
-
-**Cause**: Trying to set an active year that doesn't exist in your data
-
-**Solution**: Validate year before setting:
-
-```tsx
-if (isValidYear(data, year)) {
-  setActiveYear(year)
-}
-```
-
-### State Not Updating
-
-**Cause**: Multiple `StoryStoreProvider` instances (nested or sibling)
-
-**Solution**: Ensure only one provider wraps your component tree
+### Performance
+- IntersectionObserver auto-expands chapters on mobile
+- Lazy rendering of chart elements
+- Optimized for 3G networks
 
 ---
 
-## Migration Guide
+## 🔍 Troubleshooting
 
-### From Local State to Store
-
-**Before:**
-
-```tsx
-function MyChart() {
-  const [activeYear, setActiveYear] = useState(2020)
-  return <div onClick={() => setActiveYear(2021)}>Chart</div>
+### "City name not showing"
+**Solution**: Ensure `cityName` is set in config:
+```typescript
+const config = {
+  cityName: 'YourCity', // Required
+  // ...
 }
 ```
 
-**After:**
-
-```tsx
-function MyChart() {
-  const { activeYear, setActiveYear } = useActiveYear()
-  return <div onClick={() => setActiveYear(2021)}>Chart</div>
+### "Chart labels are generic"
+**Solution**: Provide `countyName` and `stateName`:
+```typescript
+const config = {
+  cityName: 'YourCity',
+  countyName: 'Your County',
+  stateName: 'Your State',
+  // ...
 }
 ```
 
-### From Props to Store
+### "Chapters not activating"
+**Solution**: Ensure chapter year ranges cover all data:
+```typescript
+// ✅ Good: Continuous coverage
+{ startYear: 1900, endYear: 1950 },
+{ startYear: 1950, endYear: 2020 },
 
-**Before:**
-
-```tsx
-<Chart activeYear={activeYear} onYearChange={setActiveYear} />
-```
-
-**After:**
-
-```tsx
-<Chart />  // Gets state from store automatically
+// ❌ Bad: Gap between 1950-1970
+{ startYear: 1900, endYear: 1950 },
+{ startYear: 1970, endYear: 2020 },
 ```
 
 ---
 
-## License
+## 📚 Additional Documentation
 
-Part of the Visit-Auburn project. See main project LICENSE.
+- **Platform Engineer's Guide**: `PLATFORM_ENGINEER_GUIDE.md`
+- **Quick Reference**: `QUICK_REFERENCE_CONFIG.md`
+- **Refactor Summary**: `REFACTOR_SUMMARY.md`
+- **Migration Guide**: `MIGRATION_GUIDE.md`
 
+---
+
+## 🏗️ Architecture
+
+### Component Structure
+
+```
+CityDataStory (Provider wrapper)
+  └─ CityDataStoryContent (Main layout)
+      ├─ Header (Title + description)
+      ├─ ComparisonControls (City/County/State toggle)
+      ├─ Mobile Layout
+      │   ├─ VisualizationPanel (Sticky)
+      │   └─ Accordion Chapters
+      └─ Desktop Layout
+          ├─ Chapter Cards (Scrollable)
+          └─ VisualizationPanel (Sticky)
+```
+
+### State Management
+
+Uses React Context (`StoryStoreProvider`) for shared state:
+- `activeYear` - Currently selected year
+- `hoveredYear` - Year being hovered
+- `compareMode` - City/County/State comparison mode
+
+### Sub-Components
+
+- **PopulationChart**: Interactive SVG chart with keyboard navigation
+- **StatsPanel**: Displays population, growth, and milestones
+- **StoryChapters**: Scrollytelling narrative cards
+- **ComparisonControls**: Toggle between comparison modes
+- **YearScrubber**: Quick decade navigation
+
+---
+
+## 🚀 Performance Tips
+
+### Optimization Checklist
+- [x] Memoized calculations (`useMemo`, `useCallback`)
+- [x] IntersectionObserver cleanup on unmount
+- [x] Lazy evaluation of derived data
+- [x] Minimal re-renders (React.memo where appropriate)
+- [x] Efficient event handlers (debounced where needed)
+
+### Best Practices
+- Keep data arrays small (10-15 points ideal)
+- Avoid deep nesting in chapters
+- Use semantic HTML for better performance
+- Leverage CSS for animations (not JS)
+
+---
+
+## 📄 License
+
+Part of the Visit Auburn project. See main project LICENSE.
+
+---
+
+## 🤝 Contributing
+
+To contribute improvements:
+1. Test with real data from multiple cities
+2. Ensure accessibility compliance (WCAG 2.1 AA)
+3. Add tests for new features
+4. Update documentation
+
+---
+
+**Built with ❤️ for civic technologists and municipal governments.**
+
+*Last updated: January 9, 2026*
