@@ -135,7 +135,7 @@ export function Footer() {
             </div>
           </div>
           
-          {/* Webvello Credit */}
+          {/* Agency Credits */}
           <div className="mt-6 pt-6 border-t border-gray-800/50 text-center">
             <p className="text-xs text-gray-500">
               Designed, Developed & Managed by{' '}
@@ -146,6 +146,15 @@ export function Footer() {
                 className="text-gray-400 hover:text-white transition-colors font-medium"
               >
                 Webvello.com
+              </a>
+              {' '}&{' '}
+              <a 
+                href="https://eseospace.com" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-gray-400 hover:text-white transition-colors font-medium"
+              >
+                eSEOspace.com
               </a>
             </p>
           </div>
