@@ -1,10 +1,10 @@
 'use client'
 
 /**
- * Auburn Data Section - Homepage
+ * Auburn Data Section - Homepage (Enhanced Interactive)
  * 
- * Matches the site's light, warm aesthetic with cream/white backgrounds
- * while maintaining sharp, engaging design with the Gold Country palette.
+ * Rich interactive features with forest green accents matching homepage.
+ * Includes milestone markers, decade jumps, timeline progress, and more.
  */
 
 import { useState, useMemo, useCallback, useEffect, useRef } from 'react'
@@ -20,6 +20,9 @@ import {
   ChevronRight,
   Sparkles,
   Mountain,
+  MapPin,
+  Info,
+  Zap,
 } from 'lucide-react'
 import { 
   auburnDataStoryConfig,
@@ -59,7 +62,7 @@ function useCountUp(end: number, duration: number = 1200, isActive: boolean = tr
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
-// INTERACTIVE CHART
+// INTERACTIVE CHART WITH MILESTONES
 // ═══════════════════════════════════════════════════════════════════════════
 
 interface ChartProps {
@@ -76,8 +79,8 @@ function InteractiveChart({ data, activeYear, hoveredYear, onYearClick, onYearHo
   const isInView = useInView(ref, { once: true })
   
   const maxPop = useMemo(() => Math.max(...data.map(d => d.city)), [data])
-  const chartHeight = 220
-  const padding = { top: 30, bottom: 40 }
+  const chartHeight = 240
+  const padding = { top: 40, bottom: 40 }
   
   const getY = (value: number) => {
     const ratio = value / maxPop
@@ -105,12 +108,12 @@ function InteractiveChart({ data, activeYear, hoveredYear, onYearClick, onYearHo
         aria-label="Auburn population growth chart 1900-2020"
       >
         <defs>
-          <linearGradient id="goldAreaGradient" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#D4A017" stopOpacity="0.25" />
-            <stop offset="100%" stopColor="#D4A017" stopOpacity="0.05" />
+          <linearGradient id="forestGradient" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#2D5A27" stopOpacity="0.3" />
+            <stop offset="100%" stopColor="#2D5A27" stopOpacity="0.05" />
           </linearGradient>
-          <filter id="goldGlow" x="-50%" y="-50%" width="200%" height="200%">
-            <feGaussianBlur stdDeviation="1" result="coloredBlur"/>
+          <filter id="forestGlow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="1.5" result="coloredBlur"/>
             <feMerge>
               <feMergeNode in="coloredBlur"/>
               <feMergeNode in="SourceGraphic"/>
@@ -126,10 +129,10 @@ function InteractiveChart({ data, activeYear, hoveredYear, onYearClick, onYearHo
             y1={getY(maxPop * ratio)}
             x2="100"
             y2={getY(maxPop * ratio)}
-            stroke="#D4A017"
-            strokeOpacity="0.12"
+            stroke="#2D5A27"
+            strokeOpacity="0.1"
             strokeWidth="0.2"
-            strokeDasharray="1,2"
+            strokeDasharray="2,3"
             vectorEffect="non-scaling-stroke"
           />
         ))}
@@ -137,7 +140,7 @@ function InteractiveChart({ data, activeYear, hoveredYear, onYearClick, onYearHo
         {/* Area fill */}
         <motion.path
           d={areaPath}
-          fill="url(#goldAreaGradient)"
+          fill="url(#forestGradient)"
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : { opacity: 0 }}
           transition={{ duration: shouldReduceMotion ? 0 : 1, delay: 0.3 }}
@@ -147,8 +150,8 @@ function InteractiveChart({ data, activeYear, hoveredYear, onYearClick, onYearHo
         <motion.path
           d={linePath}
           fill="none"
-          stroke="#D4A017"
-          strokeWidth="0.7"
+          stroke="#2D5A27"
+          strokeWidth="0.8"
           strokeLinecap="round"
           strokeLinejoin="round"
           vectorEffect="non-scaling-stroke"
@@ -157,7 +160,7 @@ function InteractiveChart({ data, activeYear, hoveredYear, onYearClick, onYearHo
           transition={{ duration: shouldReduceMotion ? 0 : 1.5, ease: "easeOut" }}
         />
 
-        {/* Interactive points */}
+        {/* Interactive points & milestones */}
         {data.map((row, i) => {
           const x = getX(i)
           const y = getY(row.city)
@@ -179,40 +182,74 @@ function InteractiveChart({ data, activeYear, hoveredYear, onYearClick, onYearHo
                 onMouseLeave={() => onYearHover(null)}
                 tabIndex={0}
                 role="button"
-                aria-label={`${row.year}: ${row.city.toLocaleString()} residents`}
+                aria-label={`${row.year}: ${row.city.toLocaleString()} residents${hasMilestone ? ` - ${row.milestoneTitle}` : ''}`}
               />
 
               {(isActive || isHovered) && (
                 <line
                   x1={x}
-                  y1={padding.top - 10}
+                  y1={padding.top - 15}
                   x2={x}
                   y2={chartHeight - padding.bottom}
-                  stroke={isActive ? "#D4A017" : "#B8860B"}
-                  strokeWidth="0.3"
-                  strokeOpacity={isActive ? 0.6 : 0.3}
+                  stroke={isActive ? "#2D5A27" : "#47AF7F"}
+                  strokeWidth="0.4"
+                  strokeOpacity={isActive ? 0.7 : 0.4}
+                  strokeDasharray={isActive ? "0" : "2,2"}
                   vectorEffect="non-scaling-stroke"
                 />
               )}
 
+              {/* Milestone indicator */}
+              {hasMilestone && (
+                <motion.g
+                  initial={{ scale: 0, opacity: 0 }}
+                  animate={isInView ? { scale: 1, opacity: 1 } : { scale: 0, opacity: 0 }}
+                  transition={{ delay: shouldReduceMotion ? 0 : 0.7 + i * 0.05 }}
+                >
+                  <circle
+                    cx={x}
+                    cy={y - 4}
+                    r="1.5"
+                    fill="#D4A017"
+                    stroke="#fff"
+                    strokeWidth="0.3"
+                    vectorEffect="non-scaling-stroke"
+                  />
+                  <motion.circle
+                    cx={x}
+                    cy={y - 4}
+                    r="2.5"
+                    fill="none"
+                    stroke="#D4A017"
+                    strokeWidth="0.2"
+                    strokeOpacity="0.5"
+                    vectorEffect="non-scaling-stroke"
+                    animate={{ scale: [1, 1.3, 1] }}
+                    transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                  />
+                </motion.g>
+              )}
+
+              {/* Data point */}
               <motion.circle
                 cx={x}
                 cy={y}
-                r={isActive ? 2 : isHovered ? 1.5 : hasMilestone ? 1 : 0.6}
-                fill={isActive ? "#D4A017" : hasMilestone ? "#B8860B" : "#D4A017"}
-                filter={isActive ? "url(#goldGlow)" : undefined}
+                r={isActive ? 2.2 : isHovered ? 1.8 : 0.8}
+                fill={isActive ? "#2D5A27" : "#47AF7F"}
+                filter={isActive ? "url(#forestGlow)" : undefined}
                 initial={{ scale: 0, opacity: 0 }}
                 animate={isInView ? { scale: 1, opacity: 1 } : { scale: 0, opacity: 0 }}
                 transition={{ delay: shouldReduceMotion ? 0 : 0.5 + i * 0.04, duration: 0.3 }}
               />
 
+              {/* Year labels */}
               {row.year % 20 === 0 && (
                 <text
                   x={x}
                   y={chartHeight - 15}
                   textAnchor="middle"
                   className="fill-charcoal-500 font-sans"
-                  style={{ fontSize: '3.5px', fontWeight: 500 }}
+                  style={{ fontSize: '3.5px', fontWeight: 600 }}
                 >
                   {row.year}
                 </text>
@@ -222,7 +259,7 @@ function InteractiveChart({ data, activeYear, hoveredYear, onYearClick, onYearHo
         })}
       </svg>
 
-      {/* Tooltip */}
+      {/* Tooltip with milestone */}
       <AnimatePresence>
         {(hoveredYear || activeYear) && (
           <motion.div
@@ -238,14 +275,28 @@ function InteractiveChart({ data, activeYear, hoveredYear, onYearClick, onYearHo
               transform: 'translateX(-50%)',
             }}
           >
-            <div className="bg-charcoal-900 border-2 border-gold-500 text-white px-3 py-1.5 rounded-lg shadow-xl">
-              <div className="text-gold-400 font-display font-bold text-sm">
-                {hoveredYear || activeYear}
-              </div>
-              <div className="text-white text-xs font-medium">
-                {data.find(d => d.year === (hoveredYear || activeYear))?.city.toLocaleString()} residents
-              </div>
-            </div>
+            {(() => {
+              const row = data.find(d => d.year === (hoveredYear || activeYear))
+              return (
+                <div className="bg-forest-900 border-2 border-forest-500 text-white px-3 py-2 rounded-lg shadow-xl max-w-[200px]">
+                  <div className="flex items-center gap-2 mb-1">
+                    <Calendar className="w-3 h-3 text-forest-400" />
+                    <span className="text-forest-300 font-display font-bold text-sm">
+                      {hoveredYear || activeYear}
+                    </span>
+                  </div>
+                  <div className="text-white text-xs font-semibold mb-1">
+                    {row?.city.toLocaleString()} residents
+                  </div>
+                  {row?.milestoneTitle && (
+                    <div className="text-gold-400 text-xs font-medium border-t border-forest-700 pt-1 mt-1">
+                      <Zap className="w-3 h-3 inline mr-1" />
+                      {row.milestoneTitle}
+                    </div>
+                  )}
+                </div>
+              )
+            })()}
           </motion.div>
         )}
       </AnimatePresence>
@@ -254,7 +305,7 @@ function InteractiveChart({ data, activeYear, hoveredYear, onYearClick, onYearHo
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
-// STATS PANEL
+// STATS PANEL WITH CONTEXT
 // ═══════════════════════════════════════════════════════════════════════════
 
 function StatsPanel({ data, activeYear }: { data: CityThroughTimeRow[], activeYear: number }) {
@@ -271,56 +322,188 @@ function StatsPanel({ data, activeYear }: { data: CityThroughTimeRow[], activeYe
   const growth = previousRow ? ((activeRow.city - previousRow.city) / previousRow.city * 100) : null
   const isPositive = growth !== null && growth >= 0
 
+  // Calculate total growth from start
+  const firstRow = data[0]
+  const totalGrowth = firstRow ? ((activeRow.city - firstRow.city) / firstRow.city * 100) : null
+
   return (
-    <div ref={ref} className="grid grid-cols-2 gap-4">
-      {/* Population */}
-      <div className="relative group">
-        <div className="absolute inset-0 bg-gradient-to-br from-gold-100 to-gold-50 rounded-xl opacity-60 group-hover:opacity-100 transition-opacity" />
-        <div className="relative bg-white rounded-xl p-5 border-2 border-gold-200 group-hover:border-gold-400 transition-colors shadow-sm">
-          <div className="flex items-center gap-2 mb-2">
-            <Users className="w-4 h-4 text-gold-600" />
-            <span className="text-xs font-bold text-gold-600 uppercase tracking-wider">Population</span>
+    <div ref={ref} className="space-y-4">
+      {/* Main stats */}
+      <div className="grid grid-cols-2 gap-4">
+        {/* Population */}
+        <div className="relative group">
+          <div className="absolute inset-0 bg-gradient-to-br from-forest-100 to-forest-50 rounded-xl opacity-60 group-hover:opacity-100 transition-opacity" />
+          <div className="relative bg-white rounded-xl p-5 border-2 border-forest-300 group-hover:border-forest-500 transition-colors shadow-sm">
+            <div className="flex items-center gap-2 mb-2">
+              <Users className="w-4 h-4 text-forest-600" />
+              <span className="text-xs font-bold text-forest-700 uppercase tracking-wider">Population</span>
+            </div>
+            <div className="text-3xl md:text-4xl font-display font-bold text-charcoal-900 tabular-nums">
+              {population.toLocaleString()}
+            </div>
+            <div className="text-xs text-charcoal-500 mt-1 font-medium">
+              Year {activeRow?.year}
+            </div>
           </div>
-          <div className="text-3xl md:text-4xl font-display font-bold text-charcoal-900 tabular-nums">
-            {population.toLocaleString()}
-          </div>
-          <div className="text-xs text-charcoal-500 mt-1 font-medium">
-            Year {activeRow?.year}
+        </div>
+        
+        {/* Period Growth */}
+        <div className="relative group">
+          <div className={cn(
+            "absolute inset-0 rounded-xl opacity-60 group-hover:opacity-100 transition-opacity",
+            isPositive ? "bg-gradient-to-br from-forest-100 to-forest-50" : "bg-gradient-to-br from-rust-100 to-rust-50"
+          )} />
+          <div className={cn(
+            "relative bg-white rounded-xl p-5 border-2 transition-colors shadow-sm",
+            isPositive ? "border-forest-300 group-hover:border-forest-500" : "border-rust-300 group-hover:border-rust-500"
+          )}>
+            <div className="flex items-center gap-2 mb-2">
+              {isPositive ? (
+                <TrendingUp className="w-4 h-4 text-forest-600" />
+              ) : (
+                <TrendingDown className="w-4 h-4 text-rust-600" />
+              )}
+              <span className={cn(
+                "text-xs font-bold uppercase tracking-wider",
+                isPositive ? "text-forest-700" : "text-rust-700"
+              )}>Period Growth</span>
+            </div>
+            <div className={cn(
+              "text-3xl md:text-4xl font-display font-bold tabular-nums",
+              growth === null ? "text-charcoal-400" : isPositive ? "text-forest-600" : "text-rust-600"
+            )}>
+              {growth !== null ? `${isPositive ? '+' : ''}${growth.toFixed(0)}%` : '—'}
+            </div>
+            <div className="text-xs text-charcoal-500 mt-1 font-medium">
+              {previousRow ? `Since ${previousRow.year}` : 'Baseline'}
+            </div>
           </div>
         </div>
       </div>
-      
-      {/* Growth */}
-      <div className="relative group">
-        <div className={cn(
-          "absolute inset-0 rounded-xl opacity-60 group-hover:opacity-100 transition-opacity",
-          isPositive ? "bg-gradient-to-br from-forest-100 to-forest-50" : "bg-gradient-to-br from-rust-100 to-rust-50"
-        )} />
-        <div className={cn(
-          "relative bg-white rounded-xl p-5 border-2 transition-colors shadow-sm",
-          isPositive ? "border-forest-200 group-hover:border-forest-400" : "border-rust-200 group-hover:border-rust-400"
-        )}>
-          <div className="flex items-center gap-2 mb-2">
-            {isPositive ? (
-              <TrendingUp className="w-4 h-4 text-forest-600" />
-            ) : (
-              <TrendingDown className="w-4 h-4 text-rust-600" />
-            )}
-            <span className={cn(
-              "text-xs font-bold uppercase tracking-wider",
-              isPositive ? "text-forest-600" : "text-rust-600"
-            )}>Growth</span>
+
+      {/* Historical context card */}
+      {activeRow?.milestoneTitle && (
+        <motion.div
+          initial={{ opacity: 0, height: 0 }}
+          animate={{ opacity: 1, height: 'auto' }}
+          exit={{ opacity: 0, height: 0 }}
+          className="bg-gradient-to-r from-gold-50 to-cream-50 border-2 border-gold-300 rounded-xl p-4"
+        >
+          <div className="flex items-start gap-3">
+            <div className="p-2 bg-gold-500 rounded-lg">
+              <Zap className="w-4 h-4 text-white" />
+            </div>
+            <div className="flex-1">
+              <h4 className="text-sm font-bold text-charcoal-900 mb-1">
+                {activeRow.milestoneTitle}
+              </h4>
+              {activeRow.milestoneBody && (
+                <p className="text-xs text-charcoal-700 leading-relaxed">
+                  {activeRow.milestoneBody}
+                </p>
+              )}
+            </div>
           </div>
-          <div className={cn(
-            "text-3xl md:text-4xl font-display font-bold tabular-nums",
-            growth === null ? "text-charcoal-400" : isPositive ? "text-forest-600" : "text-rust-600"
-          )}>
-            {growth !== null ? `${isPositive ? '+' : ''}${growth.toFixed(0)}%` : '—'}
-          </div>
-          <div className="text-xs text-charcoal-500 mt-1 font-medium">
-            {previousRow ? `Since ${previousRow.year}` : 'Baseline'}
-          </div>
+        </motion.div>
+      )}
+
+      {/* Total growth badge */}
+      {totalGrowth !== null && (
+        <div className="flex items-center justify-center gap-2 p-3 bg-forest-50 border border-forest-200 rounded-lg">
+          <MapPin className="w-4 h-4 text-forest-600" />
+          <span className="text-sm font-semibold text-forest-900">
+            <span className="text-forest-600">+{totalGrowth.toFixed(0)}%</span> total growth since 1900
+          </span>
         </div>
+      )}
+    </div>
+  )
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// DECADE JUMP BUTTONS
+// ═══════════════════════════════════════════════════════════════════════════
+
+function DecadeJumper({ data, activeYear, onYearSelect }: { data: CityThroughTimeRow[], activeYear: number, onYearSelect: (year: number) => void }) {
+  const decades = useMemo(() => data.filter(d => d.year % 10 === 0), [data])
+  const scrollRef = useRef<HTMLDivElement>(null)
+  const shouldReduceMotion = useReducedMotion()
+
+  useEffect(() => {
+    const container = scrollRef.current
+    if (!container) return
+    const activeIndex = decades.findIndex(d => d.year === activeYear)
+    const activeEl = container.children[activeIndex] as HTMLElement
+    activeEl?.scrollIntoView({ behavior: shouldReduceMotion ? 'auto' : 'smooth', inline: 'center' })
+  }, [activeYear, decades, shouldReduceMotion])
+
+  return (
+    <div className="bg-white border-2 border-forest-200 rounded-xl p-4">
+      <div className="flex items-center justify-between mb-3">
+        <h4 className="text-sm font-bold text-forest-900 flex items-center gap-2">
+          <Calendar className="w-4 h-4" />
+          Jump to Decade
+        </h4>
+        <span className="text-xs text-charcoal-500 font-medium">
+          {decades.length} data points
+        </span>
+      </div>
+      <div 
+        ref={scrollRef}
+        className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide snap-x snap-mandatory"
+      >
+        {decades.map((row) => (
+          <button
+            key={row.year}
+            onClick={() => onYearSelect(row.year)}
+            className={cn(
+              "flex-shrink-0 px-4 py-2 rounded-lg font-bold text-sm transition-all snap-start",
+              "focus:outline-none focus:ring-2 focus:ring-forest-500",
+              activeYear === row.year
+                ? "bg-gradient-to-r from-forest-500 to-forest-600 text-white shadow-lg shadow-forest-500/25 scale-105"
+                : "bg-forest-50 text-forest-700 hover:bg-forest-100 border border-forest-200"
+            )}
+          >
+            {row.year}
+          </button>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// TIMELINE PROGRESS BAR
+// ═══════════════════════════════════════════════════════════════════════════
+
+function TimelineProgress({ data, activeYear }: { data: CityThroughTimeRow[], activeYear: number }) {
+  const progress = useMemo(() => {
+    const minYear = data[0].year
+    const maxYear = data[data.length - 1].year
+    return ((activeYear - minYear) / (maxYear - minYear)) * 100
+  }, [data, activeYear])
+
+  return (
+    <div className="space-y-2">
+      <div className="flex items-center justify-between text-xs font-semibold text-charcoal-600">
+        <span>{data[0].year}</span>
+        <span className="text-forest-600">{activeYear}</span>
+        <span>{data[data.length - 1].year}</span>
+      </div>
+      <div className="relative h-2 bg-forest-100 rounded-full overflow-hidden">
+        <motion.div
+          className="absolute inset-y-0 left-0 bg-gradient-to-r from-forest-500 to-forest-600 rounded-full"
+          initial={{ width: 0 }}
+          animate={{ width: `${progress}%` }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+        />
+        <motion.div
+          className="absolute top-1/2 -translate-y-1/2 w-4 h-4 bg-white border-2 border-forest-600 rounded-full shadow-lg"
+          initial={{ left: 0 }}
+          animate={{ left: `${progress}%` }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+          style={{ marginLeft: '-8px' }}
+        />
       </div>
     </div>
   )
@@ -356,10 +539,10 @@ function ChapterSelector({ chapters, activeIndex, onSelect }: { chapters: StoryC
           className={cn(
             "relative flex-shrink-0 px-4 py-2.5 rounded-lg text-sm font-semibold whitespace-nowrap snap-start",
             "transition-all duration-200 ease-out",
-            "focus:outline-none focus:ring-2 focus:ring-gold-500 focus:ring-offset-2",
+            "focus:outline-none focus:ring-2 focus:ring-forest-500 focus:ring-offset-2",
             activeIndex === index
-              ? "bg-gradient-to-r from-gold-500 to-gold-600 text-white shadow-lg shadow-gold-500/20"
-              : "bg-cream-100 text-charcoal-700 hover:bg-cream-200 border border-charcoal-200"
+              ? "bg-gradient-to-r from-forest-500 to-forest-600 text-white shadow-lg shadow-forest-500/20"
+              : "bg-cream-100 text-charcoal-700 hover:bg-forest-50 border border-charcoal-200 hover:border-forest-300"
           )}
         >
           <span className="opacity-70 mr-1.5">{chapter.startYear}–</span>
@@ -386,7 +569,7 @@ function ChapterPanel({ chapter }: { chapter: StoryChapter }) {
       className="space-y-4"
     >
       {/* Takeaway */}
-      <div className="relative overflow-hidden rounded-xl border-2 border-forest-200 bg-gradient-to-br from-forest-50 to-white p-4">
+      <div className="relative overflow-hidden rounded-xl border-2 border-forest-300 bg-gradient-to-br from-forest-50 to-white p-4">
         <div className="flex items-start gap-3">
           <Sparkles className="w-5 h-5 text-forest-600 flex-shrink-0 mt-0.5" />
           <p className="text-sm text-charcoal-800 font-medium leading-relaxed">
@@ -400,7 +583,7 @@ function ChapterPanel({ chapter }: { chapter: StoryChapter }) {
         {chapter.metricHighlights.slice(0, 2).map((metric, i) => (
           <div 
             key={i}
-            className="p-4 rounded-xl bg-gradient-to-br from-cream-100 to-white border-2 border-gold-200 hover:border-gold-400 transition-colors"
+            className="p-4 rounded-xl bg-gradient-to-br from-gold-50 to-white border-2 border-gold-200 hover:border-gold-400 transition-colors"
           >
             <div className="text-2xl font-display font-bold text-gold-600 mb-1">
               {metric.value}
@@ -441,6 +624,13 @@ export function AuburnDataTeaser() {
     setActiveYear(chapters[index].endYear)
   }, [chapters])
 
+  const handleYearSelect = useCallback((year: number) => {
+    setActiveYear(year)
+    // Find chapter that contains this year
+    const chapterIndex = chapters.findIndex(c => year >= c.startYear && year <= c.endYear)
+    if (chapterIndex !== -1) setActiveChapterIndex(chapterIndex)
+  }, [chapters])
+
   const goToPrevious = () => activeChapterIndex > 0 && handleChapterSelect(activeChapterIndex - 1)
   const goToNext = () => activeChapterIndex < chapters.length - 1 && handleChapterSelect(activeChapterIndex + 1)
 
@@ -459,12 +649,12 @@ export function AuburnDataTeaser() {
           transition={{ duration: shouldReduceMotion ? 0 : 0.6 }}
         >
           <div className="flex items-start gap-4">
-            <div className="p-3 rounded-2xl bg-gradient-to-br from-gold-500 to-gold-600 shadow-lg shadow-gold-500/20">
+            <div className="p-3 rounded-2xl bg-gradient-to-br from-forest-500 to-forest-600 shadow-lg shadow-forest-500/20">
               <Mountain className="w-7 h-7 text-white" />
             </div>
             <div>
-              <p className="text-gold-600 text-sm font-bold uppercase tracking-widest mb-2">
-                Gold Country Data
+              <p className="text-forest-600 text-sm font-bold uppercase tracking-widest mb-2">
+                Interactive Data Story
               </p>
               <h2 
                 id="data-story-heading"
@@ -473,7 +663,7 @@ export function AuburnDataTeaser() {
                 {cityName} Through Time
               </h2>
               <p className="text-charcoal-600 mt-2 max-w-lg">
-                Interactive population data from 1900–2020. Click any point to explore.
+                Explore 120 years of growth. Click points, jump decades, discover milestones.
               </p>
             </div>
           </div>
@@ -482,27 +672,33 @@ export function AuburnDataTeaser() {
             href="/discover/auburn-data"
             className={cn(
               "inline-flex items-center gap-2 px-6 py-3 rounded-xl",
-              "bg-gradient-to-r from-gold-500 to-gold-600 text-white font-bold",
-              "hover:from-gold-600 hover:to-gold-700 hover:scale-105 hover:shadow-lg hover:shadow-gold-500/25",
-              "focus:outline-none focus:ring-2 focus:ring-gold-500 focus:ring-offset-2",
+              "bg-gradient-to-r from-forest-500 to-forest-600 text-white font-bold",
+              "hover:from-forest-600 hover:to-forest-700 hover:scale-105 hover:shadow-lg hover:shadow-forest-500/25",
+              "focus:outline-none focus:ring-2 focus:ring-forest-500 focus:ring-offset-2",
               "transition-all duration-200",
               "group"
             )}
           >
-            <span>Explore Full Story</span>
+            <span>Full Data Story</span>
             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </Link>
         </motion.div>
 
         {/* Main card */}
         <motion.div 
-          className="relative"
+          className="space-y-4"
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
           transition={{ duration: shouldReduceMotion ? 0 : 0.6, delay: 0.2 }}
         >
-          <div className="bg-white rounded-2xl border-2 border-gold-200 overflow-hidden shadow-xl">
-            <div className="grid lg:grid-cols-5 divide-y lg:divide-y-0 lg:divide-x divide-gold-100">
+          {/* Timeline progress */}
+          <div className="bg-white border-2 border-forest-200 rounded-xl p-4">
+            <TimelineProgress data={data} activeYear={activeYear} />
+          </div>
+
+          {/* Main data card */}
+          <div className="bg-white rounded-2xl border-2 border-forest-200 overflow-hidden shadow-xl">
+            <div className="grid lg:grid-cols-5 divide-y lg:divide-y-0 lg:divide-x divide-forest-100">
               
               {/* LEFT: Chart & Stats */}
               <div className="lg:col-span-3 p-6 md:p-8 bg-gradient-to-br from-cream-50 to-white">
@@ -511,7 +707,7 @@ export function AuburnDataTeaser() {
                     data={data}
                     activeYear={activeYear}
                     hoveredYear={hoveredYear}
-                    onYearClick={setActiveYear}
+                    onYearClick={handleYearSelect}
                     onYearHover={setHoveredYear}
                   />
                 </div>
@@ -523,7 +719,7 @@ export function AuburnDataTeaser() {
                 {/* Nav header */}
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-2">
-                    <Calendar className="w-4 h-4 text-gold-600" />
+                    <Calendar className="w-4 h-4 text-forest-600" />
                     <span className="text-sm font-bold text-charcoal-700">
                       Era {activeChapterIndex + 1} of {chapters.length}
                     </span>
@@ -534,10 +730,10 @@ export function AuburnDataTeaser() {
                       disabled={activeChapterIndex === 0}
                       className={cn(
                         "p-2 rounded-lg transition-all",
-                        "focus:outline-none focus:ring-2 focus:ring-gold-500",
+                        "focus:outline-none focus:ring-2 focus:ring-forest-500",
                         activeChapterIndex === 0
                           ? "text-charcoal-300 cursor-not-allowed"
-                          : "text-charcoal-600 hover:text-charcoal-900 hover:bg-cream-100"
+                          : "text-charcoal-600 hover:text-forest-600 hover:bg-forest-50"
                       )}
                       aria-label="Previous era"
                     >
@@ -548,10 +744,10 @@ export function AuburnDataTeaser() {
                       disabled={activeChapterIndex === chapters.length - 1}
                       className={cn(
                         "p-2 rounded-lg transition-all",
-                        "focus:outline-none focus:ring-2 focus:ring-gold-500",
+                        "focus:outline-none focus:ring-2 focus:ring-forest-500",
                         activeChapterIndex === chapters.length - 1
                           ? "text-charcoal-300 cursor-not-allowed"
-                          : "text-charcoal-600 hover:text-charcoal-900 hover:bg-cream-100"
+                          : "text-charcoal-600 hover:text-forest-600 hover:bg-forest-50"
                       )}
                       aria-label="Next era"
                     >
@@ -571,7 +767,7 @@ export function AuburnDataTeaser() {
 
                 {/* Chapter title */}
                 <div className="mb-5">
-                  <div className="text-xs font-bold text-gold-600 uppercase tracking-widest mb-1">
+                  <div className="text-xs font-bold text-forest-600 uppercase tracking-widest mb-1">
                     {activeChapter.startYear}–{activeChapter.endYear}
                   </div>
                   <h3 className="text-2xl md:text-3xl font-display font-bold text-charcoal-900">
@@ -586,6 +782,13 @@ export function AuburnDataTeaser() {
               </div>
             </div>
           </div>
+
+          {/* Decade jumper */}
+          <DecadeJumper 
+            data={data} 
+            activeYear={activeYear} 
+            onYearSelect={handleYearSelect}
+          />
         </motion.div>
 
         {/* Source attribution */}
