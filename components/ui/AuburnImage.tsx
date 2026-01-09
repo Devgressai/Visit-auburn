@@ -106,7 +106,7 @@ export function AuburnHeroImage({
   }
 
   return (
-    <div className="relative w-full h-full">
+    <div className="absolute inset-0 w-full h-full">
       <Image
         src={getAuburnImagePath(imageId)}
         alt={image.alt}
