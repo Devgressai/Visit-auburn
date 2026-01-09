@@ -8,6 +8,7 @@ import { LodgingShowcase } from '@/components/homepage/LodgingShowcase'
 import { EventsShowcase } from '@/components/homepage/EventsShowcase'
 import { RespectAuburnBanner } from '@/components/homepage/RespectAuburnBanner'
 import { InsiderTips } from '@/components/homepage/InsiderTips'
+import { AuburnDataTeaser } from '@/components/homepage/AuburnDataTeaser'
 import { RelatedPages } from '@/components/ui/RelatedPages'
 import { buildMetadata, organizationJsonLd, SITE_URL } from '@/lib/seo'
 import type { Metadata } from 'next'
@@ -81,19 +82,25 @@ export default async function HomePage() {
       <LodgingShowcase />
 
       {/* ═══════════════════════════════════════════════════════════════════
-          SECTION 8: Respect Auburn Banner (Simplified Mobile)
+          SECTION 8: Auburn By The Numbers (Interactive Data Teaser)
+          Animated stats with link to full data story
+          ═══════════════════════════════════════════════════════════════════ */}
+      <AuburnDataTeaser />
+
+      {/* ═══════════════════════════════════════════════════════════════════
+          SECTION 9: Respect Auburn Banner (Simplified Mobile)
           Responsive tourism message
           ═══════════════════════════════════════════════════════════════════ */}
       <RespectAuburnBanner />
 
       {/* ═══════════════════════════════════════════════════════════════════
-          SECTION 9: Insider Tips / Blog
+          SECTION 10: Insider Tips / Blog
           Editorial articles carousel (unchanged)
           ═══════════════════════════════════════════════════════════════════ */}
       <InsiderTips />
 
       {/* ═══════════════════════════════════════════════════════════════════
-          SECTION 10: Related Auburn Pages
+          SECTION 11: Related Auburn Pages
           Contextual navigation to key site sections
           ═══════════════════════════════════════════════════════════════════ */}
       <RelatedPages currentPath="/" title="Start Exploring Auburn" />
