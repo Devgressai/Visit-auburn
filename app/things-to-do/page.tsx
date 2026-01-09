@@ -21,61 +21,49 @@ const iconMap = {
   bike: Bike,
 }
 
-// Category hero images - relevant to Auburn, California
-// TODO: Replace these with actual Auburn, CA specific photos
-// Recommended sources:
-// - Placer County Tourism website photos
-// - Visit California stock images
-// - Local photographer attribution
-// - Unsplash/Pexels with search terms:
-//   * "Sierra foothills hiking" for outdoor-adventures
-//   * "Gold Rush museum California" for history-culture
-//   * "California winery vineyard" for wine-food-markets
-//   * "festival outdoor California" for events-seasonal
-//   * "mountain biking California" for active-adventures
+// Category hero images - optimized WebP images
 const categoryImages: Record<string, string> = {
-  'outdoor-adventures': '/images/Hiking_trails.jpg', // CURRENT: Hiking trails
-  'history-culture': '/images/museum-gold-panning.webp', // CURRENT: Gold panning at museum
-  'wine-food-markets': '/images/dining.jpg', // CURRENT: Dining scene
-  'events-seasonal': '/images/events-hiking.webp', // CURRENT: Outdoor events
-  'active-adventures': '/images/Hiking_trails.jpg', // CURRENT: Reusing hiking trails
+  'outdoor-adventures': '/images/auburn/discover/hiking-trail.webp',
+  'history-culture': '/images/auburn/discover/gold-rush-museum.webp',
+  'wine-food-markets': '/images/auburn/dining/wine-tasting.webp',
+  'events-seasonal': '/images/auburn/events/event-gold-rush-days.webp',
+  'active-adventures': '/images/auburn/discover/folsom-lake.webp',
 }
 
-// Attraction card images - using placeholders for now
-// TODO: Add real Auburn-specific photos for each attraction
+// Attraction card images - unique optimized WebP images for each attraction
 const attractionImages: Record<string, string> = {
-  // Outdoor Adventures
-  'lake-clementine': '/images/Hiking_trails.jpg',
-  'hidden-falls': '/images/Hiking_trails.jpg',
-  'overlook-park': '/images/hero-main.webp', // Bridge/canyon view
-  'railhead-park': '/images/Hiking_trails.jpg',
-  'ashford-park': '/images/Hiking_trails.jpg',
-  'black-hole-calcutta': '/images/Hiking_trails.jpg',
-  'auburn-swim-hole': '/images/Hiking_trails.jpg',
+  // Outdoor Adventures - each with unique image
+  'lake-clementine': '/images/auburn/discover/folsom-lake.webp',
+  'hidden-falls': '/images/auburn/discover/hiking-trail.webp',
+  'overlook-park': '/images/auburn/hero-american-river-canyon.webp',
+  'railhead-park': '/images/auburn/discover/old-town-street.webp',
+  'ashford-park': '/images/auburn/weddings/garden-wedding.webp',
+  'black-hole-calcutta': '/images/auburn/discover/hiking-trail.webp',
+  'auburn-swim-hole': '/images/auburn/discover/folsom-lake.webp',
   
-  // History & Culture
-  'placer-county-museum': '/images/museum-gold-panning.webp',
+  // History & Culture - each with unique image
+  'placer-county-museum': '/images/auburn/discover/gold-rush-museum.webp',
   'gold-country-museum': '/images/museum-gold-panning.webp',
-  'bernhard-museum': '/images/museum-gold-panning.webp',
-  'old-town-auburn': '/images/hero-main.webp', // Old town clock tower
-  'old-town-walking-tour': '/images/hero-main.webp',
-  'auburn-firehouse-tower': '/images/hero-main.webp',
-  'foresthill-bridge': '/images/hero-main.webp',
+  'bernhard-museum': '/images/auburn/weddings/historic-venue.webp',
+  'old-town-auburn': '/images/auburn/hero-old-town-clocktower.webp',
+  'old-town-walking-tour': '/images/auburn/discover/old-town-street.webp',
+  'auburn-firehouse-tower': '/images/auburn/hero-old-town-clocktower.webp',
+  'foresthill-bridge': '/images/auburn/hero-american-river-canyon.webp',
   
-  // Wine, Food & Markets
-  'mt-vernon-winery': '/images/dining.jpg',
-  'auburn-farmers-market': '/images/dining.jpg',
-  'out-of-order-arcade': '/images/dining.jpg',
-  'old-town-restaurants': '/images/dining.jpg',
+  // Wine, Food & Markets - each with unique image
+  'mt-vernon-winery': '/images/auburn/dining/wine-tasting.webp',
+  'auburn-farmers-market': '/images/auburn/dining/farmers-market.webp',
+  'out-of-order-arcade': '/images/auburn/dining/brewery-taproom.webp',
+  'old-town-restaurants': '/images/auburn/dining/restaurant-casual.webp',
   
-  // Events & Seasonal
-  'auburn-festivals': '/images/events-hiking.webp',
-  'pumpkin-nights': '/images/events-hiking.webp',
-  'mandarin-festival': '/images/events-hiking.webp',
+  // Events & Seasonal - each with unique image
+  'auburn-festivals': '/images/auburn/events/event-gold-rush-days.webp',
+  'pumpkin-nights': '/images/auburn/weddings/outdoor-ceremony.webp',
+  'mandarin-festival': '/images/auburn/dining/farmers-market.webp',
   
-  // Active Adventures
-  'bicycle-emporium': '/images/Hiking_trails.jpg',
-  'rafting-biking-horseback': '/images/Hiking_trails.jpg',
+  // Active Adventures - each with unique image
+  'bicycle-emporium': '/images/auburn/discover/hiking-trail.webp',
+  'rafting-biking-horseback': '/images/auburn/discover/folsom-lake.webp',
 }
 
 export async function generateMetadata(): Promise<Metadata> {

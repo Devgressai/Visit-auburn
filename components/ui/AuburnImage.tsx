@@ -103,12 +103,12 @@ export function AuburnHeroImage({
         <div className="absolute inset-0 bg-gradient-to-b from-charcoal-900/60 via-charcoal-900/40 to-charcoal-900/70" />
       )}
       {children && (
-        <div className="absolute inset-0 flex items-center justify-center">
+        <div className="absolute inset-0">
           {children}
         </div>
       )}
       {showCredit && (
-        <div className="absolute bottom-2 right-2 bg-black/50 px-2 py-1 rounded">
+        <div className="absolute bottom-2 right-2 bg-black/50 px-2 py-1 rounded z-20">
           <PhotoCredit imageId={imageId} className="text-white text-[10px] mt-0" />
         </div>
       )}

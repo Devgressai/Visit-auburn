@@ -405,7 +405,14 @@ export const dining: (Dining & { seoTitle?: string; seoDescription?: string })[]
   },
 ]
 
-// Events
+// Helper to create event dates - uses current year/month for realistic calendar display
+function getEventDate(dayOffset: number, hour: number = 10, minute: number = 0): string {
+  const now = new Date()
+  const date = new Date(now.getFullYear(), now.getMonth(), now.getDate() + dayOffset, hour, minute)
+  return date.toISOString()
+}
+
+// Events - with realistic dates spread across current and next month
 export const events: (Event & { seoTitle?: string; seoDescription?: string })[] = [
   {
     _id: 'mock-event-1',
@@ -414,7 +421,7 @@ export const events: (Event & { seoTitle?: string; seoDescription?: string })[] 
     slug: createSlug('auburn-farmers-market-weekly'),
     excerpt: 'Weekly farmers market featuring fresh local produce, artisan foods, live music, and community events.',
     featuredImage: createImage('dining', 'Auburn Farmers Market'),
-    startDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(), // Next week
+    startDate: getEventDate(2, 8, 0), // 2 days from now at 8 AM
     location: {
       address: 'Old Town Auburn',
       city: 'Auburn',
@@ -432,8 +439,8 @@ export const events: (Event & { seoTitle?: string; seoDescription?: string })[] 
     slug: createSlug('gold-rush-days'),
     excerpt: 'Annual festival celebrating Auburn\'s Gold Rush heritage with music, food, historical reenactments, and family activities.',
     featuredImage: createImage('hero', 'Gold Rush Days'),
-    startDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(), // Next month
-    endDate: new Date(Date.now() + 32 * 24 * 60 * 60 * 1000).toISOString(),
+    startDate: getEventDate(21, 10, 0), // 3 weeks from now
+    endDate: getEventDate(23, 18, 0),
     location: {
       address: 'Old Town Auburn',
       city: 'Auburn',
@@ -443,6 +450,114 @@ export const events: (Event & { seoTitle?: string; seoDescription?: string })[] 
     category: 'Festival',
     seoTitle: 'Gold Rush Days Festival - Annual Celebration in Auburn',
     seoDescription: 'Celebrate Gold Rush Days in Auburn, California. Annual festival with music, food, and historical celebrations.',
+  },
+  {
+    _id: 'mock-event-3',
+    _type: 'event',
+    title: 'Wine Walk in Old Town',
+    slug: createSlug('wine-walk-old-town'),
+    excerpt: 'Stroll through historic Old Town Auburn while sampling wines from local wineries and enjoying live music.',
+    featuredImage: createImage('dining', 'Wine Walk'),
+    startDate: getEventDate(5, 17, 0), // 5 days from now at 5 PM
+    location: {
+      address: 'Old Town Auburn',
+      city: 'Auburn',
+      state: 'CA',
+      zip: '95603',
+    },
+    category: 'Wine & Food',
+    seoTitle: 'Wine Walk in Old Town Auburn',
+    seoDescription: 'Experience Auburn\'s Wine Walk featuring local wineries, live music, and historic Old Town charm.',
+  },
+  {
+    _id: 'mock-event-4',
+    _type: 'event',
+    title: 'Live Music at Bootleggers',
+    slug: createSlug('live-music-bootleggers'),
+    excerpt: 'Enjoy live local bands and craft cocktails at Bootleggers Old Town Tavern every Friday night.',
+    featuredImage: createImage('dining', 'Live Music'),
+    startDate: getEventDate(3, 20, 0), // 3 days from now at 8 PM
+    location: {
+      address: '210 Washington St',
+      city: 'Auburn',
+      state: 'CA',
+      zip: '95603',
+    },
+    category: 'Music',
+    seoTitle: 'Live Music at Bootleggers - Auburn Nightlife',
+    seoDescription: 'Live music every Friday at Bootleggers Old Town Tavern in Auburn, CA.',
+  },
+  {
+    _id: 'mock-event-5',
+    _type: 'event',
+    title: 'Auburn Symphony Concert',
+    slug: createSlug('auburn-symphony-concert'),
+    excerpt: 'The Auburn Symphony Orchestra presents a classical evening featuring works by Beethoven and Mozart.',
+    featuredImage: createImage('discover', 'Symphony Concert'),
+    startDate: getEventDate(14, 19, 30), // 2 weeks from now at 7:30 PM
+    location: {
+      address: 'Auburn State Theatre',
+      city: 'Auburn',
+      state: 'CA',
+      zip: '95603',
+    },
+    category: 'Arts & Culture',
+    seoTitle: 'Auburn Symphony Concert - Classical Music in Gold Country',
+    seoDescription: 'Experience classical music with the Auburn Symphony Orchestra at the historic Auburn State Theatre.',
+  },
+  {
+    _id: 'mock-event-6',
+    _type: 'event',
+    title: 'Trail Running Workshop',
+    slug: createSlug('trail-running-workshop'),
+    excerpt: 'Learn trail running techniques from experienced ultramarathoners on Auburn\'s famous Western States Trail.',
+    featuredImage: createImage('things-to-do', 'Trail Running'),
+    startDate: getEventDate(10, 7, 0), // 10 days from now at 7 AM
+    location: {
+      address: 'Cool Staging Area',
+      city: 'Auburn',
+      state: 'CA',
+      zip: '95603',
+    },
+    category: 'Sports & Fitness',
+    seoTitle: 'Trail Running Workshop - Western States Trail Auburn',
+    seoDescription: 'Join our trail running workshop on Auburn\'s famous Western States Trail.',
+  },
+  {
+    _id: 'mock-event-7',
+    _type: 'event',
+    title: 'Art Walk First Friday',
+    slug: createSlug('art-walk-first-friday'),
+    excerpt: 'Explore Auburn\'s vibrant art scene with gallery openings, artist demonstrations, and live entertainment.',
+    featuredImage: createImage('discover', 'Art Walk'),
+    startDate: getEventDate(7, 17, 0), // 1 week from now at 5 PM
+    location: {
+      address: 'Old Town Auburn',
+      city: 'Auburn',
+      state: 'CA',
+      zip: '95603',
+    },
+    category: 'Arts & Culture',
+    seoTitle: 'Art Walk First Friday - Auburn Arts Scene',
+    seoDescription: 'Discover Auburn\'s art galleries and local artists during First Friday Art Walk.',
+  },
+  {
+    _id: 'mock-event-8',
+    _type: 'event',
+    title: 'Farmers Market (Weekly)',
+    slug: createSlug('farmers-market-weekly-2'),
+    excerpt: 'Weekly farmers market featuring fresh local produce, artisan foods, live music, and community events.',
+    featuredImage: createImage('dining', 'Auburn Farmers Market'),
+    startDate: getEventDate(9, 8, 0), // 9 days from now at 8 AM
+    location: {
+      address: 'Old Town Auburn',
+      city: 'Auburn',
+      state: 'CA',
+      zip: '95603',
+    },
+    category: 'Market',
+    seoTitle: 'Auburn Farmers Market - Fresh Local Produce',
+    seoDescription: 'Shop fresh produce and artisan goods at Auburn\'s weekly farmers market.',
   },
 ]
 

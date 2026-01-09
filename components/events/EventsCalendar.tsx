@@ -126,7 +126,7 @@ export function EventsCalendar({ events }: EventsCalendarProps) {
                       selectedDate?.getMonth() === currentMonth.getMonth() &&
                       selectedDate?.getFullYear() === currentMonth.getFullYear()
                         ? 'bg-lake-600 text-white'
-                        : 'hover:bg-cream-100'
+                        : 'text-charcoal-800 hover:bg-cream-100'
                     } ${hasEventOnDate(day) ? 'border-2 border-gold-500' : 'border border-transparent'}`}
                   >
                     {day}

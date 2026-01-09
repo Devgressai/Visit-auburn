@@ -725,33 +725,112 @@ export function getRandomAuburnImage(category?: AuburnImage['category']): Auburn
 
 // Get image path (for use in Next.js Image component)
 /**
- * Image fallback mapping for when specific Auburn images don't exist yet
- * Maps image categories to placeholder images in /public/images/
+ * Image fallback mapping - using optimized WebP images
+ * Maps image categories to our new WebP images in /public/images/auburn/
  */
 const imageFallbacks: Record<string, string> = {
-  // Outdoor images
-  'outdoor': '/images/Hiking_trails.jpg',
-  'hero': '/images/hero-main.webp',
-  'historic': '/images/museum-gold-panning.webp',
-  'dining': '/images/dining.jpg',
-  'accommodation': '/images/stay.jpg',
-  'event': '/images/events-hiking.webp',
-  'culture': '/images/discover.jpg',
-  'nature': '/images/Hiking_trails.jpg',
-  'downtown': '/images/hero-main.webp',
-  'wine': '/images/dining.jpg',
-  'shopping': '/images/discover.jpg',
-  'arts': '/images/discover.jpg',
+  // Outdoor images - use hiking trail and lake images
+  'outdoor': '/images/auburn/discover/hiking-trail.webp',
+  'hero': '/images/auburn/hero-old-town-clocktower.webp',
+  'historic': '/images/auburn/discover/gold-rush-museum.webp',
+  'dining': '/images/auburn/dining/restaurant-casual.webp',
+  'accommodation': '/images/auburn/weddings/historic-venue.webp',
+  'event': '/images/auburn/events/event-gold-rush-days.webp',
+  'culture': '/images/auburn/discover/old-town-street.webp',
+  'nature': '/images/auburn/discover/folsom-lake.webp',
+  'downtown': '/images/auburn/hero-old-town-clocktower.webp',
+  'wine': '/images/auburn/dining/wine-tasting.webp',
+  'shopping': '/images/auburn/discover/old-town-street.webp',
+  'arts': '/images/auburn/discover/old-town-street.webp',
+}
+
+/**
+ * Specific image ID to WebP mapping for unique images per attraction
+ */
+const specificImageMappings: Record<string, string> = {
+  // Outdoor attractions - unique images
+  'outdoor-lake-clementine': '/images/auburn/discover/folsom-lake.webp',
+  'outdoor-hidden-falls': '/images/auburn/discover/hiking-trail.webp',
+  'outdoor-confluence-trails': '/images/auburn/hero-american-river-canyon.webp',
+  'outdoor-foresthill-bridge': '/images/auburn/hero-american-river-canyon.webp',
+  'outdoor-quarry-ponds': '/images/auburn/discover/hiking-trail.webp',
+  'outdoor-training-hill': '/images/auburn/discover/hiking-trail.webp',
+  'outdoor-river-rafting': '/images/auburn/discover/folsom-lake.webp',
+  'outdoor-overlook-park': '/images/auburn/hero-american-river-canyon.webp',
+  'outdoor-river-swimming': '/images/auburn/discover/folsom-lake.webp',
+  'outdoor-mountain-biking': '/images/auburn/discover/hiking-trail.webp',
+  
+  // Historic attractions - unique images
+  'historic-gold-country-museum': '/images/auburn/discover/gold-rush-museum.webp',
+  'historic-old-town-clocktower': '/images/auburn/hero-old-town-clocktower.webp',
+  'historic-firehouse-tower': '/images/auburn/hero-old-town-clocktower.webp',
+  'historic-bernhard-museum': '/images/auburn/weddings/historic-venue.webp',
+  'historic-courthouse': '/images/auburn/discover/old-town-street.webp',
+  'historic-placer-courthouse': '/images/auburn/discover/old-town-street.webp',
+  'historic-chinese-joss-house': '/images/auburn/discover/gold-rush-museum.webp',
+  'historic-railroad-depot': '/images/auburn/discover/old-town-street.webp',
+  
+  // Dining attractions - unique images
+  'dining-auburn-alehouse': '/images/auburn/dining/brewery-taproom.webp',
+  'dining-bootleggers': '/images/auburn/dining/fine-dining.webp',
+  'dining-knee-deep': '/images/auburn/dining/brewery-taproom.webp',
+  'dining-farm-table': '/images/auburn/dining/fine-dining.webp',
+  'dining-farmers-market': '/images/auburn/dining/farmers-market.webp',
+  'dining-winery-tasting': '/images/auburn/dining/wine-tasting.webp',
+  'dining-old-town-restaurants': '/images/auburn/dining/restaurant-casual.webp',
+  'dining-local-cuisine': '/images/auburn/dining/cafe-ambiance.webp',
+  'wine-foothill-vineyard': '/images/auburn/dining/wine-tasting.webp',
+  'dining-intimate-setting': '/images/auburn/dining/fine-dining.webp',
+  
+  // Downtown attractions
+  'downtown-lincoln-way': '/images/auburn/discover/old-town-street.webp',
+  'downtown-shops': '/images/auburn/discover/old-town-street.webp',
+  'downtown-night': '/images/auburn/hero-old-town-clocktower.webp',
+  
+  // Events
+  'event-gold-rush-days': '/images/auburn/events/event-gold-rush-days.webp',
+  'event-concerts-amphitheater': '/images/auburn/events/event-gold-rush-days.webp',
+  'event-endurance-run': '/images/auburn/discover/hiking-trail.webp',
+  'event-art-walk': '/images/auburn/discover/old-town-street.webp',
+  'events-county-fair': '/images/auburn/events/event-gold-rush-days.webp',
+  
+  // Arts & Culture
+  'arts-old-town-gallery': '/images/auburn/discover/old-town-street.webp',
+  'arts-state-theatre': '/images/auburn/discover/old-town-street.webp',
+  'culture-gallery': '/images/auburn/discover/old-town-street.webp',
+  'culture-theater': '/images/auburn/discover/old-town-street.webp',
+  'shopping-antiques': '/images/auburn/discover/old-town-street.webp',
+  
+  // Nature
+  'nature-wildflowers-spring': '/images/auburn/weddings/garden-wedding.webp',
+  'nature-sunset-hills': '/images/auburn/hero-american-river-canyon.webp',
+  'nature-oak-trees': '/images/auburn/discover/hiking-trail.webp',
+  
+  // Hero images
+  'hero-old-town-clocktower': '/images/auburn/hero-old-town-clocktower.webp',
+  'hero-american-river-canyon': '/images/auburn/hero-american-river-canyon.webp',
+  'hero-foresthill-bridge': '/images/auburn/hero-american-river-canyon.webp',
+  'hero-lake-clementine': '/images/auburn/discover/folsom-lake.webp',
+  'hero-downtown-autumn': '/images/auburn/hero-old-town-clocktower.webp',
+  
+  // Accommodations
+  'stay-historic-hotel': '/images/auburn/weddings/historic-venue.webp',
+  'stay-cozy-room': '/images/auburn/weddings/reception-hall.webp',
+  'stay-cabin-forest': '/images/auburn/weddings/barn-event.webp',
 }
 
 export function getAuburnImagePath(id: string): string {
-  const image = getAuburnImageById(id)
-  if (!image) return '/images/hero-main.webp' // Ultimate fallback
+  // First check for specific image mapping
+  if (specificImageMappings[id]) {
+    return specificImageMappings[id]
+  }
   
-  // Check if the specific Auburn image exists (in /public/auburn/)
-  // For now, use category-based fallbacks from /public/images/
+  const image = getAuburnImageById(id)
+  if (!image) return '/images/auburn/hero-old-town-clocktower.webp' // Ultimate fallback
+  
+  // Use category-based fallbacks from optimized WebP images
   const category = image.category || id.split('-')[0]
-  return imageFallbacks[category] || '/images/hero-main.webp'
+  return imageFallbacks[category] || '/images/auburn/hero-old-town-clocktower.webp'
 }
 
 // Validate image exists in registry
