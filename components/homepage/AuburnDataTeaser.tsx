@@ -23,6 +23,7 @@ import {
   MapPin,
   Info,
   Zap,
+  BarChart3,
 } from 'lucide-react'
 import { 
   auburnDataStoryConfig,
@@ -712,7 +713,7 @@ function ChapterPanel({ chapter }: { chapter: StoryChapter }) {
 // ═══════════════════════════════════════════════════════════════════════════
 
 export function AuburnDataTeaser() {
-  const { data, chapters, cityName } = auburnDataStoryConfig
+  const { data, chapters, cityName, established } = auburnDataStoryConfig
   
   const [activeChapterIndex, setActiveChapterIndex] = useState(chapters.length - 1)
   const [activeYear, setActiveYear] = useState(chapters[chapters.length - 1].endYear)
@@ -722,6 +723,15 @@ export function AuburnDataTeaser() {
   const activeChapter = chapters[activeChapterIndex]
   const sectionRef = useRef<HTMLElement>(null)
   const isInView = useInView(sectionRef, { once: true, margin: "-100px" })
+  
+  // Calculate key stats
+  const totalGrowth = useMemo(() => {
+    const first = data[0]
+    const last = data[data.length - 1]
+    return ((last.city - first.city) / first.city * 100).toFixed(0)
+  }, [data])
+  
+  const yearsOfData = data[data.length - 1].year - data[0].year
 
   const handleChapterSelect = useCallback((index: number) => {
     setActiveChapterIndex(index)
@@ -753,45 +763,179 @@ export function AuburnDataTeaser() {
       <div className="container mx-auto px-4">
         {/* Header */}
         <motion.div 
-          className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10"
+          className="text-center mb-12"
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: shouldReduceMotion ? 0 : 0.6 }}
         >
-          <div className="flex items-start gap-4">
-            <div className="p-3 rounded-2xl bg-gradient-to-br from-forest-500 to-forest-600 shadow-lg shadow-forest-500/20">
-              <Mountain className="w-7 h-7 text-white" />
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-forest-100 text-forest-700 rounded-full mb-4">
+            <Mountain className="w-4 h-4" />
+            <span className="text-sm font-bold uppercase tracking-wider">Data & Demographics</span>
+          </div>
+          <h2 
+            id="data-story-heading"
+            className="text-3xl md:text-4xl lg:text-5xl font-display font-bold text-charcoal-900 mb-4"
+          >
+            {cityName} by the Numbers
+          </h2>
+          <p className="text-lg text-charcoal-600 max-w-3xl mx-auto">
+            From Gold Rush origins to modern gateway—explore {yearsOfData} years of growth through interactive data, 
+            historical milestones, and civic insights.
+          </p>
+        </motion.div>
+
+        {/* Introduction Cards */}
+        <motion.div 
+          className="grid md:grid-cols-3 gap-6 mb-12"
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          transition={{ duration: shouldReduceMotion ? 0 : 0.6, delay: 0.1 }}
+        >
+          {/* Interactive Viz Card */}
+          <div className="bg-white rounded-xl border-2 border-forest-200 p-6 hover:border-forest-400 transition-colors">
+            <div className="w-12 h-12 rounded-xl bg-forest-100 flex items-center justify-center mb-4">
+              <BarChart3 className="w-6 h-6 text-forest-600" />
+            </div>
+            <h3 className="text-lg font-bold text-charcoal-900 mb-2">
+              Interactive Visualizations
+            </h3>
+            <p className="text-sm text-charcoal-600 leading-relaxed">
+              Explore population trends with interactive charts that respond to your clicks and selections.
+            </p>
+          </div>
+
+          {/* Public Data Card */}
+          <div className="bg-white rounded-xl border-2 border-forest-200 p-6 hover:border-forest-400 transition-colors">
+            <div className="w-12 h-12 rounded-xl bg-gold-100 flex items-center justify-center mb-4">
+              <Info className="w-6 h-6 text-gold-600" />
+            </div>
+            <h3 className="text-lg font-bold text-charcoal-900 mb-2">
+              Public Data Sources
+            </h3>
+            <p className="text-sm text-charcoal-600 leading-relaxed">
+              All data from U.S. Census Bureau and California Department of Finance records.
+            </p>
+          </div>
+
+          {/* Accessible Card */}
+          <div className="bg-white rounded-xl border-2 border-forest-200 p-6 hover:border-forest-400 transition-colors">
+            <div className="w-12 h-12 rounded-xl bg-lake-100 flex items-center justify-center mb-4">
+              <Users className="w-6 h-6 text-lake-600" />
+            </div>
+            <h3 className="text-lg font-bold text-charcoal-900 mb-2">
+              Accessible Design
+            </h3>
+            <p className="text-sm text-charcoal-600 leading-relaxed">
+              Keyboard navigable, screen reader compatible, and optimized for all abilities.
+            </p>
+          </div>
+        </motion.div>
+
+        {/* Quick Stats Banner */}
+        <motion.div 
+          className="bg-gradient-to-r from-forest-500 to-forest-600 rounded-2xl p-6 md:p-8 mb-12 shadow-xl"
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.95 }}
+          transition={{ duration: shouldReduceMotion ? 0 : 0.6, delay: 0.2 }}
+        >
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div className="text-center">
+              <div className="text-3xl md:text-4xl font-display font-bold text-white mb-1">
+                {established}
+              </div>
+              <div className="text-sm text-white/80 font-medium">Founded</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl md:text-4xl font-display font-bold text-white mb-1">
+                +{totalGrowth}%
+              </div>
+              <div className="text-sm text-white/80 font-medium">Total Growth</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl md:text-4xl font-display font-bold text-white mb-1">
+                {data.length}
+              </div>
+              <div className="text-sm text-white/80 font-medium">Data Points</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl md:text-4xl font-display font-bold text-white mb-1">
+                {chapters.length}
+              </div>
+              <div className="text-sm text-white/80 font-medium">Historical Eras</div>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* How to Use Guide */}
+        <motion.div 
+          className="bg-gradient-to-br from-white to-cream-50 rounded-2xl border-2 border-gold-200 p-6 md:p-8 mb-8"
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          transition={{ delay: 0.25 }}
+        >
+          <div className="flex items-start gap-3 mb-4">
+            <div className="p-2 bg-gold-100 rounded-lg">
+              <Info className="w-5 h-5 text-gold-600" />
             </div>
             <div>
-              <p className="text-forest-600 text-sm font-bold uppercase tracking-widest mb-2">
-                Interactive Data Story
-              </p>
-              <h2 
-                id="data-story-heading"
-                className="text-3xl md:text-4xl lg:text-5xl font-display font-bold text-charcoal-900"
-              >
-                {cityName} Through Time
-              </h2>
-              <p className="text-charcoal-600 mt-2 max-w-lg">
-                Explore 120 years of growth. Click points, jump decades, discover milestones.
+              <h3 className="text-lg font-bold text-charcoal-900 mb-1">
+                How to Explore This Data
+              </h3>
+              <p className="text-sm text-charcoal-600">
+                Click any point on the chart • Jump to decades • Navigate through historical eras
               </p>
             </div>
           </div>
-          
-          <Link
-            href="/discover/auburn-data"
-            className={cn(
-              "inline-flex items-center gap-2 px-6 py-3 rounded-xl",
-              "bg-gradient-to-r from-forest-500 to-forest-600 text-white font-bold",
-              "hover:from-forest-600 hover:to-forest-700 hover:scale-105 hover:shadow-lg hover:shadow-forest-500/25",
-              "focus:outline-none focus:ring-2 focus:ring-forest-500 focus:ring-offset-2",
-              "transition-all duration-200",
-              "group"
-            )}
-          >
-            <span>Full Data Story</span>
-            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-          </Link>
+          <div className="grid sm:grid-cols-3 gap-4 text-sm">
+            <div className="flex items-start gap-2">
+              <div className="w-6 h-6 rounded-full bg-forest-100 text-forest-600 flex items-center justify-center flex-shrink-0 font-bold text-xs">
+                1
+              </div>
+              <div>
+                <strong className="text-charcoal-800">Click data points</strong>
+                <p className="text-charcoal-600 text-xs mt-0.5">
+                  See population, growth, and milestones
+                </p>
+              </div>
+            </div>
+            <div className="flex items-start gap-2">
+              <div className="w-6 h-6 rounded-full bg-forest-100 text-forest-600 flex items-center justify-center flex-shrink-0 font-bold text-xs">
+                2
+              </div>
+              <div>
+                <strong className="text-charcoal-800">Navigate eras</strong>
+                <p className="text-charcoal-600 text-xs mt-0.5">
+                  Use arrows to explore each period
+                </p>
+              </div>
+            </div>
+            <div className="flex items-start gap-2">
+              <div className="w-6 h-6 rounded-full bg-forest-100 text-forest-600 flex items-center justify-center flex-shrink-0 font-bold text-xs">
+                3
+              </div>
+              <div>
+                <strong className="text-charcoal-800">Jump decades</strong>
+                <p className="text-charcoal-600 text-xs mt-0.5">
+                  Quick access to specific years
+                </p>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Section Divider */}
+        <motion.div 
+          className="text-center pb-6"
+          initial={{ opacity: 0 }}
+          animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+          transition={{ delay: 0.3 }}
+        >
+          <div className="inline-flex items-center gap-3 px-6 py-3 bg-white border-2 border-gold-200 rounded-full shadow-sm">
+            <Zap className="w-5 h-5 text-gold-500" />
+            <span className="text-sm font-bold text-charcoal-700 uppercase tracking-wider">
+              Interactive Visualization
+            </span>
+          </div>
         </motion.div>
 
         {/* Main card */}
@@ -799,7 +943,7 @@ export function AuburnDataTeaser() {
           className="space-y-4"
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-          transition={{ duration: shouldReduceMotion ? 0 : 0.6, delay: 0.2 }}
+          transition={{ duration: shouldReduceMotion ? 0 : 0.6, delay: 0.3 }}
         >
           {/* Timeline progress */}
           <div className="bg-white border-2 border-forest-200 rounded-xl p-4">
@@ -990,15 +1134,59 @@ export function AuburnDataTeaser() {
           </div>
         </motion.div>
 
-        {/* Source attribution */}
-        <motion.p 
-          className="text-center text-xs text-charcoal-500 mt-8"
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : { opacity: 0 }}
-          transition={{ delay: 0.8 }}
+        {/* Learn More CTA */}
+        <motion.div 
+          className="mt-12 bg-white rounded-2xl border-2 border-gold-200 overflow-hidden shadow-lg"
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          transition={{ delay: 0.6 }}
         >
-          Data sources: U.S. Census Bureau • California Department of Finance
-        </motion.p>
+          <div className="p-8 md:p-10 text-center">
+            <Sparkles className="w-12 h-12 text-gold-500 mx-auto mb-4" />
+            <h3 className="text-2xl md:text-3xl font-display font-bold text-charcoal-900 mb-3">
+              Want the Full Story?
+            </h3>
+            <p className="text-charcoal-600 mb-6 max-w-2xl mx-auto">
+              Dive deeper into Auburn's demographic evolution with detailed methodology, 
+              data sources, accessibility information, and expanded historical context.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link
+                href="/discover/auburn-data"
+                className={cn(
+                  "inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl",
+                  "bg-gradient-to-r from-forest-500 to-forest-600 text-white font-bold",
+                  "hover:from-forest-600 hover:to-forest-700 hover:scale-105 hover:shadow-xl hover:shadow-forest-500/25",
+                  "focus:outline-none focus:ring-2 focus:ring-forest-500 focus:ring-offset-2",
+                  "transition-all duration-200",
+                  "group"
+                )}
+              >
+                <span>Explore Full Data Story</span>
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </Link>
+              <Link
+                href="/discover"
+                className={cn(
+                  "inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl",
+                  "border-2 border-forest-300 text-forest-700 font-bold",
+                  "hover:bg-forest-50 hover:border-forest-500",
+                  "focus:outline-none focus:ring-2 focus:ring-forest-500 focus:ring-offset-2",
+                  "transition-all duration-200"
+                )}
+              >
+                <span>Discover Auburn</span>
+              </Link>
+            </div>
+          </div>
+          
+          {/* Footer with data sources */}
+          <div className="bg-cream-50 px-8 py-4 border-t border-gold-200">
+            <p className="text-center text-xs text-charcoal-500">
+              <strong className="text-charcoal-700">Data Sources:</strong> U.S. Census Bureau • California Department of Finance • Placer County Records
+            </p>
+          </div>
+        </motion.div>
       </div>
     </section>
   )
