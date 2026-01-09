@@ -25,6 +25,7 @@ const downloadableGuides = [
     size: '4.2 MB',
     icon: FileText,
     featured: true,
+    downloadUrl: '/downloads/auburn-visitor-guide.pdf',
   },
   {
     title: 'Old Town Auburn Walking Map',
@@ -32,6 +33,7 @@ const downloadableGuides = [
     type: 'PDF',
     size: '1.8 MB',
     icon: Map,
+    downloadUrl: '/downloads/old-town-walking-map.pdf',
   },
   {
     title: 'Auburn State Recreation Area Trail Guide',
@@ -39,6 +41,7 @@ const downloadableGuides = [
     type: 'PDF',
     size: '3.1 MB',
     icon: Mountain,
+    downloadUrl: '/downloads/trail-guide.pdf',
   },
   {
     title: 'Gold Country Dining & Wine Guide',
@@ -46,6 +49,7 @@ const downloadableGuides = [
     type: 'PDF',
     size: '2.4 MB',
     icon: Utensils,
+    downloadUrl: '/downloads/dining-wine-guide.pdf',
   },
   {
     title: 'Auburn Events & Festivals Calendar',
@@ -53,6 +57,7 @@ const downloadableGuides = [
     type: 'PDF',
     size: '1.2 MB',
     icon: Calendar,
+    downloadUrl: '/downloads/events-calendar.pdf',
   },
   {
     title: 'Historic Sites & Museums Guide',
@@ -60,6 +65,7 @@ const downloadableGuides = [
     type: 'PDF',
     size: '1.9 MB',
     icon: Camera,
+    downloadUrl: '/downloads/historic-sites-guide.pdf',
   },
 ]
 
@@ -133,9 +139,9 @@ export default function MapsGuidesPage() {
       {/* ═══════════════════════════════════════════════════════════════════
           HERO SECTION - Cinematic style with Auburn map/guide image
           ═══════════════════════════════════════════════════════════════════ */}
-      <section className="relative min-h-[60vh] md:min-h-[70vh] w-full overflow-hidden">
+      <section className="relative min-h-[450px] md:min-h-[500px] w-full overflow-hidden flex items-center">
         <AuburnHeroImage imageId="hero-old-town-clocktower">
-          <div className="relative z-10 min-h-[60vh] md:min-h-[70vh] flex flex-col justify-end items-start text-left px-4 sm:px-6 md:px-12 lg:px-20 pb-16 md:pb-24">
+          <div className="relative z-10 flex flex-col justify-center items-start text-left px-4 sm:px-6 md:px-12 lg:px-20">
             <p 
               className="uppercase tracking-[0.2em] text-sm font-medium mb-4 text-white/80"
               style={{ textShadow: '0 2px 8px rgba(0,0,0,0.5)' }}
@@ -214,10 +220,14 @@ export default function MapsGuidesPage() {
                   
                   <div className="flex items-center justify-between pt-4 border-t border-charcoal-100">
                     <span className="text-charcoal-600 text-sm">{guide.type} • {guide.size}</span>
-                    <button className="inline-flex items-center gap-2 text-forest-600 hover:text-forest-700 font-semibold text-sm transition-colors">
+                    <a 
+                      href={guide.downloadUrl} 
+                      download 
+                      className="inline-flex items-center gap-2 text-forest-600 hover:text-forest-700 font-semibold text-sm transition-colors"
+                    >
                       <Download className="w-4 h-4" />
                       Download
-                    </button>
+                    </a>
                   </div>
                 </div>
               )

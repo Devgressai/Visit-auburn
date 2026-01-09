@@ -112,11 +112,6 @@ export function Footer() {
                   FAQ
                 </Link>
               </li>
-              <li>
-                <Link href="/plan/respect-auburn" className="hover:text-white transition-colors">
-                  Respect Auburn
-                </Link>
-              </li>
             </ul>
           </div>
 

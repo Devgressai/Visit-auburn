@@ -1,8 +1,6 @@
 import { buildMetadata, SITE_URL } from '@/lib/seo'
-import { Breadcrumbs } from '@/components/navigation/Breadcrumbs'
 import { RelatedPages } from '@/components/ui/RelatedPages'
 import { AuburnImage } from '@/components/ui/AuburnImage'
-import { generateBreadcrumbs } from '@/lib/routes'
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import { VenuesPageClient } from './VenuesPageClient'
@@ -16,16 +14,9 @@ export const metadata: Metadata = buildMetadata({
 })
 
 export default function VenuesPage() {
-  const breadcrumbs = generateBreadcrumbs('/plan/venues')
-  
   return (
     <div className="min-h-screen bg-white">
-      {/* Breadcrumbs */}
-      <div className="container mx-auto px-4 py-4 bg-white">
-        <Breadcrumbs items={breadcrumbs} />
-      </div>
-      
-      {/* Main content in client component */}
+      {/* Main content in client component (includes breadcrumbs) */}
       <VenuesPageClient />
       
       {/* Related Pages */}

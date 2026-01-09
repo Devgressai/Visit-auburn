@@ -19,7 +19,6 @@ const footerLinks = {
     { name: 'Getting Here', href: '/plan/getting-here' },
     { name: 'Maps & Guides', href: '/plan/maps-guides' },
     { name: 'FAQ', href: '/plan/faq' },
-    { name: 'Respect Auburn', href: '/plan/respect-auburn' },
   ],
   groups: [
     { name: 'Weddings', href: '/plan/weddings' },

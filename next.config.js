@@ -12,6 +12,13 @@ const nextConfig = {
       },
     ],
   },
+  redirects: async () => [
+    {
+      source: '/plan/respect-auburn',
+      destination: '/plan/visitor-information',
+      permanent: true,
+    },
+  ],
 }
 
 module.exports = nextConfig

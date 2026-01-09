@@ -81,10 +81,10 @@ export function RespectAuburnBanner() {
         {/* CTA */}
         <div className="text-center">
           <Link 
-            href="/plan/respect-auburn"
+            href="/plan/visitor-information"
             className="inline-flex items-center gap-3 border-2 border-white text-white font-bold px-8 py-4 rounded-full backdrop-blur-sm bg-white/10 transition-all duration-300 hover:bg-white hover:text-forest-700 shadow-lg"
           >
-            Learn the Rules
+            Plan Your Visit
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
             </svg>

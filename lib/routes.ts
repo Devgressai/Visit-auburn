@@ -439,22 +439,6 @@ export const ROUTE_MAP: Record<string, RouteMetadata> = {
     blurb: 'Get answers to frequently asked questions about visiting Auburn, from weather to parking and beyond.',
   },
 
-  '/plan/respect-auburn': {
-    path: '/plan/respect-auburn',
-    breadcrumbLabel: 'Respect Auburn',
-    parentSection: '/plan',
-    relatedPages: [
-      '/plan/visitor-information',
-      '/things-to-do/outdoor-adventures',
-      '/plan/maps-guides',
-      '/things-to-do',
-      '/discover',
-      '/plan/faq',
-    ],
-    photoRequired: false,
-    blurb: 'Learn how to be a responsible visitor and help preserve Auburn\'s natural beauty and community for future generations.',
-  },
-
   '/plan/weddings': {
     path: '/plan/weddings',
     breadcrumbLabel: 'Weddings',

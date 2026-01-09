@@ -11,7 +11,9 @@
     "validate:links": "tsx scripts/validate-interlinking.ts",
     "validate:images": "tsx scripts/validate-images.ts",
     "validate:all": "npm run validate:links && npm run validate:images && npm run validate",
-    "check:placeholders": "tsx scripts/check-placeholders.ts"
+    "check:placeholders": "tsx scripts/check-placeholders.ts",
+    "fetch:images": "python3 scripts/fetch-images.py",
+    "fetch:images:ts": "tsx scripts/fetch-images.ts"
   },
   "dependencies": {
     "@portabletext/react": "^6.0.0",
@@ -27,6 +29,8 @@
     "tailwindcss": "^3.4.1"
   },
   "devDependencies": {
+    "@eslint/eslintrc": "^3.3.3",
+    "@eslint/js": "^9.39.2",
     "@types/node": "^25.0.3",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
@@ -35,6 +39,7 @@
     "eslint-config-next": "^16.1.1",
     "postcss": "^8.5.6",
     "tsx": "^4.19.2",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.52.0"
   }
 }

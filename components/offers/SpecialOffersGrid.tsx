@@ -184,3 +184,4 @@ export function SpecialOffersGrid({ offers, category }: SpecialOffersGridProps) 
 
 
 
+

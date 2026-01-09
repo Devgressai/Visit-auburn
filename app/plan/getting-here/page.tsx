@@ -94,9 +94,9 @@ export default function GettingHerePage() {
       {/* ═══════════════════════════════════════════════════════════════════
           HERO SECTION - Cinematic style with Auburn image
           ═══════════════════════════════════════════════════════════════════ */}
-      <section className="relative min-h-[60vh] md:min-h-[70vh] w-full overflow-hidden">
+      <section className="relative min-h-[450px] md:min-h-[500px] w-full overflow-hidden flex items-center">
         <AuburnHeroImage imageId="hero-american-river-canyon">
-          <div className="relative z-10 min-h-[60vh] md:min-h-[70vh] flex flex-col justify-end items-start text-left px-4 sm:px-6 md:px-12 lg:px-20 pb-16 md:pb-24">
+          <div className="relative z-10 flex flex-col justify-center items-start text-left px-4 sm:px-6 md:px-12 lg:px-20">
             <p 
               className="uppercase tracking-[0.2em] text-sm font-medium mb-4 text-white/80"
               style={{ textShadow: '0 2px 8px rgba(0,0,0,0.5)' }}
@@ -210,20 +210,28 @@ export default function GettingHerePage() {
 
           {/* Interactive Map Section */}
           <div className="bg-white rounded-2xl border border-charcoal-100 p-2 shadow-card overflow-hidden">
-            <div className="aspect-[16/9] md:aspect-[21/9] bg-cream-50 rounded-xl flex items-center justify-center">
-              <div className="text-center">
-                <MapPin className="w-12 h-12 text-forest-500 mx-auto mb-4" />
-                <p className="text-charcoal-600 mb-4 font-medium">Interactive Map</p>
-                <a 
-                  href="https://maps.google.com/?q=Auburn,CA"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 text-forest-600 hover:text-forest-700 font-semibold transition-colors"
-                >
-                  Open in Google Maps
-                  <ExternalLink className="w-4 h-4" />
-                </a>
-              </div>
+            <div className="aspect-[16/9] md:aspect-[21/9] bg-cream-50 rounded-xl overflow-hidden">
+              <iframe
+                title="Auburn, California Map"
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3118.9887469033503!2d-121.07686592346104!3d38.89454537129862!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80857f37d8e5d5e7%3A0x2c6b312386c3d8ef!2sAuburn%2C%20CA!5e0!3m2!1sen!2sus!4v1704717600000"
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              />
+            </div>
+            <div className="p-4 text-center">
+              <a 
+                href="https://maps.google.com/?q=Auburn,CA"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-forest-600 hover:text-forest-700 font-semibold transition-colors"
+              >
+                View Fullscreen in Google Maps
+                <ExternalLink className="w-4 h-4" />
+              </a>
             </div>
           </div>
         </div>

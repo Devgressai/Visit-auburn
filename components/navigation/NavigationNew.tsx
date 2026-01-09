@@ -55,7 +55,6 @@ const navigation = [
       { name: 'Getting Here', href: '/plan/getting-here' },
       { name: 'Maps & Guides', href: '/plan/maps-guides' },
       { name: 'FAQ', href: '/plan/faq' },
-      { name: 'Respect Auburn', href: '/plan/respect-auburn' },
       { name: 'Weddings & Events', href: '/plan/weddings' },
       { name: 'Meetings & Groups', href: '/plan/meetings' },
       { name: 'Venues', href: '/plan/venues' },

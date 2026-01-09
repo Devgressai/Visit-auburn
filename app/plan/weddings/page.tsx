@@ -220,7 +220,7 @@ export default function WeddingsPage() {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="relative h-[70vh] min-h-[600px] flex items-center justify-center overflow-hidden">
+      <section className="relative min-h-[550px] md:min-h-[600px] flex items-center justify-center overflow-hidden">
         <VenueImage
           src="/images/auburn/weddings/hero-weddings.jpg"
           alt="Wedding in Auburn, California - Historic Gold Country venue"

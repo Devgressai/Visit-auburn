@@ -71,9 +71,9 @@ export default function FAQPage() {
         <FAQStructuredData />
       
       {/* Hero Section */}
-      <section className="relative py-24 md:py-32 overflow-hidden">
+      <section className="relative min-h-[450px] md:min-h-[500px] flex items-center justify-center overflow-hidden">
         <AuburnHeroImage imageId="hero-old-town-clocktower">
-          <div className="container mx-auto px-4 relative z-10">
+          <div className="container mx-auto px-4 relative z-10 text-center">
             <div className="flex items-center justify-center gap-3 mb-6">
               <MessageCircle className="w-8 h-8 text-white" />
             </div>
