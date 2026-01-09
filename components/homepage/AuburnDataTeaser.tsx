@@ -79,40 +79,52 @@ function InteractiveChart({ data, activeYear, hoveredYear, onYearClick, onYearHo
   const ref = useRef<HTMLDivElement>(null)
   const isInView = useInView(ref, { once: true })
   
+  // Chart dimensions and margins (pixel-based like the full page)
+  const width = 800
+  const height = 280
+  const margin = { top: 20, right: 30, bottom: 50, left: 60 }
+  const chartWidth = width - margin.left - margin.right
+  const chartHeight = height - margin.top - margin.bottom
+  
   const maxPop = useMemo(() => Math.max(...data.map(d => d.city)), [data])
-  const minPop = useMemo(() => Math.min(...data.map(d => d.city)), [data])
-  const chartHeight = 280
-  const padding = { top: 60, bottom: 50 }
+  const chartMaxPop = maxPop * 1.1 // Add 10% padding
   
-  // Add some padding to max for better visualization
-  const chartMaxPop = maxPop * 1.1
-  
+  // Scale functions (pixel-based)
   const getY = (value: number) => {
-    const ratio = value / chartMaxPop
-    return chartHeight - padding.bottom - (ratio * (chartHeight - padding.top - padding.bottom))
+    return chartHeight - (value / chartMaxPop) * chartHeight
   }
+  
   const getX = (index: number) => {
-    // Add padding on sides for better visualization
-    const chartWidth = 96 // Leave 2% on each side
-    const startX = 2
-    return startX + (index / (data.length - 1)) * chartWidth
+    return (index / (data.length - 1)) * chartWidth
   }
+  
+  // Format population for Y-axis labels
+  const formatPopulation = (value: number) => {
+    if (value >= 1000) return `${(value / 1000).toFixed(1)}k`
+    return value.toString()
+  }
+  
+  // Generate Y-axis ticks (5 levels)
+  const yTicks = useMemo(() => {
+    const tickCount = 5
+    const step = chartMaxPop / (tickCount - 1)
+    return Array.from({ length: tickCount }, (_, i) => Math.round(step * i))
+  }, [chartMaxPop])
 
   const linePath = useMemo(() => {
     const points = data.map((d, i) => `${getX(i)},${getY(d.city)}`)
     return `M ${points.join(' L ')}`
-  }, [data, maxPop])
+  }, [data, chartMaxPop])
 
   const areaPath = useMemo(() => {
     const points = data.map((d, i) => `${getX(i)},${getY(d.city)}`)
-    return `M ${points.join(' L ')} L 100,${chartHeight - padding.bottom} L 0,${chartHeight - padding.bottom} Z`
-  }, [data, maxPop])
+    return `M ${points.join(' L ')} L ${chartWidth},${chartHeight} L 0,${chartHeight} Z`
+  }, [data, chartMaxPop])
 
   return (
-    <div ref={ref} className="relative w-full" style={{ height: chartHeight }}>
+    <div ref={ref} className="relative w-full" style={{ height }}>
       <svg 
-        viewBox={`0 0 100 ${chartHeight}`} 
-        preserveAspectRatio="none"
+        viewBox={`0 0 ${width} ${height}`} 
         className="w-full h-full overflow-visible"
         role="img"
         aria-label="Auburn population growth chart 1900-2020"
@@ -131,199 +143,193 @@ function InteractiveChart({ data, activeYear, hoveredYear, onYearClick, onYearHo
           </filter>
         </defs>
 
-        {/* Grid lines with population labels */}
-        {[0, 0.25, 0.5, 0.75, 1].map((ratio) => {
-          const popValue = Math.round(chartMaxPop * ratio)
-          const yPos = getY(chartMaxPop * ratio)
-          return (
-            <g key={ratio}>
-              <line
-                x1="2"
-                y1={yPos}
-                x2="98"
-                y2={yPos}
-                stroke="#2D5A27"
-                strokeOpacity={ratio === 0 ? 0.3 : 0.12}
-                strokeWidth={ratio === 0 ? 0.4 : 0.2}
-                strokeDasharray={ratio === 0 ? "0" : "2,3"}
-                vectorEffect="non-scaling-stroke"
-              />
-              <text
-                x="0"
-                y={yPos}
-                textAnchor="start"
-                alignmentBaseline="middle"
-                className="fill-forest-700 font-sans"
-                style={{ fontSize: '3.5px', fontWeight: 700 }}
-              >
-                {(popValue / 1000).toFixed(1)}k
-              </text>
-            </g>
-          )
-        })}
+        <g transform={`translate(${margin.left}, ${margin.top})`}>
+          {/* Grid lines */}
+          {yTicks.map((tick) => (
+            <line
+              key={tick}
+              x1={0}
+              y1={getY(tick)}
+              x2={chartWidth}
+              y2={getY(tick)}
+              stroke="#2D5A27"
+              strokeOpacity={tick === 0 ? 0.3 : 0.12}
+              strokeWidth={tick === 0 ? 1.5 : 0.5}
+              strokeDasharray={tick === 0 ? "0" : "2,3"}
+            />
+          ))}
 
-        {/* Area fill */}
-        <motion.path
-          d={areaPath}
-          fill="url(#forestGradient)"
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : { opacity: 0 }}
-          transition={{ duration: shouldReduceMotion ? 0 : 1, delay: 0.3 }}
-        />
+          {/* Y-axis labels */}
+          {yTicks.map((tick) => (
+            <text
+              key={`label-${tick}`}
+              x={-10}
+              y={getY(tick)}
+              textAnchor="end"
+              dominantBaseline="middle"
+              className="fill-forest-700 text-xs font-bold"
+            >
+              {formatPopulation(tick)}
+            </text>
+          ))}
 
-        {/* Main line */}
-        <motion.path
-          d={linePath}
-          fill="none"
-          stroke="#2D5A27"
-          strokeWidth="0.8"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          vectorEffect="non-scaling-stroke"
-          initial={{ pathLength: 0, opacity: 0 }}
-          animate={isInView ? { pathLength: 1, opacity: 1 } : { pathLength: 0, opacity: 0 }}
-          transition={{ duration: shouldReduceMotion ? 0 : 1.5, ease: "easeOut" }}
-        />
+          {/* Area fill */}
+          <motion.path
+            d={areaPath}
+            fill="url(#forestGradient)"
+            initial={{ opacity: 0 }}
+            animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+            transition={{ duration: shouldReduceMotion ? 0 : 1, delay: 0.3 }}
+          />
 
-        {/* Interactive points & milestones */}
-        {data.map((row, i) => {
-          const x = getX(i)
-          const y = getY(row.city)
-          const isActive = row.year === activeYear
-          const isHovered = row.year === hoveredYear
-          const hasMilestone = !!row.milestoneTitle
+          {/* Main line */}
+          <motion.path
+            d={linePath}
+            fill="none"
+            stroke="#2D5A27"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            initial={{ pathLength: 0, opacity: 0 }}
+            animate={isInView ? { pathLength: 1, opacity: 1 } : { pathLength: 0, opacity: 0 }}
+            transition={{ duration: shouldReduceMotion ? 0 : 1.5, ease: "easeOut" }}
+          />
 
-          return (
-            <g key={row.year}>
-              {/* Larger hover zone */}
-              <rect
-                x={x - 6}
-                y={0}
-                width={12}
-                height={chartHeight}
-                fill="transparent"
-                className="cursor-pointer"
-                onClick={() => onYearClick(row.year)}
-                onMouseEnter={() => onYearHover(row.year)}
-                onMouseLeave={() => onYearHover(null)}
-                onFocus={() => onYearHover(row.year)}
-                onBlur={() => onYearHover(null)}
-                tabIndex={0}
-                role="button"
-                aria-label={`${row.year}: ${row.city.toLocaleString()} residents${hasMilestone ? ` - ${row.milestoneTitle}` : ''}`}
-              />
+          {/* Interactive points & milestones */}
+          {data.map((row, i) => {
+            const x = getX(i)
+            const y = getY(row.city)
+            const isActive = row.year === activeYear
+            const isHovered = row.year === hoveredYear
+            const hasMilestone = !!row.milestoneTitle
 
-              {/* Vertical indicator line */}
-              {(isActive || isHovered) && (
-                <motion.line
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  x1={x}
-                  y1={padding.top - 10}
-                  x2={x}
-                  y2={chartHeight - padding.bottom + 5}
-                  stroke={isActive ? "#2D5A27" : "#47AF7F"}
-                  strokeWidth="0.5"
-                  strokeOpacity={isActive ? 0.8 : 0.5}
-                  strokeDasharray={isActive ? "0" : "2,2"}
-                  vectorEffect="non-scaling-stroke"
+            return (
+              <g key={row.year}>
+                {/* Larger hover zone */}
+                <rect
+                  x={x - 15}
+                  y={0}
+                  width={30}
+                  height={chartHeight}
+                  fill="transparent"
+                  className="cursor-pointer"
+                  onClick={() => onYearClick(row.year)}
+                  onMouseEnter={() => onYearHover(row.year)}
+                  onMouseLeave={() => onYearHover(null)}
+                  onFocus={() => onYearHover(row.year)}
+                  onBlur={() => onYearHover(null)}
+                  tabIndex={0}
+                  role="button"
+                  aria-label={`${row.year}: ${row.city.toLocaleString()} residents${hasMilestone ? ` - ${row.milestoneTitle}` : ''}`}
                 />
-              )}
 
-              {/* Glow effect on hover/active */}
-              {(isActive || isHovered) && (
+                {/* Vertical indicator line */}
+                {(isActive || isHovered) && (
+                  <motion.line
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    x1={x}
+                    y1={-10}
+                    x2={x}
+                    y2={chartHeight + 5}
+                    stroke={isActive ? "#2D5A27" : "#47AF7F"}
+                    strokeWidth="1.5"
+                    strokeOpacity={isActive ? 0.8 : 0.5}
+                    strokeDasharray={isActive ? "0" : "4,4"}
+                  />
+                )}
+
+                {/* Glow effect on hover/active */}
+                {(isActive || isHovered) && (
+                  <motion.circle
+                    initial={{ scale: 0.8, opacity: 0 }}
+                    animate={{ scale: 1.5, opacity: 0 }}
+                    transition={{ duration: 0.6, repeat: Infinity }}
+                    cx={x}
+                    cy={y}
+                    r="8"
+                    fill={isActive ? "#2D5A27" : "#47AF7F"}
+                  />
+                )}
+
+                {/* Milestone indicator with pulse */}
+                {hasMilestone && !isActive && !isHovered && (
+                  <motion.g
+                    initial={{ scale: 0, opacity: 0 }}
+                    animate={isInView ? { scale: 1, opacity: 1 } : { scale: 0, opacity: 0 }}
+                    transition={{ delay: shouldReduceMotion ? 0 : 0.7 + i * 0.05 }}
+                  >
+                    <circle
+                      cx={x}
+                      cy={y - 12}
+                      r="4"
+                      fill="#D4A017"
+                      stroke="#fff"
+                      strokeWidth="1.5"
+                    />
+                    <motion.circle
+                      cx={x}
+                      cy={y - 12}
+                      r="6"
+                      fill="none"
+                      stroke="#D4A017"
+                      strokeWidth="1"
+                      strokeOpacity="0.6"
+                      animate={{ scale: [1, 1.4, 1], opacity: [0.6, 0, 0.6] }}
+                      transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                    />
+                  </motion.g>
+                )}
+
+                {/* Main data point with enhanced states */}
                 <motion.circle
-                  initial={{ scale: 0.8, opacity: 0 }}
-                  animate={{ scale: 1.5, opacity: 0 }}
-                  transition={{ duration: 0.6, repeat: Infinity }}
                   cx={x}
                   cy={y}
-                  r="3"
-                  fill={isActive ? "#2D5A27" : "#47AF7F"}
-                />
-              )}
-
-              {/* Milestone indicator with pulse */}
-              {hasMilestone && !isActive && !isHovered && (
-                <motion.g
+                  r={isActive ? 7 : isHovered ? 5 : hasMilestone ? 4 : 3}
+                  fill={isActive ? "#2D5A27" : isHovered ? "#47AF7F" : hasMilestone ? "#D4A017" : "#47AF7F"}
+                  stroke={isActive || isHovered ? "#fff" : "none"}
+                  strokeWidth={isActive || isHovered ? "2" : "0"}
+                  filter={isActive ? "url(#forestGlow)" : undefined}
                   initial={{ scale: 0, opacity: 0 }}
                   animate={isInView ? { scale: 1, opacity: 1 } : { scale: 0, opacity: 0 }}
-                  transition={{ delay: shouldReduceMotion ? 0 : 0.7 + i * 0.05 }}
-                >
-                  <circle
-                    cx={x}
-                    cy={y - 5}
-                    r="1.2"
-                    fill="#D4A017"
-                    stroke="#fff"
-                    strokeWidth="0.4"
-                    vectorEffect="non-scaling-stroke"
-                  />
-                  <motion.circle
-                    cx={x}
-                    cy={y - 5}
-                    r="2"
-                    fill="none"
-                    stroke="#D4A017"
-                    strokeWidth="0.3"
-                    strokeOpacity="0.6"
-                    vectorEffect="non-scaling-stroke"
-                    animate={{ scale: [1, 1.4, 1], opacity: [0.6, 0, 0.6] }}
-                    transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                  />
-                </motion.g>
-              )}
+                  transition={{ delay: shouldReduceMotion ? 0 : 0.5 + i * 0.04, duration: 0.3 }}
+                  className="transition-all duration-200"
+                />
 
-              {/* Main data point with enhanced states */}
-              <motion.circle
-                cx={x}
-                cy={y}
-                r={isActive ? 2.5 : isHovered ? 2 : hasMilestone ? 1.2 : 0.9}
-                fill={isActive ? "#2D5A27" : isHovered ? "#47AF7F" : hasMilestone ? "#D4A017" : "#47AF7F"}
-                stroke={isActive || isHovered ? "#fff" : "none"}
-                strokeWidth={isActive || isHovered ? "0.5" : "0"}
-                filter={isActive ? "url(#forestGlow)" : undefined}
-                initial={{ scale: 0, opacity: 0 }}
-                animate={isInView ? { scale: 1, opacity: 1 } : { scale: 0, opacity: 0 }}
-                transition={{ delay: shouldReduceMotion ? 0 : 0.5 + i * 0.04, duration: 0.3 }}
-                className="transition-all duration-200"
-                vectorEffect="non-scaling-stroke"
-              />
-
-              {/* Year labels - every 10 years with better styling */}
-              {row.year % 10 === 0 && (
-                <g>
-                  {/* Background for better readability */}
-                  {row.year === activeYear && (
-                    <rect
-                      x={x - 6}
-                      y={chartHeight - 20}
-                      width="12"
-                      height="6"
-                      fill="#2D5A27"
-                      fillOpacity="0.1"
-                      rx="1"
-                    />
-                  )}
-                  <text
-                    x={x}
-                    y={chartHeight - 15}
-                    textAnchor="middle"
-                    className={cn(
-                      "font-sans transition-all",
-                      row.year === activeYear 
-                        ? "fill-forest-700 font-bold" 
-                        : isHovered && row.year === hoveredYear
-                          ? "fill-forest-600 font-bold"
-                          : "fill-charcoal-600 font-semibold"
+                {/* Year labels - every 10 years with better styling */}
+                {row.year % 10 === 0 && (
+                  <g>
+                    {/* Background for better readability */}
+                    {row.year === activeYear && (
+                      <rect
+                        x={x - 18}
+                        y={chartHeight + 8}
+                        width={36}
+                        height={20}
+                        fill="#2D5A27"
+                        fillOpacity="0.1"
+                        rx="4"
+                      />
                     )}
-                    style={{ fontSize: row.year === activeYear ? '4.5px' : '3.8px' }}
-                  >
-                    {row.year}
-                  </text>
-                </g>
-              )}
+                    <text
+                      x={x}
+                      y={chartHeight + 22}
+                      textAnchor="middle"
+                      className={cn(
+                        "font-sans transition-all",
+                        row.year === activeYear 
+                          ? "fill-forest-700 font-bold" 
+                          : isHovered && row.year === hoveredYear
+                            ? "fill-forest-600 font-bold"
+                            : "fill-charcoal-600 font-semibold"
+                      )}
+                      style={{ fontSize: row.year === activeYear ? '14px' : '12px' }}
+                    >
+                      {row.year}
+                    </text>
+                  </g>
+                )}
               
               {/* Growth indicator arrows for significant changes */}
               {i > 0 && Math.abs(row.city - data[i-1].city) > 1000 && (
@@ -347,9 +353,10 @@ function InteractiveChart({ data, activeYear, hoveredYear, onYearClick, onYearHo
                   )}
                 </motion.g>
               )}
-            </g>
-          )
-        })}
+              </g>
+            )
+          })}
+        </g>
       </svg>
 
       {/* Legend */}
