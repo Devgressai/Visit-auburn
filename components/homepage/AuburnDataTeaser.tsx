@@ -79,10 +79,10 @@ function InteractiveChart({ data, activeYear, hoveredYear, onYearClick, onYearHo
   const ref = useRef<HTMLDivElement>(null)
   const isInView = useInView(ref, { once: true })
   
-  // Chart dimensions and margins (pixel-based like the full page)
+  // Chart dimensions and margins (compact for homepage)
   const width = 800
-  const height = 280
-  const margin = { top: 20, right: 30, bottom: 50, left: 60 }
+  const height = 200
+  const margin = { top: 15, right: 20, bottom: 35, left: 50 }
   const chartWidth = width - margin.left - margin.right
   const chartHeight = height - margin.top - margin.bottom
   
@@ -207,9 +207,9 @@ function InteractiveChart({ data, activeYear, hoveredYear, onYearClick, onYearHo
               <g key={row.year}>
                 {/* Larger hover zone */}
                 <rect
-                  x={x - 15}
+                  x={x - 12}
                   y={0}
-                  width={30}
+                  width={24}
                   height={chartHeight}
                   fill="transparent"
                   className="cursor-pointer"
@@ -230,13 +230,13 @@ function InteractiveChart({ data, activeYear, hoveredYear, onYearClick, onYearHo
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     x1={x}
-                    y1={-10}
+                    y1={-8}
                     x2={x}
-                    y2={chartHeight + 5}
+                    y2={chartHeight + 3}
                     stroke={isActive ? "#2D5A27" : "#47AF7F"}
-                    strokeWidth="1.5"
+                    strokeWidth="1"
                     strokeOpacity={isActive ? 0.8 : 0.5}
-                    strokeDasharray={isActive ? "0" : "4,4"}
+                    strokeDasharray={isActive ? "0" : "3,3"}
                   />
                 )}
 
@@ -248,7 +248,7 @@ function InteractiveChart({ data, activeYear, hoveredYear, onYearClick, onYearHo
                     transition={{ duration: 0.6, repeat: Infinity }}
                     cx={x}
                     cy={y}
-                    r="8"
+                    r="6"
                     fill={isActive ? "#2D5A27" : "#47AF7F"}
                   />
                 )}
@@ -262,19 +262,19 @@ function InteractiveChart({ data, activeYear, hoveredYear, onYearClick, onYearHo
                   >
                     <circle
                       cx={x}
-                      cy={y - 12}
-                      r="4"
+                      cy={y - 8}
+                      r="3"
                       fill="#D4A017"
                       stroke="#fff"
-                      strokeWidth="1.5"
+                      strokeWidth="1"
                     />
                     <motion.circle
                       cx={x}
-                      cy={y - 12}
-                      r="6"
+                      cy={y - 8}
+                      r="5"
                       fill="none"
                       stroke="#D4A017"
-                      strokeWidth="1"
+                      strokeWidth="0.8"
                       strokeOpacity="0.6"
                       animate={{ scale: [1, 1.4, 1], opacity: [0.6, 0, 0.6] }}
                       transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
@@ -286,10 +286,10 @@ function InteractiveChart({ data, activeYear, hoveredYear, onYearClick, onYearHo
                 <motion.circle
                   cx={x}
                   cy={y}
-                  r={isActive ? 7 : isHovered ? 5 : hasMilestone ? 4 : 3}
+                  r={isActive ? 5 : isHovered ? 4 : hasMilestone ? 3 : 2.5}
                   fill={isActive ? "#2D5A27" : isHovered ? "#47AF7F" : hasMilestone ? "#D4A017" : "#47AF7F"}
                   stroke={isActive || isHovered ? "#fff" : "none"}
-                  strokeWidth={isActive || isHovered ? "2" : "0"}
+                  strokeWidth={isActive || isHovered ? "1.5" : "0"}
                   filter={isActive ? "url(#forestGlow)" : undefined}
                   initial={{ scale: 0, opacity: 0 }}
                   animate={isInView ? { scale: 1, opacity: 1 } : { scale: 0, opacity: 0 }}
@@ -303,18 +303,18 @@ function InteractiveChart({ data, activeYear, hoveredYear, onYearClick, onYearHo
                     {/* Background for better readability */}
                     {row.year === activeYear && (
                       <rect
-                        x={x - 18}
-                        y={chartHeight + 8}
-                        width={36}
-                        height={20}
+                        x={x - 16}
+                        y={chartHeight + 6}
+                        width={32}
+                        height={16}
                         fill="#2D5A27"
                         fillOpacity="0.1"
-                        rx="4"
+                        rx="3"
                       />
                     )}
                     <text
                       x={x}
-                      y={chartHeight + 22}
+                      y={chartHeight + 18}
                       textAnchor="middle"
                       className={cn(
                         "font-sans transition-all",
@@ -324,7 +324,7 @@ function InteractiveChart({ data, activeYear, hoveredYear, onYearClick, onYearHo
                             ? "fill-forest-600 font-bold"
                             : "fill-charcoal-600 font-semibold"
                       )}
-                      style={{ fontSize: row.year === activeYear ? '14px' : '12px' }}
+                      style={{ fontSize: row.year === activeYear ? '12px' : '11px' }}
                     >
                       {row.year}
                     </text>
@@ -962,7 +962,7 @@ export function AuburnDataTeaser() {
             {/* MOBILE: Stacked layout */}
             <div className="lg:hidden">
               {/* Chart */}
-              <div className="p-4 bg-gradient-to-br from-cream-50 to-white border-b-2 border-forest-100">
+              <div className="p-3 bg-gradient-to-br from-cream-50 to-white border-b-2 border-forest-100">
                 <InteractiveChart
                   data={data}
                   activeYear={activeYear}
@@ -973,12 +973,12 @@ export function AuburnDataTeaser() {
               </div>
               
               {/* Stats */}
-              <div className="p-4 bg-white border-b-2 border-forest-100">
+              <div className="p-3 bg-white border-b-2 border-forest-100">
                 <StatsPanel data={data} activeYear={activeYear} />
               </div>
               
               {/* Chapters */}
-              <div className="p-4 bg-white">
+              <div className="p-3 bg-white">
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-2">
                     <Calendar className="w-4 h-4 text-forest-600" />
@@ -1047,8 +1047,8 @@ export function AuburnDataTeaser() {
             <div className="hidden lg:grid lg:grid-cols-5 divide-x divide-forest-100">
               
               {/* LEFT: Chart & Stats */}
-              <div className="lg:col-span-3 p-6 md:p-8 bg-gradient-to-br from-cream-50 to-white">
-                <div className="mb-6">
+              <div className="lg:col-span-3 p-4 md:p-5 bg-gradient-to-br from-cream-50 to-white">
+                <div className="mb-4">
                   <InteractiveChart
                     data={data}
                     activeYear={activeYear}
