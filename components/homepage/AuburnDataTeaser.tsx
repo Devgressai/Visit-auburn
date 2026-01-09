@@ -79,8 +79,9 @@ function InteractiveChart({ data, activeYear, hoveredYear, onYearClick, onYearHo
   const isInView = useInView(ref, { once: true })
   
   const maxPop = useMemo(() => Math.max(...data.map(d => d.city)), [data])
-  const chartHeight = 240
-  const padding = { top: 40, bottom: 40 }
+  const minPop = useMemo(() => Math.min(...data.map(d => d.city)), [data])
+  const chartHeight = 260
+  const padding = { top: 50, bottom: 45 }
   
   const getY = (value: number) => {
     const ratio = value / maxPop
@@ -121,21 +122,36 @@ function InteractiveChart({ data, activeYear, hoveredYear, onYearClick, onYearHo
           </filter>
         </defs>
 
-        {/* Grid lines */}
-        {[0.25, 0.5, 0.75, 1].map((ratio) => (
-          <line
-            key={ratio}
-            x1="0"
-            y1={getY(maxPop * ratio)}
-            x2="100"
-            y2={getY(maxPop * ratio)}
-            stroke="#2D5A27"
-            strokeOpacity="0.1"
-            strokeWidth="0.2"
-            strokeDasharray="2,3"
-            vectorEffect="non-scaling-stroke"
-          />
-        ))}
+        {/* Grid lines with population labels */}
+        {[0.25, 0.5, 0.75, 1].map((ratio) => {
+          const popValue = Math.round(maxPop * ratio)
+          const yPos = getY(maxPop * ratio)
+          return (
+            <g key={ratio}>
+              <line
+                x1="0"
+                y1={yPos}
+                x2="100"
+                y2={yPos}
+                stroke="#2D5A27"
+                strokeOpacity="0.12"
+                strokeWidth="0.2"
+                strokeDasharray="2,3"
+                vectorEffect="non-scaling-stroke"
+              />
+              <text
+                x="-2"
+                y={yPos}
+                textAnchor="end"
+                alignmentBaseline="middle"
+                className="fill-forest-600 font-sans"
+                style={{ fontSize: '3px', fontWeight: 600 }}
+              >
+                {(popValue / 1000).toFixed(0)}k
+              </text>
+            </g>
+          )
+        })}
 
         {/* Area fill */}
         <motion.path
@@ -242,17 +258,43 @@ function InteractiveChart({ data, activeYear, hoveredYear, onYearClick, onYearHo
                 transition={{ delay: shouldReduceMotion ? 0 : 0.5 + i * 0.04, duration: 0.3 }}
               />
 
-              {/* Year labels */}
-              {row.year % 20 === 0 && (
+              {/* Year labels - every 10 years */}
+              {row.year % 10 === 0 && (
                 <text
                   x={x}
                   y={chartHeight - 15}
                   textAnchor="middle"
-                  className="fill-charcoal-500 font-sans"
-                  style={{ fontSize: '3.5px', fontWeight: 600 }}
+                  className={cn(
+                    "font-sans",
+                    row.year === activeYear ? "fill-forest-700 font-bold" : "fill-charcoal-500 font-semibold"
+                  )}
+                  style={{ fontSize: row.year === activeYear ? '4px' : '3.5px' }}
                 >
                   {row.year}
                 </text>
+              )}
+              
+              {/* Growth indicator arrows for significant changes */}
+              {i > 0 && Math.abs(row.city - data[i-1].city) > 1000 && (
+                <motion.g
+                  initial={{ opacity: 0, y: 5 }}
+                  animate={isInView ? { opacity: 0.6, y: 0 } : { opacity: 0, y: 5 }}
+                  transition={{ delay: shouldReduceMotion ? 0 : 0.8 + i * 0.03 }}
+                >
+                  {row.city > data[i-1].city ? (
+                    <path
+                      d={`M ${x},${y - 8} L ${x - 1},${y - 6} L ${x + 1},${y - 6} Z`}
+                      fill="#2D5A27"
+                      opacity="0.5"
+                    />
+                  ) : (
+                    <path
+                      d={`M ${x},${y + 8} L ${x - 1},${y + 6} L ${x + 1},${y + 6} Z`}
+                      fill="#A0522D"
+                      opacity="0.5"
+                    />
+                  )}
+                </motion.g>
               )}
             </g>
           )
@@ -631,8 +673,14 @@ export function AuburnDataTeaser() {
     if (chapterIndex !== -1) setActiveChapterIndex(chapterIndex)
   }, [chapters])
 
-  const goToPrevious = () => activeChapterIndex > 0 && handleChapterSelect(activeChapterIndex - 1)
-  const goToNext = () => activeChapterIndex < chapters.length - 1 && handleChapterSelect(activeChapterIndex + 1)
+  const goToPrevious = (e: React.MouseEvent) => {
+    e.preventDefault()
+    if (activeChapterIndex > 0) handleChapterSelect(activeChapterIndex - 1)
+  }
+  const goToNext = (e: React.MouseEvent) => {
+    e.preventDefault()
+    if (activeChapterIndex < chapters.length - 1) handleChapterSelect(activeChapterIndex + 1)
+  }
 
   return (
     <section
@@ -698,7 +746,92 @@ export function AuburnDataTeaser() {
 
           {/* Main data card */}
           <div className="bg-white rounded-2xl border-2 border-forest-200 overflow-hidden shadow-xl">
-            <div className="grid lg:grid-cols-5 divide-y lg:divide-y-0 lg:divide-x divide-forest-100">
+            {/* MOBILE: Stacked layout */}
+            <div className="lg:hidden">
+              {/* Chart */}
+              <div className="p-4 bg-gradient-to-br from-cream-50 to-white border-b-2 border-forest-100">
+                <InteractiveChart
+                  data={data}
+                  activeYear={activeYear}
+                  hoveredYear={hoveredYear}
+                  onYearClick={handleYearSelect}
+                  onYearHover={setHoveredYear}
+                />
+              </div>
+              
+              {/* Stats */}
+              <div className="p-4 bg-white border-b-2 border-forest-100">
+                <StatsPanel data={data} activeYear={activeYear} />
+              </div>
+              
+              {/* Chapters */}
+              <div className="p-4 bg-white">
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center gap-2">
+                    <Calendar className="w-4 h-4 text-forest-600" />
+                    <span className="text-sm font-bold text-charcoal-700">
+                      Era {activeChapterIndex + 1} of {chapters.length}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <button
+                      onClick={goToPrevious}
+                      disabled={activeChapterIndex === 0}
+                      type="button"
+                      className={cn(
+                        "p-2 rounded-lg transition-all",
+                        "focus:outline-none focus:ring-2 focus:ring-forest-500",
+                        activeChapterIndex === 0
+                          ? "text-charcoal-300 cursor-not-allowed"
+                          : "text-charcoal-600 hover:text-forest-600 hover:bg-forest-50"
+                      )}
+                      aria-label="Previous era"
+                    >
+                      <ChevronLeft className="w-4 h-4" />
+                    </button>
+                    <button
+                      onClick={goToNext}
+                      disabled={activeChapterIndex === chapters.length - 1}
+                      type="button"
+                      className={cn(
+                        "p-2 rounded-lg transition-all",
+                        "focus:outline-none focus:ring-2 focus:ring-forest-500",
+                        activeChapterIndex === chapters.length - 1
+                          ? "text-charcoal-300 cursor-not-allowed"
+                          : "text-charcoal-600 hover:text-forest-600 hover:bg-forest-50"
+                      )}
+                      aria-label="Next era"
+                    >
+                      <ChevronRight className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
+
+                <div className="mb-4">
+                  <ChapterSelector
+                    chapters={chapters}
+                    activeIndex={activeChapterIndex}
+                    onSelect={handleChapterSelect}
+                  />
+                </div>
+
+                <div className="mb-4">
+                  <div className="text-xs font-bold text-forest-600 uppercase tracking-widest mb-1">
+                    {activeChapter.startYear}–{activeChapter.endYear}
+                  </div>
+                  <h3 className="text-xl font-display font-bold text-charcoal-900">
+                    {activeChapter.title}
+                  </h3>
+                </div>
+
+                <AnimatePresence mode="wait">
+                  <ChapterPanel key={activeChapter.id} chapter={activeChapter} />
+                </AnimatePresence>
+              </div>
+            </div>
+
+            {/* DESKTOP: Side-by-side layout */}
+            <div className="hidden lg:grid lg:grid-cols-5 divide-x divide-forest-100">
               
               {/* LEFT: Chart & Stats */}
               <div className="lg:col-span-3 p-6 md:p-8 bg-gradient-to-br from-cream-50 to-white">
@@ -728,6 +861,7 @@ export function AuburnDataTeaser() {
                     <button
                       onClick={goToPrevious}
                       disabled={activeChapterIndex === 0}
+                      type="button"
                       className={cn(
                         "p-2 rounded-lg transition-all",
                         "focus:outline-none focus:ring-2 focus:ring-forest-500",
@@ -742,6 +876,7 @@ export function AuburnDataTeaser() {
                     <button
                       onClick={goToNext}
                       disabled={activeChapterIndex === chapters.length - 1}
+                      type="button"
                       className={cn(
                         "p-2 rounded-lg transition-all",
                         "focus:outline-none focus:ring-2 focus:ring-forest-500",
@@ -783,12 +918,14 @@ export function AuburnDataTeaser() {
             </div>
           </div>
 
-          {/* Decade jumper */}
-          <DecadeJumper 
-            data={data} 
-            activeYear={activeYear} 
-            onYearSelect={handleYearSelect}
-          />
+          {/* Decade jumper - hidden on mobile */}
+          <div className="hidden md:block">
+              <DecadeJumper 
+              data={data} 
+              activeYear={activeYear} 
+              onYearSelect={handleYearSelect}
+            />
+          </div>
         </motion.div>
 
         {/* Source attribution */}
