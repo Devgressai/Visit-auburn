@@ -64,9 +64,5 @@ export type {
   CompareMode,
   TimeSeriesPoint,
   SeriesData,
-  StoryStoreState,
-  StoryStoreActions,
-  StoryStoreSelectors,
-  StoryStoreContextType,
 } from './storyStore'
 

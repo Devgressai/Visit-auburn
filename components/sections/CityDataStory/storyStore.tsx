@@ -459,15 +459,10 @@ export function useCompareMode() {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
-// TYPE EXPORTS
+// TYPE EXPORTS (Re-export for convenience - types already exported above)
 // ═══════════════════════════════════════════════════════════════════════════
 
-export type {
-  StoryStoreState,
-  StoryStoreActions,
-  StoryStoreSelectors,
-  StoryStoreContextType,
-  TimeSeriesPoint,
-  SeriesData,
-}
+// Note: TimeSeriesPoint and SeriesData are already exported with their definitions above.
+// StoryStoreState, StoryStoreActions, StoryStoreSelectors, StoryStoreContextType 
+// are also exported above. No need to re-export.
 

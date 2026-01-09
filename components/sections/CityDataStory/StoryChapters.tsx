@@ -69,7 +69,7 @@ export function StoryChapters({
   
   // Track if user is manually scrubbing (disables auto-activation temporarily)
   const [isManualScrubbing, setIsManualScrubbing] = useState(false)
-  const manualScrubbingTimeoutRef = useRef<NodeJS.Timeout>()
+  const manualScrubbingTimeoutRef = useRef<NodeJS.Timeout | null>(null)
   
   // Refs for each chapter card (for IntersectionObserver)
   const cardRefs = useRef<Map<string, HTMLElement>>(new Map())
@@ -154,8 +154,9 @@ export function StoryChapters({
         })
 
         // Activate the most visible chapter
-        if (mostVisibleEntry) {
-          const chapterId = mostVisibleEntry.target.getAttribute('data-chapter-id')
+        if (mostVisibleEntry !== null) {
+          const entry = mostVisibleEntry as IntersectionObserverEntry
+          const chapterId = entry.target.getAttribute('data-chapter-id')
           const chapter = chapters.find(c => c.id === chapterId)
           
           if (chapter) {
