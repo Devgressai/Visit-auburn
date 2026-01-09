@@ -134,6 +134,21 @@ export function Footer() {
               </Link>
             </div>
           </div>
+          
+          {/* Webvello Credit */}
+          <div className="mt-6 pt-6 border-t border-gray-800/50 text-center">
+            <p className="text-xs text-gray-500">
+              Designed, Developed & Managed by{' '}
+              <a 
+                href="https://webvello.com" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-gray-400 hover:text-white transition-colors font-medium"
+              >
+                Webvello.com
+              </a>
+            </p>
+          </div>
         </div>
       </div>
     </footer>
