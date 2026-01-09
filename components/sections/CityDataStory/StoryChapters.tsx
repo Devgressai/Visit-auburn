@@ -230,12 +230,12 @@ export function StoryChapters({
   return (
     <div className={`space-y-6 ${className}`}>
       {/* Reset Control */}
-      <div className="flex items-center justify-between mb-8">
-        <div>
-          <h3 className="text-xl font-bold text-white font-display">
+      <div className="flex items-center justify-between gap-4 mb-8">
+        <div className="flex-1 min-w-0">
+          <h3 className="text-2xl font-bold text-white font-display tracking-tight">
             Auburn Through Time
           </h3>
-          <p className="text-sm text-text-muted mt-1">
+          <p className="text-sm text-white/70 mt-1.5">
             Explore chapters in our city&apos;s story
           </p>
         </div>
@@ -243,13 +243,15 @@ export function StoryChapters({
         <button
           onClick={handleReset}
           className="
-            px-4 py-2 rounded-full
-            bg-white/5 border border-white/20
-            text-sm font-medium text-white
-            hover:bg-white/10 hover:border-white/30
-            focus:outline-none focus:ring-2 focus:ring-pine-500 focus:ring-offset-2 focus:ring-offset-charcoal-800
+            flex-shrink-0
+            px-5 py-2.5 rounded-full
+            bg-white/5 border-2 border-white/20
+            text-sm font-semibold text-white
+            hover:bg-white/10 hover:border-white/30 hover:shadow-lg
+            focus:outline-none focus:ring-2 focus:ring-pine-400 focus:ring-offset-2 focus:ring-offset-charcoal-900
+            active:scale-95
             transition-all duration-200
-            min-h-[40px]
+            min-h-[44px] min-w-[120px]
           "
           aria-label="Reset to start of story"
         >
@@ -275,16 +277,17 @@ export function StoryChapters({
               aria-label={`${chapter.title}, ${chapter.startYear} to ${chapter.endYear}`}
               className={`
                 group relative
-                p-6 rounded-2xl
-                border-2 transition-all duration-300
+                p-6 md:p-8 rounded-2xl
+                border-2 transition-all duration-300 ease-out
                 cursor-pointer
                 
                 ${isActive 
-                  ? 'bg-pine-500/10 border-pine-500 shadow-glow-pine' 
-                  : 'bg-white/5 border-white/10 hover:border-white/30 hover:bg-white/10'
+                  ? 'bg-pine-500/10 border-pine-500 shadow-glow-pine ring-2 ring-pine-500/30' 
+                  : 'bg-white/5 border-white/10 hover:border-white/30 hover:bg-white/[0.08] hover:shadow-lg'
                 }
                 
-                focus:outline-none focus:ring-2 focus:ring-pine-400 focus:ring-offset-2 focus:ring-offset-charcoal-800
+                focus:outline-none focus:ring-2 focus:ring-pine-400 focus:ring-offset-2 focus:ring-offset-charcoal-900
+                active:scale-[0.99]
               `}
             >
               {/* Active Indicator */}
@@ -296,24 +299,24 @@ export function StoryChapters({
               )}
 
               {/* Content */}
-              <div className={`${isActive ? 'pl-4' : ''}`}>
+              <div className={`transition-all duration-300 ${isActive ? 'pl-4' : ''}`}>
                 {/* Header: Title + Year Range */}
-                <div className="flex items-start justify-between gap-4 mb-3">
+                <div className="flex items-start justify-between gap-4 mb-4">
                   <h4 className={`
-                    font-display font-bold text-2xl
+                    font-display font-bold text-2xl md:text-3xl leading-tight
                     transition-colors duration-200
-                    ${isActive ? 'text-pine-400' : 'text-white group-hover:text-pine-300'}
+                    ${isActive ? 'text-pine-300' : 'text-white group-hover:text-pine-200'}
                   `}>
                     {chapter.title}
                   </h4>
                   
                   <div className={`
-                    flex-shrink-0 px-3 py-1 rounded-full
-                    text-xs font-medium tracking-wide
-                    transition-colors duration-200
+                    flex-shrink-0 px-3 py-1.5 rounded-full
+                    text-xs font-semibold tracking-wider uppercase
+                    transition-all duration-200
                     ${isActive 
-                      ? 'bg-pine-500/20 text-pine-300 border border-pine-500/30' 
-                      : 'bg-white/10 text-text-muted border border-white/10'
+                      ? 'bg-pine-500/25 text-pine-200 border-2 border-pine-400/40 shadow-lg' 
+                      : 'bg-white/10 text-white/60 border border-white/20 group-hover:bg-white/15 group-hover:border-white/30'
                     }
                   `}>
                     {chapter.startYear}–{chapter.endYear}
@@ -322,67 +325,67 @@ export function StoryChapters({
 
                 {/* Takeaway (Bold) */}
                 <p className={`
-                  text-base font-semibold mb-3
+                  text-base md:text-lg font-bold mb-3 leading-snug
                   transition-colors duration-200
-                  ${isActive ? 'text-white' : 'text-text-primary group-hover:text-white'}
+                  ${isActive ? 'text-white' : 'text-white/90 group-hover:text-white'}
                 `}>
                   {chapter.takeaway}
                 </p>
 
                 {/* Detail Text */}
                 <p className={`
-                  text-sm leading-relaxed mb-4
+                  text-sm md:text-base leading-relaxed mb-5
                   transition-colors duration-200
-                  ${isActive ? 'text-text-muted' : 'text-text-subtle group-hover:text-text-muted'}
+                  ${isActive ? 'text-white/70' : 'text-white/60 group-hover:text-white/70'}
                 `}>
                   {chapter.detail}
                 </p>
 
                 {/* Metric Highlights (Chips) */}
                 {chapter.metricHighlights.length > 0 && (
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex flex-wrap gap-2.5">
                     {chapter.metricHighlights.map((metric, index) => (
                       <div
                         key={index}
                         className={`
-                          px-3 py-1.5 rounded-full
-                          text-xs font-medium
+                          px-3.5 py-2 rounded-full
+                          text-xs font-semibold
                           transition-all duration-200
                           ${isActive
-                            ? 'bg-pine-500/15 text-pine-300 border border-pine-500/30'
-                            : 'bg-white/5 text-text-muted border border-white/10 group-hover:bg-white/10 group-hover:border-white/20'
+                            ? 'bg-pine-500/20 text-pine-200 border-2 border-pine-400/40 shadow-md'
+                            : 'bg-white/[0.08] text-white/70 border border-white/20 group-hover:bg-white/[0.12] group-hover:border-white/30 group-hover:text-white/80'
                           }
                         `}
                         title={metric.note}
                       >
-                        <span className="font-semibold">{metric.label}:</span>{' '}
-                        {metric.value}
+                        <span className="font-bold">{metric.label}:</span>{' '}
+                        <span className="font-medium">{metric.value}</span>
                       </div>
                     ))}
                   </div>
                 )}
               </div>
 
-              {/* Hover Indicator (Arrow) */}
+              {/* Active/Hover Indicator (Arrow) */}
               <div className={`
-                absolute right-6 top-1/2 -translate-y-1/2
-                transition-all duration-200
+                absolute right-6 md:right-8 top-1/2 -translate-y-1/2
+                transition-all duration-300 ease-out
                 ${isActive 
-                  ? 'opacity-100 translate-x-0' 
-                  : 'opacity-0 translate-x-2 group-hover:opacity-50 group-hover:translate-x-0'
+                  ? 'opacity-100 translate-x-0 scale-110' 
+                  : 'opacity-0 translate-x-3 scale-90 group-hover:opacity-40 group-hover:translate-x-0 group-hover:scale-100'
                 }
               `}>
                 <svg 
-                  className="w-6 h-6 text-pine-400" 
+                  className={`w-7 h-7 transition-colors duration-200 ${isActive ? 'text-pine-300' : 'text-white'}`}
                   fill="none" 
                   viewBox="0 0 24 24" 
                   stroke="currentColor"
+                  strokeWidth={2.5}
                   aria-hidden="true"
                 >
                   <path 
                     strokeLinecap="round" 
                     strokeLinejoin="round" 
-                    strokeWidth={2} 
                     d="M9 5l7 7-7 7" 
                   />
                 </svg>
