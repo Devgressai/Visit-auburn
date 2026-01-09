@@ -1,11 +1,10 @@
 'use client'
 
 /**
- * Auburn Data Section - Homepage (Expert Level)
+ * Auburn Data Section - Homepage
  * 
- * A visually striking, interactive data experience using the
- * Sierra Gold Country color palette. Sharp design with proper
- * contrast, engaging microinteractions, and expert-level polish.
+ * Matches the site's light, warm aesthetic with cream/white backgrounds
+ * while maintaining sharp, engaging design with the Gold Country palette.
  */
 
 import { useState, useMemo, useCallback, useEffect, useRef } from 'react'
@@ -86,7 +85,6 @@ function InteractiveChart({ data, activeYear, hoveredYear, onYearClick, onYearHo
   }
   const getX = (index: number) => (index / (data.length - 1)) * 100
 
-  // Generate smooth curve path
   const linePath = useMemo(() => {
     const points = data.map((d, i) => `${getX(i)},${getY(d.city)}`)
     return `M ${points.join(' L ')}`
@@ -107,14 +105,10 @@ function InteractiveChart({ data, activeYear, hoveredYear, onYearClick, onYearHo
         aria-label="Auburn population growth chart 1900-2020"
       >
         <defs>
-          {/* Gold gradient for area fill */}
           <linearGradient id="goldAreaGradient" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#D4A017" stopOpacity="0.4" />
-            <stop offset="50%" stopColor="#D4A017" stopOpacity="0.15" />
-            <stop offset="100%" stopColor="#D4A017" stopOpacity="0" />
+            <stop offset="0%" stopColor="#D4A017" stopOpacity="0.25" />
+            <stop offset="100%" stopColor="#D4A017" stopOpacity="0.05" />
           </linearGradient>
-          
-          {/* Glow filter for active point */}
           <filter id="goldGlow" x="-50%" y="-50%" width="200%" height="200%">
             <feGaussianBlur stdDeviation="1" result="coloredBlur"/>
             <feMerge>
@@ -124,24 +118,23 @@ function InteractiveChart({ data, activeYear, hoveredYear, onYearClick, onYearHo
           </filter>
         </defs>
 
-        {/* Horizontal grid lines with labels */}
+        {/* Grid lines */}
         {[0.25, 0.5, 0.75, 1].map((ratio) => (
-          <g key={ratio}>
-            <line
-              x1="0"
-              y1={getY(maxPop * ratio)}
-              x2="100"
-              y2={getY(maxPop * ratio)}
-              stroke="#D4A017"
-              strokeOpacity="0.15"
-              strokeWidth="0.2"
-              strokeDasharray="1,2"
-              vectorEffect="non-scaling-stroke"
-            />
-          </g>
+          <line
+            key={ratio}
+            x1="0"
+            y1={getY(maxPop * ratio)}
+            x2="100"
+            y2={getY(maxPop * ratio)}
+            stroke="#D4A017"
+            strokeOpacity="0.12"
+            strokeWidth="0.2"
+            strokeDasharray="1,2"
+            vectorEffect="non-scaling-stroke"
+          />
         ))}
 
-        {/* Animated area fill */}
+        {/* Area fill */}
         <motion.path
           d={areaPath}
           fill="url(#goldAreaGradient)"
@@ -155,7 +148,7 @@ function InteractiveChart({ data, activeYear, hoveredYear, onYearClick, onYearHo
           d={linePath}
           fill="none"
           stroke="#D4A017"
-          strokeWidth="0.6"
+          strokeWidth="0.7"
           strokeLinecap="round"
           strokeLinejoin="round"
           vectorEffect="non-scaling-stroke"
@@ -174,7 +167,6 @@ function InteractiveChart({ data, activeYear, hoveredYear, onYearClick, onYearHo
 
           return (
             <g key={row.year}>
-              {/* Hover zone */}
               <rect
                 x={x - 5}
                 y={0}
@@ -190,7 +182,6 @@ function InteractiveChart({ data, activeYear, hoveredYear, onYearClick, onYearHo
                 aria-label={`${row.year}: ${row.city.toLocaleString()} residents`}
               />
 
-              {/* Vertical indicator on hover/active */}
               {(isActive || isHovered) && (
                 <line
                   x1={x}
@@ -199,12 +190,11 @@ function InteractiveChart({ data, activeYear, hoveredYear, onYearClick, onYearHo
                   y2={chartHeight - padding.bottom}
                   stroke={isActive ? "#D4A017" : "#B8860B"}
                   strokeWidth="0.3"
-                  strokeOpacity={isActive ? 0.8 : 0.4}
+                  strokeOpacity={isActive ? 0.6 : 0.3}
                   vectorEffect="non-scaling-stroke"
                 />
               )}
 
-              {/* Data point */}
               <motion.circle
                 cx={x}
                 cy={y}
@@ -216,13 +206,12 @@ function InteractiveChart({ data, activeYear, hoveredYear, onYearClick, onYearHo
                 transition={{ delay: shouldReduceMotion ? 0 : 0.5 + i * 0.04, duration: 0.3 }}
               />
 
-              {/* Year labels */}
               {row.year % 20 === 0 && (
                 <text
                   x={x}
                   y={chartHeight - 15}
                   textAnchor="middle"
-                  className="fill-charcoal-400 font-sans"
+                  className="fill-charcoal-500 font-sans"
                   style={{ fontSize: '3.5px', fontWeight: 500 }}
                 >
                   {row.year}
@@ -233,7 +222,7 @@ function InteractiveChart({ data, activeYear, hoveredYear, onYearClick, onYearHo
         })}
       </svg>
 
-      {/* Floating tooltip */}
+      {/* Tooltip */}
       <AnimatePresence>
         {(hoveredYear || activeYear) && (
           <motion.div
@@ -249,7 +238,7 @@ function InteractiveChart({ data, activeYear, hoveredYear, onYearClick, onYearHo
               transform: 'translateX(-50%)',
             }}
           >
-            <div className="bg-charcoal-800 border border-gold-500/30 text-white px-3 py-1.5 rounded-lg shadow-lg shadow-gold-500/10">
+            <div className="bg-charcoal-900 border-2 border-gold-500 text-white px-3 py-1.5 rounded-lg shadow-xl">
               <div className="text-gold-400 font-display font-bold text-sm">
                 {hoveredYear || activeYear}
               </div>
@@ -268,12 +257,7 @@ function InteractiveChart({ data, activeYear, hoveredYear, onYearClick, onYearHo
 // STATS PANEL
 // ═══════════════════════════════════════════════════════════════════════════
 
-interface StatsPanelProps {
-  data: CityThroughTimeRow[]
-  activeYear: number
-}
-
-function StatsPanel({ data, activeYear }: StatsPanelProps) {
+function StatsPanel({ data, activeYear }: { data: CityThroughTimeRow[], activeYear: number }) {
   const ref = useRef<HTMLDivElement>(null)
   const isInView = useInView(ref, { once: true })
   
@@ -289,51 +273,51 @@ function StatsPanel({ data, activeYear }: StatsPanelProps) {
 
   return (
     <div ref={ref} className="grid grid-cols-2 gap-4">
-      {/* Population stat */}
+      {/* Population */}
       <div className="relative group">
-        <div className="absolute inset-0 bg-gradient-to-br from-gold-500/20 to-gold-600/10 rounded-xl blur-sm group-hover:blur-md transition-all" />
-        <div className="relative bg-charcoal-800/80 backdrop-blur-sm rounded-xl p-5 border border-gold-500/20 group-hover:border-gold-500/40 transition-colors">
+        <div className="absolute inset-0 bg-gradient-to-br from-gold-100 to-gold-50 rounded-xl opacity-60 group-hover:opacity-100 transition-opacity" />
+        <div className="relative bg-white rounded-xl p-5 border-2 border-gold-200 group-hover:border-gold-400 transition-colors shadow-sm">
           <div className="flex items-center gap-2 mb-2">
-            <Users className="w-4 h-4 text-gold-400" />
-            <span className="text-xs font-medium text-gold-400/80 uppercase tracking-wider">Population</span>
+            <Users className="w-4 h-4 text-gold-600" />
+            <span className="text-xs font-bold text-gold-600 uppercase tracking-wider">Population</span>
           </div>
-          <div className="text-3xl md:text-4xl font-display font-bold text-white tabular-nums">
+          <div className="text-3xl md:text-4xl font-display font-bold text-charcoal-900 tabular-nums">
             {population.toLocaleString()}
           </div>
-          <div className="text-xs text-charcoal-400 mt-1 font-medium">
+          <div className="text-xs text-charcoal-500 mt-1 font-medium">
             Year {activeRow?.year}
           </div>
         </div>
       </div>
       
-      {/* Growth stat */}
+      {/* Growth */}
       <div className="relative group">
         <div className={cn(
-          "absolute inset-0 rounded-xl blur-sm group-hover:blur-md transition-all",
-          isPositive ? "bg-gradient-to-br from-forest-500/20 to-forest-600/10" : "bg-gradient-to-br from-rust-500/20 to-rust-600/10"
+          "absolute inset-0 rounded-xl opacity-60 group-hover:opacity-100 transition-opacity",
+          isPositive ? "bg-gradient-to-br from-forest-100 to-forest-50" : "bg-gradient-to-br from-rust-100 to-rust-50"
         )} />
         <div className={cn(
-          "relative bg-charcoal-800/80 backdrop-blur-sm rounded-xl p-5 border transition-colors",
-          isPositive ? "border-forest-500/20 group-hover:border-forest-500/40" : "border-rust-500/20 group-hover:border-rust-500/40"
+          "relative bg-white rounded-xl p-5 border-2 transition-colors shadow-sm",
+          isPositive ? "border-forest-200 group-hover:border-forest-400" : "border-rust-200 group-hover:border-rust-400"
         )}>
           <div className="flex items-center gap-2 mb-2">
             {isPositive ? (
-              <TrendingUp className="w-4 h-4 text-forest-400" />
+              <TrendingUp className="w-4 h-4 text-forest-600" />
             ) : (
-              <TrendingDown className="w-4 h-4 text-rust-400" />
+              <TrendingDown className="w-4 h-4 text-rust-600" />
             )}
             <span className={cn(
-              "text-xs font-medium uppercase tracking-wider",
-              isPositive ? "text-forest-400/80" : "text-rust-400/80"
+              "text-xs font-bold uppercase tracking-wider",
+              isPositive ? "text-forest-600" : "text-rust-600"
             )}>Growth</span>
           </div>
           <div className={cn(
             "text-3xl md:text-4xl font-display font-bold tabular-nums",
-            growth === null ? "text-charcoal-500" : isPositive ? "text-forest-400" : "text-rust-400"
+            growth === null ? "text-charcoal-400" : isPositive ? "text-forest-600" : "text-rust-600"
           )}>
             {growth !== null ? `${isPositive ? '+' : ''}${growth.toFixed(0)}%` : '—'}
           </div>
-          <div className="text-xs text-charcoal-400 mt-1 font-medium">
+          <div className="text-xs text-charcoal-500 mt-1 font-medium">
             {previousRow ? `Since ${previousRow.year}` : 'Baseline'}
           </div>
         </div>
@@ -346,13 +330,7 @@ function StatsPanel({ data, activeYear }: StatsPanelProps) {
 // CHAPTER SELECTOR
 // ═══════════════════════════════════════════════════════════════════════════
 
-interface ChapterSelectorProps {
-  chapters: StoryChapter[]
-  activeIndex: number
-  onSelect: (index: number) => void
-}
-
-function ChapterSelector({ chapters, activeIndex, onSelect }: ChapterSelectorProps) {
+function ChapterSelector({ chapters, activeIndex, onSelect }: { chapters: StoryChapter[], activeIndex: number, onSelect: (i: number) => void }) {
   const shouldReduceMotion = useReducedMotion()
   const scrollRef = useRef<HTMLDivElement>(null)
 
@@ -378,10 +356,10 @@ function ChapterSelector({ chapters, activeIndex, onSelect }: ChapterSelectorPro
           className={cn(
             "relative flex-shrink-0 px-4 py-2.5 rounded-lg text-sm font-semibold whitespace-nowrap snap-start",
             "transition-all duration-200 ease-out",
-            "focus:outline-none focus:ring-2 focus:ring-gold-500 focus:ring-offset-2 focus:ring-offset-charcoal-900",
+            "focus:outline-none focus:ring-2 focus:ring-gold-500 focus:ring-offset-2",
             activeIndex === index
-              ? "bg-gradient-to-r from-gold-500 to-gold-600 text-charcoal-900 shadow-lg shadow-gold-500/25"
-              : "bg-charcoal-700/50 text-charcoal-300 hover:bg-charcoal-700 hover:text-white border border-charcoal-600/50"
+              ? "bg-gradient-to-r from-gold-500 to-gold-600 text-white shadow-lg shadow-gold-500/20"
+              : "bg-cream-100 text-charcoal-700 hover:bg-cream-200 border border-charcoal-200"
           )}
         >
           <span className="opacity-70 mr-1.5">{chapter.startYear}–</span>
@@ -407,32 +385,31 @@ function ChapterPanel({ chapter }: { chapter: StoryChapter }) {
       transition={{ duration: shouldReduceMotion ? 0 : 0.25 }}
       className="space-y-4"
     >
-      {/* Takeaway callout */}
-      <div className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-forest-500/20 to-transparent rounded-xl" />
-        <div className="relative flex items-start gap-3 p-4 border border-forest-500/30 rounded-xl bg-charcoal-800/50">
-          <Sparkles className="w-5 h-5 text-forest-400 flex-shrink-0 mt-0.5" />
-          <p className="text-sm text-white/90 font-medium leading-relaxed">
+      {/* Takeaway */}
+      <div className="relative overflow-hidden rounded-xl border-2 border-forest-200 bg-gradient-to-br from-forest-50 to-white p-4">
+        <div className="flex items-start gap-3">
+          <Sparkles className="w-5 h-5 text-forest-600 flex-shrink-0 mt-0.5" />
+          <p className="text-sm text-charcoal-800 font-medium leading-relaxed">
             {chapter.takeaway}
           </p>
         </div>
       </div>
 
-      {/* Metric cards */}
+      {/* Metrics */}
       <div className="grid grid-cols-2 gap-3">
         {chapter.metricHighlights.slice(0, 2).map((metric, i) => (
           <div 
             key={i}
-            className="p-4 rounded-xl bg-charcoal-700/50 border border-charcoal-600/50 hover:border-gold-500/30 transition-colors"
+            className="p-4 rounded-xl bg-gradient-to-br from-cream-100 to-white border-2 border-gold-200 hover:border-gold-400 transition-colors"
           >
-            <div className="text-2xl font-display font-bold text-gold-400 mb-1">
+            <div className="text-2xl font-display font-bold text-gold-600 mb-1">
               {metric.value}
             </div>
-            <div className="text-xs font-semibold text-white/80 uppercase tracking-wide">
+            <div className="text-xs font-bold text-charcoal-700 uppercase tracking-wide">
               {metric.label}
             </div>
             {metric.note && (
-              <div className="text-xs text-charcoal-400 mt-1">
+              <div className="text-xs text-charcoal-500 mt-1">
                 {metric.note}
               </div>
             )}
@@ -470,38 +447,10 @@ export function AuburnDataTeaser() {
   return (
     <section
       ref={sectionRef}
-      className="relative py-20 md:py-28 overflow-hidden"
+      className="py-20 md:py-28 bg-cream-50"
       aria-labelledby="data-story-heading"
     >
-      {/* Background layers */}
-      <div className="absolute inset-0 bg-charcoal-900" />
-      <div className="absolute inset-0 bg-gradient-to-br from-charcoal-800 via-charcoal-900 to-forest-900/30" />
-      
-      {/* Decorative elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
-        {/* Subtle grid */}
-        <div 
-          className="absolute inset-0 opacity-[0.02]"
-          style={{
-            backgroundImage: `linear-gradient(#D4A017 1px, transparent 1px), linear-gradient(90deg, #D4A017 1px, transparent 1px)`,
-            backgroundSize: '60px 60px',
-          }}
-        />
-        
-        {/* Glowing orbs */}
-        <motion.div 
-          className="absolute top-1/4 -left-32 w-96 h-96 bg-gold-500/8 rounded-full blur-3xl"
-          animate={{ opacity: [0.5, 0.8, 0.5] }}
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-        />
-        <motion.div 
-          className="absolute bottom-1/4 -right-32 w-80 h-80 bg-forest-500/10 rounded-full blur-3xl"
-          animate={{ opacity: [0.4, 0.7, 0.4] }}
-          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-        />
-      </div>
-
-      <div className="container relative mx-auto px-4">
+      <div className="container mx-auto px-4">
         {/* Header */}
         <motion.div 
           className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10"
@@ -510,20 +459,20 @@ export function AuburnDataTeaser() {
           transition={{ duration: shouldReduceMotion ? 0 : 0.6 }}
         >
           <div className="flex items-start gap-4">
-            <div className="p-3 rounded-2xl bg-gradient-to-br from-gold-500 to-gold-600 shadow-lg shadow-gold-500/25">
-              <Mountain className="w-7 h-7 text-charcoal-900" />
+            <div className="p-3 rounded-2xl bg-gradient-to-br from-gold-500 to-gold-600 shadow-lg shadow-gold-500/20">
+              <Mountain className="w-7 h-7 text-white" />
             </div>
             <div>
-              <p className="text-gold-400 text-sm font-semibold uppercase tracking-widest mb-2">
+              <p className="text-gold-600 text-sm font-bold uppercase tracking-widest mb-2">
                 Gold Country Data
               </p>
               <h2 
                 id="data-story-heading"
-                className="text-3xl md:text-4xl lg:text-5xl font-display font-bold text-white"
+                className="text-3xl md:text-4xl lg:text-5xl font-display font-bold text-charcoal-900"
               >
                 {cityName} Through Time
               </h2>
-              <p className="text-charcoal-400 mt-2 max-w-lg">
+              <p className="text-charcoal-600 mt-2 max-w-lg">
                 Interactive population data from 1900–2020. Click any point to explore.
               </p>
             </div>
@@ -533,9 +482,9 @@ export function AuburnDataTeaser() {
             href="/discover/auburn-data"
             className={cn(
               "inline-flex items-center gap-2 px-6 py-3 rounded-xl",
-              "bg-gradient-to-r from-gold-500 to-gold-600 text-charcoal-900 font-bold",
-              "hover:from-gold-400 hover:to-gold-500 hover:scale-105 hover:shadow-lg hover:shadow-gold-500/25",
-              "focus:outline-none focus:ring-2 focus:ring-gold-400 focus:ring-offset-2 focus:ring-offset-charcoal-900",
+              "bg-gradient-to-r from-gold-500 to-gold-600 text-white font-bold",
+              "hover:from-gold-600 hover:to-gold-700 hover:scale-105 hover:shadow-lg hover:shadow-gold-500/25",
+              "focus:outline-none focus:ring-2 focus:ring-gold-500 focus:ring-offset-2",
               "transition-all duration-200",
               "group"
             )}
@@ -552,14 +501,11 @@ export function AuburnDataTeaser() {
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
           transition={{ duration: shouldReduceMotion ? 0 : 0.6, delay: 0.2 }}
         >
-          {/* Card glow effect */}
-          <div className="absolute -inset-1 bg-gradient-to-r from-gold-500/20 via-transparent to-forest-500/20 rounded-3xl blur-xl opacity-50" />
-          
-          <div className="relative bg-charcoal-800/90 backdrop-blur-xl rounded-2xl border border-charcoal-700/50 overflow-hidden shadow-2xl">
-            <div className="grid lg:grid-cols-5 divide-y lg:divide-y-0 lg:divide-x divide-charcoal-700/50">
+          <div className="bg-white rounded-2xl border-2 border-gold-200 overflow-hidden shadow-xl">
+            <div className="grid lg:grid-cols-5 divide-y lg:divide-y-0 lg:divide-x divide-gold-100">
               
               {/* LEFT: Chart & Stats */}
-              <div className="lg:col-span-3 p-6 md:p-8">
+              <div className="lg:col-span-3 p-6 md:p-8 bg-gradient-to-br from-cream-50 to-white">
                 <div className="mb-6">
                   <InteractiveChart
                     data={data}
@@ -573,12 +519,12 @@ export function AuburnDataTeaser() {
               </div>
 
               {/* RIGHT: Chapters */}
-              <div className="lg:col-span-2 p-6 md:p-8 bg-charcoal-800/50">
-                {/* Chapter nav header */}
+              <div className="lg:col-span-2 p-6 md:p-8 bg-white">
+                {/* Nav header */}
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-2">
-                    <Calendar className="w-4 h-4 text-gold-500" />
-                    <span className="text-sm font-semibold text-charcoal-300">
+                    <Calendar className="w-4 h-4 text-gold-600" />
+                    <span className="text-sm font-bold text-charcoal-700">
                       Era {activeChapterIndex + 1} of {chapters.length}
                     </span>
                   </div>
@@ -590,8 +536,8 @@ export function AuburnDataTeaser() {
                         "p-2 rounded-lg transition-all",
                         "focus:outline-none focus:ring-2 focus:ring-gold-500",
                         activeChapterIndex === 0
-                          ? "text-charcoal-600 cursor-not-allowed"
-                          : "text-charcoal-400 hover:text-white hover:bg-charcoal-700"
+                          ? "text-charcoal-300 cursor-not-allowed"
+                          : "text-charcoal-600 hover:text-charcoal-900 hover:bg-cream-100"
                       )}
                       aria-label="Previous era"
                     >
@@ -604,8 +550,8 @@ export function AuburnDataTeaser() {
                         "p-2 rounded-lg transition-all",
                         "focus:outline-none focus:ring-2 focus:ring-gold-500",
                         activeChapterIndex === chapters.length - 1
-                          ? "text-charcoal-600 cursor-not-allowed"
-                          : "text-charcoal-400 hover:text-white hover:bg-charcoal-700"
+                          ? "text-charcoal-300 cursor-not-allowed"
+                          : "text-charcoal-600 hover:text-charcoal-900 hover:bg-cream-100"
                       )}
                       aria-label="Next era"
                     >
@@ -625,10 +571,10 @@ export function AuburnDataTeaser() {
 
                 {/* Chapter title */}
                 <div className="mb-5">
-                  <div className="text-xs font-bold text-gold-500 uppercase tracking-widest mb-1">
+                  <div className="text-xs font-bold text-gold-600 uppercase tracking-widest mb-1">
                     {activeChapter.startYear}–{activeChapter.endYear}
                   </div>
-                  <h3 className="text-2xl md:text-3xl font-display font-bold text-white">
+                  <h3 className="text-2xl md:text-3xl font-display font-bold text-charcoal-900">
                     {activeChapter.title}
                   </h3>
                 </div>
