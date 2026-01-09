@@ -80,14 +80,22 @@ function InteractiveChart({ data, activeYear, hoveredYear, onYearClick, onYearHo
   
   const maxPop = useMemo(() => Math.max(...data.map(d => d.city)), [data])
   const minPop = useMemo(() => Math.min(...data.map(d => d.city)), [data])
-  const chartHeight = 260
-  const padding = { top: 50, bottom: 45 }
+  const chartHeight = 280
+  const padding = { top: 60, bottom: 50 }
+  
+  // Add some padding to max for better visualization
+  const chartMaxPop = maxPop * 1.1
   
   const getY = (value: number) => {
-    const ratio = value / maxPop
+    const ratio = value / chartMaxPop
     return chartHeight - padding.bottom - (ratio * (chartHeight - padding.top - padding.bottom))
   }
-  const getX = (index: number) => (index / (data.length - 1)) * 100
+  const getX = (index: number) => {
+    // Add padding on sides for better visualization
+    const chartWidth = 96 // Leave 2% on each side
+    const startX = 2
+    return startX + (index / (data.length - 1)) * chartWidth
+  }
 
   const linePath = useMemo(() => {
     const points = data.map((d, i) => `${getX(i)},${getY(d.city)}`)
@@ -123,31 +131,31 @@ function InteractiveChart({ data, activeYear, hoveredYear, onYearClick, onYearHo
         </defs>
 
         {/* Grid lines with population labels */}
-        {[0.25, 0.5, 0.75, 1].map((ratio) => {
-          const popValue = Math.round(maxPop * ratio)
-          const yPos = getY(maxPop * ratio)
+        {[0, 0.25, 0.5, 0.75, 1].map((ratio) => {
+          const popValue = Math.round(chartMaxPop * ratio)
+          const yPos = getY(chartMaxPop * ratio)
           return (
             <g key={ratio}>
               <line
-                x1="0"
+                x1="2"
                 y1={yPos}
-                x2="100"
+                x2="98"
                 y2={yPos}
                 stroke="#2D5A27"
-                strokeOpacity="0.12"
-                strokeWidth="0.2"
-                strokeDasharray="2,3"
+                strokeOpacity={ratio === 0 ? 0.3 : 0.12}
+                strokeWidth={ratio === 0 ? 0.4 : 0.2}
+                strokeDasharray={ratio === 0 ? "0" : "2,3"}
                 vectorEffect="non-scaling-stroke"
               />
               <text
-                x="-2"
+                x="0"
                 y={yPos}
-                textAnchor="end"
+                textAnchor="start"
                 alignmentBaseline="middle"
-                className="fill-forest-600 font-sans"
-                style={{ fontSize: '3px', fontWeight: 600 }}
+                className="fill-forest-700 font-sans"
+                style={{ fontSize: '3.5px', fontWeight: 700 }}
               >
-                {(popValue / 1000).toFixed(0)}k
+                {(popValue / 1000).toFixed(1)}k
               </text>
             </g>
           )
@@ -186,37 +194,57 @@ function InteractiveChart({ data, activeYear, hoveredYear, onYearClick, onYearHo
 
           return (
             <g key={row.year}>
+              {/* Larger hover zone */}
               <rect
-                x={x - 5}
+                x={x - 6}
                 y={0}
-                width={10}
+                width={12}
                 height={chartHeight}
                 fill="transparent"
                 className="cursor-pointer"
                 onClick={() => onYearClick(row.year)}
                 onMouseEnter={() => onYearHover(row.year)}
                 onMouseLeave={() => onYearHover(null)}
+                onFocus={() => onYearHover(row.year)}
+                onBlur={() => onYearHover(null)}
                 tabIndex={0}
                 role="button"
                 aria-label={`${row.year}: ${row.city.toLocaleString()} residents${hasMilestone ? ` - ${row.milestoneTitle}` : ''}`}
               />
 
+              {/* Vertical indicator line */}
               {(isActive || isHovered) && (
-                <line
+                <motion.line
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
                   x1={x}
-                  y1={padding.top - 15}
+                  y1={padding.top - 10}
                   x2={x}
-                  y2={chartHeight - padding.bottom}
+                  y2={chartHeight - padding.bottom + 5}
                   stroke={isActive ? "#2D5A27" : "#47AF7F"}
-                  strokeWidth="0.4"
-                  strokeOpacity={isActive ? 0.7 : 0.4}
+                  strokeWidth="0.5"
+                  strokeOpacity={isActive ? 0.8 : 0.5}
                   strokeDasharray={isActive ? "0" : "2,2"}
                   vectorEffect="non-scaling-stroke"
                 />
               )}
 
-              {/* Milestone indicator */}
-              {hasMilestone && (
+              {/* Glow effect on hover/active */}
+              {(isActive || isHovered) && (
+                <motion.circle
+                  initial={{ scale: 0.8, opacity: 0 }}
+                  animate={{ scale: 1.5, opacity: 0 }}
+                  transition={{ duration: 0.6, repeat: Infinity }}
+                  cx={x}
+                  cy={y}
+                  r="3"
+                  fill={isActive ? "#2D5A27" : "#47AF7F"}
+                />
+              )}
+
+              {/* Milestone indicator with pulse */}
+              {hasMilestone && !isActive && !isHovered && (
                 <motion.g
                   initial={{ scale: 0, opacity: 0 }}
                   animate={isInView ? { scale: 1, opacity: 1 } : { scale: 0, opacity: 0 }}
@@ -224,54 +252,76 @@ function InteractiveChart({ data, activeYear, hoveredYear, onYearClick, onYearHo
                 >
                   <circle
                     cx={x}
-                    cy={y - 4}
-                    r="1.5"
+                    cy={y - 5}
+                    r="1.2"
                     fill="#D4A017"
                     stroke="#fff"
-                    strokeWidth="0.3"
+                    strokeWidth="0.4"
                     vectorEffect="non-scaling-stroke"
                   />
                   <motion.circle
                     cx={x}
-                    cy={y - 4}
-                    r="2.5"
+                    cy={y - 5}
+                    r="2"
                     fill="none"
                     stroke="#D4A017"
-                    strokeWidth="0.2"
-                    strokeOpacity="0.5"
+                    strokeWidth="0.3"
+                    strokeOpacity="0.6"
                     vectorEffect="non-scaling-stroke"
-                    animate={{ scale: [1, 1.3, 1] }}
+                    animate={{ scale: [1, 1.4, 1], opacity: [0.6, 0, 0.6] }}
                     transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
                   />
                 </motion.g>
               )}
 
-              {/* Data point */}
+              {/* Main data point with enhanced states */}
               <motion.circle
                 cx={x}
                 cy={y}
-                r={isActive ? 2.2 : isHovered ? 1.8 : 0.8}
-                fill={isActive ? "#2D5A27" : "#47AF7F"}
+                r={isActive ? 2.5 : isHovered ? 2 : hasMilestone ? 1.2 : 0.9}
+                fill={isActive ? "#2D5A27" : isHovered ? "#47AF7F" : hasMilestone ? "#D4A017" : "#47AF7F"}
+                stroke={isActive || isHovered ? "#fff" : "none"}
+                strokeWidth={isActive || isHovered ? "0.5" : "0"}
                 filter={isActive ? "url(#forestGlow)" : undefined}
                 initial={{ scale: 0, opacity: 0 }}
                 animate={isInView ? { scale: 1, opacity: 1 } : { scale: 0, opacity: 0 }}
                 transition={{ delay: shouldReduceMotion ? 0 : 0.5 + i * 0.04, duration: 0.3 }}
+                className="transition-all duration-200"
+                vectorEffect="non-scaling-stroke"
               />
 
-              {/* Year labels - every 10 years */}
+              {/* Year labels - every 10 years with better styling */}
               {row.year % 10 === 0 && (
-                <text
-                  x={x}
-                  y={chartHeight - 15}
-                  textAnchor="middle"
-                  className={cn(
-                    "font-sans",
-                    row.year === activeYear ? "fill-forest-700 font-bold" : "fill-charcoal-500 font-semibold"
+                <g>
+                  {/* Background for better readability */}
+                  {row.year === activeYear && (
+                    <rect
+                      x={x - 6}
+                      y={chartHeight - 20}
+                      width="12"
+                      height="6"
+                      fill="#2D5A27"
+                      fillOpacity="0.1"
+                      rx="1"
+                    />
                   )}
-                  style={{ fontSize: row.year === activeYear ? '4px' : '3.5px' }}
-                >
-                  {row.year}
-                </text>
+                  <text
+                    x={x}
+                    y={chartHeight - 15}
+                    textAnchor="middle"
+                    className={cn(
+                      "font-sans transition-all",
+                      row.year === activeYear 
+                        ? "fill-forest-700 font-bold" 
+                        : isHovered && row.year === hoveredYear
+                          ? "fill-forest-600 font-bold"
+                          : "fill-charcoal-600 font-semibold"
+                    )}
+                    style={{ fontSize: row.year === activeYear ? '4.5px' : '3.8px' }}
+                  >
+                    {row.year}
+                  </text>
+                </g>
               )}
               
               {/* Growth indicator arrows for significant changes */}
@@ -300,6 +350,18 @@ function InteractiveChart({ data, activeYear, hoveredYear, onYearClick, onYearHo
           )
         })}
       </svg>
+
+      {/* Legend */}
+      <div className="absolute top-2 right-2 flex flex-wrap gap-3 text-xs">
+        <div className="flex items-center gap-1.5 px-2 py-1 bg-white/90 backdrop-blur-sm rounded-lg border border-forest-200 shadow-sm">
+          <div className="w-2 h-2 rounded-full bg-forest-500" />
+          <span className="text-charcoal-700 font-medium">Population</span>
+        </div>
+        <div className="flex items-center gap-1.5 px-2 py-1 bg-white/90 backdrop-blur-sm rounded-lg border border-gold-200 shadow-sm">
+          <div className="w-2 h-2 rounded-full bg-gold-500" />
+          <span className="text-charcoal-700 font-medium">Milestone</span>
+        </div>
+      </div>
 
       {/* Tooltip with milestone */}
       <AnimatePresence>
