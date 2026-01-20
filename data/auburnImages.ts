@@ -752,7 +752,7 @@ const specificImageMappings: Record<string, string> = {
   'outdoor-lake-clementine': '/images/auburn/discover/folsom-lake.webp',
   'outdoor-hidden-falls': '/images/auburn/discover/hiking-trail.webp',
   'outdoor-confluence-trails': '/images/auburn/hero-american-river-canyon.webp',
-  'outdoor-foresthill-bridge': '/images/auburn/hero-old-town-clocktower.webp',
+  'outdoor-foresthill-bridge': '/images/auburn/weddings/outdoor-ceremony.webp',
   'outdoor-quarry-ponds': '/images/auburn/discover/hiking-trail.webp',
   'outdoor-training-hill': '/images/auburn/discover/hiking-trail.webp',
   'outdoor-river-rafting': '/images/auburn/discover/folsom-lake.webp',
