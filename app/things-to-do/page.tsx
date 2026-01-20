@@ -94,7 +94,7 @@ export default async function ThingsToDoPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }}
       />
 
-      <div className="min-h-screen bg-white">
+      <div className="min-h-screen bg-white pt-[68px] md:pt-[84px] lg:pt-[100px]">
         <PageHero
           title="Things to Do in Auburn"
           subtitle="From scenic trails to Gold Rush history, discover everything Auburn has to offer"

@@ -16,6 +16,10 @@ export const metadata: Metadata = buildMetadata({
 
 export const revalidate = 1800
 
+interface PageProps {
+  searchParams: Promise<{ category?: string }>
+}
+
 // TODO: Replace with real Auburn images from /public/images/auburn/special-offers/
 // Expected filenames:
 // - accommodation-summer.jpg
@@ -116,15 +120,17 @@ const mockOffers = [
   },
 ]
 
-export default function SpecialOffersPage() {
+export default async function SpecialOffersPage({ searchParams }: PageProps) {
   const breadcrumbs = generateBreadcrumbs('/special-offers')
+  const params = await searchParams
+  const category = params.category
 
   return (
     <div className="min-h-screen bg-cream-50">
       {/* Hero Section */}
-      <section className="relative py-24 md:py-32 bg-gradient-to-br from-gold-500 via-gold-600 to-rust-500 overflow-hidden">
+      <section className="relative py-24 md:py-32 bg-gradient-to-br from-gold-500 via-gold-600 to-rust-500 overflow-hidden z-0">
         {/* Decorative elements */}
-        <div className="absolute inset-0 opacity-20">
+        <div className="absolute inset-0 opacity-20 pointer-events-none">
           <div className="absolute top-10 left-10 w-64 h-64 bg-white rounded-full blur-3xl" />
           <div className="absolute bottom-10 right-10 w-80 h-80 bg-white rounded-full blur-3xl" />
         </div>
@@ -156,36 +162,56 @@ export default function SpecialOffersPage() {
       </div>
 
       {/* Filter Tabs */}
-      <div className="bg-white border-b border-charcoal-100 sticky top-16 z-30 shadow-sm">
+      <div className="bg-white border-b border-charcoal-100 sticky top-16 z-40 shadow-sm pointer-events-auto">
         <div className="container mx-auto px-4">
           <div className="flex items-center gap-2 overflow-x-auto py-4 scrollbar-hide">
             <Link
               href="/special-offers"
-              className="px-6 py-2.5 rounded-full font-semibold whitespace-nowrap transition-all bg-gold-500 text-white"
+              className={`px-6 py-2.5 rounded-full font-semibold whitespace-nowrap transition-all cursor-pointer ${
+                !category 
+                  ? 'bg-gold-500 text-white hover:bg-gold-600' 
+                  : 'bg-cream-100 text-charcoal-700 hover:bg-gold-100 hover:text-gold-700'
+              }`}
             >
               All Offers
             </Link>
             <Link
               href="/special-offers?category=accommodation"
-              className="px-6 py-2.5 rounded-full font-semibold whitespace-nowrap transition-all bg-cream-100 text-charcoal-700 hover:bg-gold-100 hover:text-gold-700"
+              className={`px-6 py-2.5 rounded-full font-semibold whitespace-nowrap transition-all cursor-pointer ${
+                category === 'accommodation'
+                  ? 'bg-gold-500 text-white hover:bg-gold-600'
+                  : 'bg-cream-100 text-charcoal-700 hover:bg-gold-100 hover:text-gold-700'
+              }`}
             >
               Accommodations
             </Link>
             <Link
               href="/special-offers?category=dining"
-              className="px-6 py-2.5 rounded-full font-semibold whitespace-nowrap transition-all bg-cream-100 text-charcoal-700 hover:bg-gold-100 hover:text-gold-700"
+              className={`px-6 py-2.5 rounded-full font-semibold whitespace-nowrap transition-all cursor-pointer ${
+                category === 'dining'
+                  ? 'bg-gold-500 text-white hover:bg-gold-600'
+                  : 'bg-cream-100 text-charcoal-700 hover:bg-gold-100 hover:text-gold-700'
+              }`}
             >
               Dining
             </Link>
             <Link
               href="/special-offers?category=activity"
-              className="px-6 py-2.5 rounded-full font-semibold whitespace-nowrap transition-all bg-cream-100 text-charcoal-700 hover:bg-gold-100 hover:text-gold-700"
+              className={`px-6 py-2.5 rounded-full font-semibold whitespace-nowrap transition-all cursor-pointer ${
+                category === 'activity'
+                  ? 'bg-gold-500 text-white hover:bg-gold-600'
+                  : 'bg-cream-100 text-charcoal-700 hover:bg-gold-100 hover:text-gold-700'
+              }`}
             >
               Activities
             </Link>
             <Link
               href="/special-offers?category=package"
-              className="px-6 py-2.5 rounded-full font-semibold whitespace-nowrap transition-all bg-cream-100 text-charcoal-700 hover:bg-gold-100 hover:text-gold-700"
+              className={`px-6 py-2.5 rounded-full font-semibold whitespace-nowrap transition-all cursor-pointer ${
+                category === 'package'
+                  ? 'bg-gold-500 text-white hover:bg-gold-600'
+                  : 'bg-cream-100 text-charcoal-700 hover:bg-gold-100 hover:text-gold-700'
+              }`}
             >
               Packages
             </Link>
@@ -196,7 +222,7 @@ export default function SpecialOffersPage() {
       {/* Offers Grid */}
       <section className="py-16 md:py-24">
         <div className="container mx-auto px-4">
-          <SpecialOffersGrid offers={mockOffers} />
+          <SpecialOffersGrid offers={mockOffers} category={category} />
         </div>
       </section>
 
@@ -210,7 +236,7 @@ export default function SpecialOffersPage() {
             Subscribe to our newsletter and be the first to know about new special offers.
           </p>
           <Link
-            href="/#newsletter"
+            href="/plan/visitor-information"
             className="inline-block px-8 py-4 bg-gold-500 text-white font-bold rounded-full hover:bg-gold-600 transition-colors shadow-lg"
           >
             Subscribe Now

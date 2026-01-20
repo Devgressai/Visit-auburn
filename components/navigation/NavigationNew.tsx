@@ -13,8 +13,8 @@ const navigation = [
     href: '/accommodations',
     submenu: [
       { name: 'All Accommodations', href: '/accommodations' },
-      { name: 'Hotels', href: '/accommodations?category=hotel' },
-      { name: 'Cabins & Rentals', href: '/accommodations?category=cabin' },
+      { name: 'Hotels', href: '/accommodations?category=hotels' },
+      { name: 'Cabins & Rentals', href: '/accommodations?category=vacation-rentals' },
       { name: 'Special Offers', href: '/special-offers' },
     ],
   },

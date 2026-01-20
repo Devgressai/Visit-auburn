@@ -51,7 +51,7 @@ export default async function AccommodationsPage() {
           {/* Main Content */}
           <div className="max-w-4xl mx-auto mb-16">
             <div className="prose prose-lg max-w-none">
-              <p className="text-xl text-charcoal-700 leading-relaxed mb-6">
+              <p className="mb-6">
                 Finding the perfect place to stay in <strong>Auburn, California</strong> means immersing yourself in authentic Gold Country hospitality. 
                 Whether you're drawn to the Victorian charm of Old Town Auburn's historic hotels, seeking a cozy cabin retreat in the Sierra 
                 foothills, or prefer modern amenities near outdoor adventures, Auburn offers accommodations that make you feel like a local 
