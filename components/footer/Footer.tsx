@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { NewsletterSignup } from '@/components/ui/NewsletterSignup'
-import { Facebook, Instagram, Twitter, Mail } from 'lucide-react'
+import { Facebook, Instagram, Twitter, Mail, Youtube } from 'lucide-react'
 
 export function Footer() {
   const currentYear = new Date().getFullYear()
@@ -33,38 +33,40 @@ export function Footer() {
             {/* Social Links - Centered */}
             <div className="flex items-center justify-center gap-4">
               <a 
-                href="https://facebook.com" 
+                href="https://www.facebook.com/AuburnCAChamber" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors"
-                aria-label="Facebook"
+                aria-label="Visit us on Facebook"
               >
                 <Facebook className="w-5 h-5" />
               </a>
               <a 
-                href="https://instagram.com" 
+                href="https://www.instagram.com/visitauburn" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-pink-600 transition-colors"
-                aria-label="Instagram"
+                aria-label="Follow us on Instagram"
               >
                 <Instagram className="w-5 h-5" />
               </a>
               <a 
-                href="https://twitter.com" 
+                href="https://twitter.com/AuburnChamber" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-blue-400 transition-colors"
-                aria-label="Twitter"
+                aria-label="Follow us on Twitter"
               >
                 <Twitter className="w-5 h-5" />
               </a>
               <a 
-                href="mailto:info@visitauburn.com"
-                className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-gray-700 transition-colors"
-                aria-label="Email"
+                href="https://www.youtube.com/@AuburnChamber" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-red-600 transition-colors"
+                aria-label="Watch us on YouTube"
               >
-                <Mail className="w-5 h-5" />
+                <Youtube className="w-5 h-5" />
               </a>
             </div>
           </div>
