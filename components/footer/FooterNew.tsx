@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { usePathname } from 'next/navigation'
 import { Facebook, Instagram, Twitter, Youtube, ArrowRight, Check, MapPin } from 'lucide-react'
 import { getPlaceholderImage } from '@/lib/images'
 
@@ -42,6 +43,7 @@ const socialLinks = [
 ]
 
 export function FooterNew() {
+  const pathname = usePathname()
   const [email, setEmail] = useState('')
   const [status, setStatus] = useState<'idle' | 'loading' | 'success'>('idle')
 
@@ -195,7 +197,11 @@ export function FooterNew() {
                     <Link
                       key={link.name}
                       href={link.href}
-                      className="block py-2 text-sm text-charcoal-600 hover:text-forest-600 transition-colors"
+                      className={`block py-2 text-sm transition-colors ${
+                        pathname === link.href || pathname.startsWith(link.href + '/')
+                          ? 'text-forest-600 font-semibold'
+                          : 'text-charcoal-600 hover:text-forest-600'
+                      }`}
                     >
                       {link.name}
                     </Link>
@@ -207,7 +213,11 @@ export function FooterNew() {
                     <Link
                       key={link.name}
                       href={link.href}
-                      className="block py-2 text-sm text-charcoal-600 hover:text-forest-600 transition-colors"
+                      className={`block py-2 text-sm transition-colors ${
+                        pathname === link.href || pathname.startsWith(link.href + '/')
+                          ? 'text-forest-600 font-semibold'
+                          : 'text-charcoal-600 hover:text-forest-600'
+                      }`}
                     >
                       {link.name}
                     </Link>
@@ -219,7 +229,11 @@ export function FooterNew() {
                     <Link
                       key={link.name}
                       href={link.href}
-                      className="block py-2 text-sm text-charcoal-600 hover:text-forest-600 transition-colors"
+                      className={`block py-2 text-sm transition-colors ${
+                        pathname === link.href || pathname.startsWith(link.href + '/')
+                          ? 'text-forest-600 font-semibold'
+                          : 'text-charcoal-600 hover:text-forest-600'
+                      }`}
                     >
                       {link.name}
                     </Link>
@@ -231,7 +245,11 @@ export function FooterNew() {
                     <Link
                       key={link.name}
                       href={link.href}
-                      className="block py-2 text-sm text-charcoal-600 hover:text-forest-600 transition-colors"
+                      className={`block py-2 text-sm transition-colors ${
+                        pathname === link.href || pathname.startsWith(link.href + '/')
+                          ? 'text-forest-600 font-semibold'
+                          : 'text-charcoal-600 hover:text-forest-600'
+                      }`}
                     >
                       {link.name}
                     </Link>

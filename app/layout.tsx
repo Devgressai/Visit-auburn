@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import './globals.css'
 import { NavigationNew } from '@/components/navigation/NavigationNew'
 import { FooterNew } from '@/components/footer/FooterNew'
@@ -14,11 +14,19 @@ export const metadata: Metadata = {
   keywords: ['Auburn California', 'Gold Country', 'travel', 'tourism', 'accommodations', 'restaurants', 'activities', 'events', 'hiking', 'wine tasting', 'historic downtown'],
   authors: [{ name: 'Visit Auburn' }],
   manifest: '/manifest.json',
-  themeColor: '#D4A017',
+  icons: {
+    icon: [
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/icon.png', type: 'image/png', sizes: '32x32' },
+    ],
+    apple: [
+      { url: '/apple-icon.png', sizes: '180x180', type: 'image/png' },
+    ],
+  },
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: process.env.NEXT_PUBLIC_SITE_URL || 'https://visit-auburn.com',
+    url: process.env.NEXT_PUBLIC_SITE_URL || 'https://www.visit-auburn.com',
     siteName: 'Visit Auburn',
   },
   twitter: {
@@ -41,6 +49,10 @@ export const metadata: Metadata = {
     statusBarStyle: 'default',
     title: 'Visit Auburn',
   },
+}
+
+export const viewport: Viewport = {
+  themeColor: '#D4A017',
 }
 
 export default function RootLayout({

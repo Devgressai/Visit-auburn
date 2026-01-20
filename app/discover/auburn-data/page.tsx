@@ -191,7 +191,6 @@ export default async function AuburnDataPage() {
                 <div className="text-right">
                   <p className="text-xs font-medium text-charcoal-600 mb-1">Last Updated</p>
                   <p className="text-sm font-semibold text-charcoal-900">
-                    {/* TODO: Automate this date from build timestamp or data file modification date */}
                     January 2026
                   </p>
                 </div>

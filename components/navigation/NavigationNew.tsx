@@ -26,7 +26,6 @@ const navigation = [
       { name: 'Outdoor Adventures', href: '/things-to-do/outdoor-adventures' },
       { name: 'History & Culture', href: '/things-to-do/history-culture' },
       { name: 'Arts & Culture', href: '/things-to-do/arts-culture' },
-      { name: 'Events Calendar', href: '/events' },
     ],
   },
   {
@@ -86,7 +85,7 @@ export function NavigationNew() {
       }`}
     >
       <div className="w-full px-0">
-        <div className="flex items-center justify-between pr-4 md:pr-6">
+        <div className="flex items-center justify-between pr-4 md:pr-6 pl-4 md:pl-6">
           {/* Logo - Responsive sizing */}
           <Link href="/" className="flex items-center group flex-shrink-0">
             <Image
@@ -111,7 +110,11 @@ export function NavigationNew() {
               >
                 <Link
                   href={item.href}
-                  className="flex items-center gap-1 px-6 py-3 text-text-primary hover:text-gold-400 font-extrabold transition-colors duration-200 rounded-lg hover:bg-gold-500/10 text-xl"
+                  className={`flex items-center gap-1 px-6 py-3 font-extrabold transition-colors duration-200 rounded-lg text-xl ${
+                    pathname === item.href || pathname.startsWith(item.href + '/')
+                      ? 'text-gold-400 bg-gold-500/10'
+                      : 'text-text-primary hover:text-gold-400 hover:bg-gold-500/10'
+                  }`}
                   style={{ textShadow: '0 2px 8px rgba(0,0,0,0.6)' }}
                 >
                   {item.name}
@@ -176,7 +179,11 @@ export function NavigationNew() {
                   <Link
                     href={item.href}
                     onClick={() => setIsOpen(false)}
-                    className="block px-4 py-4 text-text-primary font-bold hover:bg-white/5 rounded-lg transition-colors text-lg"
+                    className={`block px-4 py-4 font-bold rounded-lg transition-colors text-lg ${
+                      pathname === item.href || pathname.startsWith(item.href + '/')
+                        ? 'text-gold-400 bg-gold-500/10'
+                        : 'text-text-primary hover:bg-white/5'
+                    }`}
                     style={{ minHeight: '56px' }}
                   >
                     {item.name}

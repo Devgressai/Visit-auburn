@@ -30,8 +30,8 @@ export function generateOrganizationSchema() {
     '@context': 'https://schema.org',
     '@type': 'Organization',
     name: 'Visit Auburn',
-    url: process.env.NEXT_PUBLIC_SITE_URL || 'https://visitauburn.com',
-    logo: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://visitauburn.com'}/logo.png`,
+    url: process.env.NEXT_PUBLIC_SITE_URL || 'https://www.visit-auburn.com',
+    logo: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.visit-auburn.com'}/logo.png`,
     sameAs: [],
   }
 }
