@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import { NewsletterSignup } from '@/components/ui/NewsletterSignup'
 import { Facebook, Instagram, Twitter, Mail } from 'lucide-react'
 
@@ -7,7 +8,7 @@ export function Footer() {
 
   return (
     <footer className="bg-gray-900 text-gray-300">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 pb-24 md:pb-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
           {/* About */}
           <div className="lg:col-span-2">
@@ -17,8 +18,20 @@ export function Footer() {
               Where history meets adventure in the Sierra Nevada foothills.
             </p>
             
-            {/* Social Links */}
-            <div className="flex items-center gap-4">
+            {/* Logo - Centered and Larger */}
+            <div className="flex justify-center mb-6">
+              <Image
+                src="/images/visit-auburn-logo.png"
+                alt="Visit Auburn Gold Country"
+                width={280}
+                height={120}
+                className="object-contain"
+                priority
+              />
+            </div>
+            
+            {/* Social Links - Centered */}
+            <div className="flex items-center justify-center gap-4">
               <a 
                 href="https://facebook.com" 
                 target="_blank" 
