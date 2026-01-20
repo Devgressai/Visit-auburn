@@ -38,32 +38,32 @@ const attractionImages: Record<string, string> = {
   'overlook-park': '/images/auburn/hero-american-river-canyon.webp',
   'railhead-park': '/images/auburn/discover/old-town-street.webp',
   'ashford-park': '/images/auburn/weddings/garden-wedding.webp',
-  'black-hole-calcutta': '/images/auburn/discover/hiking-trail.webp',
-  'auburn-swim-hole': '/images/auburn/discover/folsom-lake.webp',
+  'black-hole-falls': '/images/auburn/discover/hiking-trail.webp',
+  'swim-hole': '/images/auburn/discover/folsom-lake.webp',
   
   // History & Culture - each with unique image
-  'placer-county-museum': '/images/auburn/discover/gold-rush-museum.webp',
-  'gold-country-museum': '/images/museum-gold-panning.webp',
+  'placer-museum': '/images/auburn/discover/gold-rush-museum.webp',
+  'gold-museum': '/images/auburn/discover/gold-rush-museum.webp',
   'bernhard-museum': '/images/auburn/weddings/historic-venue.webp',
-  'old-town-auburn': '/images/auburn/hero-old-town-clocktower.webp',
-  'old-town-walking-tour': '/images/auburn/discover/old-town-street.webp',
-  'auburn-firehouse-tower': '/images/auburn/hero-old-town-clocktower.webp',
+  'old-town': '/images/auburn/hero-old-town-clocktower.webp',
+  'walking-tour': '/images/auburn/discover/old-town-street.webp',
+  'clock-tower': '/images/auburn/hero-old-town-clocktower.webp',
   'foresthill-bridge': '/images/auburn/hero-american-river-canyon.webp',
   
   // Wine, Food & Markets - each with unique image
-  'mt-vernon-winery': '/images/auburn/dining/wine-tasting.webp',
-  'auburn-farmers-market': '/images/auburn/dining/farmers-market.webp',
-  'out-of-order-arcade': '/images/auburn/dining/brewery-taproom.webp',
-  'old-town-restaurants': '/images/auburn/dining/restaurant-casual.webp',
+  'mt-vernon': '/images/auburn/dining/wine-tasting.webp',
+  'farmers-market': '/images/auburn/dining/farmers-market.webp',
+  'arcade': '/images/auburn/dining/brewery-taproom.webp',
+  'dining': '/images/auburn/dining/restaurant-casual.webp',
   
   // Events & Seasonal - each with unique image
-  'auburn-festivals': '/images/auburn/events/event-gold-rush-days.webp',
+  'events': '/images/auburn/events/event-gold-rush-days.webp',
   'pumpkin-nights': '/images/auburn/weddings/outdoor-ceremony.webp',
   'mandarin-festival': '/images/auburn/dining/farmers-market.webp',
   
   // Active Adventures - each with unique image
-  'bicycle-emporium': '/images/auburn/discover/hiking-trail.webp',
-  'rafting-biking-horseback': '/images/auburn/discover/folsom-lake.webp',
+  'bicycle-shop': '/images/auburn/discover/hiking-trail.webp',
+  'adventure-sports': '/images/auburn/discover/folsom-lake.webp',
 }
 
 export async function generateMetadata(): Promise<Metadata> {
