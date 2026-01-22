@@ -32,8 +32,36 @@ export function AttractionCard({
   showDifficulty = true,
   showDuration = true,
 }: AttractionCardProps) {
-  // Get the first related page as the link target
-  const linkTarget = attraction.relatedPages[0] || '/things-to-do'
+  // Generate link target based on attraction type
+  const getLinkTarget = (): string => {
+    // Map attraction types to their category pages
+    const typeToCategory: Record<string, string> = {
+      'trail': '/things-to-do/outdoor-adventures',
+      'park': '/things-to-do/outdoor-adventures',
+      'viewpoint': '/things-to-do/outdoor-adventures',
+      'water-activity': '/things-to-do/outdoor-adventures',
+      'museum': '/things-to-do/history-culture',
+      'historic-site': '/things-to-do/history-culture',
+      'restaurant': '/dining',
+      'brewery': '/dining',
+      'winery': '/dining',
+      'market': '/dining',
+      'cultural': '/things-to-do/arts-culture',
+      'shopping': '/things-to-do/arts-culture',
+      'family': '/things-to-do',
+    }
+    
+    // Use type-specific category page if available, otherwise use first related page
+    const categoryPage = typeToCategory[attraction.type]
+    if (categoryPage) {
+      return categoryPage
+    }
+    
+    // Fallback to first related page or default
+    return attraction.relatedPages[0] || '/things-to-do'
+  }
+  
+  const linkTarget = getLinkTarget()
   
   // Difficulty color mapping
   const difficultyColors = {
@@ -130,10 +158,10 @@ export function AttractionCard({
   return (
     <Link 
       href={linkTarget}
-      className="group block rounded-xl overflow-hidden bg-white border border-charcoal-100 hover:border-gold-300 hover:shadow-lg transition-all"
+      className="group block rounded-xl overflow-hidden bg-white border border-charcoal-100 hover:border-gold-300 hover:shadow-lg transition-all relative z-0"
     >
       {/* Image */}
-      <div className="relative aspect-[4/3] overflow-hidden">
+      <div className="relative aspect-[4/3] overflow-hidden bg-charcoal-100">
         <AuburnImage
           imageId={attraction.imageId}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"

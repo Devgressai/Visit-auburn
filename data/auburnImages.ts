@@ -779,8 +779,8 @@ const specificImageMappings: Record<string, string> = {
   // Dining attractions - unique images
   'dining-auburn-alehouse': '/images/auburn/dining/brewery-taproom.webp',
   'dining-bootleggers': '/images/auburn/dining/fine-dining.webp',
-  'dining-knee-deep': '/images/auburn/dining/brewery-taproom.webp',
-  'dining-farm-table': '/images/auburn/dining/fine-dining.webp',
+  'dining-knee-deep': '/images/auburn/dining/cafe-ambiance.webp',
+  'dining-farm-table': '/images/auburn/dining/restaurant-casual.webp',
   'dining-farmers-market': '/images/auburn/dining/farmers-market.webp',
   'dining-winery-tasting': '/images/auburn/dining/wine-tasting.webp',
   'dining-old-town-restaurants': '/images/auburn/dining/restaurant-casual.webp',

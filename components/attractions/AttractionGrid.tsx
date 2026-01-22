@@ -163,7 +163,7 @@ export function AttractionGrid({
       {/* Grid/List */}
       {filteredAttractions.length > 0 ? (
         viewMode === 'grid' ? (
-          <div className={`grid gap-6 ${columnClasses[columns]}`}>
+          <div className={`grid gap-6 ${columnClasses[columns]} relative z-0`}>
             {variant === 'mixed' ? (
               <>
                 {/* First item featured */}

@@ -125,7 +125,7 @@ export default async function ThingsToDoPage() {
         </section>
 
         {/* Featured Attractions */}
-        <section className="py-12 md:py-16 bg-white">
+        <section className="py-12 md:py-16 bg-white relative z-0">
           <div className="container mx-auto px-4">
             <div className="text-center mb-10">
               <h2 className="text-2xl md:text-3xl font-bold text-charcoal-900 mb-3">
@@ -135,12 +135,14 @@ export default async function ThingsToDoPage() {
                 The best of Gold Country—trails, history, and experiences that define Auburn
               </p>
             </div>
-            <AttractionGrid
-              attractions={getFeaturedAttractions(6)}
-              showFilters={false}
-              variant="mixed"
-              columns={3}
-            />
+            <div className="relative z-0">
+              <AttractionGrid
+                attractions={getFeaturedAttractions(6)}
+                showFilters={false}
+                variant="mixed"
+                columns={3}
+              />
+            </div>
           </div>
         </section>
 
