@@ -76,15 +76,57 @@ interface ChartProps {
 
 function InteractiveChart({ data, activeYear, hoveredYear, onYearClick, onYearHover }: ChartProps) {
   const shouldReduceMotion = useReducedMotion()
-  const ref = useRef<HTMLDivElement>(null)
-  const isInView = useInView(ref, { once: true })
+  const containerRef = useRef<HTMLDivElement>(null)
+  const svgRef = useRef<SVGSVGElement>(null)
+  const isInView = useInView(containerRef, { once: true })
   
-  // Chart dimensions and margins (compact for homepage)
-  const width = 800
-  const height = 200
-  const margin = { top: 15, right: 20, bottom: 35, left: 50 }
-  const chartWidth = width - margin.left - margin.right
-  const chartHeight = height - margin.top - margin.bottom
+  // Responsive dimensions based on container
+  const [dimensions, setDimensions] = useState({ width: 800, height: 300 })
+  
+  useEffect(() => {
+    const updateDimensions = () => {
+      if (!containerRef.current) return
+      const containerWidth = containerRef.current.offsetWidth
+      
+      // Responsive sizing: Mobile (full width), Tablet (larger), Desktop (even larger)
+      let width: number
+      let height: number
+      
+      if (containerWidth < 640) {
+        // Mobile: Full width, compact height
+        width = containerWidth
+        height = Math.max(280, containerWidth * 0.5)
+      } else if (containerWidth < 1024) {
+        // Tablet: Larger chart
+        width = containerWidth
+        height = Math.max(350, containerWidth * 0.45)
+      } else {
+        // Desktop: Maximum impact
+        width = Math.min(containerWidth, 1200)
+        height = Math.max(400, Math.min(containerWidth * 0.4, 500))
+      }
+      
+      setDimensions({ width, height })
+    }
+    
+    updateDimensions()
+    window.addEventListener('resize', updateDimensions)
+    return () => window.removeEventListener('resize', updateDimensions)
+  }, [])
+  
+  // Responsive margins
+  const margin = useMemo(() => {
+    if (dimensions.width < 640) {
+      return { top: 20, right: 15, bottom: 40, left: 45 }
+    } else if (dimensions.width < 1024) {
+      return { top: 25, right: 25, bottom: 45, left: 60 }
+    } else {
+      return { top: 30, right: 40, bottom: 50, left: 80 }
+    }
+  }, [dimensions.width])
+  
+  const chartWidth = dimensions.width - margin.left - margin.right
+  const chartHeight = dimensions.height - margin.top - margin.bottom
   
   const maxPop = useMemo(() => Math.max(...data.map(d => d.city)), [data])
   const chartMaxPop = maxPop * 1.1 // Add 10% padding
@@ -122,20 +164,28 @@ function InteractiveChart({ data, activeYear, hoveredYear, onYearClick, onYearHo
   }, [data, chartMaxPop])
 
   return (
-    <div ref={ref} className="relative w-full" style={{ height }}>
+    <div 
+      ref={containerRef} 
+      className="relative w-full overflow-hidden"
+      style={{ minHeight: dimensions.height }}
+    >
       <svg 
-        viewBox={`0 0 ${width} ${height}`} 
+        ref={svgRef}
+        width={dimensions.width}
+        height={dimensions.height}
         className="w-full h-full overflow-visible"
         role="img"
         aria-label="Auburn population growth chart 1900-2020"
+        preserveAspectRatio="xMidYMid meet"
       >
         <defs>
           <linearGradient id="forestGradient" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#2D5A27" stopOpacity="0.3" />
-            <stop offset="100%" stopColor="#2D5A27" stopOpacity="0.05" />
+            <stop offset="0%" stopColor="#2D5A27" stopOpacity="0.4" />
+            <stop offset="50%" stopColor="#2D5A27" stopOpacity="0.15" />
+            <stop offset="100%" stopColor="#2D5A27" stopOpacity="0.08" />
           </linearGradient>
           <filter id="forestGlow" x="-50%" y="-50%" width="200%" height="200%">
-            <feGaussianBlur stdDeviation="1.5" result="coloredBlur"/>
+            <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
             <feMerge>
               <feMergeNode in="coloredBlur"/>
               <feMergeNode in="SourceGraphic"/>
@@ -144,7 +194,7 @@ function InteractiveChart({ data, activeYear, hoveredYear, onYearClick, onYearHo
         </defs>
 
         <g transform={`translate(${margin.left}, ${margin.top})`}>
-          {/* Grid lines */}
+          {/* Grid lines - bolder for better visibility */}
           {yTicks.map((tick) => (
             <line
               key={tick}
@@ -153,21 +203,24 @@ function InteractiveChart({ data, activeYear, hoveredYear, onYearClick, onYearHo
               x2={chartWidth}
               y2={getY(tick)}
               stroke="#2D5A27"
-              strokeOpacity={tick === 0 ? 0.3 : 0.12}
-              strokeWidth={tick === 0 ? 1.5 : 0.5}
-              strokeDasharray={tick === 0 ? "0" : "2,3"}
+              strokeOpacity={tick === 0 ? 0.4 : 0.18}
+              strokeWidth={tick === 0 ? 2.5 : 1}
+              strokeDasharray={tick === 0 ? "0" : "3,4"}
             />
           ))}
 
-          {/* Y-axis labels */}
+          {/* Y-axis labels - larger and bolder */}
           {yTicks.map((tick) => (
             <text
               key={`label-${tick}`}
-              x={-10}
+              x={-12}
               y={getY(tick)}
               textAnchor="end"
               dominantBaseline="middle"
-              className="fill-forest-700 text-xs font-bold"
+              className="fill-forest-700 font-bold"
+              style={{ 
+                fontSize: dimensions.width < 640 ? '11px' : dimensions.width < 1024 ? '13px' : '14px'
+              }}
             >
               {formatPopulation(tick)}
             </text>
@@ -182,12 +235,12 @@ function InteractiveChart({ data, activeYear, hoveredYear, onYearClick, onYearHo
             transition={{ duration: shouldReduceMotion ? 0 : 1, delay: 0.3 }}
           />
 
-          {/* Main line */}
+          {/* Main line - much bolder */}
           <motion.path
             d={linePath}
             fill="none"
             stroke="#2D5A27"
-            strokeWidth="2"
+            strokeWidth={dimensions.width < 640 ? "3" : dimensions.width < 1024 ? "3.5" : "4"}
             strokeLinecap="round"
             strokeLinejoin="round"
             initial={{ pathLength: 0, opacity: 0 }}
@@ -223,20 +276,20 @@ function InteractiveChart({ data, activeYear, hoveredYear, onYearClick, onYearHo
                   aria-label={`${row.year}: ${row.city.toLocaleString()} residents${hasMilestone ? ` - ${row.milestoneTitle}` : ''}`}
                 />
 
-                {/* Vertical indicator line */}
+                {/* Vertical indicator line - bolder */}
                 {(isActive || isHovered) && (
                   <motion.line
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     x1={x}
-                    y1={-8}
+                    y1={-10}
                     x2={x}
-                    y2={chartHeight + 3}
+                    y2={chartHeight + 5}
                     stroke={isActive ? "#2D5A27" : "#47AF7F"}
-                    strokeWidth="1"
-                    strokeOpacity={isActive ? 0.8 : 0.5}
-                    strokeDasharray={isActive ? "0" : "3,3"}
+                    strokeWidth={isActive ? "2.5" : "2"}
+                    strokeOpacity={isActive ? 0.9 : 0.6}
+                    strokeDasharray={isActive ? "0" : "4,4"}
                   />
                 )}
 
@@ -282,14 +335,21 @@ function InteractiveChart({ data, activeYear, hoveredYear, onYearClick, onYearHo
                   </motion.g>
                 )}
 
-                {/* Main data point with enhanced states */}
+                {/* Main data point - much larger and bolder */}
                 <motion.circle
                   cx={x}
                   cy={y}
-                  r={isActive ? 5 : isHovered ? 4 : hasMilestone ? 3 : 2.5}
+                  r={isActive 
+                    ? (dimensions.width < 640 ? 6 : dimensions.width < 1024 ? 7 : 8)
+                    : isHovered 
+                      ? (dimensions.width < 640 ? 5 : dimensions.width < 1024 ? 6 : 7)
+                      : hasMilestone 
+                        ? (dimensions.width < 640 ? 4 : dimensions.width < 1024 ? 5 : 6)
+                        : (dimensions.width < 640 ? 3.5 : dimensions.width < 1024 ? 4 : 5)
+                  }
                   fill={isActive ? "#2D5A27" : isHovered ? "#47AF7F" : hasMilestone ? "#D4A017" : "#47AF7F"}
                   stroke={isActive || isHovered ? "#fff" : "none"}
-                  strokeWidth={isActive || isHovered ? "1.5" : "0"}
+                  strokeWidth={isActive || isHovered ? (dimensions.width < 640 ? "2" : "2.5") : "0"}
                   filter={isActive ? "url(#forestGlow)" : undefined}
                   initial={{ scale: 0, opacity: 0 }}
                   animate={isInView ? { scale: 1, opacity: 1 } : { scale: 0, opacity: 0 }}
@@ -314,17 +374,21 @@ function InteractiveChart({ data, activeYear, hoveredYear, onYearClick, onYearHo
                     )}
                     <text
                       x={x}
-                      y={chartHeight + 18}
+                      y={chartHeight + 20}
                       textAnchor="middle"
                       className={cn(
-                        "font-sans transition-all",
+                        "font-sans transition-all font-bold",
                         row.year === activeYear 
-                          ? "fill-forest-700 font-bold" 
+                          ? "fill-forest-700" 
                           : isHovered && row.year === hoveredYear
-                            ? "fill-forest-600 font-bold"
-                            : "fill-charcoal-600 font-semibold"
+                            ? "fill-forest-600"
+                            : "fill-charcoal-600"
                       )}
-                      style={{ fontSize: row.year === activeYear ? '12px' : '11px' }}
+                      style={{ 
+                        fontSize: row.year === activeYear 
+                          ? (dimensions.width < 640 ? '13px' : dimensions.width < 1024 ? '14px' : '15px')
+                          : (dimensions.width < 640 ? '11px' : dimensions.width < 1024 ? '12px' : '13px')
+                      }}
                     >
                       {row.year}
                     </text>
@@ -359,58 +423,62 @@ function InteractiveChart({ data, activeYear, hoveredYear, onYearClick, onYearHo
         </g>
       </svg>
 
-      {/* Legend */}
-      <div className="absolute top-2 right-2 flex flex-wrap gap-3 text-xs">
-        <div className="flex items-center gap-1.5 px-2 py-1 bg-white/90 backdrop-blur-sm rounded-lg border border-forest-200 shadow-sm">
-          <div className="w-2 h-2 rounded-full bg-forest-500" />
-          <span className="text-charcoal-700 font-medium">Population</span>
+      {/* Legend - larger and bolder */}
+      <div className="absolute top-3 right-3 flex flex-wrap gap-3">
+        <div className="flex items-center gap-2 px-3 py-1.5 bg-white/95 backdrop-blur-sm rounded-lg border-2 border-forest-300 shadow-md">
+          <div className="w-3 h-3 rounded-full bg-forest-500" />
+          <span className="text-charcoal-700 font-bold" style={{ fontSize: dimensions.width < 640 ? '11px' : '12px' }}>
+            Population
+          </span>
         </div>
-        <div className="flex items-center gap-1.5 px-2 py-1 bg-white/90 backdrop-blur-sm rounded-lg border border-gold-200 shadow-sm">
-          <div className="w-2 h-2 rounded-full bg-gold-500" />
-          <span className="text-charcoal-700 font-medium">Milestone</span>
+        <div className="flex items-center gap-2 px-3 py-1.5 bg-white/95 backdrop-blur-sm rounded-lg border-2 border-gold-300 shadow-md">
+          <div className="w-3 h-3 rounded-full bg-gold-500" />
+          <span className="text-charcoal-700 font-bold" style={{ fontSize: dimensions.width < 640 ? '11px' : '12px' }}>
+            Milestone
+          </span>
         </div>
       </div>
 
       {/* Tooltip with milestone */}
       <AnimatePresence>
-        {(hoveredYear || activeYear) && (
-          <motion.div
-            key={hoveredYear || activeYear}
-            initial={{ opacity: 0, y: 8, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 8, scale: 0.95 }}
-            transition={{ duration: shouldReduceMotion ? 0 : 0.15 }}
-            className="absolute pointer-events-none z-10"
-            style={{ 
-              top: 8,
-              left: `${getX(data.findIndex(d => d.year === (hoveredYear || activeYear)))}%`,
-              transform: 'translateX(-50%)',
-            }}
-          >
-            {(() => {
-              const row = data.find(d => d.year === (hoveredYear || activeYear))
-              return (
-                <div className="bg-forest-900 border-2 border-forest-500 text-white px-3 py-2 rounded-lg shadow-xl max-w-[200px]">
-                  <div className="flex items-center gap-2 mb-1">
-                    <Calendar className="w-3 h-3 text-forest-400" />
-                    <span className="text-forest-300 font-display font-bold text-sm">
-                      {hoveredYear || activeYear}
-                    </span>
-                  </div>
-                  <div className="text-white text-xs font-semibold mb-1">
-                    {row?.city.toLocaleString()} residents
-                  </div>
-                  {row?.milestoneTitle && (
-                    <div className="text-gold-400 text-xs font-medium border-t border-forest-700 pt-1 mt-1">
-                      <Zap className="w-3 h-3 inline mr-1" />
-                      {row.milestoneTitle}
-                    </div>
-                  )}
+        {(hoveredYear || activeYear) && (() => {
+          const yearIndex = data.findIndex(d => d.year === (hoveredYear || activeYear))
+          const xPosition = yearIndex >= 0 ? getX(yearIndex) + margin.left : 0
+          const row = data.find(d => d.year === (hoveredYear || activeYear))
+          return (
+            <motion.div
+              key={hoveredYear || activeYear}
+              initial={{ opacity: 0, y: 8, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 8, scale: 0.95 }}
+              transition={{ duration: shouldReduceMotion ? 0 : 0.15 }}
+              className="absolute pointer-events-none z-10"
+              style={{ 
+                top: 10,
+                left: `${(xPosition / dimensions.width) * 100}%`,
+                transform: 'translateX(-50%)',
+              }}
+            >
+              <div className="bg-forest-900 border-2 border-forest-500 text-white px-3 py-2 rounded-lg shadow-xl max-w-[200px]">
+                <div className="flex items-center gap-2 mb-1">
+                  <Calendar className="w-3 h-3 text-forest-400" />
+                  <span className="text-forest-300 font-display font-bold text-sm">
+                    {hoveredYear || activeYear}
+                  </span>
                 </div>
-              )
-            })()}
-          </motion.div>
-        )}
+                <div className="text-white text-xs font-semibold mb-1">
+                  {row?.city.toLocaleString()} residents
+                </div>
+                {row?.milestoneTitle && (
+                  <div className="text-gold-400 text-xs font-medium border-t border-forest-700 pt-1 mt-1">
+                    <Zap className="w-3 h-3 inline mr-1" />
+                    {row.milestoneTitle}
+                  </div>
+                )}
+              </div>
+            </motion.div>
+          )
+        })()}
       </AnimatePresence>
     </div>
   )
@@ -764,10 +832,10 @@ export function AuburnDataTeaser() {
   return (
     <section
       ref={sectionRef}
-      className="py-20 md:py-28 bg-cream-50"
+      className="py-24 md:py-32 bg-gradient-to-b from-cream-50 via-white to-cream-50"
       aria-labelledby="data-story-heading"
     >
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
         {/* Header */}
         <motion.div 
           className="text-center mb-12"
@@ -930,16 +998,16 @@ export function AuburnDataTeaser() {
           </div>
         </motion.div>
 
-        {/* Section Divider */}
+        {/* Section Divider - Enhanced */}
         <motion.div 
-          className="text-center pb-6"
+          className="text-center pb-8"
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : { opacity: 0 }}
           transition={{ delay: 0.3 }}
         >
-          <div className="inline-flex items-center gap-3 px-6 py-3 bg-white border-2 border-gold-200 rounded-full shadow-sm">
-            <Zap className="w-5 h-5 text-gold-500" />
-            <span className="text-sm font-bold text-charcoal-700 uppercase tracking-wider">
+          <div className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-forest-50 to-gold-50 border-2 border-forest-300 rounded-full shadow-lg">
+            <Zap className="w-6 h-6 text-forest-600" />
+            <span className="text-base font-bold text-charcoal-900 uppercase tracking-wider">
               Interactive Visualization
             </span>
           </div>
@@ -957,12 +1025,12 @@ export function AuburnDataTeaser() {
             <TimelineProgress data={data} activeYear={activeYear} />
           </div>
 
-          {/* Main data card */}
-          <div className="bg-white rounded-2xl border-2 border-forest-200 overflow-hidden shadow-xl">
+          {/* Main data card - enhanced for better visibility */}
+          <div className="bg-white rounded-2xl border-2 border-forest-300 overflow-hidden shadow-2xl">
             {/* MOBILE: Stacked layout */}
             <div className="lg:hidden">
-              {/* Chart */}
-              <div className="p-3 bg-gradient-to-br from-cream-50 to-white border-b-2 border-forest-100">
+              {/* Chart - more padding for breathing room */}
+              <div className="p-4 md:p-6 bg-gradient-to-br from-cream-50 to-white border-b-2 border-forest-200">
                 <InteractiveChart
                   data={data}
                   activeYear={activeYear}
@@ -1044,11 +1112,11 @@ export function AuburnDataTeaser() {
             </div>
 
             {/* DESKTOP: Side-by-side layout */}
-            <div className="hidden lg:grid lg:grid-cols-5 divide-x divide-forest-100">
+            <div className="hidden lg:grid lg:grid-cols-5 divide-x-2 divide-forest-200">
               
-              {/* LEFT: Chart & Stats */}
-              <div className="lg:col-span-3 p-4 md:p-5 bg-gradient-to-br from-cream-50 to-white">
-                <div className="mb-4">
+              {/* LEFT: Chart & Stats - more prominent */}
+              <div className="lg:col-span-3 p-6 md:p-8 bg-gradient-to-br from-cream-50 to-white">
+                <div className="mb-6">
                   <InteractiveChart
                     data={data}
                     activeYear={activeYear}
