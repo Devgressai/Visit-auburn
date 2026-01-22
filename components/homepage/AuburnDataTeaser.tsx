@@ -836,7 +836,7 @@ function PremiumStatsPanel({ data, activeYear }: { data: CityThroughTimeRow[], a
                 style={{
                   fontSize: typography.fontSize.xs,
                   fontWeight: typography.fontWeight.bold,
-                  color: isPositive ? colors.forest[700] : colors.rust[700],
+                  color: isPositive ? colors.forest[700] : colors.rust[600], // rust[700] doesn't exist, use 600
                   textTransform: 'uppercase',
                   letterSpacing: typography.letterSpacing.widest,
                 }}
@@ -1467,8 +1467,8 @@ export function AuburnDataTeaser() {
           style={{
             top: spacing[20],
             left: spacing[10],
-            width: spacing[64],
-            height: spacing[64],
+            width: spacing[32] * 2, // 64px = 32 * 2
+            height: spacing[32] * 2,
             backgroundColor: colors.forest[500],
             filter: `blur(${blur['3xl']})`,
             transform: 'translateZ(0)',
@@ -1479,8 +1479,8 @@ export function AuburnDataTeaser() {
           style={{
             bottom: spacing[20],
             right: spacing[10],
-            width: spacing[96],
-            height: spacing[96],
+            width: spacing[32] * 3, // 96px = 32 * 3
+            height: spacing[32] * 3,
             backgroundColor: colors.gold[500],
             filter: `blur(${blur['3xl']})`,
             transform: 'translateZ(0)',
@@ -1504,7 +1504,7 @@ export function AuburnDataTeaser() {
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
           transition={{ 
             duration: shouldReduceMotion ? 0 : motionTokens.duration.slower / 1000,
-            ease: motionTokens.easing.smooth
+            ease: motionTokens.easing.smooth as any // Framer Motion accepts cubic-bezier strings
           }}
         >
           <div 
@@ -1546,7 +1546,7 @@ export function AuburnDataTeaser() {
             style={{
               fontSize: `clamp(${typography.fontSize.lg}, 2vw, ${typography.fontSize.xl})`,
               color: colors.charcoal[600],
-              maxWidth: spacing[48] * 3,
+              maxWidth: spacing[24] * 6, // 48px * 3 = 144px = 24 * 6
               margin: '0 auto',
               lineHeight: typography.lineHeight.relaxed,
             }}
@@ -1959,8 +1959,8 @@ export function AuburnDataTeaser() {
           >
             <Sparkles 
               style={{ 
-                width: spacing[14], 
-                height: spacing[14], 
+                width: spacing[12] + spacing[2], // 14px = 12 + 2
+                height: spacing[12] + spacing[2], 
                 color: colors.gold[500],
                 margin: `0 auto ${spacing[6]}px`,
               }} 

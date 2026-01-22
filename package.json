@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "validate": "tsx scripts/validate-site.ts",
+    "validate:tokens": "tsx scripts/validate-tokens.ts",
     "validate:links": "tsx scripts/validate-interlinking.ts",
     "validate:images": "tsx scripts/validate-images.ts",
     "validate:all": "npm run validate:links && npm run validate:images && npm run validate",
