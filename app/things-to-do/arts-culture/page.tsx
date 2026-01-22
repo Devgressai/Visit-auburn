@@ -51,7 +51,7 @@ export default async function ArtsCulturePage() {
     <div className="min-h-screen bg-white">
       {/* Hero */}
       <section className="relative h-[500px] md:h-[600px]">
-        <AuburnHeroImage imageId="hero-downtown-autumn">
+        <AuburnHeroImage imageId="event-art-walk">
           <div className="container mx-auto px-4 text-center">
             <span className="inline-block px-4 py-2 bg-lake-500/90 text-white text-sm font-semibold rounded-full mb-4">
               Auburn Creative Scene
