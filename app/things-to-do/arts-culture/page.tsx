@@ -78,7 +78,7 @@ export default async function ArtsCulturePage() {
           {/* Intro Content */}
           <div className="max-w-4xl mx-auto mb-16">
             <p className="text-xl text-charcoal-700 leading-relaxed mb-6">
-              <strong>Auburn, California's</strong> arts scene thrives in the same historic buildings that housed Gold Rush 
+              <strong>Auburn, California</strong> arts scene thrives in the same historic buildings that housed Gold Rush 
               businesses 175 years ago. Old Town galleries occupy 1850s storefronts, live music echoes from brick-walled 
               restaurants, and the 1940s State Theatre hosts films and performances where miners once gathered. Auburn's 
               creative community embraces its small-town character—this isn't flashy gallery openings or exclusive events. 
@@ -89,7 +89,7 @@ export default async function ArtsCulturePage() {
             <h2 className="text-3xl font-bold text-charcoal-900 mt-12 mb-6">
               Auburn's Creative Community
             </h2>
-            <p className="mb-6">
+            <p className="text-charcoal-700 mb-6">
               What makes Auburn's arts scene special is its integration with daily life. Murals depicting Gold Rush scenes 
               cover building walls. Sculptures dot downtown sidewalks. Musicians play while you sip coffee or browse 
               antiques. The monthly First Saturday Art Walk transforms Old Town into an open-air gallery where artists 
@@ -136,7 +136,7 @@ export default async function ArtsCulturePage() {
             <h2 className="text-3xl font-bold text-charcoal-900 mb-6">
               Auburn Art Galleries & Studios
             </h2>
-            <p className="mb-8">
+            <p className="text-charcoal-700 mb-8">
               Auburn's galleries concentrate in Old Town, making gallery hopping walkable. Most focus on Gold Country 
               landscapes, Sierra Nevada photography, and local history-inspired work—art that reflects Auburn's setting.
             </p>
@@ -180,7 +180,7 @@ export default async function ArtsCulturePage() {
             <h2 className="text-3xl font-bold text-charcoal-900 mb-6">
               Live Music & Performing Arts
             </h2>
-            <p className="mb-6">
+            <p className="text-charcoal-700 mb-6">
               Auburn's music scene leans toward acoustic Americana, folk, blues, and classic rock—genres that fit brick-walled 
               restaurants and outdoor amphitheaters. Don't expect arena shows; expect intimate performances where musicians 
               chat between songs and you're close enough to watch guitar fingerpicking.
@@ -197,7 +197,7 @@ export default async function ArtsCulturePage() {
             </div>
 
             <h3 className="text-2xl font-bold text-charcoal-900 mb-4">State Theatre</h3>
-            <p className="mb-6">
+            <p className="text-charcoal-700 mb-6">
               Auburn's historic State Theatre (built in the 1940s) screens independent films, hosts live performances, and 
               serves as a community gathering space. The single-screen theater maintains its vintage character while showing 
               current indie releases, classic film series, and occasional live music or comedy shows. It's the kind of 
