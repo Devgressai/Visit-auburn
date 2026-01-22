@@ -48,7 +48,7 @@ import {
   typography, 
   elevation, 
   depth, 
-  motion, 
+  motion as motionTokens, 
   interaction, 
   breakpoints,
   blur,
@@ -71,7 +71,7 @@ if (typeof window !== 'undefined') {
 // ANIMATED COUNTER HOOK
 // ═══════════════════════════════════════════════════════════════════════════
 
-function useCountUp(end: number, duration: number = motion.duration.verySlow, isActive: boolean = true): number {
+function useCountUp(end: number, duration: number = motionTokens.duration.verySlow, isActive: boolean = true): number {
   const [count, setCount] = useState(0)
   const shouldReduceMotion = useReducedMotion()
 
@@ -242,17 +242,17 @@ function PremiumChart({ data, activeYear, hoveredYear, onYearClick, onYearHover 
       gsap.set(path, { strokeDasharray: pathLength, strokeDashoffset: pathLength })
       gsap.set(areaPathEl, { opacity: 0 })
       
-      const tl = gsap.timeline({ defaults: { ease: motion.easing.smooth } })
+      const tl = gsap.timeline({ defaults: { ease: motionTokens.easing.smooth } })
       
       tl.to(areaPathEl, {
         opacity: 1,
-        duration: motion.duration.verySlow / 1000
+        duration: motionTokens.duration.verySlow / 1000
       })
       .to(path, {
         strokeDashoffset: 0,
-        duration: motion.duration.slowest / 1000,
-        ease: motion.easing.consistent
-      }, `-=${motion.duration.slower / 1000}`)
+        duration: motionTokens.duration.slowest / 1000,
+        ease: motionTokens.easing.consistent
+      }, `-=${motionTokens.duration.slower / 1000}`)
       
       // Animate points
       const points = svgRef.current.querySelectorAll('.data-point')
@@ -261,10 +261,10 @@ function PremiumChart({ data, activeYear, hoveredYear, onYearClick, onYearHover 
         {
           scale: 1,
           opacity: 1,
-          duration: motion.duration.normal / 1000,
-          stagger: motion.delay.short / 1000,
-          ease: motion.easing.bounce,
-          delay: (motion.duration.verySlow + motion.duration.normal) / 1000
+          duration: motionTokens.duration.normal / 1000,
+          stagger: motionTokens.delay.short / 1000,
+          ease: motionTokens.easing.bounce,
+          delay: (motionTokens.duration.verySlow + motionTokens.duration.normal) / 1000
         }
       )
     }
@@ -278,16 +278,16 @@ function PremiumChart({ data, activeYear, hoveredYear, onYearClick, onYearHover 
     if (activePoint) {
       gsap.to(activePoint, {
         scale: interaction.hover.scaleLg + 0.3,
-        duration: motion.duration.normal / 1000,
-        ease: motion.easing.bounce,
+        duration: motionTokens.duration.normal / 1000,
+        ease: motionTokens.easing.bounce,
         force3D: true
       })
       
       const otherPoints = svgRef.current.querySelectorAll(`.data-point:not([data-year="${activeYear}"])`)
       gsap.to(otherPoints, {
         scale: 1,
-        duration: motion.duration.fast / 1000,
-        ease: motion.easing.natural,
+        duration: motionTokens.duration.fast / 1000,
+        ease: motionTokens.easing.natural,
         force3D: true
       })
     }
@@ -484,7 +484,7 @@ function PremiumChart({ data, activeYear, hoveredYear, onYearClick, onYearHover 
                   strokeWidth={isActive || isHovered ? (dimensions.width < breakpoints.sm ? "2.5" : borders.width.thick) : "0"}
                   filter={isActive ? "url(#glow)" : undefined}
                   style={{ 
-                    transition: motion.transition.transform,
+                    transition: motionTokens.transition.transform,
                     transform: 'translateZ(0)' // GPU acceleration
                   }}
                 />
@@ -535,7 +535,7 @@ function PremiumChart({ data, activeYear, hoveredYear, onYearClick, onYearHover 
               initial={{ opacity: 0, y: 10, scale: 0.95 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 10, scale: 0.95 }}
-              transition={{ duration: shouldReduceMotion ? 0 : motion.duration.fast / 1000 }}
+              transition={{ duration: shouldReduceMotion ? 0 : motionTokens.duration.fast / 1000 }}
               className="absolute pointer-events-none"
               style={{ 
                 zIndex: depth.tooltip,
@@ -623,7 +623,7 @@ function PremiumStatsPanel({ data, activeYear }: { data: CityThroughTimeRow[], a
     return idx > 0 ? data[idx - 1] : null
   }, [data, activeYear])
 
-  const population = useCountUp(activeRow?.city || 0, motion.duration.verySlow, isInView)
+  const population = useCountUp(activeRow?.city || 0, motionTokens.duration.verySlow, isInView)
   const growth = previousRow ? ((activeRow.city - previousRow.city) / previousRow.city * 100) : null
   const isPositive = growth !== null && growth >= 0
 
@@ -639,8 +639,8 @@ function PremiumStatsPanel({ data, activeYear }: { data: CityThroughTimeRow[], a
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ 
-            duration: shouldReduceMotion ? 0 : motion.duration.slow / 1000, 
-            delay: shouldReduceMotion ? 0 : motion.delay.short / 1000 
+            duration: shouldReduceMotion ? 0 : motionTokens.duration.slow / 1000, 
+            delay: shouldReduceMotion ? 0 : motionTokens.delay.short / 1000 
           }}
           style={{ transform: 'translateZ(0)' }}
         >
@@ -648,7 +648,7 @@ function PremiumStatsPanel({ data, activeYear }: { data: CityThroughTimeRow[], a
             className="absolute inset-0 rounded-xl opacity-60 group-hover:opacity-100 transition-opacity"
             style={{
               background: `linear-gradient(to bottom right, ${colors.forest[100]}, ${colors.forest[50]})`,
-              transitionDuration: `${motion.duration.normal}ms`,
+              transitionDuration: `${motionTokens.duration.normal}ms`,
             }}
           />
           <div 
@@ -666,8 +666,8 @@ function PremiumStatsPanel({ data, activeYear }: { data: CityThroughTimeRow[], a
                   borderColor: colors.forest[500],
                   boxShadow: elevation.shadow.xl,
                   scale: interaction.hover.scaleSm,
-                  duration: motion.duration.normal / 1000, // Smoother timing
-                  ease: motion.easing.natural,
+                  duration: motionTokens.duration.normal / 1000, // Smoother timing
+                  ease: motionTokens.easing.natural,
                   force3D: true
                 })
               }
@@ -678,8 +678,8 @@ function PremiumStatsPanel({ data, activeYear }: { data: CityThroughTimeRow[], a
                   borderColor: colors.forest[300],
                   boxShadow: elevation.shadow.lg,
                   scale: 1,
-                  duration: motion.duration.normal / 1000, // Smoother timing
-                  ease: motion.easing.natural,
+                  duration: motionTokens.duration.normal / 1000, // Smoother timing
+                  ease: motionTokens.easing.natural,
                   force3D: true
                 })
               }
@@ -689,8 +689,8 @@ function PremiumStatsPanel({ data, activeYear }: { data: CityThroughTimeRow[], a
               if (!shouldReduceMotion) {
                 gsap.to(e.currentTarget, {
                   scale: interaction.active.scale,
-                  duration: motion.duration.fast / 1000,
-                  ease: motion.easing.natural,
+                  duration: motionTokens.duration.fast / 1000,
+                  ease: motionTokens.easing.natural,
                   force3D: true
                 })
               }
@@ -699,8 +699,8 @@ function PremiumStatsPanel({ data, activeYear }: { data: CityThroughTimeRow[], a
               if (!shouldReduceMotion) {
                 gsap.to(e.currentTarget, {
                   scale: 1,
-                  duration: motion.duration.fast / 1000,
-                  ease: motion.easing.natural,
+                  duration: motionTokens.duration.fast / 1000,
+                  ease: motionTokens.easing.natural,
                   force3D: true
                 })
               }
@@ -753,8 +753,8 @@ function PremiumStatsPanel({ data, activeYear }: { data: CityThroughTimeRow[], a
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ 
-            duration: shouldReduceMotion ? 0 : motion.duration.slow / 1000, 
-            delay: shouldReduceMotion ? 0 : motion.delay.medium / 1000 
+            duration: shouldReduceMotion ? 0 : motionTokens.duration.slow / 1000, 
+            delay: shouldReduceMotion ? 0 : motionTokens.delay.medium / 1000 
           }}
           style={{ transform: 'translateZ(0)' }}
         >
@@ -764,7 +764,7 @@ function PremiumStatsPanel({ data, activeYear }: { data: CityThroughTimeRow[], a
               background: isPositive 
                 ? `linear-gradient(to bottom right, ${colors.forest[100]}, ${colors.forest[50]})`
                 : `linear-gradient(to bottom right, ${colors.rust[500]}20, ${colors.rust[500]}10)`,
-              transitionDuration: `${motion.duration.normal}ms`,
+              transitionDuration: `${motionTokens.duration.normal}ms`,
             }}
           />
           <div 
@@ -782,8 +782,8 @@ function PremiumStatsPanel({ data, activeYear }: { data: CityThroughTimeRow[], a
                   borderColor: isPositive ? colors.forest[500] : colors.rust[600],
                   boxShadow: elevation.shadow.xl,
                   scale: interaction.hover.scaleSm,
-                  duration: motion.duration.normal / 1000, // Smoother timing
-                  ease: motion.easing.natural,
+                  duration: motionTokens.duration.normal / 1000, // Smoother timing
+                  ease: motionTokens.easing.natural,
                   force3D: true
                 })
               }
@@ -794,8 +794,8 @@ function PremiumStatsPanel({ data, activeYear }: { data: CityThroughTimeRow[], a
                   borderColor: isPositive ? colors.forest[300] : colors.rust[500],
                   boxShadow: elevation.shadow.lg,
                   scale: 1,
-                  duration: motion.duration.normal / 1000, // Smoother timing
-                  ease: motion.easing.natural,
+                  duration: motionTokens.duration.normal / 1000, // Smoother timing
+                  ease: motionTokens.easing.natural,
                   force3D: true
                 })
               }
@@ -805,8 +805,8 @@ function PremiumStatsPanel({ data, activeYear }: { data: CityThroughTimeRow[], a
               if (!shouldReduceMotion) {
                 gsap.to(e.currentTarget, {
                   scale: interaction.active.scale,
-                  duration: motion.duration.fast / 1000,
-                  ease: motion.easing.natural,
+                  duration: motionTokens.duration.fast / 1000,
+                  ease: motionTokens.easing.natural,
                   force3D: true
                 })
               }
@@ -815,8 +815,8 @@ function PremiumStatsPanel({ data, activeYear }: { data: CityThroughTimeRow[], a
               if (!shouldReduceMotion) {
                 gsap.to(e.currentTarget, {
                   scale: 1,
-                  duration: motion.duration.fast / 1000,
-                  ease: motion.easing.natural,
+                  duration: motionTokens.duration.fast / 1000,
+                  ease: motionTokens.easing.natural,
                   force3D: true
                 })
               }
@@ -878,7 +878,7 @@ function PremiumStatsPanel({ data, activeYear }: { data: CityThroughTimeRow[], a
           initial={{ opacity: 0, height: 0 }}
           animate={{ opacity: 1, height: 'auto' }}
           exit={{ opacity: 0, height: 0 }}
-          transition={{ duration: shouldReduceMotion ? 0 : motion.duration.normal / 1000 }}
+          transition={{ duration: shouldReduceMotion ? 0 : motionTokens.duration.normal / 1000 }}
           style={{
             background: `linear-gradient(to right, ${colors.gold[50]}, ${colors.cream[50]})`,
             border: `${borders.width.medium}px solid ${colors.gold[300]}`,
@@ -935,8 +935,8 @@ function PremiumStatsPanel({ data, activeYear }: { data: CityThroughTimeRow[], a
           initial={{ opacity: 0, scale: 0.95 }}
           animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.95 }}
           transition={{ 
-            duration: shouldReduceMotion ? 0 : motion.duration.normal / 1000, 
-            delay: shouldReduceMotion ? 0 : motion.delay.long / 1000 
+            duration: shouldReduceMotion ? 0 : motionTokens.duration.normal / 1000, 
+            delay: shouldReduceMotion ? 0 : motionTokens.delay.long / 1000 
           }}
           style={{
             gap: spacing[2],
@@ -1030,7 +1030,7 @@ function DecadeJumper({ data, activeYear, onYearSelect }: { data: CityThroughTim
               padding: `${spacing[2] + spacing[1]}px ${spacing[5]}px`,
               borderRadius: borders.radius.lg,
               fontSize: typography.fontSize.sm,
-                  transition: motion.transition.normal,
+                  transition: motionTokens.transition.normal,
                   transform: activeYear === row.year ? `scale(${interaction.hover.scaleMd}) translateZ(0)` : 'scale(1) translateZ(0)',
                   minHeight: '44px', // Better touch target
                   minWidth: '44px', // Better touch target
@@ -1051,8 +1051,8 @@ function DecadeJumper({ data, activeYear, onYearSelect }: { data: CityThroughTim
                   backgroundColor: colors.forest[100],
                   borderColor: colors.forest[300],
                   scale: interaction.hover.scaleSm,
-                  duration: motion.duration.normal / 1000, // Smoother timing
-                  ease: motion.easing.natural,
+                  duration: motionTokens.duration.normal / 1000, // Smoother timing
+                  ease: motionTokens.easing.natural,
                   force3D: true
                 })
               }
@@ -1063,8 +1063,8 @@ function DecadeJumper({ data, activeYear, onYearSelect }: { data: CityThroughTim
                   backgroundColor: colors.forest[50],
                   borderColor: colors.forest[200],
                   scale: 1,
-                  duration: motion.duration.normal / 1000, // Smoother timing
-                  ease: motion.easing.natural,
+                  duration: motionTokens.duration.normal / 1000, // Smoother timing
+                  ease: motionTokens.easing.natural,
                   force3D: true
                 })
               }
@@ -1074,8 +1074,8 @@ function DecadeJumper({ data, activeYear, onYearSelect }: { data: CityThroughTim
               if (!shouldReduceMotion && activeYear !== row.year) {
                 gsap.to(e.currentTarget, {
                   scale: interaction.active.scale,
-                  duration: motion.duration.fast / 1000,
-                  ease: motion.easing.natural,
+                  duration: motionTokens.duration.fast / 1000,
+                  ease: motionTokens.easing.natural,
                   force3D: true
                 })
               }
@@ -1084,8 +1084,8 @@ function DecadeJumper({ data, activeYear, onYearSelect }: { data: CityThroughTim
               if (!shouldReduceMotion && activeYear !== row.year) {
                 gsap.to(e.currentTarget, {
                   scale: 1,
-                  duration: motion.duration.fast / 1000,
-                  ease: motion.easing.natural,
+                  duration: motionTokens.duration.fast / 1000,
+                  ease: motionTokens.easing.natural,
                   force3D: true
                 })
               }
@@ -1139,7 +1139,7 @@ function ChapterSelector({ chapters, activeIndex, onSelect }: { chapters: StoryC
             borderRadius: borders.radius.lg,
             fontSize: typography.fontSize.sm,
             fontWeight: typography.fontWeight.semibold,
-            transition: motion.transition.fast,
+            transition: motionTokens.transition.fast,
             transform: 'translateZ(0)',
             ...(activeIndex === index ? {
               background: `linear-gradient(to right, ${colors.forest[500]}, ${colors.forest[600]})`,
@@ -1158,8 +1158,8 @@ function ChapterSelector({ chapters, activeIndex, onSelect }: { chapters: StoryC
                 backgroundColor: colors.forest[50],
                 borderColor: colors.forest[300],
                 scale: interaction.hover.scaleSm,
-                duration: motion.duration.normal / 1000, // Smoother timing
-                ease: motion.easing.natural,
+                duration: motionTokens.duration.normal / 1000, // Smoother timing
+                ease: motionTokens.easing.natural,
                 force3D: true
               })
             }
@@ -1170,8 +1170,8 @@ function ChapterSelector({ chapters, activeIndex, onSelect }: { chapters: StoryC
                 backgroundColor: colors.cream[100],
                 borderColor: colors.charcoal[200],
                 scale: 1,
-                duration: motion.duration.normal / 1000, // Smoother timing
-                ease: motion.easing.natural,
+                duration: motionTokens.duration.normal / 1000, // Smoother timing
+                ease: motionTokens.easing.natural,
                 force3D: true
               })
             }
@@ -1181,8 +1181,8 @@ function ChapterSelector({ chapters, activeIndex, onSelect }: { chapters: StoryC
             if (!shouldReduceMotion && activeIndex !== index) {
               gsap.to(e.currentTarget, {
                 scale: interaction.active.scale,
-                duration: motion.duration.fast / 1000,
-                ease: motion.easing.natural,
+                duration: motionTokens.duration.fast / 1000,
+                ease: motionTokens.easing.natural,
                 force3D: true
               })
             }
@@ -1191,8 +1191,8 @@ function ChapterSelector({ chapters, activeIndex, onSelect }: { chapters: StoryC
             if (!shouldReduceMotion && activeIndex !== index) {
               gsap.to(e.currentTarget, {
                 scale: 1,
-                duration: motion.duration.fast / 1000,
-                ease: motion.easing.natural,
+                duration: motionTokens.duration.fast / 1000,
+                ease: motionTokens.easing.natural,
                 force3D: true
               })
             }
@@ -1225,7 +1225,7 @@ function ChapterPanel({ chapter }: { chapter: StoryChapter }) {
       initial={{ opacity: 0, x: 20 }}
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: -20 }}
-      transition={{ duration: shouldReduceMotion ? 0 : motion.duration.fast / 1000 }}
+      transition={{ duration: shouldReduceMotion ? 0 : motionTokens.duration.fast / 1000 }}
       style={{ 
         display: 'flex',
         flexDirection: 'column',
@@ -1289,8 +1289,8 @@ function ChapterPanel({ chapter }: { chapter: StoryChapter }) {
                 gsap.to(e.currentTarget, {
                   borderColor: colors.gold[400],
                   scale: interaction.hover.scaleSm,
-                  duration: motion.duration.normal / 1000, // Smoother timing
-                  ease: motion.easing.natural,
+                  duration: motionTokens.duration.normal / 1000, // Smoother timing
+                  ease: motionTokens.easing.natural,
                   force3D: true
                 })
               }
@@ -1300,8 +1300,8 @@ function ChapterPanel({ chapter }: { chapter: StoryChapter }) {
                 gsap.to(e.currentTarget, {
                   borderColor: colors.gold[200],
                   scale: 1,
-                  duration: motion.duration.normal / 1000, // Smoother timing
-                  ease: motion.easing.natural,
+                  duration: motionTokens.duration.normal / 1000, // Smoother timing
+                  ease: motionTokens.easing.natural,
                   force3D: true
                 })
               }
@@ -1311,8 +1311,8 @@ function ChapterPanel({ chapter }: { chapter: StoryChapter }) {
               if (!shouldReduceMotion) {
                 gsap.to(e.currentTarget, {
                   scale: interaction.active.scale,
-                  duration: motion.duration.fast / 1000,
-                  ease: motion.easing.natural,
+                  duration: motionTokens.duration.fast / 1000,
+                  ease: motionTokens.easing.natural,
                   force3D: true
                 })
               }
@@ -1321,8 +1321,8 @@ function ChapterPanel({ chapter }: { chapter: StoryChapter }) {
               if (!shouldReduceMotion) {
                 gsap.to(e.currentTarget, {
                   scale: 1,
-                  duration: motion.duration.fast / 1000,
-                  ease: motion.easing.natural,
+                  duration: motionTokens.duration.fast / 1000,
+                  ease: motionTokens.easing.natural,
                   force3D: true
                 })
               }
@@ -1424,9 +1424,9 @@ export function AuburnDataTeaser() {
           {
             opacity: 1,
             y: 0,
-            duration: motion.duration.slower / 1000,
-            stagger: motion.delay.short / 1000,
-            ease: motion.easing.smooth,
+            duration: motionTokens.duration.slower / 1000,
+            stagger: motionTokens.delay.short / 1000,
+            ease: motionTokens.easing.smooth,
             scrollTrigger: {
               trigger: sectionRef.current,
               start: 'top 85%', // Slightly later trigger for better timing
@@ -1502,8 +1502,8 @@ export function AuburnDataTeaser() {
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
           transition={{ 
-            duration: shouldReduceMotion ? 0 : motion.duration.slower / 1000,
-            ease: motion.easing.smooth
+            duration: shouldReduceMotion ? 0 : motionTokens.duration.slower / 1000,
+            ease: motionTokens.easing.smooth
           }}
         >
           <div 
@@ -1561,8 +1561,8 @@ export function AuburnDataTeaser() {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.95 }}
           transition={{ 
-            duration: shouldReduceMotion ? 0 : motion.duration.slower / 1000, 
-            delay: shouldReduceMotion ? 0 : motion.delay.medium / 1000 
+            duration: shouldReduceMotion ? 0 : motionTokens.duration.slower / 1000, 
+            delay: shouldReduceMotion ? 0 : motionTokens.delay.medium / 1000 
           }}
           style={{
             background: `linear-gradient(to right, ${colors.forest[500]}, ${colors.forest[600]})`,
@@ -1674,8 +1674,8 @@ export function AuburnDataTeaser() {
           initial={{ opacity: 0, y: 40 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
           transition={{ 
-            duration: shouldReduceMotion ? 0 : motion.duration.slower / 1000, 
-            delay: shouldReduceMotion ? 0 : motion.delay.long / 1000 
+            duration: shouldReduceMotion ? 0 : motionTokens.duration.slower / 1000, 
+            delay: shouldReduceMotion ? 0 : motionTokens.delay.long / 1000 
           }}
           style={{ 
             display: 'flex',
@@ -1938,7 +1938,7 @@ export function AuburnDataTeaser() {
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
           transition={{ 
-            delay: shouldReduceMotion ? 0 : motion.delay.long / 1000 
+            delay: shouldReduceMotion ? 0 : motionTokens.delay.long / 1000 
           }}
           style={{
             marginTop: spacing[16],
@@ -2005,7 +2005,7 @@ export function AuburnDataTeaser() {
                   fontSize: typography.fontSize.lg,
                   boxShadow: elevation.shadow.lg,
                   transform: 'translateZ(0)',
-                  transition: motion.transition.normal,
+                  transition: motionTokens.transition.normal,
                 }}
                 onMouseEnter={(e) => {
                   if (!shouldReduceMotion) {
@@ -2013,14 +2013,14 @@ export function AuburnDataTeaser() {
                       background: `linear-gradient(to right, ${colors.forest[600]}, ${colors.forest[700]})`,
                       scale: interaction.hover.scaleMd,
                       boxShadow: elevation.shadow.xl,
-                  duration: motion.duration.fast / 1000,
-                  ease: motion.easing.natural,
+                  duration: motionTokens.duration.fast / 1000,
+                  ease: motionTokens.easing.natural,
                       force3D: true
                     })
                     gsap.to(e.currentTarget.querySelector('svg'), {
                       x: spacing[1],
-                  duration: motion.duration.fast / 1000,
-                  ease: motion.easing.natural,
+                  duration: motionTokens.duration.fast / 1000,
+                  ease: motionTokens.easing.natural,
                       force3D: true
                     })
                   }
@@ -2031,14 +2031,14 @@ export function AuburnDataTeaser() {
                       background: `linear-gradient(to right, ${colors.forest[500]}, ${colors.forest[600]})`,
                       scale: 1,
                       boxShadow: elevation.shadow.lg,
-                  duration: motion.duration.fast / 1000,
-                  ease: motion.easing.natural,
+                  duration: motionTokens.duration.fast / 1000,
+                  ease: motionTokens.easing.natural,
                       force3D: true
                     })
                     gsap.to(e.currentTarget.querySelector('svg'), {
                       x: 0,
-                  duration: motion.duration.fast / 1000,
-                  ease: motion.easing.natural,
+                  duration: motionTokens.duration.fast / 1000,
+                  ease: motionTokens.easing.natural,
                       force3D: true
                     })
                   }
@@ -2066,7 +2066,7 @@ export function AuburnDataTeaser() {
                   fontWeight: typography.fontWeight.bold,
                   fontSize: typography.fontSize.lg,
                   transform: 'translateZ(0)',
-                  transition: motion.transition.normal,
+                  transition: motionTokens.transition.normal,
                 }}
                 onMouseEnter={(e) => {
                   if (!shouldReduceMotion) {
@@ -2074,8 +2074,8 @@ export function AuburnDataTeaser() {
                       backgroundColor: colors.forest[50],
                       borderColor: colors.forest[500],
                       scale: interaction.hover.scaleSm,
-                  duration: motion.duration.fast / 1000,
-                  ease: motion.easing.natural,
+                  duration: motionTokens.duration.fast / 1000,
+                  ease: motionTokens.easing.natural,
                       force3D: true
                     })
                   }
@@ -2086,8 +2086,8 @@ export function AuburnDataTeaser() {
                       backgroundColor: 'transparent',
                       borderColor: colors.forest[300],
                       scale: 1,
-                  duration: motion.duration.fast / 1000,
-                  ease: motion.easing.natural,
+                  duration: motionTokens.duration.fast / 1000,
+                  ease: motionTokens.easing.natural,
                       force3D: true
                     })
                   }
