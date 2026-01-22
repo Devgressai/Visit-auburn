@@ -455,6 +455,21 @@ export const ROUTE_MAP: Record<string, RouteMetadata> = {
     blurb: 'Get answers to frequently asked questions about visiting Auburn, from weather to parking and beyond.',
   },
 
+  '/contact': {
+    path: '/contact',
+    breadcrumbLabel: 'Contact Us',
+    relatedPages: [
+      '/plan/visitor-information',
+      '/plan/faq',
+      '/plan/meetings',
+      '/plan/weddings',
+      '/plan/getting-here',
+      '/accommodations',
+    ],
+    photoRequired: false,
+    blurb: 'Get in touch with Visit Auburn for trip planning assistance, visitor information, and answers to your questions.',
+  },
+
   '/plan/weddings': {
     path: '/plan/weddings',
     breadcrumbLabel: 'Weddings',

@@ -127,6 +127,11 @@ export function Footer() {
                   FAQ
                 </Link>
               </li>
+              <li>
+                <Link href="/contact" className="hover:text-white transition-colors">
+                  Contact Us
+                </Link>
+              </li>
             </ul>
           </div>
 

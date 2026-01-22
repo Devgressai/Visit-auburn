@@ -54,6 +54,7 @@ const navigation = [
       { name: 'Getting Here', href: '/plan/getting-here' },
       { name: 'Maps & Guides', href: '/plan/maps-guides' },
       { name: 'FAQ', href: '/plan/faq' },
+      { name: 'Contact Us', href: '/contact' },
       { name: 'Weddings & Events', href: '/plan/weddings' },
       { name: 'Meetings & Groups', href: '/plan/meetings' },
       { name: 'Venues', href: '/plan/venues' },

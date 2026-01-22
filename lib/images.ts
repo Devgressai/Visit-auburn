@@ -44,17 +44,17 @@ export const activityImages = {
   'foresthill-bridge': 'https://images.unsplash.com/photo-1470158499416-75be5168c2f3?w=1200&q=80', // Bridge
 }
 
-// Accommodation images
+// Accommodation images - using local Auburn images
 export const accommodationImages = {
-  'historic-auburn-hotel': 'https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=1200&q=80', // Historic hotel
-  'gold-country-inn': 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1200&q=80', // Motel
+  'historic-auburn-hotel': '/images/auburn/weddings/historic-venue.webp', // Historic hotel building
+  'gold-country-inn': '/images/auburn/weddings/reception-hall.webp', // Modern motel interior
 }
 
-// Dining images
+// Dining images - using local Auburn images
 export const diningImages = {
-  'mt-vernon-winery': 'https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?w=1200&q=80', // Winery
-  'auburn-old-town-farmers-market': 'https://images.unsplash.com/photo-1488459716781-31db52582fe9?w=1200&q=80', // Farmers market
-  'out-of-order-arcade': 'https://images.unsplash.com/photo-1511882150382-421056c89033?w=1200&q=80', // Arcade
+  'mt-vernon-winery': '/images/auburn/dining/wine-tasting.webp', // Winery tasting room
+  'auburn-old-town-farmers-market': '/images/auburn/dining/farmers-market.webp', // Farmers market
+  'out-of-order-arcade': '/images/auburn/dining/cafe-ambiance.webp', // Arcade/entertainment venue
 }
 
 // Event images
@@ -66,24 +66,38 @@ export const eventImages = {
 /**
  * Get image URL from various image source formats
  * Supports: mockUrl, asset.url, direct string, or fallback to placeholder
+ * Prioritizes local images over Unsplash URLs
  */
 export function getImageUrl(source: any, fallbackKey: PlaceholderKey = 'hero'): string {
   if (!source) {
     return getPlaceholderImage(fallbackKey)
   }
   
-  // Direct string URL
+  // Direct string URL - check if it's a local path
   if (typeof source === 'string') {
+    // If it starts with /, it's a local path - use it directly
+    if (source.startsWith('/')) {
+      return source
+    }
+    // Otherwise it's an external URL (Unsplash, etc)
     return source
   }
   
   // Mock image with mockUrl
   if (source.mockUrl) {
+    // Prefer local paths over Unsplash URLs
+    if (source.mockUrl.startsWith('/')) {
+      return source.mockUrl
+    }
     return source.mockUrl
   }
   
   // Image with asset.url (from mock content)
   if (source.asset?.url) {
+    // Prefer local paths over Unsplash URLs
+    if (source.asset.url.startsWith('/')) {
+      return source.asset.url
+    }
     return source.asset.url
   }
   
