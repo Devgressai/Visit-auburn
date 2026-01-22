@@ -52,30 +52,30 @@ export default async function DiningPage() {
         <div className="container mx-auto px-4">
 
           {/* Intro with Auburn Images */}
-          <div className="max-w-4xl mx-auto mb-16">
-            <div className="grid md:grid-cols-2 gap-8 mb-12">
+          <div className="max-w-6xl mx-auto mb-16">
+            <div className="grid md:grid-cols-2 gap-12 mb-12">
               <div>
-                <h2 className="text-2xl md:text-3xl font-bold text-charcoal-900 mb-4">
+                <h2 className="text-2xl md:text-3xl font-bold text-charcoal-900 mb-6">
                   A Taste of Gold Country
                 </h2>
                 <p className="text-charcoal-600 text-lg mb-6 leading-relaxed">
                   From farm-to-fork dining to award-winning wineries, Auburn's culinary scene 
                   reflects the rich bounty of the Sierra foothills. Pull up a chair and dig in.
                 </p>
-                <p className="text-charcoal-600 mb-6 leading-relaxed">
+                <p className="text-charcoal-600 text-base mb-6 leading-relaxed">
                   Explore historic Old Town restaurants, discover local wineries, and enjoy fresh 
                   ingredients from the weekly farmers market. Auburn's dining landscape has evolved 
                   from Gold Rush-era saloons to modern establishments that celebrate California's 
                   agricultural heritage while embracing contemporary culinary trends.
                 </p>
-                <p className="text-charcoal-600 mb-6 leading-relaxed">
+                <p className="text-charcoal-600 text-base mb-6 leading-relaxed">
                   The Sierra Foothills region surrounding Auburn is renowned for its wine production, 
                   with over 200 wineries within a short drive. Many tasting rooms and wine bars have 
                   opened in downtown Auburn, making it easy to sample the region's best vintages without 
                   leaving the city limits. The area's Mediterranean climate and diverse terroir produce 
                   exceptional Zinfandel, Syrah, and Rhône varietals that have gained national recognition.
                 </p>
-                <p className="text-charcoal-600 leading-relaxed">
+                <p className="text-charcoal-600 text-base leading-relaxed">
                   Beyond wine, Auburn's food scene showcases the best of California's farm-to-table movement. 
                   Local chefs source ingredients from nearby farms, ranches, and orchards, creating menus 
                   that change with the seasons. From spring asparagus to summer stone fruits, fall apples 
@@ -83,11 +83,16 @@ export default async function DiningPage() {
                   year-round.
                 </p>
               </div>
-              <div>
-                <AuburnImage 
-                  imageId="dining-local-cuisine"
-                  className="rounded-lg w-full h-[300px] object-cover shadow-lg"
-                />
+              <div className="relative">
+                <div className="sticky top-24">
+                  <AuburnImage 
+                    imageId="dining-local-cuisine"
+                    className="rounded-lg w-full h-[400px] object-cover shadow-lg"
+                  />
+                  <p className="text-sm text-charcoal-600 mt-3 italic">
+                    Photo: Auburn Culinary Alliance
+                  </p>
+                </div>
               </div>
             </div>
 

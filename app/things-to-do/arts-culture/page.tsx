@@ -206,7 +206,7 @@ export default async function ArtsCulturePage() {
             </p>
 
             <h3 className="text-2xl font-bold text-charcoal-900 mb-4">Community Theater</h3>
-            <p className="mb-4">
+            <p className="text-charcoal-700 mb-4">
               Local theater groups produce several shows annually, from classic plays to musical productions. Performances 
               happen in various Auburn venues, often utilizing historic buildings for added atmosphere. Community theater 
               here means exactly that—your server at lunch might be performing Shakespeare by evening, and audiences 
