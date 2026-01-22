@@ -1,19 +1,26 @@
 'use client'
 
 /**
- * Auburn Data Section - Homepage (Enhanced Interactive)
+ * Auburn Data Visualization - Top 1% Showcase Experience
  * 
- * Rich interactive features with forest green accents matching homepage.
- * Includes milestone markers, decade jumps, timeline progress, and more.
+ * A cinematic, premium data visualization that tells Auburn's story through
+ * interactive charts, smooth animations, and immersive storytelling.
+ * 
+ * Features:
+ * - D3.js-powered advanced visualizations
+ * - GSAP cinematic animations
+ * - Scroll-triggered narrative reveals
+ * - Premium, trustworthy design
+ * - Mobile-first responsive
+ * - Fully accessible
  */
 
 import { useState, useMemo, useCallback, useEffect, useRef } from 'react'
-import { motion, AnimatePresence, useReducedMotion, useInView } from 'framer-motion'
+import { motion, AnimatePresence, useInView } from 'framer-motion'
 import Link from 'next/link'
 import { 
   ArrowRight, 
   TrendingUp,
-  TrendingDown,
   Users,
   Calendar,
   ChevronLeft,
@@ -24,19 +31,47 @@ import {
   Info,
   Zap,
   BarChart3,
+  Clock,
 } from 'lucide-react'
+import * as d3 from 'd3'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { 
   auburnDataStoryConfig,
   type CityThroughTimeRow,
   type StoryChapter,
 } from '@/lib/data/cityThroughTime'
 import { cn } from '@/lib/utils'
+import { 
+  colors, 
+  spacing, 
+  typography, 
+  elevation, 
+  depth, 
+  motion, 
+  interaction, 
+  breakpoints,
+  blur,
+  borders,
+  grid,
+} from '@/lib/designTokens'
+import { useReducedMotion } from '@/lib/hooks/useReducedMotion'
+
+// Register GSAP plugins
+if (typeof window !== 'undefined') {
+  try {
+    gsap.registerPlugin(ScrollTrigger)
+  } catch (e) {
+    // ScrollTrigger not available, continue without it
+    console.warn('ScrollTrigger not available, scroll animations disabled')
+  }
+}
 
 // ═══════════════════════════════════════════════════════════════════════════
 // ANIMATED COUNTER HOOK
 // ═══════════════════════════════════════════════════════════════════════════
 
-function useCountUp(end: number, duration: number = 1200, isActive: boolean = true): number {
+function useCountUp(end: number, duration: number = motion.duration.verySlow, isActive: boolean = true): number {
   const [count, setCount] = useState(0)
   const shouldReduceMotion = useReducedMotion()
 
@@ -63,7 +98,7 @@ function useCountUp(end: number, duration: number = 1200, isActive: boolean = tr
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
-// INTERACTIVE CHART WITH MILESTONES
+// PREMIUM D3.JS CHART COMPONENT
 // ═══════════════════════════════════════════════════════════════════════════
 
 interface ChartProps {
@@ -74,104 +109,201 @@ interface ChartProps {
   onYearHover: (year: number | null) => void
 }
 
-function InteractiveChart({ data, activeYear, hoveredYear, onYearClick, onYearHover }: ChartProps) {
+function PremiumChart({ data, activeYear, hoveredYear, onYearClick, onYearHover }: ChartProps) {
   const shouldReduceMotion = useReducedMotion()
   const containerRef = useRef<HTMLDivElement>(null)
   const svgRef = useRef<SVGSVGElement>(null)
-  const isInView = useInView(containerRef, { once: true })
+  const isInView = useInView(containerRef, { once: true, margin: '-100px' })
   
-  // Responsive dimensions based on container
-  const [dimensions, setDimensions] = useState({ width: 800, height: 300 })
+  const [dimensions, setDimensions] = useState({ width: 800, height: 400 })
+  const [isAnimating, setIsAnimating] = useState(false)
   
   useEffect(() => {
+    let rafId: number | null = null
+    
     const updateDimensions = () => {
       if (!containerRef.current) return
-      // Use getBoundingClientRect for more accurate measurements
       const rect = containerRef.current.getBoundingClientRect()
       const containerWidth = rect.width
       
-      // Responsive sizing: Mobile (full width), Tablet (larger), Desktop (even larger)
       let width: number
       let height: number
       
-      if (containerWidth < 640) {
-        // Mobile: Full width, compact height
-        width = Math.max(containerWidth - 2, 320) // Account for any border/padding
-        height = Math.max(280, width * 0.5)
-      } else if (containerWidth < 1024) {
-        // Tablet: Larger chart
-        width = Math.max(containerWidth - 2, 640)
-        height = Math.max(350, width * 0.45)
+      if (containerWidth < breakpoints.sm) {
+        width = Math.max(containerWidth - spacing[2], breakpoints.xs)
+        height = Math.max(300, width * 0.6)
+      } else if (containerWidth < breakpoints.lg) {
+        width = Math.max(containerWidth - spacing[2], breakpoints.sm)
+        height = Math.max(380, width * 0.5)
       } else {
-        // Desktop: Maximum impact
-        width = Math.min(containerWidth - 2, 1200)
-        height = Math.max(400, Math.min(width * 0.4, 500))
+        width = Math.min(containerWidth - spacing[2], grid.container['2xl'])
+        height = Math.max(450, Math.min(width * 0.45, 550))
       }
       
       setDimensions({ width, height })
     }
     
+    // Throttle resize with RAF for better performance
+    const handleResize = () => {
+      if (rafId) cancelAnimationFrame(rafId)
+      rafId = requestAnimationFrame(updateDimensions)
+    }
+    
     updateDimensions()
-    // Use ResizeObserver for more accurate container size tracking
-    const resizeObserver = new ResizeObserver(updateDimensions)
+    const resizeObserver = new ResizeObserver(() => {
+      if (rafId) cancelAnimationFrame(rafId)
+      rafId = requestAnimationFrame(updateDimensions)
+    })
+    
     if (containerRef.current) {
       resizeObserver.observe(containerRef.current)
     }
-    window.addEventListener('resize', updateDimensions)
+    window.addEventListener('resize', handleResize, { passive: true })
+    
     return () => {
       resizeObserver.disconnect()
-      window.removeEventListener('resize', updateDimensions)
+      window.removeEventListener('resize', handleResize)
+      if (rafId) cancelAnimationFrame(rafId)
     }
   }, [])
   
-  // Responsive margins
   const margin = useMemo(() => {
-    if (dimensions.width < 640) {
-      return { top: 20, right: 15, bottom: 40, left: 45 }
-    } else if (dimensions.width < 1024) {
-      return { top: 25, right: 25, bottom: 45, left: 60 }
+    if (dimensions.width < breakpoints.sm) {
+      return { 
+        top: spacing[8] - spacing[2], 
+        right: spacing[5], 
+        bottom: spacing[12] + spacing[2], 
+        left: spacing[12] + spacing[2] 
+      }
+    } else if (dimensions.width < breakpoints.lg) {
+      return { 
+        top: spacing[8] + spacing[3], 
+        right: spacing[8] - spacing[2], 
+        bottom: spacing[12] + spacing[5], 
+        left: spacing[16] + spacing[6] 
+      }
     } else {
-      return { top: 30, right: 40, bottom: 50, left: 80 }
+      return { 
+        top: spacing[10], 
+        right: spacing[12] + spacing[2], 
+        bottom: spacing[12] + spacing[8], 
+        left: spacing[20] + spacing[10] 
+      }
     }
   }, [dimensions.width])
   
   const chartWidth = dimensions.width - margin.left - margin.right
   const chartHeight = dimensions.height - margin.top - margin.bottom
   
-  const maxPop = useMemo(() => Math.max(...data.map(d => d.city)), [data])
-  const chartMaxPop = maxPop * 1.1 // Add 10% padding
+  // D3 scales
+  const xScale = useMemo(() => {
+    return d3.scaleLinear()
+      .domain([data[0].year, data[data.length - 1].year])
+      .range([0, chartWidth])
+  }, [data, chartWidth])
   
-  // Scale functions (pixel-based)
-  const getY = (value: number) => {
-    return chartHeight - (value / chartMaxPop) * chartHeight
-  }
+  const yScale = useMemo(() => {
+    const maxPop = Math.max(...data.map(d => d.city)) * 1.15
+    return d3.scaleLinear()
+      .domain([0, maxPop])
+      .range([chartHeight, 0])
+  }, [data, chartHeight])
   
-  const getX = (index: number) => {
-    return (index / (data.length - 1)) * chartWidth
-  }
+  // Line generator
+  const line = useMemo(() => {
+    return d3.line<CityThroughTimeRow>()
+      .x(d => xScale(d.year))
+      .y(d => yScale(d.city))
+      .curve(d3.curveMonotoneX)
+  }, [xScale, yScale])
   
-  // Format population for Y-axis labels
+  const area = useMemo(() => {
+    return d3.area<CityThroughTimeRow>()
+      .x(d => xScale(d.year))
+      .y0(chartHeight)
+      .y1(d => yScale(d.city))
+      .curve(d3.curveMonotoneX)
+  }, [xScale, yScale, chartHeight])
+  
+  const linePath = useMemo(() => line(data) || '', [line, data])
+  const areaPath = useMemo(() => area(data) || '', [area, data])
+  
+  // GSAP animation on mount
+  useEffect(() => {
+    if (!isInView || shouldReduceMotion || !svgRef.current) return
+    
+    const path = svgRef.current.querySelector('.main-line') as SVGPathElement
+    const areaPathEl = svgRef.current.querySelector('.area-fill') as SVGPathElement
+    
+    if (path && areaPathEl) {
+      const pathLength = path.getTotalLength()
+      const areaPathLength = areaPathEl.getTotalLength()
+      
+      gsap.set(path, { strokeDasharray: pathLength, strokeDashoffset: pathLength })
+      gsap.set(areaPathEl, { opacity: 0 })
+      
+      const tl = gsap.timeline({ defaults: { ease: motion.easing.smooth } })
+      
+      tl.to(areaPathEl, {
+        opacity: 1,
+        duration: motion.duration.verySlow / 1000
+      })
+      .to(path, {
+        strokeDashoffset: 0,
+        duration: motion.duration.slowest / 1000,
+        ease: motion.easing.consistent
+      }, `-=${motion.duration.slower / 1000}`)
+      
+      // Animate points
+      const points = svgRef.current.querySelectorAll('.data-point')
+      gsap.fromTo(points, 
+        { scale: 0, opacity: 0 },
+        {
+          scale: 1,
+          opacity: 1,
+          duration: motion.duration.normal / 1000,
+          stagger: motion.delay.short / 1000,
+          ease: motion.easing.bounce,
+          delay: (motion.duration.verySlow + motion.duration.normal) / 1000
+        }
+      )
+    }
+  }, [isInView, shouldReduceMotion])
+  
+  // Animate active year change
+  useEffect(() => {
+    if (shouldReduceMotion || !svgRef.current) return
+    
+    const activePoint = svgRef.current.querySelector(`[data-year="${activeYear}"]`) as SVGCircleElement
+    if (activePoint) {
+      gsap.to(activePoint, {
+        scale: interaction.hover.scaleLg + 0.3,
+        duration: motion.duration.normal / 1000,
+        ease: motion.easing.bounce,
+        force3D: true
+      })
+      
+      const otherPoints = svgRef.current.querySelectorAll(`.data-point:not([data-year="${activeYear}"])`)
+      gsap.to(otherPoints, {
+        scale: 1,
+        duration: motion.duration.fast / 1000,
+        ease: motion.easing.natural,
+        force3D: true
+      })
+    }
+  }, [activeYear, shouldReduceMotion])
+  
   const formatPopulation = (value: number) => {
     if (value >= 1000) return `${(value / 1000).toFixed(1)}k`
     return value.toString()
   }
   
-  // Generate Y-axis ticks (5 levels)
   const yTicks = useMemo(() => {
+    const maxPop = Math.max(...data.map(d => d.city)) * 1.15
     const tickCount = 5
-    const step = chartMaxPop / (tickCount - 1)
+    const step = maxPop / (tickCount - 1)
     return Array.from({ length: tickCount }, (_, i) => Math.round(step * i))
-  }, [chartMaxPop])
-
-  const linePath = useMemo(() => {
-    const points = data.map((d, i) => `${getX(i)},${getY(d.city)}`)
-    return `M ${points.join(' L ')}`
-  }, [data, chartMaxPop])
-
-  const areaPath = useMemo(() => {
-    const points = data.map((d, i) => `${getX(i)},${getY(d.city)}`)
-    return `M ${points.join(' L ')} L ${chartWidth},${chartHeight} L 0,${chartHeight} Z`
-  }, [data, chartMaxPop])
+  }, [data])
 
   return (
     <div 
@@ -191,12 +323,19 @@ function InteractiveChart({ data, activeYear, hoveredYear, onYearClick, onYearHo
         style={{ display: 'block', maxWidth: '100%', height: 'auto' }}
       >
         <defs>
-          <linearGradient id="forestGradient" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#2D5A27" stopOpacity="0.4" />
-            <stop offset="50%" stopColor="#2D5A27" stopOpacity="0.15" />
-            <stop offset="100%" stopColor="#2D5A27" stopOpacity="0.08" />
+          <linearGradient id="premiumGradient" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor={colors.forest[500]} stopOpacity="0.5" />
+            <stop offset="50%" stopColor={colors.forest[500]} stopOpacity="0.2" />
+            <stop offset="100%" stopColor={colors.forest[500]} stopOpacity="0.1" />
           </linearGradient>
-          <filter id="forestGlow" x="-50%" y="-50%" width="200%" height="200%">
+          <filter id="glow">
+            <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+            <feMerge>
+              <feMergeNode in="coloredBlur"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+          <filter id="softGlow">
             <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
             <feMerge>
               <feMergeNode in="coloredBlur"/>
@@ -206,32 +345,37 @@ function InteractiveChart({ data, activeYear, hoveredYear, onYearClick, onYearHo
         </defs>
 
         <g transform={`translate(${margin.left}, ${margin.top})`}>
-          {/* Grid lines - bolder for better visibility */}
+          {/* Grid lines */}
           {yTicks.map((tick) => (
             <line
               key={tick}
               x1={0}
-              y1={getY(tick)}
+              y1={yScale(tick)}
               x2={chartWidth}
-              y2={getY(tick)}
-              stroke="#2D5A27"
-              strokeOpacity={tick === 0 ? 0.4 : 0.18}
-              strokeWidth={tick === 0 ? 2.5 : 1}
-              strokeDasharray={tick === 0 ? "0" : "3,4"}
+              y2={yScale(tick)}
+              stroke={colors.forest[500]}
+              strokeOpacity={tick === 0 ? 0.3 : 0.1}
+              strokeWidth={tick === 0 ? borders.width.medium : borders.width.thin}
+              strokeDasharray={tick === 0 ? "0" : "4,4"}
             />
           ))}
 
-          {/* Y-axis labels - larger and bolder */}
+          {/* Y-axis labels */}
           {yTicks.map((tick) => (
             <text
               key={`label-${tick}`}
-              x={-12}
-              y={getY(tick)}
+              x={-15}
+              y={yScale(tick)}
               textAnchor="end"
               dominantBaseline="middle"
-              className="fill-forest-700 font-bold"
               style={{ 
-                fontSize: dimensions.width < 640 ? '11px' : dimensions.width < 1024 ? '13px' : '14px'
+                fill: colors.forest[700],
+                fontWeight: typography.fontWeight.bold,
+                fontSize: dimensions.width < breakpoints.sm 
+                  ? typography.fontSize.xs 
+                  : dimensions.width < breakpoints.lg 
+                    ? typography.fontSize.sm 
+                    : typography.fontSize.base
               }}
             >
               {formatPopulation(tick)}
@@ -239,42 +383,39 @@ function InteractiveChart({ data, activeYear, hoveredYear, onYearClick, onYearHo
           ))}
 
           {/* Area fill */}
-          <motion.path
+          <path
+            className="area-fill"
             d={areaPath}
-            fill="url(#forestGradient)"
-            initial={{ opacity: 0 }}
-            animate={isInView ? { opacity: 1 } : { opacity: 0 }}
-            transition={{ duration: shouldReduceMotion ? 0 : 1, delay: 0.3 }}
+            fill="url(#premiumGradient)"
           />
 
-          {/* Main line - much bolder */}
-          <motion.path
+          {/* Main line */}
+          <path
+            className="main-line"
             d={linePath}
             fill="none"
-            stroke="#2D5A27"
-            strokeWidth={dimensions.width < 640 ? "3" : dimensions.width < 1024 ? "3.5" : "4"}
+            stroke={colors.forest[500]}
+            strokeWidth={dimensions.width < breakpoints.sm ? "3.5" : dimensions.width < breakpoints.lg ? "4" : "4.5"}
             strokeLinecap="round"
             strokeLinejoin="round"
-            initial={{ pathLength: 0, opacity: 0 }}
-            animate={isInView ? { pathLength: 1, opacity: 1 } : { pathLength: 0, opacity: 0 }}
-            transition={{ duration: shouldReduceMotion ? 0 : 1.5, ease: "easeOut" }}
+            filter="url(#softGlow)"
           />
 
-          {/* Interactive points & milestones */}
-          {data.map((row, i) => {
-            const x = getX(i)
-            const y = getY(row.city)
+          {/* Data points */}
+          {data.map((row) => {
+            const x = xScale(row.year)
+            const y = yScale(row.city)
             const isActive = row.year === activeYear
             const isHovered = row.year === hoveredYear
             const hasMilestone = !!row.milestoneTitle
 
             return (
               <g key={row.year}>
-                {/* Larger hover zone */}
+                {/* Interactive hit area */}
                 <rect
-                  x={x - 12}
+                  x={x - 15}
                   y={0}
-                  width={24}
+                  width={30}
                   height={chartHeight}
                   fill="transparent"
                   className="cursor-pointer"
@@ -283,207 +424,179 @@ function InteractiveChart({ data, activeYear, hoveredYear, onYearClick, onYearHo
                   onMouseLeave={() => onYearHover(null)}
                   onFocus={() => onYearHover(row.year)}
                   onBlur={() => onYearHover(null)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault()
+                      onYearClick(row.year)
+                    }
+                  }}
                   tabIndex={0}
                   role="button"
                   aria-label={`${row.year}: ${row.city.toLocaleString()} residents${hasMilestone ? ` - ${row.milestoneTitle}` : ''}`}
                 />
 
-                {/* Vertical indicator line - bolder */}
+                {/* Active indicator line */}
                 {(isActive || isHovered) && (
                   <motion.line
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     x1={x}
-                    y1={-10}
+                    y1={-15}
                     x2={x}
-                    y2={chartHeight + 5}
-                    stroke={isActive ? "#2D5A27" : "#47AF7F"}
-                    strokeWidth={isActive ? "2.5" : "2"}
-                    strokeOpacity={isActive ? 0.9 : 0.6}
-                    strokeDasharray={isActive ? "0" : "4,4"}
+                    y2={chartHeight + 10}
+                    stroke={isActive ? colors.forest[500] : colors.forest[300]}
+                    strokeWidth={isActive ? borders.width.thick : borders.width.medium}
+                    strokeOpacity={isActive ? 0.8 : 0.5}
+                    strokeDasharray={isActive ? "0" : "5,5"}
                   />
                 )}
 
-                {/* Glow effect on hover/active */}
-                {(isActive || isHovered) && (
-                  <motion.circle
-                    initial={{ scale: 0.8, opacity: 0 }}
-                    animate={{ scale: 1.5, opacity: 0 }}
-                    transition={{ duration: 0.6, repeat: Infinity }}
-                    cx={x}
-                    cy={y}
-                    r="6"
-                    fill={isActive ? "#2D5A27" : "#47AF7F"}
-                  />
-                )}
-
-                {/* Milestone indicator with pulse */}
+                {/* Milestone indicator */}
                 {hasMilestone && !isActive && !isHovered && (
-                  <motion.g
-                    initial={{ scale: 0, opacity: 0 }}
-                    animate={isInView ? { scale: 1, opacity: 1 } : { scale: 0, opacity: 0 }}
-                    transition={{ delay: shouldReduceMotion ? 0 : 0.7 + i * 0.05 }}
-                  >
-                    <circle
-                      cx={x}
-                      cy={y - 8}
-                      r="3"
-                      fill="#D4A017"
-                      stroke="#fff"
-                      strokeWidth="1"
-                    />
-                    <motion.circle
-                      cx={x}
-                      cy={y - 8}
-                      r="5"
-                      fill="none"
-                      stroke="#D4A017"
-                      strokeWidth="0.8"
-                      strokeOpacity="0.6"
-                      animate={{ scale: [1, 1.4, 1], opacity: [0.6, 0, 0.6] }}
-                      transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                    />
-                  </motion.g>
+                  <circle
+                    cx={x}
+                    cy={y - 10}
+                    r="4"
+                    fill={colors.gold[500]}
+                    stroke="#fff"
+                    strokeWidth={borders.width.thin + 0.5}
+                    opacity={0.8}
+                  />
                 )}
 
-                {/* Main data point - much larger and bolder */}
-                <motion.circle
+                {/* Data point */}
+                <circle
+                  className="data-point"
+                  data-year={row.year}
                   cx={x}
                   cy={y}
                   r={isActive 
-                    ? (dimensions.width < 640 ? 6 : dimensions.width < 1024 ? 7 : 8)
+                    ? (dimensions.width < 640 ? 7 : dimensions.width < 1024 ? 8 : 9)
                     : isHovered 
-                      ? (dimensions.width < 640 ? 5 : dimensions.width < 1024 ? 6 : 7)
+                      ? (dimensions.width < 640 ? 6 : dimensions.width < 1024 ? 7 : 8)
                       : hasMilestone 
-                        ? (dimensions.width < 640 ? 4 : dimensions.width < 1024 ? 5 : 6)
-                        : (dimensions.width < 640 ? 3.5 : dimensions.width < 1024 ? 4 : 5)
+                        ? (dimensions.width < 640 ? 5 : dimensions.width < 1024 ? 6 : 7)
+                        : (dimensions.width < 640 ? 4.5 : dimensions.width < 1024 ? 5.5 : 6.5)
                   }
-                  fill={isActive ? "#2D5A27" : isHovered ? "#47AF7F" : hasMilestone ? "#D4A017" : "#47AF7F"}
+                  fill={isActive ? colors.forest[500] : isHovered ? colors.forest[300] : hasMilestone ? colors.gold[500] : colors.forest[300]}
                   stroke={isActive || isHovered ? "#fff" : "none"}
-                  strokeWidth={isActive || isHovered ? (dimensions.width < 640 ? "2" : "2.5") : "0"}
-                  filter={isActive ? "url(#forestGlow)" : undefined}
-                  initial={{ scale: 0, opacity: 0 }}
-                  animate={isInView ? { scale: 1, opacity: 1 } : { scale: 0, opacity: 0 }}
-                  transition={{ delay: shouldReduceMotion ? 0 : 0.5 + i * 0.04, duration: 0.3 }}
-                  className="transition-all duration-200"
+                  strokeWidth={isActive || isHovered ? (dimensions.width < breakpoints.sm ? "2.5" : borders.width.thick) : "0"}
+                  filter={isActive ? "url(#glow)" : undefined}
+                  style={{ 
+                    transition: motion.transition.transform,
+                    transform: 'translateZ(0)' // GPU acceleration
+                  }}
                 />
 
-                {/* Year labels - every 10 years with better styling */}
+                {/* Year labels */}
                 {row.year % 10 === 0 && (
-                  <g>
-                    {/* Background for better readability */}
-                    {row.year === activeYear && (
-                      <rect
-                        x={x - 16}
-                        y={chartHeight + 6}
-                        width={32}
-                        height={16}
-                        fill="#2D5A27"
-                        fillOpacity="0.1"
-                        rx="3"
-                      />
+                  <text
+                    x={x}
+                    y={chartHeight + 25}
+                    textAnchor="middle"
+                    className={cn(
+                      "font-sans font-bold transition-all",
+                      row.year === activeYear 
+                        ? "fill-forest-700" 
+                        : isHovered && row.year === hoveredYear
+                          ? "fill-forest-600"
+                          : "fill-charcoal-500"
                     )}
-                    <text
-                      x={x}
-                      y={chartHeight + 20}
-                      textAnchor="middle"
-                      className={cn(
-                        "font-sans transition-all font-bold",
-                        row.year === activeYear 
-                          ? "fill-forest-700" 
-                          : isHovered && row.year === hoveredYear
-                            ? "fill-forest-600"
-                            : "fill-charcoal-600"
-                      )}
-                      style={{ 
-                        fontSize: row.year === activeYear 
-                          ? (dimensions.width < 640 ? '13px' : dimensions.width < 1024 ? '14px' : '15px')
-                          : (dimensions.width < 640 ? '11px' : dimensions.width < 1024 ? '12px' : '13px')
-                      }}
-                    >
-                      {row.year}
-                    </text>
-                  </g>
+                    style={{ 
+                      fontSize: row.year === activeYear 
+                        ? (dimensions.width < breakpoints.sm ? typography.fontSize.sm : dimensions.width < breakpoints.lg ? typography.fontSize.base : typography.fontSize.base)
+                        : (dimensions.width < breakpoints.sm ? typography.fontSize.xs : dimensions.width < breakpoints.lg ? typography.fontSize.sm : typography.fontSize.sm),
+                      fill: row.year === activeYear 
+                        ? colors.forest[700] 
+                        : isHovered && row.year === hoveredYear
+                          ? colors.forest[600]
+                          : colors.charcoal[500]
+                    }}
+                  >
+                    {row.year}
+                  </text>
                 )}
-              
-              {/* Growth indicator arrows for significant changes */}
-              {i > 0 && Math.abs(row.city - data[i-1].city) > 1000 && (
-                <motion.g
-                  initial={{ opacity: 0, y: 5 }}
-                  animate={isInView ? { opacity: 0.6, y: 0 } : { opacity: 0, y: 5 }}
-                  transition={{ delay: shouldReduceMotion ? 0 : 0.8 + i * 0.03 }}
-                >
-                  {row.city > data[i-1].city ? (
-                    <path
-                      d={`M ${x},${y - 8} L ${x - 1},${y - 6} L ${x + 1},${y - 6} Z`}
-                      fill="#2D5A27"
-                      opacity="0.5"
-                    />
-                  ) : (
-                    <path
-                      d={`M ${x},${y + 8} L ${x - 1},${y + 6} L ${x + 1},${y + 6} Z`}
-                      fill="#A0522D"
-                      opacity="0.5"
-                    />
-                  )}
-                </motion.g>
-              )}
               </g>
             )
           })}
         </g>
       </svg>
 
-      {/* Legend - larger and bolder */}
-      <div className="absolute top-3 right-3 flex flex-wrap gap-3">
-        <div className="flex items-center gap-2 px-3 py-1.5 bg-white/95 backdrop-blur-sm rounded-lg border-2 border-forest-300 shadow-md">
-          <div className="w-3 h-3 rounded-full bg-forest-500" />
-          <span className="text-charcoal-700 font-bold" style={{ fontSize: dimensions.width < 640 ? '11px' : '12px' }}>
-            Population
-          </span>
-        </div>
-        <div className="flex items-center gap-2 px-3 py-1.5 bg-white/95 backdrop-blur-sm rounded-lg border-2 border-gold-300 shadow-md">
-          <div className="w-3 h-3 rounded-full bg-gold-500" />
-          <span className="text-charcoal-700 font-bold" style={{ fontSize: dimensions.width < 640 ? '11px' : '12px' }}>
-            Milestone
-          </span>
-        </div>
-      </div>
-
-      {/* Tooltip with milestone */}
+      {/* Tooltip */}
       <AnimatePresence>
         {(hoveredYear || activeYear) && (() => {
           const yearIndex = data.findIndex(d => d.year === (hoveredYear || activeYear))
-          const xPosition = yearIndex >= 0 ? getX(yearIndex) + margin.left : 0
+          const xPosition = yearIndex >= 0 ? xScale(data[yearIndex].year) + margin.left : 0
           const row = data.find(d => d.year === (hoveredYear || activeYear))
           return (
             <motion.div
               key={hoveredYear || activeYear}
-              initial={{ opacity: 0, y: 8, scale: 0.95 }}
+              initial={{ opacity: 0, y: 10, scale: 0.95 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: 8, scale: 0.95 }}
-              transition={{ duration: shouldReduceMotion ? 0 : 0.15 }}
-              className="absolute pointer-events-none z-10"
+              exit={{ opacity: 0, y: 10, scale: 0.95 }}
+              transition={{ duration: shouldReduceMotion ? 0 : motion.duration.fast / 1000 }}
+              className="absolute pointer-events-none"
               style={{ 
-                top: 10,
+                zIndex: depth.tooltip,
+                top: spacing[4] - spacing[1],
                 left: `${(xPosition / dimensions.width) * 100}%`,
-                transform: 'translateX(-50%)',
+                transform: 'translateX(-50%) translateZ(0)',
               }}
             >
-              <div className="bg-forest-900 border-2 border-forest-500 text-white px-3 py-2 rounded-lg shadow-xl max-w-[200px]">
-                <div className="flex items-center gap-2 mb-1">
-                  <Calendar className="w-3 h-3 text-forest-400" />
-                  <span className="text-forest-300 font-display font-bold text-sm">
+              <div 
+                style={{
+                  backgroundColor: `${colors.forest[900]}F2`,
+                  backdropFilter: `blur(${blur.md})`,
+                  border: `${borders.width.medium}px solid ${colors.forest[500]}`,
+                  color: '#FFFFFF',
+                  padding: `${spacing[3]}px ${spacing[4]}px`,
+                  borderRadius: borders.radius.xl,
+                  boxShadow: elevation.shadow['2xl'],
+                  maxWidth: `${spacing[55]}px`,
+                }}
+              >
+                <div 
+                  className="flex items-center"
+                  style={{ 
+                    gap: spacing[2], 
+                    marginBottom: spacing[2] - spacing[1] 
+                  }}
+                >
+                  <Calendar style={{ width: spacing[4], height: spacing[4], color: colors.forest[400] }} />
+                  <span 
+                    style={{
+                      color: colors.forest[300],
+                      fontFamily: typography.fontFamily.display,
+                      fontWeight: typography.fontWeight.bold,
+                      fontSize: typography.fontSize.sm,
+                    }}
+                  >
                     {hoveredYear || activeYear}
                   </span>
                 </div>
-                <div className="text-white text-xs font-semibold mb-1">
+                <div 
+                  style={{
+                    color: '#FFFFFF',
+                    fontSize: typography.fontSize.base,
+                    fontWeight: typography.fontWeight.bold,
+                    marginBottom: spacing[1],
+                  }}
+                >
                   {row?.city.toLocaleString()} residents
                 </div>
                 {row?.milestoneTitle && (
-                  <div className="text-gold-400 text-xs font-medium border-t border-forest-700 pt-1 mt-1">
-                    <Zap className="w-3 h-3 inline mr-1" />
+                  <div 
+                    style={{
+                      color: colors.gold[400],
+                      fontSize: typography.fontSize.xs,
+                      fontWeight: typography.fontWeight.medium,
+                      borderTop: `${borders.width.thin}px solid ${colors.forest[700]}`,
+                      paddingTop: spacing[2] - spacing[1],
+                      marginTop: spacing[2] - spacing[1],
+                    }}
+                  >
+                    <Zap style={{ width: spacing[3], height: spacing[3], display: 'inline', marginRight: spacing[1] }} />
                     {row.milestoneTitle}
                   </div>
                 )}
@@ -497,10 +610,10 @@ function InteractiveChart({ data, activeYear, hoveredYear, onYearClick, onYearHo
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
-// STATS PANEL WITH CONTEXT
+// STATS PANEL WITH PREMIUM DESIGN
 // ═══════════════════════════════════════════════════════════════════════════
 
-function StatsPanel({ data, activeYear }: { data: CityThroughTimeRow[], activeYear: number }) {
+function PremiumStatsPanel({ data, activeYear }: { data: CityThroughTimeRow[], activeYear: number }) {
   const ref = useRef<HTMLDivElement>(null)
   const isInView = useInView(ref, { once: true })
   
@@ -510,87 +623,303 @@ function StatsPanel({ data, activeYear }: { data: CityThroughTimeRow[], activeYe
     return idx > 0 ? data[idx - 1] : null
   }, [data, activeYear])
 
-  const population = useCountUp(activeRow?.city || 0, 800, isInView)
+  const population = useCountUp(activeRow?.city || 0, motion.duration.verySlow, isInView)
   const growth = previousRow ? ((activeRow.city - previousRow.city) / previousRow.city * 100) : null
   const isPositive = growth !== null && growth >= 0
 
-  // Calculate total growth from start
   const firstRow = data[0]
   const totalGrowth = firstRow ? ((activeRow.city - firstRow.city) / firstRow.city * 100) : null
 
   return (
     <div ref={ref} className="space-y-4">
-      {/* Main stats */}
       <div className="grid grid-cols-2 gap-4">
         {/* Population */}
-        <div className="relative group">
-          <div className="absolute inset-0 bg-gradient-to-br from-forest-100 to-forest-50 rounded-xl opacity-60 group-hover:opacity-100 transition-opacity" />
-          <div className="relative bg-white rounded-xl p-5 border-2 border-forest-300 group-hover:border-forest-500 transition-colors shadow-sm">
-            <div className="flex items-center gap-2 mb-2">
-              <Users className="w-4 h-4 text-forest-600" />
-              <span className="text-xs font-bold text-forest-700 uppercase tracking-wider">Population</span>
+        <motion.div 
+          className="relative group"
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          transition={{ 
+            duration: shouldReduceMotion ? 0 : motion.duration.slow / 1000, 
+            delay: shouldReduceMotion ? 0 : motion.delay.short / 1000 
+          }}
+          style={{ transform: 'translateZ(0)' }}
+        >
+          <div 
+            className="absolute inset-0 rounded-xl opacity-60 group-hover:opacity-100 transition-opacity"
+            style={{
+              background: `linear-gradient(to bottom right, ${colors.forest[100]}, ${colors.forest[50]})`,
+              transitionDuration: `${motion.duration.normal}ms`,
+            }}
+          />
+          <div 
+            className="relative rounded-xl transition-all group"
+            style={{
+              backgroundColor: colors.semantic.bgCard,
+              padding: spacing[6],
+              border: `${borders.width.medium}px solid ${colors.forest[300]}`,
+              boxShadow: elevation.shadow.lg,
+              transform: 'translateZ(0)',
+            }}
+            onMouseEnter={(e) => {
+              if (!shouldReduceMotion) {
+                gsap.to(e.currentTarget, {
+                  borderColor: colors.forest[500],
+                  boxShadow: elevation.shadow.xl,
+                  scale: interaction.hover.scaleSm,
+                  duration: motion.duration.normal / 1000, // Smoother timing
+                  ease: motion.easing.natural,
+                  force3D: true
+                })
+              }
+            }}
+            onMouseLeave={(e) => {
+              if (!shouldReduceMotion) {
+                gsap.to(e.currentTarget, {
+                  borderColor: colors.forest[300],
+                  boxShadow: elevation.shadow.lg,
+                  scale: 1,
+                  duration: motion.duration.normal / 1000, // Smoother timing
+                  ease: motion.easing.natural,
+                  force3D: true
+                })
+              }
+            }}
+            onTouchStart={(e) => {
+              // Touch feedback for mobile
+              if (!shouldReduceMotion) {
+                gsap.to(e.currentTarget, {
+                  scale: interaction.active.scale,
+                  duration: motion.duration.fast / 1000,
+                  ease: motion.easing.natural,
+                  force3D: true
+                })
+              }
+            }}
+            onTouchEnd={(e) => {
+              if (!shouldReduceMotion) {
+                gsap.to(e.currentTarget, {
+                  scale: 1,
+                  duration: motion.duration.fast / 1000,
+                  ease: motion.easing.natural,
+                  force3D: true
+                })
+              }
+            }}
+          >
+            <div 
+              className="flex items-center"
+              style={{ gap: spacing[2], marginBottom: spacing[3] }}
+            >
+              <Users style={{ width: spacing[5], height: spacing[5], color: colors.forest[600] }} />
+              <span 
+                style={{
+                  fontSize: typography.fontSize.xs,
+                  fontWeight: typography.fontWeight.bold,
+                  color: colors.forest[700],
+                  textTransform: 'uppercase',
+                  letterSpacing: typography.letterSpacing.widest,
+                }}
+              >
+                Population
+              </span>
             </div>
-            <div className="text-3xl md:text-4xl font-display font-bold text-charcoal-900 tabular-nums">
+            <div 
+              style={{
+                fontSize: `clamp(${typography.fontSize['4xl']}, 4vw, ${typography.fontSize['5xl']})`,
+                fontFamily: typography.fontFamily.display,
+                fontWeight: typography.fontWeight.bold,
+                color: colors.charcoal[900],
+                fontVariantNumeric: 'tabular-nums',
+                marginBottom: spacing[1],
+              }}
+            >
               {population.toLocaleString()}
             </div>
-            <div className="text-xs text-charcoal-500 mt-1 font-medium">
+            <div 
+              style={{
+                fontSize: typography.fontSize.xs,
+                color: colors.charcoal[500],
+                fontWeight: typography.fontWeight.medium,
+              }}
+            >
               Year {activeRow?.year}
             </div>
           </div>
-        </div>
+        </motion.div>
         
-        {/* Period Growth */}
-        <div className="relative group">
-          <div className={cn(
-            "absolute inset-0 rounded-xl opacity-60 group-hover:opacity-100 transition-opacity",
-            isPositive ? "bg-gradient-to-br from-forest-100 to-forest-50" : "bg-gradient-to-br from-rust-100 to-rust-50"
-          )} />
-          <div className={cn(
-            "relative bg-white rounded-xl p-5 border-2 transition-colors shadow-sm",
-            isPositive ? "border-forest-300 group-hover:border-forest-500" : "border-rust-300 group-hover:border-rust-500"
-          )}>
-            <div className="flex items-center gap-2 mb-2">
-              {isPositive ? (
-                <TrendingUp className="w-4 h-4 text-forest-600" />
-              ) : (
-                <TrendingDown className="w-4 h-4 text-rust-600" />
-              )}
-              <span className={cn(
-                "text-xs font-bold uppercase tracking-wider",
-                isPositive ? "text-forest-700" : "text-rust-700"
-              )}>Period Growth</span>
+        {/* Growth */}
+        <motion.div 
+          className="relative group"
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          transition={{ 
+            duration: shouldReduceMotion ? 0 : motion.duration.slow / 1000, 
+            delay: shouldReduceMotion ? 0 : motion.delay.medium / 1000 
+          }}
+          style={{ transform: 'translateZ(0)' }}
+        >
+          <div 
+            className="absolute inset-0 rounded-xl opacity-60 group-hover:opacity-100 transition-opacity"
+            style={{
+              background: isPositive 
+                ? `linear-gradient(to bottom right, ${colors.forest[100]}, ${colors.forest[50]})`
+                : `linear-gradient(to bottom right, ${colors.rust[500]}20, ${colors.rust[500]}10)`,
+              transitionDuration: `${motion.duration.normal}ms`,
+            }}
+          />
+          <div 
+            className="relative rounded-xl transition-all"
+            style={{
+              backgroundColor: colors.semantic.bgCard,
+              padding: spacing[6],
+              border: `${borders.width.medium}px solid ${isPositive ? colors.forest[300] : colors.rust[500]}`,
+              boxShadow: elevation.shadow.lg,
+              transform: 'translateZ(0)',
+            }}
+            onMouseEnter={(e) => {
+              if (!shouldReduceMotion) {
+                gsap.to(e.currentTarget, {
+                  borderColor: isPositive ? colors.forest[500] : colors.rust[600],
+                  boxShadow: elevation.shadow.xl,
+                  scale: interaction.hover.scaleSm,
+                  duration: motion.duration.normal / 1000, // Smoother timing
+                  ease: motion.easing.natural,
+                  force3D: true
+                })
+              }
+            }}
+            onMouseLeave={(e) => {
+              if (!shouldReduceMotion) {
+                gsap.to(e.currentTarget, {
+                  borderColor: isPositive ? colors.forest[300] : colors.rust[500],
+                  boxShadow: elevation.shadow.lg,
+                  scale: 1,
+                  duration: motion.duration.normal / 1000, // Smoother timing
+                  ease: motion.easing.natural,
+                  force3D: true
+                })
+              }
+            }}
+            onTouchStart={(e) => {
+              // Touch feedback for mobile
+              if (!shouldReduceMotion) {
+                gsap.to(e.currentTarget, {
+                  scale: interaction.active.scale,
+                  duration: motion.duration.fast / 1000,
+                  ease: motion.easing.natural,
+                  force3D: true
+                })
+              }
+            }}
+            onTouchEnd={(e) => {
+              if (!shouldReduceMotion) {
+                gsap.to(e.currentTarget, {
+                  scale: 1,
+                  duration: motion.duration.fast / 1000,
+                  ease: motion.easing.natural,
+                  force3D: true
+                })
+              }
+            }}
+          >
+            <div 
+              className="flex items-center"
+              style={{ gap: spacing[2], marginBottom: spacing[3] }}
+            >
+              <TrendingUp style={{ 
+                width: spacing[5], 
+                height: spacing[5], 
+                color: isPositive ? colors.forest[600] : colors.rust[600] 
+              }} />
+              <span 
+                style={{
+                  fontSize: typography.fontSize.xs,
+                  fontWeight: typography.fontWeight.bold,
+                  color: isPositive ? colors.forest[700] : colors.rust[700],
+                  textTransform: 'uppercase',
+                  letterSpacing: typography.letterSpacing.widest,
+                }}
+              >
+                Period Growth
+              </span>
             </div>
-            <div className={cn(
-              "text-3xl md:text-4xl font-display font-bold tabular-nums",
-              growth === null ? "text-charcoal-400" : isPositive ? "text-forest-600" : "text-rust-600"
-            )}>
+            <div 
+              style={{
+                fontSize: `clamp(${typography.fontSize['4xl']}, 4vw, ${typography.fontSize['5xl']})`,
+                fontFamily: typography.fontFamily.display,
+                fontWeight: typography.fontWeight.bold,
+                fontVariantNumeric: 'tabular-nums',
+                marginBottom: spacing[1],
+                color: growth === null 
+                  ? colors.charcoal[400] 
+                  : isPositive 
+                    ? colors.forest[600] 
+                    : colors.rust[600],
+              }}
+            >
               {growth !== null ? `${isPositive ? '+' : ''}${growth.toFixed(0)}%` : '—'}
             </div>
-            <div className="text-xs text-charcoal-500 mt-1 font-medium">
+            <div 
+              style={{
+                fontSize: typography.fontSize.xs,
+                color: colors.charcoal[500],
+                fontWeight: typography.fontWeight.medium,
+              }}
+            >
               {previousRow ? `Since ${previousRow.year}` : 'Baseline'}
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
 
-      {/* Historical context card */}
+      {/* Milestone card */}
       {activeRow?.milestoneTitle && (
         <motion.div
           initial={{ opacity: 0, height: 0 }}
           animate={{ opacity: 1, height: 'auto' }}
           exit={{ opacity: 0, height: 0 }}
-          className="bg-gradient-to-r from-gold-50 to-cream-50 border-2 border-gold-300 rounded-xl p-4"
+          transition={{ duration: shouldReduceMotion ? 0 : motion.duration.normal / 1000 }}
+          style={{
+            background: `linear-gradient(to right, ${colors.gold[50]}, ${colors.cream[50]})`,
+            border: `${borders.width.medium}px solid ${colors.gold[300]}`,
+            borderRadius: borders.radius.xl,
+            padding: spacing[5],
+            boxShadow: elevation.shadow.lg,
+          }}
         >
-          <div className="flex items-start gap-3">
-            <div className="p-2 bg-gold-500 rounded-lg">
-              <Zap className="w-4 h-4 text-white" />
+          <div 
+            className="flex items-start"
+            style={{ gap: spacing[3] }}
+          >
+            <div 
+              style={{
+                padding: spacing[2] + spacing[1],
+                backgroundColor: colors.gold[500],
+                borderRadius: borders.radius.lg,
+                boxShadow: elevation.shadow.md,
+              }}
+            >
+              <Zap style={{ width: spacing[5], height: spacing[5], color: '#FFFFFF' }} />
             </div>
             <div className="flex-1">
-              <h4 className="text-sm font-bold text-charcoal-900 mb-1">
+              <h4 
+                style={{
+                  fontSize: typography.fontSize.sm,
+                  fontWeight: typography.fontWeight.bold,
+                  color: colors.charcoal[900],
+                  marginBottom: spacing[2] - spacing[1],
+                }}
+              >
                 {activeRow.milestoneTitle}
               </h4>
               {activeRow.milestoneBody && (
-                <p className="text-xs text-charcoal-700 leading-relaxed">
+                <p 
+                  style={{
+                    fontSize: typography.fontSize.xs,
+                    color: colors.charcoal[700],
+                    lineHeight: typography.lineHeight.relaxed,
+                  }}
+                >
                   {activeRow.milestoneBody}
                 </p>
               )}
@@ -601,19 +930,42 @@ function StatsPanel({ data, activeYear }: { data: CityThroughTimeRow[], activeYe
 
       {/* Total growth badge */}
       {totalGrowth !== null && (
-        <div className="flex items-center justify-center gap-2 p-3 bg-forest-50 border border-forest-200 rounded-lg">
-          <MapPin className="w-4 h-4 text-forest-600" />
-          <span className="text-sm font-semibold text-forest-900">
-            <span className="text-forest-600">+{totalGrowth.toFixed(0)}%</span> total growth since 1900
+        <motion.div 
+          className="flex items-center justify-center"
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.95 }}
+          transition={{ 
+            duration: shouldReduceMotion ? 0 : motion.duration.normal / 1000, 
+            delay: shouldReduceMotion ? 0 : motion.delay.long / 1000 
+          }}
+          style={{
+            gap: spacing[2],
+            padding: spacing[4],
+            backgroundColor: colors.forest[50],
+            border: `${borders.width.medium}px solid ${colors.forest[200]}`,
+            borderRadius: borders.radius.lg,
+            boxShadow: elevation.shadow.sm,
+            transform: 'translateZ(0)',
+          }}
+        >
+          <MapPin style={{ width: spacing[5], height: spacing[5], color: colors.forest[600] }} />
+          <span 
+            style={{
+              fontSize: typography.fontSize.sm,
+              fontWeight: typography.fontWeight.semibold,
+              color: colors.forest[900],
+            }}
+          >
+            <span style={{ color: colors.forest[600] }}>+{totalGrowth.toFixed(0)}%</span> total growth since 1900
           </span>
-        </div>
+        </motion.div>
       )}
     </div>
   )
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
-// DECADE JUMP BUTTONS
+// DECADE JUMPER
 // ═══════════════════════════════════════════════════════════════════════════
 
 function DecadeJumper({ data, activeYear, onYearSelect }: { data: CityThroughTimeRow[], activeYear: number, onYearSelect: (year: number) => void }) {
@@ -630,13 +982,38 @@ function DecadeJumper({ data, activeYear, onYearSelect }: { data: CityThroughTim
   }, [activeYear, decades, shouldReduceMotion])
 
   return (
-    <div className="bg-white border-2 border-forest-200 rounded-xl p-4">
-      <div className="flex items-center justify-between mb-3">
-        <h4 className="text-sm font-bold text-forest-900 flex items-center gap-2">
-          <Calendar className="w-4 h-4" />
+    <div 
+      style={{
+        backgroundColor: colors.semantic.bgCard,
+        border: `${borders.width.medium}px solid ${colors.forest[200]}`,
+        borderRadius: borders.radius.xl,
+        padding: spacing[5],
+        boxShadow: elevation.shadow.lg,
+      }}
+    >
+      <div 
+        className="flex items-center justify-between"
+        style={{ marginBottom: spacing[4] }}
+      >
+        <h4 
+          className="flex items-center"
+          style={{
+            fontSize: typography.fontSize.sm,
+            fontWeight: typography.fontWeight.bold,
+            color: colors.forest[900],
+            gap: spacing[2],
+          }}
+        >
+          <Clock style={{ width: spacing[4], height: spacing[4] }} />
           Jump to Decade
         </h4>
-        <span className="text-xs text-charcoal-500 font-medium">
+        <span 
+          style={{
+            fontSize: typography.fontSize.xs,
+            color: colors.charcoal[500],
+            fontWeight: typography.fontWeight.medium,
+          }}
+        >
           {decades.length} data points
         </span>
       </div>
@@ -648,54 +1025,82 @@ function DecadeJumper({ data, activeYear, onYearSelect }: { data: CityThroughTim
           <button
             key={row.year}
             onClick={() => onYearSelect(row.year)}
-            className={cn(
-              "flex-shrink-0 px-4 py-2 rounded-lg font-bold text-sm transition-all snap-start",
-              "focus:outline-none focus:ring-2 focus:ring-forest-500",
-              activeYear === row.year
-                ? "bg-gradient-to-r from-forest-500 to-forest-600 text-white shadow-lg shadow-forest-500/25 scale-105"
-                : "bg-forest-50 text-forest-700 hover:bg-forest-100 border border-forest-200"
-            )}
+            className="flex-shrink-0 snap-start font-bold transition-all"
+            style={{
+              padding: `${spacing[2] + spacing[1]}px ${spacing[5]}px`,
+              borderRadius: borders.radius.lg,
+              fontSize: typography.fontSize.sm,
+                  transition: motion.transition.normal,
+                  transform: activeYear === row.year ? `scale(${interaction.hover.scaleMd}) translateZ(0)` : 'scale(1) translateZ(0)',
+                  minHeight: '44px', // Better touch target
+                  minWidth: '44px', // Better touch target
+              ...(activeYear === row.year ? {
+                background: `linear-gradient(to right, ${colors.forest[500]}, ${colors.forest[600]})`,
+                color: '#FFFFFF',
+                boxShadow: elevation.shadow.forest,
+                border: 'none',
+              } : {
+                backgroundColor: colors.forest[50],
+                color: colors.forest[700],
+                border: `${borders.width.thin}px solid ${colors.forest[200]}`,
+              }),
+            }}
+            onMouseEnter={(e) => {
+              if (!shouldReduceMotion && activeYear !== row.year) {
+                gsap.to(e.currentTarget, {
+                  backgroundColor: colors.forest[100],
+                  borderColor: colors.forest[300],
+                  scale: interaction.hover.scaleSm,
+                  duration: motion.duration.normal / 1000, // Smoother timing
+                  ease: motion.easing.natural,
+                  force3D: true
+                })
+              }
+            }}
+            onMouseLeave={(e) => {
+              if (!shouldReduceMotion && activeYear !== row.year) {
+                gsap.to(e.currentTarget, {
+                  backgroundColor: colors.forest[50],
+                  borderColor: colors.forest[200],
+                  scale: 1,
+                  duration: motion.duration.normal / 1000, // Smoother timing
+                  ease: motion.easing.natural,
+                  force3D: true
+                })
+              }
+            }}
+            onTouchStart={(e) => {
+              // Touch feedback for mobile
+              if (!shouldReduceMotion && activeYear !== row.year) {
+                gsap.to(e.currentTarget, {
+                  scale: interaction.active.scale,
+                  duration: motion.duration.fast / 1000,
+                  ease: motion.easing.natural,
+                  force3D: true
+                })
+              }
+            }}
+            onTouchEnd={(e) => {
+              if (!shouldReduceMotion && activeYear !== row.year) {
+                gsap.to(e.currentTarget, {
+                  scale: 1,
+                  duration: motion.duration.fast / 1000,
+                  ease: motion.easing.natural,
+                  force3D: true
+                })
+              }
+            }}
+            onFocus={(e) => {
+              e.currentTarget.style.outline = `${interaction.focus.ringWidth}px solid ${interaction.focus.ringColor}`
+              e.currentTarget.style.outlineOffset = `${interaction.focus.ringOffset}px`
+            }}
+            onBlur={(e) => {
+              e.currentTarget.style.outline = 'none'
+            }}
           >
             {row.year}
           </button>
         ))}
-      </div>
-    </div>
-  )
-}
-
-// ═══════════════════════════════════════════════════════════════════════════
-// TIMELINE PROGRESS BAR
-// ═══════════════════════════════════════════════════════════════════════════
-
-function TimelineProgress({ data, activeYear }: { data: CityThroughTimeRow[], activeYear: number }) {
-  const progress = useMemo(() => {
-    const minYear = data[0].year
-    const maxYear = data[data.length - 1].year
-    return ((activeYear - minYear) / (maxYear - minYear)) * 100
-  }, [data, activeYear])
-
-  return (
-    <div className="space-y-2">
-      <div className="flex items-center justify-between text-xs font-semibold text-charcoal-600">
-        <span>{data[0].year}</span>
-        <span className="text-forest-600">{activeYear}</span>
-        <span>{data[data.length - 1].year}</span>
-      </div>
-      <div className="relative h-2 bg-forest-100 rounded-full overflow-hidden">
-        <motion.div
-          className="absolute inset-y-0 left-0 bg-gradient-to-r from-forest-500 to-forest-600 rounded-full"
-          initial={{ width: 0 }}
-          animate={{ width: `${progress}%` }}
-          transition={{ duration: 0.5, ease: "easeOut" }}
-        />
-        <motion.div
-          className="absolute top-1/2 -translate-y-1/2 w-4 h-4 bg-white border-2 border-forest-600 rounded-full shadow-lg"
-          initial={{ left: 0 }}
-          animate={{ left: `${progress}%` }}
-          transition={{ duration: 0.5, ease: "easeOut" }}
-          style={{ marginLeft: '-8px' }}
-        />
       </div>
     </div>
   )
@@ -728,14 +1133,77 @@ function ChapterSelector({ chapters, activeIndex, onSelect }: { chapters: StoryC
           onClick={() => onSelect(index)}
           role="tab"
           aria-selected={activeIndex === index}
-          className={cn(
-            "relative flex-shrink-0 px-4 py-2.5 rounded-lg text-sm font-semibold whitespace-nowrap snap-start",
-            "transition-all duration-200 ease-out",
-            "focus:outline-none focus:ring-2 focus:ring-forest-500 focus:ring-offset-2",
-            activeIndex === index
-              ? "bg-gradient-to-r from-forest-500 to-forest-600 text-white shadow-lg shadow-forest-500/20"
-              : "bg-cream-100 text-charcoal-700 hover:bg-forest-50 border border-charcoal-200 hover:border-forest-300"
-          )}
+          className="relative flex-shrink-0 whitespace-nowrap snap-start transition-all"
+          style={{
+            padding: `${spacing[3]}px ${spacing[5]}px`,
+            borderRadius: borders.radius.lg,
+            fontSize: typography.fontSize.sm,
+            fontWeight: typography.fontWeight.semibold,
+            transition: motion.transition.fast,
+            transform: 'translateZ(0)',
+            ...(activeIndex === index ? {
+              background: `linear-gradient(to right, ${colors.forest[500]}, ${colors.forest[600]})`,
+              color: '#FFFFFF',
+              boxShadow: elevation.shadow.lg,
+              border: 'none',
+            } : {
+              backgroundColor: colors.cream[100],
+              color: colors.charcoal[700],
+              border: `${borders.width.thin}px solid ${colors.charcoal[200]}`,
+            }),
+          }}
+          onMouseEnter={(e) => {
+            if (!shouldReduceMotion && activeIndex !== index) {
+              gsap.to(e.currentTarget, {
+                backgroundColor: colors.forest[50],
+                borderColor: colors.forest[300],
+                scale: interaction.hover.scaleSm,
+                duration: motion.duration.normal / 1000, // Smoother timing
+                ease: motion.easing.natural,
+                force3D: true
+              })
+            }
+          }}
+          onMouseLeave={(e) => {
+            if (!shouldReduceMotion && activeIndex !== index) {
+              gsap.to(e.currentTarget, {
+                backgroundColor: colors.cream[100],
+                borderColor: colors.charcoal[200],
+                scale: 1,
+                duration: motion.duration.normal / 1000, // Smoother timing
+                ease: motion.easing.natural,
+                force3D: true
+              })
+            }
+          }}
+          onTouchStart={(e) => {
+            // Touch feedback for mobile
+            if (!shouldReduceMotion && activeIndex !== index) {
+              gsap.to(e.currentTarget, {
+                scale: interaction.active.scale,
+                duration: motion.duration.fast / 1000,
+                ease: motion.easing.natural,
+                force3D: true
+              })
+            }
+          }}
+          onTouchEnd={(e) => {
+            if (!shouldReduceMotion && activeIndex !== index) {
+              gsap.to(e.currentTarget, {
+                scale: 1,
+                duration: motion.duration.fast / 1000,
+                ease: motion.easing.natural,
+                force3D: true
+              })
+            }
+          }}
+          onFocus={(e) => {
+            e.currentTarget.style.outline = `${interaction.focus.ringWidth}px solid ${interaction.focus.ringColor}`
+            e.currentTarget.style.outlineOffset = `${interaction.focus.ringOffset}px`
+          }}
+          onBlur={(e) => {
+            e.currentTarget.style.outline = 'none'
+          }}
         >
           <span className="opacity-70 mr-1.5">{chapter.startYear}–</span>
           <span>{chapter.title}</span>
@@ -757,34 +1225,139 @@ function ChapterPanel({ chapter }: { chapter: StoryChapter }) {
       initial={{ opacity: 0, x: 20 }}
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: -20 }}
-      transition={{ duration: shouldReduceMotion ? 0 : 0.25 }}
-      className="space-y-4"
+      transition={{ duration: shouldReduceMotion ? 0 : motion.duration.fast / 1000 }}
+      style={{ 
+        display: 'flex',
+        flexDirection: 'column',
+        gap: spacing[4],
+        transform: 'translateZ(0)',
+      }}
     >
-      {/* Takeaway */}
-      <div className="relative overflow-hidden rounded-xl border-2 border-forest-300 bg-gradient-to-br from-forest-50 to-white p-4">
-        <div className="flex items-start gap-3">
-          <Sparkles className="w-5 h-5 text-forest-600 flex-shrink-0 mt-0.5" />
-          <p className="text-sm text-charcoal-800 font-medium leading-relaxed">
+      <div 
+        className="relative overflow-hidden"
+        style={{
+          borderRadius: borders.radius.xl,
+          border: `${borders.width.medium}px solid ${colors.forest[300]}`,
+          background: `linear-gradient(to bottom right, ${colors.forest[50]}, ${colors.semantic.bgCard})`,
+          padding: spacing[5],
+          boxShadow: elevation.shadow.lg,
+        }}
+      >
+        <div 
+          className="flex items-start"
+          style={{ gap: spacing[3] }}
+        >
+          <Sparkles 
+            style={{ 
+              width: spacing[5], 
+              height: spacing[5], 
+              color: colors.forest[600],
+              flexShrink: 0,
+              marginTop: spacing[1] / 2,
+            }} 
+          />
+          <p 
+            style={{
+              fontSize: typography.fontSize.sm,
+              color: colors.charcoal[800],
+              fontWeight: typography.fontWeight.medium,
+              lineHeight: typography.lineHeight.relaxed,
+            }}
+          >
             {chapter.takeaway}
           </p>
         </div>
       </div>
 
-      {/* Metrics */}
-      <div className="grid grid-cols-2 gap-3">
+      <div 
+        className="grid grid-cols-2"
+        style={{ gap: spacing[3] }}
+      >
         {chapter.metricHighlights.slice(0, 2).map((metric, i) => (
           <div 
             key={i}
-            className="p-4 rounded-xl bg-gradient-to-br from-gold-50 to-white border-2 border-gold-200 hover:border-gold-400 transition-colors"
+            className="rounded-xl transition-colors"
+            style={{
+              padding: spacing[4],
+              background: `linear-gradient(to bottom right, ${colors.gold[50]}, ${colors.semantic.bgCard})`,
+              border: `${borders.width.medium}px solid ${colors.gold[200]}`,
+              boxShadow: elevation.shadow.sm,
+              transform: 'translateZ(0)',
+            }}
+            onMouseEnter={(e) => {
+              if (!shouldReduceMotion) {
+                gsap.to(e.currentTarget, {
+                  borderColor: colors.gold[400],
+                  scale: interaction.hover.scaleSm,
+                  duration: motion.duration.normal / 1000, // Smoother timing
+                  ease: motion.easing.natural,
+                  force3D: true
+                })
+              }
+            }}
+            onMouseLeave={(e) => {
+              if (!shouldReduceMotion) {
+                gsap.to(e.currentTarget, {
+                  borderColor: colors.gold[200],
+                  scale: 1,
+                  duration: motion.duration.normal / 1000, // Smoother timing
+                  ease: motion.easing.natural,
+                  force3D: true
+                })
+              }
+            }}
+            onTouchStart={(e) => {
+              // Touch feedback for mobile
+              if (!shouldReduceMotion) {
+                gsap.to(e.currentTarget, {
+                  scale: interaction.active.scale,
+                  duration: motion.duration.fast / 1000,
+                  ease: motion.easing.natural,
+                  force3D: true
+                })
+              }
+            }}
+            onTouchEnd={(e) => {
+              if (!shouldReduceMotion) {
+                gsap.to(e.currentTarget, {
+                  scale: 1,
+                  duration: motion.duration.fast / 1000,
+                  ease: motion.easing.natural,
+                  force3D: true
+                })
+              }
+            }}
           >
-            <div className="text-2xl font-display font-bold text-gold-600 mb-1">
+            <div 
+              style={{
+                fontSize: typography.fontSize['2xl'],
+                fontFamily: typography.fontFamily.display,
+                fontWeight: typography.fontWeight.bold,
+                color: colors.gold[600],
+                marginBottom: spacing[1],
+              }}
+            >
               {metric.value}
             </div>
-            <div className="text-xs font-bold text-charcoal-700 uppercase tracking-wide">
+            <div 
+              style={{
+                fontSize: typography.fontSize.xs,
+                fontWeight: typography.fontWeight.bold,
+                color: colors.charcoal[700],
+                textTransform: 'uppercase',
+                letterSpacing: typography.letterSpacing.wide,
+              }}
+            >
               {metric.label}
             </div>
             {metric.note && (
-              <div className="text-xs text-charcoal-500 mt-1">
+              <div 
+                style={{
+                  fontSize: typography.fontSize.xs,
+                  color: colors.charcoal[500],
+                  marginTop: spacing[1],
+                }}
+              >
                 {metric.note}
               </div>
             )}
@@ -811,7 +1384,6 @@ export function AuburnDataTeaser() {
   const sectionRef = useRef<HTMLElement>(null)
   const isInView = useInView(sectionRef, { once: true, margin: "-100px" })
   
-  // Calculate key stats
   const totalGrowth = useMemo(() => {
     const first = data[0]
     const last = data[data.length - 1]
@@ -827,7 +1399,6 @@ export function AuburnDataTeaser() {
 
   const handleYearSelect = useCallback((year: number) => {
     setActiveYear(year)
-    // Find chapter that contains this year
     const chapterIndex = chapters.findIndex(c => year >= c.startYear && year <= c.endYear)
     if (chapterIndex !== -1) setActiveChapterIndex(chapterIndex)
   }, [chapters])
@@ -841,209 +1412,300 @@ export function AuburnDataTeaser() {
     if (activeChapterIndex < chapters.length - 1) handleChapterSelect(activeChapterIndex + 1)
   }
 
+  // GSAP scroll animations - optimized for performance
+  useEffect(() => {
+    if (!isInView || shouldReduceMotion || typeof window === 'undefined') return
+
+    const ctx = gsap.context(() => {
+      const elements = sectionRef.current?.querySelectorAll('.animate-on-scroll')
+      if (elements && elements.length > 0) {
+        gsap.fromTo(elements,
+          { opacity: 0, y: 30 }, // Reduced initial offset for smoother feel
+          {
+            opacity: 1,
+            y: 0,
+            duration: motion.duration.slower / 1000,
+            stagger: motion.delay.short / 1000,
+            ease: motion.easing.smooth,
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: 'top 85%', // Slightly later trigger for better timing
+              end: 'bottom 20%',
+              toggleActions: 'play none none reverse', // Reverse on scroll up
+              markers: false, // Ensure markers are off in production
+            },
+            force3D: true, // GPU acceleration
+            willChange: 'transform, opacity' // Hint browser for optimization
+          }
+        )
+      }
+    }, sectionRef)
+
+    return () => ctx.revert()
+  }, [isInView, shouldReduceMotion])
+
   return (
     <section
       ref={sectionRef}
-      className="py-24 md:py-32 bg-gradient-to-b from-cream-50 via-white to-cream-50"
+      className="relative overflow-hidden"
+      style={{
+        paddingTop: spacing.section.paddingMobile,
+        paddingBottom: spacing.section.paddingMobile,
+        background: `linear-gradient(to bottom, ${colors.cream[50]}, ${colors.semantic.bgCard}, ${colors.cream[50]})`,
+        zIndex: depth.content,
+      }}
       aria-labelledby="data-story-heading"
     >
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
+      {/* Decorative background elements */}
+      <div 
+        className="absolute inset-0 pointer-events-none"
+        style={{ opacity: 0.05 }}
+      >
+        <div 
+          className="absolute rounded-full"
+          style={{
+            top: spacing[20],
+            left: spacing[10],
+            width: spacing[64],
+            height: spacing[64],
+            backgroundColor: colors.forest[500],
+            filter: `blur(${blur['3xl']})`,
+            transform: 'translateZ(0)',
+          }}
+        />
+        <div 
+          className="absolute rounded-full"
+          style={{
+            bottom: spacing[20],
+            right: spacing[10],
+            width: spacing[96],
+            height: spacing[96],
+            backgroundColor: colors.gold[500],
+            filter: `blur(${blur['3xl']})`,
+            transform: 'translateZ(0)',
+          }}
+        />
+      </div>
+
+      <div 
+        className="container mx-auto relative"
+        style={{
+          paddingLeft: spacing.container.paddingMobile,
+          paddingRight: spacing.container.paddingMobile,
+          maxWidth: grid.container['2xl'],
+          zIndex: depth.content,
+        }}
+      >
         {/* Header */}
         <motion.div 
-          className="text-center mb-12"
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          transition={{ duration: shouldReduceMotion ? 0 : 0.6 }}
+          className="text-center mb-16 animate-on-scroll"
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+          transition={{ 
+            duration: shouldReduceMotion ? 0 : motion.duration.slower / 1000,
+            ease: motion.easing.smooth
+          }}
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-forest-100 text-forest-700 rounded-full mb-4">
-            <Mountain className="w-4 h-4" />
-            <span className="text-sm font-bold uppercase tracking-wider">Data & Demographics</span>
+          <div 
+            className="inline-flex items-center rounded-full"
+            style={{
+              gap: spacing[2],
+              padding: `${spacing[2] + spacing[1]}px ${spacing[5]}px`,
+              backgroundColor: colors.forest[100],
+              color: colors.forest[700],
+              marginBottom: spacing[6],
+              boxShadow: elevation.shadow.sm,
+            }}
+          >
+            <Mountain style={{ width: spacing[4], height: spacing[4] }} />
+            <span 
+              style={{
+                fontSize: typography.fontSize.sm,
+                fontWeight: typography.fontWeight.bold,
+                textTransform: 'uppercase',
+                letterSpacing: typography.letterSpacing.widest,
+              }}
+            >
+              Data & Demographics
+            </span>
           </div>
           <h2 
             id="data-story-heading"
-            className="text-3xl md:text-4xl lg:text-5xl font-display font-bold text-charcoal-900 mb-4"
+            style={{
+              fontSize: typography.fontSize.h2,
+              fontFamily: typography.fontFamily.display,
+              fontWeight: typography.fontWeight.bold,
+              color: colors.charcoal[900],
+              marginBottom: spacing[6],
+            }}
           >
             {cityName} by the Numbers
           </h2>
-          <p className="text-lg text-charcoal-600 max-w-3xl mx-auto">
+          <p 
+            style={{
+              fontSize: `clamp(${typography.fontSize.lg}, 2vw, ${typography.fontSize.xl})`,
+              color: colors.charcoal[600],
+              maxWidth: spacing[48] * 3,
+              margin: '0 auto',
+              lineHeight: typography.lineHeight.relaxed,
+            }}
+          >
             From Gold Rush origins to modern gateway—explore {yearsOfData} years of growth through interactive data, 
             historical milestones, and civic insights.
           </p>
         </motion.div>
 
-        {/* Introduction Cards */}
-        <motion.div 
-          className="grid md:grid-cols-3 gap-6 mb-12"
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          transition={{ duration: shouldReduceMotion ? 0 : 0.6, delay: 0.1 }}
-        >
-          {/* Interactive Viz Card */}
-          <div className="bg-white rounded-xl border-2 border-forest-200 p-6 hover:border-forest-400 transition-colors">
-            <div className="w-12 h-12 rounded-xl bg-forest-100 flex items-center justify-center mb-4">
-              <BarChart3 className="w-6 h-6 text-forest-600" />
-            </div>
-            <h3 className="text-lg font-bold text-charcoal-900 mb-2">
-              Interactive Visualizations
-            </h3>
-            <p className="text-sm text-charcoal-600 leading-relaxed">
-              Explore population trends with interactive charts that respond to your clicks and selections.
-            </p>
-          </div>
-
-          {/* Public Data Card */}
-          <div className="bg-white rounded-xl border-2 border-forest-200 p-6 hover:border-forest-400 transition-colors">
-            <div className="w-12 h-12 rounded-xl bg-gold-100 flex items-center justify-center mb-4">
-              <Info className="w-6 h-6 text-gold-600" />
-            </div>
-            <h3 className="text-lg font-bold text-charcoal-900 mb-2">
-              Public Data Sources
-            </h3>
-            <p className="text-sm text-charcoal-600 leading-relaxed">
-              All data from U.S. Census Bureau and California Department of Finance records.
-            </p>
-          </div>
-
-          {/* Accessible Card */}
-          <div className="bg-white rounded-xl border-2 border-forest-200 p-6 hover:border-forest-400 transition-colors">
-            <div className="w-12 h-12 rounded-xl bg-lake-100 flex items-center justify-center mb-4">
-              <Users className="w-6 h-6 text-lake-600" />
-            </div>
-            <h3 className="text-lg font-bold text-charcoal-900 mb-2">
-              Accessible Design
-            </h3>
-            <p className="text-sm text-charcoal-600 leading-relaxed">
-              Keyboard navigable, screen reader compatible, and optimized for all abilities.
-            </p>
-          </div>
-        </motion.div>
-
         {/* Quick Stats Banner */}
         <motion.div 
-          className="bg-gradient-to-r from-forest-500 to-forest-600 rounded-2xl p-6 md:p-8 mb-12 shadow-xl"
+          className="animate-on-scroll"
           initial={{ opacity: 0, scale: 0.95 }}
           animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.95 }}
-          transition={{ duration: shouldReduceMotion ? 0 : 0.6, delay: 0.2 }}
+          transition={{ 
+            duration: shouldReduceMotion ? 0 : motion.duration.slower / 1000, 
+            delay: shouldReduceMotion ? 0 : motion.delay.medium / 1000 
+          }}
+          style={{
+            background: `linear-gradient(to right, ${colors.forest[500]}, ${colors.forest[600]})`,
+            borderRadius: borders.radius['2xl'],
+            padding: `clamp(${spacing[8]}px, 4vw, ${spacing[10]}px)`,
+            marginBottom: spacing[12],
+            boxShadow: elevation.shadow['2xl'],
+            transform: 'translateZ(0)',
+          }}
         >
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+          <div 
+            className="grid grid-cols-2 md:grid-cols-4"
+            style={{ gap: spacing[6] }}
+          >
             <div className="text-center">
-              <div className="text-3xl md:text-4xl font-display font-bold text-white mb-1">
+              <div 
+                style={{
+                  fontSize: `clamp(${typography.fontSize['4xl']}, 4vw, ${typography.fontSize['5xl']})`,
+                  fontFamily: typography.fontFamily.display,
+                  fontWeight: typography.fontWeight.bold,
+                  color: '#FFFFFF',
+                  marginBottom: spacing[2],
+                }}
+              >
                 {established}
               </div>
-              <div className="text-sm text-white/80 font-medium">Founded</div>
+              <div 
+                style={{
+                  fontSize: typography.fontSize.sm,
+                  color: 'rgba(255, 255, 255, 0.9)',
+                  fontWeight: typography.fontWeight.medium,
+                }}
+              >
+                Founded
+              </div>
             </div>
             <div className="text-center">
-              <div className="text-3xl md:text-4xl font-display font-bold text-white mb-1">
+              <div 
+                style={{
+                  fontSize: `clamp(${typography.fontSize['4xl']}, 4vw, ${typography.fontSize['5xl']})`,
+                  fontFamily: typography.fontFamily.display,
+                  fontWeight: typography.fontWeight.bold,
+                  color: '#FFFFFF',
+                  marginBottom: spacing[2],
+                }}
+              >
                 +{totalGrowth}%
               </div>
-              <div className="text-sm text-white/80 font-medium">Total Growth</div>
+              <div 
+                style={{
+                  fontSize: typography.fontSize.sm,
+                  color: 'rgba(255, 255, 255, 0.9)',
+                  fontWeight: typography.fontWeight.medium,
+                }}
+              >
+                Total Growth
+              </div>
             </div>
             <div className="text-center">
-              <div className="text-3xl md:text-4xl font-display font-bold text-white mb-1">
+              <div 
+                style={{
+                  fontSize: `clamp(${typography.fontSize['4xl']}, 4vw, ${typography.fontSize['5xl']})`,
+                  fontFamily: typography.fontFamily.display,
+                  fontWeight: typography.fontWeight.bold,
+                  color: '#FFFFFF',
+                  marginBottom: spacing[2],
+                }}
+              >
                 {data.length}
               </div>
-              <div className="text-sm text-white/80 font-medium">Data Points</div>
+              <div 
+                style={{
+                  fontSize: typography.fontSize.sm,
+                  color: 'rgba(255, 255, 255, 0.9)',
+                  fontWeight: typography.fontWeight.medium,
+                }}
+              >
+                Data Points
+              </div>
             </div>
             <div className="text-center">
-              <div className="text-3xl md:text-4xl font-display font-bold text-white mb-1">
+              <div 
+                style={{
+                  fontSize: `clamp(${typography.fontSize['4xl']}, 4vw, ${typography.fontSize['5xl']})`,
+                  fontFamily: typography.fontFamily.display,
+                  fontWeight: typography.fontWeight.bold,
+                  color: '#FFFFFF',
+                  marginBottom: spacing[2],
+                }}
+              >
                 {chapters.length}
               </div>
-              <div className="text-sm text-white/80 font-medium">Historical Eras</div>
-            </div>
-          </div>
-        </motion.div>
-
-        {/* How to Use Guide */}
-        <motion.div 
-          className="bg-gradient-to-br from-white to-cream-50 rounded-2xl border-2 border-gold-200 p-6 md:p-8 mb-8"
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          transition={{ delay: 0.25 }}
-        >
-          <div className="flex items-start gap-3 mb-4">
-            <div className="p-2 bg-gold-100 rounded-lg">
-              <Info className="w-5 h-5 text-gold-600" />
-            </div>
-            <div>
-              <h3 className="text-lg font-bold text-charcoal-900 mb-1">
-                How to Explore This Data
-              </h3>
-              <p className="text-sm text-charcoal-600">
-                Click any point on the chart • Jump to decades • Navigate through historical eras
-              </p>
-            </div>
-          </div>
-          <div className="grid sm:grid-cols-3 gap-4 text-sm">
-            <div className="flex items-start gap-2">
-              <div className="w-6 h-6 rounded-full bg-forest-100 text-forest-600 flex items-center justify-center flex-shrink-0 font-bold text-xs">
-                1
-              </div>
-              <div>
-                <strong className="text-charcoal-800">Click data points</strong>
-                <p className="text-charcoal-600 text-xs mt-0.5">
-                  See population, growth, and milestones
-                </p>
-              </div>
-            </div>
-            <div className="flex items-start gap-2">
-              <div className="w-6 h-6 rounded-full bg-forest-100 text-forest-600 flex items-center justify-center flex-shrink-0 font-bold text-xs">
-                2
-              </div>
-              <div>
-                <strong className="text-charcoal-800">Navigate eras</strong>
-                <p className="text-charcoal-600 text-xs mt-0.5">
-                  Use arrows to explore each period
-                </p>
-              </div>
-            </div>
-            <div className="flex items-start gap-2">
-              <div className="w-6 h-6 rounded-full bg-forest-100 text-forest-600 flex items-center justify-center flex-shrink-0 font-bold text-xs">
-                3
-              </div>
-              <div>
-                <strong className="text-charcoal-800">Jump decades</strong>
-                <p className="text-charcoal-600 text-xs mt-0.5">
-                  Quick access to specific years
-                </p>
+              <div 
+                style={{
+                  fontSize: typography.fontSize.sm,
+                  color: 'rgba(255, 255, 255, 0.9)',
+                  fontWeight: typography.fontWeight.medium,
+                }}
+              >
+                Historical Eras
               </div>
             </div>
           </div>
         </motion.div>
 
-        {/* Section Divider - Enhanced */}
+        {/* Main Visualization Card */}
         <motion.div 
-          className="text-center pb-8"
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : { opacity: 0 }}
-          transition={{ delay: 0.3 }}
+          className="animate-on-scroll"
+          initial={{ opacity: 0, y: 40 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
+          transition={{ 
+            duration: shouldReduceMotion ? 0 : motion.duration.slower / 1000, 
+            delay: shouldReduceMotion ? 0 : motion.delay.long / 1000 
+          }}
+          style={{ 
+            display: 'flex',
+            flexDirection: 'column',
+            gap: spacing[6],
+            transform: 'translateZ(0)',
+          }}
         >
-          <div className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-forest-50 to-gold-50 border-2 border-forest-300 rounded-full shadow-lg">
-            <Zap className="w-6 h-6 text-forest-600" />
-            <span className="text-base font-bold text-charcoal-900 uppercase tracking-wider">
-              Interactive Visualization
-            </span>
-          </div>
-        </motion.div>
-
-        {/* Main card */}
-        <motion.div 
-          className="space-y-4"
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-          transition={{ duration: shouldReduceMotion ? 0 : 0.6, delay: 0.3 }}
-        >
-          {/* Timeline progress */}
-          <div className="bg-white border-2 border-forest-200 rounded-xl p-4">
-            <TimelineProgress data={data} activeYear={activeYear} />
-          </div>
-
-          {/* Main data card - enhanced for better visibility */}
-          <div className="bg-white rounded-2xl border-2 border-forest-300 overflow-hidden shadow-2xl">
+          {/* Main card */}
+          <div 
+            style={{
+              backgroundColor: colors.semantic.bgCard,
+              borderRadius: borders.radius['2xl'],
+              border: `${borders.width.medium}px solid ${colors.forest[300]}`,
+              overflow: 'hidden',
+              boxShadow: elevation.shadow['2xl'],
+              transform: 'translateZ(0)',
+            }}
+          >
             {/* MOBILE: Stacked layout */}
             <div className="lg:hidden">
-              {/* Chart - more padding for breathing room */}
-              <div className="p-4 md:p-6 bg-gradient-to-br from-cream-50 to-white border-b-2 border-forest-200">
-                <InteractiveChart
+              <div 
+            style={{
+              padding: `clamp(${spacing[4]}px, 2vw, ${spacing[6]}px)`,
+              background: `linear-gradient(to bottom right, ${colors.cream[50]}, ${colors.semantic.bgCard})`,
+              borderBottom: `${borders.width.medium}px solid ${colors.forest[200]}`,
+              transform: 'translateZ(0)', // GPU acceleration
+            }}
+              >
+                <PremiumChart
                   data={data}
                   activeYear={activeYear}
                   hoveredYear={hoveredYear}
@@ -1052,14 +1714,23 @@ export function AuburnDataTeaser() {
                 />
               </div>
               
-              {/* Stats */}
-              <div className="p-3 bg-white border-b-2 border-forest-100">
-                <StatsPanel data={data} activeYear={activeYear} />
+              <div 
+                style={{
+                  padding: spacing[4],
+                  backgroundColor: colors.semantic.bgCard,
+                  borderBottom: `${borders.width.medium}px solid ${colors.forest[100]}`,
+                }}
+              >
+                <PremiumStatsPanel data={data} activeYear={activeYear} />
               </div>
               
-              {/* Chapters */}
-              <div className="p-3 bg-white">
-                <div className="flex items-center justify-between mb-3">
+              <div 
+                style={{
+                  padding: spacing[4],
+                  backgroundColor: colors.semantic.bgCard,
+                }}
+              >
+                <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-2">
                     <Calendar className="w-4 h-4 text-forest-600" />
                     <span className="text-sm font-bold text-charcoal-700">
@@ -1072,30 +1743,44 @@ export function AuburnDataTeaser() {
                       disabled={activeChapterIndex === 0}
                       type="button"
                       className={cn(
-                        "p-2 rounded-lg transition-all",
-                        "focus:outline-none focus:ring-2 focus:ring-forest-500",
+                        "rounded-lg transition-all",
+                        "focus:outline-none focus:ring-2 focus:ring-forest-500 focus:ring-offset-2",
                         activeChapterIndex === 0
-                          ? "text-charcoal-300 cursor-not-allowed"
-                          : "text-charcoal-600 hover:text-forest-600 hover:bg-forest-50"
+                          ? "text-charcoal-300 cursor-not-allowed opacity-50"
+                          : "text-charcoal-600 hover:text-forest-600 hover:bg-forest-50 active:scale-95"
                       )}
+                      style={{
+                        padding: spacing[2],
+                        minWidth: '44px', // Better touch target
+                        minHeight: '44px', // Better touch target
+                        transform: 'translateZ(0)', // GPU acceleration
+                      }}
                       aria-label="Previous era"
+                      aria-disabled={activeChapterIndex === 0}
                     >
-                      <ChevronLeft className="w-4 h-4" />
+                      <ChevronLeft style={{ width: spacing[4], height: spacing[4] }} />
                     </button>
                     <button
                       onClick={goToNext}
                       disabled={activeChapterIndex === chapters.length - 1}
                       type="button"
                       className={cn(
-                        "p-2 rounded-lg transition-all",
-                        "focus:outline-none focus:ring-2 focus:ring-forest-500",
+                        "rounded-lg transition-all",
+                        "focus:outline-none focus:ring-2 focus:ring-forest-500 focus:ring-offset-2",
                         activeChapterIndex === chapters.length - 1
-                          ? "text-charcoal-300 cursor-not-allowed"
-                          : "text-charcoal-600 hover:text-forest-600 hover:bg-forest-50"
+                          ? "text-charcoal-300 cursor-not-allowed opacity-50"
+                          : "text-charcoal-600 hover:text-forest-600 hover:bg-forest-50 active:scale-95"
                       )}
+                      style={{
+                        padding: spacing[2],
+                        minWidth: '44px', // Better touch target
+                        minHeight: '44px', // Better touch target
+                        transform: 'translateZ(0)', // GPU acceleration
+                      }}
                       aria-label="Next era"
+                      aria-disabled={activeChapterIndex === chapters.length - 1}
                     >
-                      <ChevronRight className="w-4 h-4" />
+                      <ChevronRight style={{ width: spacing[4], height: spacing[4] }} />
                     </button>
                   </div>
                 </div>
@@ -1124,12 +1809,23 @@ export function AuburnDataTeaser() {
             </div>
 
             {/* DESKTOP: Side-by-side layout */}
-            <div className="hidden lg:grid lg:grid-cols-5 divide-x-2 divide-forest-200">
-              
-              {/* LEFT: Chart & Stats - more prominent */}
-              <div className="lg:col-span-3 p-6 md:p-8 bg-gradient-to-br from-cream-50 to-white">
-                <div className="mb-6">
-                  <InteractiveChart
+            <div 
+              className="hidden lg:grid lg:grid-cols-5"
+              style={{
+                borderLeft: 'none',
+                borderRight: 'none',
+              }}
+            >
+              <div 
+                className="lg:col-span-3"
+                style={{
+                  padding: spacing[8],
+                  background: `linear-gradient(to bottom right, ${colors.cream[50]}, ${colors.semantic.bgCard})`,
+                  borderRight: `${borders.width.medium}px solid ${colors.forest[200]}`,
+                }}
+              >
+                <div style={{ marginBottom: spacing[8] }}>
+                  <PremiumChart
                     data={data}
                     activeYear={activeYear}
                     hoveredYear={hoveredYear}
@@ -1137,13 +1833,17 @@ export function AuburnDataTeaser() {
                     onYearHover={setHoveredYear}
                   />
                 </div>
-                <StatsPanel data={data} activeYear={activeYear} />
+                <PremiumStatsPanel data={data} activeYear={activeYear} />
               </div>
 
-              {/* RIGHT: Chapters */}
-              <div className="lg:col-span-2 p-6 md:p-8 bg-white">
-                {/* Nav header */}
-                <div className="flex items-center justify-between mb-4">
+              <div 
+                className="lg:col-span-2"
+                style={{
+                  padding: spacing[8],
+                  backgroundColor: colors.semantic.bgCard,
+                }}
+              >
+                <div className="flex items-center justify-between mb-6">
                   <div className="flex items-center gap-2">
                     <Calendar className="w-4 h-4 text-forest-600" />
                     <span className="text-sm font-bold text-charcoal-700">
@@ -1156,35 +1856,48 @@ export function AuburnDataTeaser() {
                       disabled={activeChapterIndex === 0}
                       type="button"
                       className={cn(
-                        "p-2 rounded-lg transition-all",
-                        "focus:outline-none focus:ring-2 focus:ring-forest-500",
+                        "rounded-lg transition-all",
+                        "focus:outline-none focus:ring-2 focus:ring-forest-500 focus:ring-offset-2",
                         activeChapterIndex === 0
-                          ? "text-charcoal-300 cursor-not-allowed"
-                          : "text-charcoal-600 hover:text-forest-600 hover:bg-forest-50"
+                          ? "text-charcoal-300 cursor-not-allowed opacity-50"
+                          : "text-charcoal-600 hover:text-forest-600 hover:bg-forest-50 active:scale-95"
                       )}
+                      style={{
+                        padding: spacing[2],
+                        minWidth: '44px', // Better touch target
+                        minHeight: '44px', // Better touch target
+                        transform: 'translateZ(0)', // GPU acceleration
+                      }}
                       aria-label="Previous era"
+                      aria-disabled={activeChapterIndex === 0}
                     >
-                      <ChevronLeft className="w-5 h-5" />
+                      <ChevronLeft style={{ width: spacing[5], height: spacing[5] }} />
                     </button>
                     <button
                       onClick={goToNext}
                       disabled={activeChapterIndex === chapters.length - 1}
                       type="button"
                       className={cn(
-                        "p-2 rounded-lg transition-all",
-                        "focus:outline-none focus:ring-2 focus:ring-forest-500",
+                        "rounded-lg transition-all",
+                        "focus:outline-none focus:ring-2 focus:ring-forest-500 focus:ring-offset-2",
                         activeChapterIndex === chapters.length - 1
-                          ? "text-charcoal-300 cursor-not-allowed"
-                          : "text-charcoal-600 hover:text-forest-600 hover:bg-forest-50"
+                          ? "text-charcoal-300 cursor-not-allowed opacity-50"
+                          : "text-charcoal-600 hover:text-forest-600 hover:bg-forest-50 active:scale-95"
                       )}
+                      style={{
+                        padding: spacing[2],
+                        minWidth: '44px', // Better touch target
+                        minHeight: '44px', // Better touch target
+                        transform: 'translateZ(0)', // GPU acceleration
+                      }}
                       aria-label="Next era"
+                      aria-disabled={activeChapterIndex === chapters.length - 1}
                     >
-                      <ChevronRight className="w-5 h-5" />
+                      <ChevronRight style={{ width: spacing[5], height: spacing[5] }} />
                     </button>
                   </div>
                 </div>
 
-                {/* Chapter tabs */}
                 <div className="mb-6">
                   <ChapterSelector
                     chapters={chapters}
@@ -1193,8 +1906,7 @@ export function AuburnDataTeaser() {
                   />
                 </div>
 
-                {/* Chapter title */}
-                <div className="mb-5">
+                <div className="mb-6">
                   <div className="text-xs font-bold text-forest-600 uppercase tracking-widest mb-1">
                     {activeChapter.startYear}–{activeChapter.endYear}
                   </div>
@@ -1203,7 +1915,6 @@ export function AuburnDataTeaser() {
                   </h3>
                 </div>
 
-                {/* Chapter content */}
                 <AnimatePresence mode="wait">
                   <ChapterPanel key={activeChapter.id} chapter={activeChapter} />
                 </AnimatePresence>
@@ -1211,9 +1922,9 @@ export function AuburnDataTeaser() {
             </div>
           </div>
 
-          {/* Decade jumper - hidden on mobile */}
+          {/* Decade jumper */}
           <div className="hidden md:block">
-              <DecadeJumper 
+            <DecadeJumper 
               data={data} 
               activeYear={activeYear} 
               onYearSelect={handleYearSelect}
@@ -1221,56 +1932,194 @@ export function AuburnDataTeaser() {
           </div>
         </motion.div>
 
-        {/* Learn More CTA */}
+        {/* CTA Section */}
         <motion.div 
-          className="mt-12 bg-white rounded-2xl border-2 border-gold-200 overflow-hidden shadow-lg"
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          transition={{ delay: 0.6 }}
+          className="animate-on-scroll"
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+          transition={{ 
+            delay: shouldReduceMotion ? 0 : motion.delay.long / 1000 
+          }}
+          style={{
+            marginTop: spacing[16],
+            backgroundColor: colors.semantic.bgCard,
+            borderRadius: borders.radius['2xl'],
+            border: `${borders.width.medium}px solid ${colors.gold[200]}`,
+            overflow: 'hidden',
+            boxShadow: elevation.shadow.xl,
+            transform: 'translateZ(0)',
+          }}
         >
-          <div className="p-8 md:p-10 text-center">
-            <Sparkles className="w-12 h-12 text-gold-500 mx-auto mb-4" />
-            <h3 className="text-2xl md:text-3xl font-display font-bold text-charcoal-900 mb-3">
+          <div 
+            className="text-center"
+            style={{
+              padding: `clamp(${spacing[10]}px, 4vw, ${spacing[12]}px)`,
+            }}
+          >
+            <Sparkles 
+              style={{ 
+                width: spacing[14], 
+                height: spacing[14], 
+                color: colors.gold[500],
+                margin: `0 auto ${spacing[6]}px`,
+              }} 
+            />
+            <h3 
+              style={{
+                fontSize: typography.fontSize.h3,
+                fontFamily: typography.fontFamily.display,
+                fontWeight: typography.fontWeight.bold,
+                color: colors.charcoal[900],
+                marginBottom: spacing[4],
+              }}
+            >
               Want the Full Story?
             </h3>
-            <p className="text-charcoal-600 mb-6 max-w-2xl mx-auto">
+            <p 
+              style={{
+                color: colors.charcoal[600],
+                marginBottom: spacing[8],
+                maxWidth: spacing[20] * 2,
+                marginLeft: 'auto',
+                marginRight: 'auto',
+                fontSize: typography.fontSize.lg,
+              }}
+            >
               Dive deeper into Auburn's demographic evolution with detailed methodology, 
               data sources, accessibility information, and expanded historical context.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div 
+              className="flex flex-col sm:flex-row justify-center"
+              style={{ gap: spacing[4] }}
+            >
               <Link
                 href="/discover/auburn-data"
-                className={cn(
-                  "inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl",
-                  "bg-gradient-to-r from-forest-500 to-forest-600 text-white font-bold",
-                  "hover:from-forest-600 hover:to-forest-700 hover:scale-105 hover:shadow-xl hover:shadow-forest-500/25",
-                  "focus:outline-none focus:ring-2 focus:ring-forest-500 focus:ring-offset-2",
-                  "transition-all duration-200",
-                  "group"
-                )}
+                className="inline-flex items-center justify-center group"
+                style={{
+                  gap: spacing[2],
+                  padding: `${spacing[4]}px ${spacing[10]}px`,
+                  borderRadius: borders.radius.xl,
+                  background: `linear-gradient(to right, ${colors.forest[500]}, ${colors.forest[600]})`,
+                  color: '#FFFFFF',
+                  fontWeight: typography.fontWeight.bold,
+                  fontSize: typography.fontSize.lg,
+                  boxShadow: elevation.shadow.lg,
+                  transform: 'translateZ(0)',
+                  transition: motion.transition.normal,
+                }}
+                onMouseEnter={(e) => {
+                  if (!shouldReduceMotion) {
+                    gsap.to(e.currentTarget, {
+                      background: `linear-gradient(to right, ${colors.forest[600]}, ${colors.forest[700]})`,
+                      scale: interaction.hover.scaleMd,
+                      boxShadow: elevation.shadow.xl,
+                  duration: motion.duration.fast / 1000,
+                  ease: motion.easing.natural,
+                      force3D: true
+                    })
+                    gsap.to(e.currentTarget.querySelector('svg'), {
+                      x: spacing[1],
+                  duration: motion.duration.fast / 1000,
+                  ease: motion.easing.natural,
+                      force3D: true
+                    })
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (!shouldReduceMotion) {
+                    gsap.to(e.currentTarget, {
+                      background: `linear-gradient(to right, ${colors.forest[500]}, ${colors.forest[600]})`,
+                      scale: 1,
+                      boxShadow: elevation.shadow.lg,
+                  duration: motion.duration.fast / 1000,
+                  ease: motion.easing.natural,
+                      force3D: true
+                    })
+                    gsap.to(e.currentTarget.querySelector('svg'), {
+                      x: 0,
+                  duration: motion.duration.fast / 1000,
+                  ease: motion.easing.natural,
+                      force3D: true
+                    })
+                  }
+                }}
+                onFocus={(e) => {
+                  e.currentTarget.style.outline = `${interaction.focus.ringWidth}px solid ${interaction.focus.ringColor}`
+                  e.currentTarget.style.outlineOffset = `${interaction.focus.ringOffset}px`
+                }}
+                onBlur={(e) => {
+                  e.currentTarget.style.outline = 'none'
+                }}
               >
                 <span>Explore Full Data Story</span>
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                <ArrowRight style={{ width: spacing[5], height: spacing[5] }} />
               </Link>
               <Link
                 href="/discover"
-                className={cn(
-                  "inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl",
-                  "border-2 border-forest-300 text-forest-700 font-bold",
-                  "hover:bg-forest-50 hover:border-forest-500",
-                  "focus:outline-none focus:ring-2 focus:ring-forest-500 focus:ring-offset-2",
-                  "transition-all duration-200"
-                )}
+                className="inline-flex items-center justify-center"
+                style={{
+                  gap: spacing[2],
+                  padding: `${spacing[4]}px ${spacing[10]}px`,
+                  borderRadius: borders.radius.xl,
+                  border: `${borders.width.medium}px solid ${colors.forest[300]}`,
+                  color: colors.forest[700],
+                  fontWeight: typography.fontWeight.bold,
+                  fontSize: typography.fontSize.lg,
+                  transform: 'translateZ(0)',
+                  transition: motion.transition.normal,
+                }}
+                onMouseEnter={(e) => {
+                  if (!shouldReduceMotion) {
+                    gsap.to(e.currentTarget, {
+                      backgroundColor: colors.forest[50],
+                      borderColor: colors.forest[500],
+                      scale: interaction.hover.scaleSm,
+                  duration: motion.duration.fast / 1000,
+                  ease: motion.easing.natural,
+                      force3D: true
+                    })
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (!shouldReduceMotion) {
+                    gsap.to(e.currentTarget, {
+                      backgroundColor: 'transparent',
+                      borderColor: colors.forest[300],
+                      scale: 1,
+                  duration: motion.duration.fast / 1000,
+                  ease: motion.easing.natural,
+                      force3D: true
+                    })
+                  }
+                }}
+                onFocus={(e) => {
+                  e.currentTarget.style.outline = `${interaction.focus.ringWidth}px solid ${interaction.focus.ringColor}`
+                  e.currentTarget.style.outlineOffset = `${interaction.focus.ringOffset}px`
+                }}
+                onBlur={(e) => {
+                  e.currentTarget.style.outline = 'none'
+                }}
               >
                 <span>Discover Auburn</span>
               </Link>
             </div>
           </div>
           
-          {/* Footer with data sources */}
-          <div className="bg-cream-50 px-8 py-4 border-t border-gold-200">
-            <p className="text-center text-xs text-charcoal-500">
-              <strong className="text-charcoal-700">Data Sources:</strong> U.S. Census Bureau • California Department of Finance • Placer County Records
+          <div 
+            style={{
+              backgroundColor: colors.cream[50],
+              padding: `${spacing[5]}px ${spacing[8]}px`,
+              borderTop: `${borders.width.thin}px solid ${colors.gold[200]}`,
+            }}
+          >
+            <p 
+              className="text-center"
+              style={{
+                fontSize: typography.fontSize.xs,
+                color: colors.charcoal[500],
+              }}
+            >
+              <strong style={{ color: colors.charcoal[700] }}>Data Sources:</strong> U.S. Census Bureau • California Department of Finance • Placer County Records
             </p>
           </div>
         </motion.div>
