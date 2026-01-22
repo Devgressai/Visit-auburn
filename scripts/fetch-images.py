@@ -25,8 +25,80 @@ from io import BytesIO
 import json
 from datetime import datetime
 
-# Image configurations - ALL 21 IMAGES WITH VERIFIED WORKING URLS
+# Image configurations - EXPANDED WITH OUTDOOR ATTRACTIONS
 IMAGES_CONFIG = [
+    # Outdoor Attractions (NEW - 10 images for unique outdoor experiences)
+    {
+        "filename": "lake-clementine-trail.webp",
+        "directory": "auburn/outdoor",
+        "url": "https://images.unsplash.com/photo-1501594907352-04cda38ebc29?w=1200&q=80",
+        "description": "Lake Clementine Trail - scenic canyon hiking",
+        "category": "outdoor"
+    },
+    {
+        "filename": "hidden-falls-waterfall.webp",
+        "directory": "auburn/outdoor",
+        "url": "https://images.unsplash.com/photo-1432405972618-c60b0225b8f9?w=1200&q=80",
+        "description": "Hidden Falls - cascading waterfall",
+        "category": "outdoor"
+    },
+    {
+        "filename": "confluence-trails.webp",
+        "directory": "auburn/outdoor",
+        "url": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&q=80",
+        "description": "American River confluence trails",
+        "category": "outdoor"
+    },
+    {
+        "filename": "foresthill-bridge-view.webp",
+        "directory": "auburn/outdoor",
+        "url": "https://images.unsplash.com/photo-1470770841072-f978cf4d019e?w=1200&q=80",
+        "description": "Foresthill Bridge canyon overlook",
+        "category": "outdoor"
+    },
+    {
+        "filename": "quarry-ponds-trail.webp",
+        "directory": "auburn/outdoor",
+        "url": "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1200&q=80",
+        "description": "Quarry Ponds Trail - mountain hiking",
+        "category": "outdoor"
+    },
+    {
+        "filename": "training-hill-runners.webp",
+        "directory": "auburn/outdoor",
+        "url": "https://images.unsplash.com/photo-1452626038306-9aae5e071dd3?w=1200&q=80",
+        "description": "Training Hill - ultrarunner trail",
+        "category": "outdoor"
+    },
+    {
+        "filename": "river-rafting-action.webp",
+        "directory": "auburn/outdoor",
+        "url": "https://images.unsplash.com/photo-1501555088652-021faa106b9b?w=1200&q=80",
+        "description": "American River whitewater rafting",
+        "category": "outdoor"
+    },
+    {
+        "filename": "overlook-park-panorama.webp",
+        "directory": "auburn/outdoor",
+        "url": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&q=80",
+        "description": "Overlook Park panoramic views",
+        "category": "outdoor"
+    },
+    {
+        "filename": "river-swimming-hole.webp",
+        "directory": "auburn/outdoor",
+        "url": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1200&q=80",
+        "description": "American River swimming holes",
+        "category": "outdoor"
+    },
+    {
+        "filename": "mountain-biking-trail.webp",
+        "directory": "auburn/outdoor",
+        "url": "https://images.unsplash.com/photo-1544191696-102dbdaeeaa0?w=1200&q=80",
+        "description": "Mountain biking Western States Trail",
+        "category": "outdoor"
+    },
+    
     # Wedding venues (8 images)
     {
         "filename": "park-victorian.webp",

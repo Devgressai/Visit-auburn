@@ -748,17 +748,17 @@ const imageFallbacks: Record<string, string> = {
  * Specific image ID to WebP mapping for unique images per attraction
  */
 const specificImageMappings: Record<string, string> = {
-  // Outdoor attractions - unique images (using varied images to reduce repetition)
-  'outdoor-lake-clementine': '/images/auburn/hero-american-river-canyon.webp', // Canyon/river view
-  'outdoor-hidden-falls': '/images/events-hiking.webp', // Hiking image from root
-  'outdoor-confluence-trails': '/images/auburn/discover/folsom-lake.webp', // Lake/water view
-  'outdoor-foresthill-bridge': '/images/auburn/weddings/outdoor-ceremony.webp', // Bridge/outdoor view
-  'outdoor-quarry-ponds': '/images/auburn/weddings/garden-wedding.webp', // Pond/garden setting
-  'outdoor-training-hill': '/images/Hiking_trails.jpg', // Trail image from root
-  'outdoor-river-rafting': '/images/hero-main.webp', // River/water activity
-  'outdoor-overlook-park': '/images/auburn/weddings/park-victorian.webp', // Park overlook view
-  'outdoor-river-swimming': '/images/shutterstock_2065059674.jpg', // Water/swimming
-  'outdoor-mountain-biking': '/images/auburn/discover/hiking-trail.webp', // Trail biking
+  // Outdoor attractions - unique images (NEW dedicated outdoor images)
+  'outdoor-lake-clementine': '/images/auburn/outdoor/lake-clementine-trail.webp',
+  'outdoor-hidden-falls': '/images/auburn/outdoor/hidden-falls-waterfall.webp',
+  'outdoor-confluence-trails': '/images/auburn/outdoor/confluence-trails.webp',
+  'outdoor-foresthill-bridge': '/images/auburn/outdoor/foresthill-bridge-view.webp',
+  'outdoor-quarry-ponds': '/images/auburn/outdoor/quarry-ponds-trail.webp',
+  'outdoor-training-hill': '/images/auburn/outdoor/training-hill-runners.webp',
+  'outdoor-river-rafting': '/images/auburn/outdoor/river-rafting-action.webp',
+  'outdoor-overlook-park': '/images/auburn/outdoor/overlook-park-panorama.webp',
+  'outdoor-river-swimming': '/images/auburn/outdoor/river-swimming-hole.webp',
+  'outdoor-mountain-biking': '/images/auburn/outdoor/mountain-biking-trail.webp',
   'swim-hole': '/images/auburn/discover/folsom-lake.webp',
   'bicycle-shop': '/images/auburn/discover/hiking-trail.webp',
   'auburn-swim-hole': '/images/auburn/discover/folsom-lake.webp',

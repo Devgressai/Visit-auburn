@@ -49,13 +49,6 @@ const categories = [
     icon: ShoppingBag,
   },
   {
-    id: 'trails',
-    title: 'Trails & Parks',
-    image: '/images/auburn/discover/folsom-lake.webp',
-    href: '/things-to-do/outdoor-adventures',
-    icon: TreePine,
-  },
-  {
     id: 'explore',
     title: 'Explore All',
     image: '/images/auburn/hero-american-river-canyon.webp',
