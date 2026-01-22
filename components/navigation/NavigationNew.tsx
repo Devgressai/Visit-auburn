@@ -35,7 +35,7 @@ const navigation = [
       { name: 'All Dining', href: '/dining' },
       { name: 'Restaurants', href: '/dining?category=restaurant' },
       { name: 'Wineries', href: '/dining?category=winery' },
-      { name: 'Cafes', href: '/dining?category=cafe' },
+      { name: 'Breweries', href: '/dining?category=brewery' },
     ],
   },
   {

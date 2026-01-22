@@ -54,7 +54,10 @@ export const accommodationImages = {
 export const diningImages = {
   'mt-vernon-winery': '/images/auburn/dining/wine-tasting.webp', // Winery tasting room
   'auburn-old-town-farmers-market': '/images/auburn/dining/farmers-market.webp', // Farmers market
+  'auburn-farmers-market': '/images/auburn/dining/farmers-market.webp', // Farmers market (alternative name)
   'out-of-order-arcade': '/images/auburn/dining/cafe-ambiance.webp', // Arcade/entertainment venue
+  'wine-walk': '/images/auburn/dining/wine-tasting.webp', // Wine event
+  'live-music': '/images/auburn/dining/brewery-taproom.webp', // Entertainment venue
 }
 
 // Event images

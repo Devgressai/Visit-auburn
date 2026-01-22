@@ -177,11 +177,11 @@ export default async function DiningPage() {
         </div>
       </section>
 
-      {/* Dining Categories - Cream background */}
-      <section className="py-16 md:py-24 bg-cream-50">
+      {/* Dining Categories - White background */}
+      <section className="py-16 md:py-24 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-charcoal-900 mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-charcoal-900 mb-4 font-display">
               Explore by Category
             </h2>
             <p className="text-charcoal-600 max-w-2xl mx-auto">

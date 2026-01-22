@@ -72,8 +72,8 @@ export default async function DiscoverPage() {
       </div>
 
       {/* Main Content - White background */}
-      <section className="py-12 md:py-16 bg-white">
-        <div className="container mx-auto px-4">
+      <section className="py-12 md:py-16 lg:py-20 bg-white">
+        <div className="container mx-auto px-4 md:px-6 lg:px-8">
 
           {/* Intro */}
           <div className="max-w-4xl mx-auto mb-16 text-center">
@@ -106,7 +106,7 @@ export default async function DiscoverPage() {
           {/* Featured Content Sections */}
           <div className="max-w-6xl mx-auto">
             {/* Outdoor Adventures */}
-            <div className="mb-20">
+            <div className="mb-20 md:mb-24">
               <div className="flex items-center justify-between mb-8">
                 <h2 className="text-3xl font-bold text-charcoal-900">Outdoor Adventure Guides</h2>
                 <Link 
@@ -132,7 +132,7 @@ export default async function DiscoverPage() {
                       Everything you need to know about Auburn's most popular trail—parking, best times, swimming 
                       holes, and what to bring.
                     </p>
-                    <Link href="/things-to-do/outdoor-adventures" className="text-lake-600 hover:text-lake-700 text-sm font-semibold">
+                    <Link href="/discover/lake-clementine-trail-guide" className="text-lake-600 hover:text-lake-700 text-sm font-semibold">
                       Read More →
                     </Link>
                   </div>
@@ -151,7 +151,7 @@ export default async function DiscoverPage() {
                     <p className="text-charcoal-600 text-sm mb-4">
                       Trail options, seasonal differences, and why this regional park became an instant Auburn favorite.
                     </p>
-                    <Link href="/things-to-do/outdoor-adventures" className="text-lake-600 hover:text-lake-700 text-sm font-semibold">
+                    <Link href="/discover/hidden-falls-guide" className="text-lake-600 hover:text-lake-700 text-sm font-semibold">
                       Read More →
                     </Link>
                   </div>
@@ -170,7 +170,7 @@ export default async function DiscoverPage() {
                     <p className="text-charcoal-600 text-sm mb-4">
                       Where locals cool off in the American River: access points, safety tips, and what to expect.
                     </p>
-                    <Link href="/things-to-do/outdoor-adventures" className="text-lake-600 hover:text-lake-700 text-sm font-semibold">
+                    <Link href="/discover/swimming-holes-guide" className="text-lake-600 hover:text-lake-700 text-sm font-semibold">
                       Read More →
                     </Link>
                   </div>
@@ -179,7 +179,7 @@ export default async function DiscoverPage() {
             </div>
 
             {/* History & Culture */}
-            <div className="mb-20">
+            <div className="mb-20 md:mb-24">
               <div className="flex items-center justify-between mb-8">
                 <h2 className="text-3xl font-bold text-charcoal-900">History & Heritage Stories</h2>
                 <Link 
@@ -205,7 +205,7 @@ export default async function DiscoverPage() {
                       How Auburn survived when other Gold Rush towns became ghost settlements, and why these historic 
                       buildings still house daily businesses instead of becoming museums.
                     </p>
-                    <Link href="/things-to-do/history-culture" className="text-lake-600 hover:text-lake-700 text-sm font-semibold">
+                    <Link href="/discover/old-town-auburn-walking-tour" className="text-lake-600 hover:text-lake-700 text-sm font-semibold">
                       Read the Story →
                     </Link>
                   </div>
@@ -225,7 +225,7 @@ export default async function DiscoverPage() {
                       Inside Auburn's three major museums—what you'll actually see, why they matter, and which exhibits 
                       reveal Gold Country history you won't find in textbooks.
                     </p>
-                    <Link href="/things-to-do/history-culture" className="text-lake-600 hover:text-lake-700 text-sm font-semibold">
+                    <Link href="/discover/auburn-museums-guide" className="text-lake-600 hover:text-lake-700 text-sm font-semibold">
                       Read the Guide →
                     </Link>
                   </div>
@@ -234,7 +234,7 @@ export default async function DiscoverPage() {
             </div>
 
             {/* Planning Resources */}
-            <div className="mb-20">
+            <div className="mb-20 md:mb-24">
               <h2 className="text-3xl font-bold text-charcoal-900 mb-8">Plan Your Auburn Visit</h2>
               
               <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -281,7 +281,7 @@ export default async function DiscoverPage() {
             </div>
 
             {/* Seasonal Highlights - Cream background */}
-            <div className="bg-cream-50 rounded-2xl p-8 md:p-12 mb-20">
+            <div className="bg-cream-50 rounded-2xl p-8 md:p-12 lg:p-16 mb-20 md:mb-24">
               <h2 className="text-3xl font-bold text-charcoal-900 mb-6 text-center">
                 Auburn Through the Seasons
               </h2>

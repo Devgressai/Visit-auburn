@@ -4,15 +4,48 @@ import { getPlaceholderImage, activityImages, accommodationImages, diningImages,
 /**
  * Image helper - creates image object with Unsplash URLs
  * Accepts either a placeholder key or a full URL
+ * For dining items, checks for specific image mappings first
  */
 function createImage(urlOrKey: string, alt?: string): Image {
+  let imageUrl: string
+  
   // Check if it's a placeholder key or a full URL
   const isPlaceholderKey = ['hero', 'stay', 'things-to-do', 'dining', 'discover'].includes(urlOrKey)
-  const imageUrl = isPlaceholderKey 
-    ? getPlaceholderImage(urlOrKey as PlaceholderKey)
-    : urlOrKey.startsWith('http') 
-      ? urlOrKey 
-      : getPlaceholderImage('hero') // fallback
+  
+  if (isPlaceholderKey) {
+    // For dining items, check if there's a specific image mapping
+    if (urlOrKey === 'dining' && alt) {
+      // Create slug from alt text to match diningImages keys
+      // Handle apostrophes, normalize whitespace, and convert to lowercase
+      const slug = alt.toLowerCase()
+        .replace(/'/g, '')
+        .replace(/[^\w\s-]/g, '') // Remove special chars except hyphens
+        .trim()
+        .replace(/\s+/g, '-')
+      
+      // Check diningImages first (exact match)
+      if (diningImages[slug as keyof typeof diningImages]) {
+        imageUrl = diningImages[slug as keyof typeof diningImages]
+      } else {
+        // Try partial match (e.g., "auburn-farmers-market" matches "auburn-old-town-farmers-market")
+        const matchingKey = Object.keys(diningImages).find(key => 
+          slug.includes(key) || key.includes(slug)
+        )
+        if (matchingKey) {
+          imageUrl = diningImages[matchingKey as keyof typeof diningImages]
+        } else {
+          // Fallback to generic dining placeholder
+          imageUrl = getPlaceholderImage(urlOrKey as PlaceholderKey)
+        }
+      }
+    } else {
+      imageUrl = getPlaceholderImage(urlOrKey as PlaceholderKey)
+    }
+  } else if (urlOrKey.startsWith('http')) {
+    imageUrl = urlOrKey
+  } else {
+    imageUrl = getPlaceholderImage('hero') // fallback
+  }
   
   return {
     _type: 'image',
@@ -371,7 +404,7 @@ export const dining: (Dining & { seoTitle?: string; seoDescription?: string })[]
     title: 'Auburn Old Town Farmer\'s Market',
     slug: createSlug('auburn-old-town-farmers-market'),
     excerpt: 'Weekly farmers market featuring local produce, artisan foods, and community gatherings.',
-    featuredImage: createImage('dining', 'Auburn Farmers Market'),
+    featuredImage: createImage('dining', 'Auburn Old Town Farmers Market'),
     location: {
       address: 'Old Town Auburn',
       city: 'Auburn',
