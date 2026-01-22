@@ -553,7 +553,7 @@ function PremiumChart({ data, activeYear, hoveredYear, onYearClick, onYearHover 
                   padding: `${spacing[3]}px ${spacing[4]}px`,
                   borderRadius: borders.radius.xl,
                   boxShadow: elevation.shadow['2xl'],
-                  maxWidth: `${spacing[48] + spacing[6] + spacing[1]}px`, // ~220px
+                  maxWidth: `${spacing[24] + spacing[20] + spacing[10]}px`, // ~216px
                 }}
               >
                 <div 
