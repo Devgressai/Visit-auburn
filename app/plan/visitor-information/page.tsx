@@ -104,7 +104,7 @@ export default function VisitorInformationPage() {
       {/* ═══════════════════════════════════════════════════════════════════
           HERO SECTION - Cinematic style matching homepage
           ═══════════════════════════════════════════════════════════════════ */}
-      <section className="relative min-h-[60vh] md:min-h-[70vh] w-full overflow-hidden">
+      <section className="relative min-h-[450px] md:min-h-[500px] w-full overflow-hidden">
         <AuburnHeroImage imageId="hero-old-town-clocktower" contentPosition="bottom-left">
           <div className="relative z-10">
             <p 
@@ -136,6 +136,54 @@ export default function VisitorInformationPage() {
           <Breadcrumbs items={breadcrumbs} />
         </div>
       </div>
+
+      {/* ═══════════════════════════════════════════════════════════════════
+          QUICK INFO BANNER - Key visitor information at a glance
+          ═══════════════════════════════════════════════════════════════════ */}
+      <section className="bg-cream-50 border-y border-charcoal-100">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-charcoal-200">
+            {[
+              { label: 'Visitor Center', value: 'Open Today', link: null },
+              { label: 'Hours', value: '10am - 4pm', link: null },
+              { 
+                label: 'Location', 
+                value: '1103 High St', 
+                link: 'https://www.google.com/maps/search/?api=1&query=1103+High+Street,+Auburn,+CA+95603'
+              },
+              { 
+                label: 'Phone', 
+                value: '(530) 885-5616', 
+                link: 'tel:+15308855616'
+              },
+            ].map((stat) => {
+              const content = (
+                <>
+                  <div className="text-2xl md:text-3xl font-bold text-charcoal-900">{stat.value}</div>
+                  <div className="text-sm text-charcoal-600">{stat.label}</div>
+                </>
+              )
+              
+              return (
+                <div key={stat.label} className="py-6 px-4 text-center">
+                  {stat.link ? (
+                    <a
+                      href={stat.link}
+                      target={stat.link.startsWith('http') ? '_blank' : undefined}
+                      rel={stat.link.startsWith('http') ? 'noopener noreferrer' : undefined}
+                      className="block hover:text-lake-600 transition-colors"
+                    >
+                      {content}
+                    </a>
+                  ) : (
+                    content
+                  )}
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      </section>
 
       {/* ═══════════════════════════════════════════════════════════════════
           VISITOR CENTER SECTION - Cream background with white card
