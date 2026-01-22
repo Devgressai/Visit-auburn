@@ -159,7 +159,7 @@ export function AttractionCard({
 
         {/* Difficulty Badge */}
         {attraction.difficulty && showDifficulty && (
-          <div className="absolute bottom-3 right-3 z-10">
+          <div className="absolute bottom-3 left-3 z-10">
             <span className={`px-2 py-1 rounded-full text-xs font-medium ${difficultyColors[attraction.difficulty]}`}>
               {attraction.difficulty.charAt(0).toUpperCase() + attraction.difficulty.slice(1)}
             </span>

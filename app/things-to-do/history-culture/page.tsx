@@ -92,7 +92,7 @@ export default async function HistoryCulturePage() {
             <h2 className="text-3xl font-bold text-charcoal-900 mt-12 mb-6">
               Auburn's Gold Rush Legacy
             </h2>
-            <p className="mb-4">
+            <p className="text-charcoal-700 mb-6">
               Auburn's historic district—Old Town Auburn—sits exactly where miners set up their first camps in 1848. The 
               steep streets climbing from Auburn Ravine, the narrow buildings facing Lincoln Way, even the courthouse 
               position overlooking the diggings—all reflect Gold Rush planning. Unlike Sacramento or San Francisco where 
@@ -100,7 +100,7 @@ export default async function HistoryCulturePage() {
               difficult, so buildings stayed. Today, over 20 structures predate 1900, many in continuous use as shops, 
               restaurants, and offices.
             </p>
-            <p className="mb-6">
+            <p className="text-charcoal-700 mb-6">
               What makes Auburn's history special is accessibility. Walk into any Old Town shop and you're standing where 
               miners traded gold dust for supplies. Eat at a restaurant built in 1856. Touch Gold Rush-era bricks still warm 
               from California sun. This isn't a theme park recreation—it's the real Gold Country, preserved through 
@@ -142,9 +142,13 @@ export default async function HistoryCulturePage() {
 
           {/* Museums Section */}
           <div className="max-w-4xl mx-auto mb-16">
-            <h2 className="text-3xl font-bold text-charcoal-900 mb-8">
+            <h2 className="text-3xl font-bold text-charcoal-900 mb-6">
               Auburn's Gold Country Museums
             </h2>
+            <p className="text-charcoal-700 mb-8">
+              Auburn's three major museums offer complementary perspectives on Gold Rush history—from mining technology 
+              to Victorian daily life to regional heritage. All occupy historic buildings and feature authentic artifacts.
+            </p>
 
             <div className="space-y-10">
               <div className="border-l-4 border-amber-600 pl-6">
@@ -154,7 +158,7 @@ export default async function HistoryCulturePage() {
                 <p className="text-charcoal-700 mb-4">
                   <strong>Location:</strong> 1273 High Street, Auburn | <strong>Hours:</strong> Tuesday-Sunday 10am-4pm | <strong>Admission:</strong> $5 adults, kids under 5 free
                 </p>
-                <p className="mb-4">
+                <p className="text-charcoal-700 mb-4">
                   Walk through a full-scale replica of an 1850s Auburn mine, complete with mining equipment, ore carts, and 
                   simulated underground tunnels. The museum houses Placer County's gold mining artifacts: stamping mills, 
                   sluice boxes, and the largest collection of Gold Rush-era photographs in the region. Kids love the gold 
@@ -165,7 +169,7 @@ export default async function HistoryCulturePage() {
                   <strong>Don't Miss:</strong> The Working Mine Shaft replica and gold-weighing scales that miners actually used
                 </p>
                 <p className="text-sm">
-                  <Link href="https://www.placer.ca.gov/goldcountrymuseum" className="text-amber-700 hover:text-amber-800 font-semibold">
+                  <Link href="https://www.placer.ca.gov/goldcountrymuseum" className="text-amber-700 hover:text-amber-800 font-semibold" target="_blank" rel="noopener noreferrer">
                     Visit Gold Country Museum Website →
                   </Link>
                 </p>
@@ -178,7 +182,7 @@ export default async function HistoryCulturePage() {
                 <p className="text-charcoal-700 mb-4">
                   <strong>Location:</strong> 291 Auburn-Folsom Road | <strong>Hours:</strong> Tuesday-Friday 10am-3pm, Saturday 11am-4pm | <strong>Admission:</strong> $5 adults
                 </p>
-                <p className="mb-4">
+                <p className="text-charcoal-700 mb-4">
                   This 1851 Traveler's Rest Hotel and Winery tells Auburn's post-Gold Rush story. The Bernhard family ran 
                   the hotel for decades, serving travelers between Auburn and Folsom. Original furnishings fill the Victorian 
                   rooms—you'll see the actual kitchen, parlor, and bedrooms where gold-seekers stayed. Outside, explore the 
@@ -189,7 +193,7 @@ export default async function HistoryCulturePage() {
                   <strong>Special Events:</strong> Victorian Christmas in December, Vintage Harvest in September
                 </p>
                 <p className="text-sm">
-                  <Link href="https://www.placer.ca.gov/bernhardmuseum" className="text-blue-700 hover:text-blue-800 font-semibold">
+                  <Link href="https://www.placer.ca.gov/bernhardmuseum" className="text-blue-700 hover:text-blue-800 font-semibold" target="_blank" rel="noopener noreferrer">
                     Visit Bernhard Museum Website →
                   </Link>
                 </p>
@@ -202,7 +206,7 @@ export default async function HistoryCulturePage() {
                 <p className="text-charcoal-700 mb-4">
                   <strong>Location:</strong> 101 Maple Street, Auburn (in historic Courthouse) | <strong>Hours:</strong> Wednesday-Sunday 10am-4pm | <strong>Admission:</strong> Free
                 </p>
-                <p className="mb-4">
+                <p className="text-charcoal-700 mb-4">
                   Inside the magnificent 1898 Placer County Courthouse, this free museum covers broader regional history: 
                   Native American Nisenan culture, Spanish exploration, Gold Rush transformation, railroad construction, 
                   agriculture development, and modern Auburn. The courthouse itself is an attraction—Romanesque Revival 
@@ -232,7 +236,7 @@ export default async function HistoryCulturePage() {
             <h2 className="text-3xl font-bold text-charcoal-900 mb-6">
               Old Town Auburn Historic Walking Tour
             </h2>
-            <p className="mb-6">
+            <p className="text-charcoal-700 mb-8">
               Old Town Auburn packs over two dozen historic structures into a walkable 6-block district. Start at the 
               Visitor Center (old SP Depot) for a free walking tour map, then follow these highlights:
             </p>
@@ -292,7 +296,7 @@ export default async function HistoryCulturePage() {
 
             <div className="mt-8 p-6 bg-blue-50 border-l-4 border-blue-600 rounded-r-lg">
               <h4 className="font-bold text-lg mb-2">Download the Full Walking Tour</h4>
-              <p className="mb-3">
+              <p className="text-charcoal-700 mb-3">
                 The Auburn Visitor Center offers free detailed maps covering 20+ historic sites, with photos and stories 
                 for each building. Pick up a map at 601 Lincoln Way or download from the Auburn Chamber of Commerce website.
               </p>
@@ -318,7 +322,7 @@ export default async function HistoryCulturePage() {
             <h2 className="text-3xl font-bold text-charcoal-900 mb-6">
               Experience Living Gold Rush History
             </h2>
-            <p className="mb-6">
+            <p className="text-charcoal-700 mb-8">
               Auburn doesn't just preserve history—it brings it to life through demonstrations, reenactments, and 
               hands-on experiences throughout the year:
             </p>
