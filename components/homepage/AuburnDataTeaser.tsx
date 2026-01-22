@@ -419,7 +419,11 @@ function PremiumChart({ data, activeYear, hoveredYear, onYearClick, onYearHover 
                   height={chartHeight}
                   fill="transparent"
                   className="cursor-pointer"
-                  onClick={() => onYearClick(row.year)}
+                  onClick={(e) => {
+                    e.preventDefault()
+                    e.stopPropagation()
+                    onYearClick(row.year)
+                  }}
                   onMouseEnter={() => onYearHover(row.year)}
                   onMouseLeave={() => onYearHover(null)}
                   onFocus={() => onYearHover(row.year)}
@@ -979,7 +983,8 @@ function DecadeJumper({ data, activeYear, onYearSelect }: { data: CityThroughTim
     if (!container) return
     const activeIndex = decades.findIndex(d => d.year === activeYear)
     const activeEl = container.children[activeIndex] as HTMLElement
-    activeEl?.scrollIntoView({ behavior: shouldReduceMotion ? 'auto' : 'smooth', inline: 'center' })
+    // Only scroll horizontally within the container, not the page
+    activeEl?.scrollIntoView({ behavior: shouldReduceMotion ? 'auto' : 'smooth', inline: 'center', block: 'nearest' })
   }, [activeYear, decades, shouldReduceMotion])
 
   return (
@@ -1025,7 +1030,13 @@ function DecadeJumper({ data, activeYear, onYearSelect }: { data: CityThroughTim
         {decades.map((row) => (
           <button
             key={row.year}
-            onClick={() => onYearSelect(row.year)}
+            onClick={(e) => {
+              e.preventDefault()
+              e.stopPropagation()
+              // Prevent focus on click to avoid scroll
+              e.currentTarget.blur()
+              onYearSelect(row.year)
+            }}
             className="flex-shrink-0 snap-start font-bold transition-all"
             style={{
               padding: `${spacing[2] + spacing[1]}px ${spacing[5]}px`,
@@ -1119,7 +1130,10 @@ function ChapterSelector({ chapters, activeIndex, onSelect }: { chapters: StoryC
     const container = scrollRef.current
     if (!container) return
     const activeEl = container.children[activeIndex] as HTMLElement
-    activeEl?.scrollIntoView({ behavior: shouldReduceMotion ? 'auto' : 'smooth', inline: 'center', block: 'nearest' })
+    // Only scroll horizontally within the container, not the page
+    if (activeEl) {
+      activeEl.scrollIntoView({ behavior: shouldReduceMotion ? 'auto' : 'smooth', inline: 'center', block: 'nearest' })
+    }
   }, [activeIndex, shouldReduceMotion])
 
   return (
@@ -1131,7 +1145,13 @@ function ChapterSelector({ chapters, activeIndex, onSelect }: { chapters: StoryC
       {chapters.map((chapter, index) => (
         <button
           key={chapter.id}
-          onClick={() => onSelect(index)}
+          onClick={(e) => {
+            e.preventDefault()
+            e.stopPropagation()
+            // Prevent focus on click to avoid scroll
+            e.currentTarget.blur()
+            onSelect(index)
+          }}
           role="tab"
           aria-selected={activeIndex === index}
           className="relative flex-shrink-0 whitespace-nowrap snap-start transition-all"
@@ -1740,7 +1760,13 @@ export function AuburnDataTeaser() {
                   </div>
                   <div className="flex items-center gap-1">
                     <button
-                      onClick={goToPrevious}
+                      onClick={(e) => {
+                        e.preventDefault()
+                        e.stopPropagation()
+                        // Prevent focus on click to avoid scroll
+                        e.currentTarget.blur()
+                        goToPrevious(e)
+                      }}
                       disabled={activeChapterIndex === 0}
                       type="button"
                       className={cn(
@@ -1762,7 +1788,13 @@ export function AuburnDataTeaser() {
                       <ChevronLeft style={{ width: spacing[4], height: spacing[4] }} />
                     </button>
                     <button
-                      onClick={goToNext}
+                      onClick={(e) => {
+                        e.preventDefault()
+                        e.stopPropagation()
+                        // Prevent focus on click to avoid scroll
+                        e.currentTarget.blur()
+                        goToNext(e)
+                      }}
                       disabled={activeChapterIndex === chapters.length - 1}
                       type="button"
                       className={cn(
@@ -1853,7 +1885,13 @@ export function AuburnDataTeaser() {
                   </div>
                   <div className="flex items-center gap-1">
                     <button
-                      onClick={goToPrevious}
+                      onClick={(e) => {
+                        e.preventDefault()
+                        e.stopPropagation()
+                        // Prevent focus on click to avoid scroll
+                        e.currentTarget.blur()
+                        goToPrevious(e)
+                      }}
                       disabled={activeChapterIndex === 0}
                       type="button"
                       className={cn(
@@ -1875,7 +1913,13 @@ export function AuburnDataTeaser() {
                       <ChevronLeft style={{ width: spacing[5], height: spacing[5] }} />
                     </button>
                     <button
-                      onClick={goToNext}
+                      onClick={(e) => {
+                        e.preventDefault()
+                        e.stopPropagation()
+                        // Prevent focus on click to avoid scroll
+                        e.currentTarget.blur()
+                        goToNext(e)
+                      }}
                       disabled={activeChapterIndex === chapters.length - 1}
                       type="button"
                       className={cn(
