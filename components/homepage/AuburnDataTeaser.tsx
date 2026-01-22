@@ -616,6 +616,7 @@ function PremiumChart({ data, activeYear, hoveredYear, onYearClick, onYearHover 
 function PremiumStatsPanel({ data, activeYear }: { data: CityThroughTimeRow[], activeYear: number }) {
   const ref = useRef<HTMLDivElement>(null)
   const isInView = useInView(ref, { once: true })
+  const shouldReduceMotion = useReducedMotion()
   
   const activeRow = useMemo(() => data.find(d => d.year === activeYear) || data[data.length - 1], [data, activeYear])
   const previousRow = useMemo(() => {
