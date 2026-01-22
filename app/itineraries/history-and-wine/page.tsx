@@ -355,37 +355,41 @@ export default function HistoryAndWinePage() {
                 </p>
               </div>
 
-              <div className="grid md:grid-cols-3 gap-6 mb-8">
-                <Link href="/accommodations" className="bg-white/10 backdrop-blur-sm rounded-xl p-6 hover:bg-white/20 transition-colors group">
-                  <h3 className="text-xl font-bold mb-2 group-hover:text-white transition-colors">Boutique Hotels</h3>
-                  <p className="text-white/90 text-sm mb-3">Historic inns and charming stays</p>
+              <div className="grid md:grid-cols-3 lg:grid-cols-5 gap-6 mb-8">
+                <Link href="/plan/visitor-information" className="bg-white/10 backdrop-blur-sm rounded-xl p-6 hover:bg-white/20 transition-colors group">
+                  <h3 className="text-xl font-bold mb-2 group-hover:text-white transition-colors">Visitor Information</h3>
+                  <p className="text-white/90 text-sm mb-3">Essential visitor resources</p>
                   <span className="inline-flex items-center text-sm font-semibold">
-                    Find Lodging <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                    Learn More <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
                   </span>
                 </Link>
-                <Link href="/dining" className="bg-white/10 backdrop-blur-sm rounded-xl p-6 hover:bg-white/20 transition-colors group">
-                  <h3 className="text-xl font-bold mb-2 group-hover:text-white transition-colors">Wine & Dine</h3>
-                  <p className="text-white/90 text-sm mb-3">Restaurants and tasting rooms</p>
+                <Link href="/plan/maps-guides" className="bg-white/10 backdrop-blur-sm rounded-xl p-6 hover:bg-white/20 transition-colors group">
+                  <h3 className="text-xl font-bold mb-2 group-hover:text-white transition-colors">Maps & Guides</h3>
+                  <p className="text-white/90 text-sm mb-3">Downloadable maps and guides</p>
                   <span className="inline-flex items-center text-sm font-semibold">
-                    View Restaurants <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                    Get Maps <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
                   </span>
                 </Link>
-                <Link href="/events" className="bg-white/10 backdrop-blur-sm rounded-xl p-6 hover:bg-white/20 transition-colors group">
-                  <h3 className="text-xl font-bold mb-2 group-hover:text-white transition-colors">Wine Events</h3>
-                  <p className="text-white/90 text-sm mb-3">Harvest festivals and tastings</p>
+                <Link href="/plan/getting-here" className="bg-white/10 backdrop-blur-sm rounded-xl p-6 hover:bg-white/20 transition-colors group">
+                  <h3 className="text-xl font-bold mb-2 group-hover:text-white transition-colors">Getting Here</h3>
+                  <p className="text-white/90 text-sm mb-3">Directions and transportation</p>
                   <span className="inline-flex items-center text-sm font-semibold">
-                    See Calendar <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                    Find Us <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
                   </span>
                 </Link>
-              </div>
-
-              <div className="text-center">
-                <Link 
-                  href="/plan/visitor-information" 
-                  className="inline-flex items-center gap-2 px-8 py-4 bg-white text-lake-600 font-bold rounded-full hover:bg-cream-50 transition-colors shadow-lg"
-                >
-                  Get Visitor Information
-                  <ArrowRight className="w-5 h-5" />
+                <Link href="/plan/faq" className="bg-white/10 backdrop-blur-sm rounded-xl p-6 hover:bg-white/20 transition-colors group">
+                  <h3 className="text-xl font-bold mb-2 group-hover:text-white transition-colors">FAQ</h3>
+                  <p className="text-white/90 text-sm mb-3">Frequently asked questions</p>
+                  <span className="inline-flex items-center text-sm font-semibold">
+                    Get Answers <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                  </span>
+                </Link>
+                <Link href="/itineraries/history-and-wine" className="bg-white/10 backdrop-blur-sm rounded-xl p-6 hover:bg-white/20 transition-colors group">
+                  <h3 className="text-xl font-bold mb-2 group-hover:text-white transition-colors">History & Wine</h3>
+                  <p className="text-white/90 text-sm mb-3">Cultural itinerary guide</p>
+                  <span className="inline-flex items-center text-sm font-semibold">
+                    Explore <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                  </span>
                 </Link>
               </div>
             </div>

@@ -172,12 +172,9 @@ export default function GettingHerePage() {
           </p>
           
           {/* Additional Auburn Images */}
-          <div className="grid md:grid-cols-3 gap-6 mb-12">
+          <div className="grid md:grid-cols-2 gap-6 mb-12">
             <div className="relative h-48 rounded-xl overflow-hidden">
               <AuburnImage imageId="downtown-lincoln-way" />
-            </div>
-            <div className="relative h-48 rounded-xl overflow-hidden">
-              <AuburnImage imageId="historic-old-town-clocktower" />
             </div>
             <div className="relative h-48 rounded-xl overflow-hidden">
               <AuburnImage imageId="outdoor-lake-clementine" />

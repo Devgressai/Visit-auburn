@@ -26,7 +26,7 @@ export function HeroSection({ title, subtitle, image, ctaText, ctaLink }: HeroSe
   const imageUrl = image ? urlFor(image).width(1920).height(1080).url() : getPlaceholderImage('hero')
 
   return (
-    <section className="relative h-[75vh] min-h-[600px] md:h-[85vh] md:min-h-[700px] flex items-center justify-center overflow-hidden pt-20 md:pt-24">
+    <section className="relative h-[75vh] min-h-[600px] md:h-[85vh] md:min-h-[700px] flex items-center justify-center overflow-hidden pt-20 md:pt-24 pb-8 md:pb-12">
       <div className="absolute inset-0 z-0">
         <Image
           src={imageUrl}
@@ -39,7 +39,7 @@ export function HeroSection({ title, subtitle, image, ctaText, ctaLink }: HeroSe
         <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/60" />
       </div>
       
-      <div className="relative z-10 container text-center text-white px-4 sm:px-6 lg:px-8">
+      <div className="relative z-10 container text-center text-white px-4 sm:px-6 lg:px-8 py-8 md:py-12">
         <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-6 md:mb-8 text-balance leading-[1.1] tracking-tight">
           {heroTitle}
         </h1>

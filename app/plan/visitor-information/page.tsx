@@ -148,7 +148,7 @@ export default function VisitorInformationPage() {
               <h2 className="text-3xl md:text-4xl font-bold text-charcoal-900 mb-6 font-display">
                 Auburn Visitor Center
               </h2>
-              <p className="text-charcoal-600 text-lg mb-6 leading-relaxed">
+              <p className="text-charcoal-600 mb-6 leading-relaxed">
                 Stop by our visitor center for maps, brochures, local recommendations, 
                 and personalized trip planning assistance from our friendly staff. Our knowledgeable 
                 team members are passionate about Auburn and can help you discover hidden gems, plan 
@@ -171,7 +171,14 @@ export default function VisitorInformationPage() {
                   </div>
                   <div>
                     <h3 className="font-semibold text-charcoal-900">Location</h3>
-                    <p className="text-charcoal-600">1103 High Street, Auburn, CA 95603</p>
+                    <a 
+                      href="https://www.google.com/maps/search/?api=1&query=1103+High+Street,+Auburn,+CA+95603" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-charcoal-600 hover:text-lake-600 hover:underline transition-colors"
+                    >
+                      1103 High Street, Auburn, CA 95603
+                    </a>
                   </div>
                 </div>
                 
@@ -192,7 +199,12 @@ export default function VisitorInformationPage() {
                   </div>
                   <div>
                     <h3 className="font-semibold text-charcoal-900">Contact</h3>
-                    <p className="text-charcoal-600">(530) 885-5616</p>
+                    <a 
+                      href="tel:+15308855616" 
+                      className="text-charcoal-600 hover:text-lake-600 hover:underline transition-colors"
+                    >
+                      (530) 885-5616
+                    </a>
                   </div>
                 </div>
                 

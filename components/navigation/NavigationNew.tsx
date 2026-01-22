@@ -81,7 +81,7 @@ export function NavigationNew() {
     <header 
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled 
-          ? 'bg-deep-surface/95 backdrop-blur-md border-b border-border-subtle py-1 md:py-2' 
+          ? 'bg-deep-bg/95 backdrop-blur-md border-b border-border-subtle py-1 md:py-2' 
           : 'bg-transparent py-2 md:py-3'
       }`}
     >
@@ -173,7 +173,7 @@ export function NavigationNew() {
 
         {/* Mobile Menu - Full height, thumb-friendly */}
         {isOpen && (
-          <div className="lg:hidden fixed inset-x-0 top-[68px] md:top-[84px] bottom-0 bg-deep-surface/98 backdrop-blur-lg border-t border-border-subtle overflow-y-auto">
+          <div className="lg:hidden fixed inset-x-0 top-[68px] md:top-[84px] bottom-0 bg-deep-bg/98 backdrop-blur-lg border-t border-border-subtle overflow-y-auto">
             <nav className="flex flex-col p-4 pb-24">
               {navigation.map((item) => (
                 <div key={item.name} className="border-b border-border-subtle last:border-0">

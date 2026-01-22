@@ -1,16 +1,9 @@
 import Link from 'next/link'
 import { Card } from '@/components/ui'
-import { MapPin, Info, FileText } from 'lucide-react'
+import { MapPin, Info, FileText, HelpCircle, Route } from 'lucide-react'
 
 export function PlanYourVisitPreview() {
   const resources = [
-    {
-      title: 'Getting Here',
-      description: 'Directions and transportation options',
-      href: '/plan/getting-here',
-      icon: MapPin,
-      color: 'text-blue-600',
-    },
     {
       title: 'Visitor Information',
       description: 'Essential information for visitors',
@@ -24,6 +17,27 @@ export function PlanYourVisitPreview() {
       href: '/plan/maps-guides',
       icon: FileText,
       color: 'text-purple-600',
+    },
+    {
+      title: 'Getting Here',
+      description: 'Directions and transportation options',
+      href: '/plan/getting-here',
+      icon: MapPin,
+      color: 'text-blue-600',
+    },
+    {
+      title: 'FAQ',
+      description: 'Frequently asked questions',
+      href: '/plan/faq',
+      icon: HelpCircle,
+      color: 'text-orange-600',
+    },
+    {
+      title: 'History & Wine',
+      description: 'Explore our cultural itinerary',
+      href: '/itineraries/history-and-wine',
+      icon: Route,
+      color: 'text-red-600',
     },
   ]
 
@@ -39,7 +53,7 @@ export function PlanYourVisitPreview() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-8">
           {resources.map((resource) => {
             const Icon = resource.icon
             return (
