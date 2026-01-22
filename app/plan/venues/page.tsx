@@ -38,14 +38,16 @@ function eventVenueJsonLd(venue: typeof allVenues[0]) {
 
 export default function VenuesPage() {
   const breadcrumbs = generateBreadcrumbs('/plan/venues')
-  const breadcrumbSchema = breadcrumbJsonLd(breadcrumbs)
+  const breadcrumbSchema = breadcrumbJsonLd(
+    breadcrumbs.map(b => ({ name: b.label, url: b.href }))
+  )
   const organizationSchema = organizationJsonLd()
   const destinationSchema = touristDestinationJsonLd()
   const pageSchema = webPageJsonLd({
     name: 'Event Venues in Auburn, California',
     description: 'Discover the best event venues in Auburn, CA — from historic halls and scenic outdoor spaces to modern meeting venues in California\'s Gold Country.',
     url: `${SITE_URL}/plan/venues`,
-    breadcrumbs,
+    breadcrumbs: breadcrumbs.map(b => ({ name: b.label, url: b.href })),
   })
 
   // Generate venue schemas for key venues
