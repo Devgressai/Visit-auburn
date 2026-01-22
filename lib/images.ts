@@ -46,8 +46,8 @@ export const activityImages = {
 
 // Accommodation images - using local Auburn images
 export const accommodationImages = {
-  'historic-auburn-hotel': '/images/auburn/weddings/historic-venue.webp', // Historic hotel building
-  'gold-country-inn': '/images/auburn/weddings/reception-hall.webp', // Modern motel interior
+  'historic-auburn-hotel': '/images/auburn/discover/old-town-street.webp', // Historic Old Town buildings where hotels are located
+  'gold-country-inn': '/images/auburn/discover/old-town-street.webp', // Old Town area where motels are located
 }
 
 // Dining images - using local Auburn images

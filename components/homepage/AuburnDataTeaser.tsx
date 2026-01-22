@@ -86,7 +86,9 @@ function InteractiveChart({ data, activeYear, hoveredYear, onYearClick, onYearHo
   useEffect(() => {
     const updateDimensions = () => {
       if (!containerRef.current) return
-      const containerWidth = containerRef.current.offsetWidth
+      // Use getBoundingClientRect for more accurate measurements
+      const rect = containerRef.current.getBoundingClientRect()
+      const containerWidth = rect.width
       
       // Responsive sizing: Mobile (full width), Tablet (larger), Desktop (even larger)
       let width: number
@@ -94,24 +96,32 @@ function InteractiveChart({ data, activeYear, hoveredYear, onYearClick, onYearHo
       
       if (containerWidth < 640) {
         // Mobile: Full width, compact height
-        width = containerWidth
-        height = Math.max(280, containerWidth * 0.5)
+        width = Math.max(containerWidth - 2, 320) // Account for any border/padding
+        height = Math.max(280, width * 0.5)
       } else if (containerWidth < 1024) {
         // Tablet: Larger chart
-        width = containerWidth
-        height = Math.max(350, containerWidth * 0.45)
+        width = Math.max(containerWidth - 2, 640)
+        height = Math.max(350, width * 0.45)
       } else {
         // Desktop: Maximum impact
-        width = Math.min(containerWidth, 1200)
-        height = Math.max(400, Math.min(containerWidth * 0.4, 500))
+        width = Math.min(containerWidth - 2, 1200)
+        height = Math.max(400, Math.min(width * 0.4, 500))
       }
       
       setDimensions({ width, height })
     }
     
     updateDimensions()
+    // Use ResizeObserver for more accurate container size tracking
+    const resizeObserver = new ResizeObserver(updateDimensions)
+    if (containerRef.current) {
+      resizeObserver.observe(containerRef.current)
+    }
     window.addEventListener('resize', updateDimensions)
-    return () => window.removeEventListener('resize', updateDimensions)
+    return () => {
+      resizeObserver.disconnect()
+      window.removeEventListener('resize', updateDimensions)
+    }
   }, [])
   
   // Responsive margins
@@ -166,17 +176,19 @@ function InteractiveChart({ data, activeYear, hoveredYear, onYearClick, onYearHo
   return (
     <div 
       ref={containerRef} 
-      className="relative w-full overflow-hidden"
+      className="relative w-full"
       style={{ minHeight: dimensions.height }}
     >
       <svg 
         ref={svgRef}
         width={dimensions.width}
         height={dimensions.height}
-        className="w-full h-full overflow-visible"
+        className="w-full h-auto"
+        viewBox={`0 0 ${dimensions.width} ${dimensions.height}`}
         role="img"
         aria-label="Auburn population growth chart 1900-2020"
         preserveAspectRatio="xMidYMid meet"
+        style={{ display: 'block', maxWidth: '100%', height: 'auto' }}
       >
         <defs>
           <linearGradient id="forestGradient" x1="0" y1="0" x2="0" y2="1">

@@ -1,66 +1,95 @@
 import { buildMetadata, SITE_URL } from '@/lib/seo'
 import { RelatedPages } from '@/components/ui/RelatedPages'
-import { AuburnImage } from '@/components/ui/AuburnImage'
-import Link from 'next/link'
 import type { Metadata } from 'next'
 import { VenuesPageClient } from './VenuesPageClient'
+import { organizationJsonLd, touristDestinationJsonLd, breadcrumbJsonLd, webPageJsonLd } from '@/lib/seo/jsonld'
+import { generateBreadcrumbs } from '@/lib/routes'
+import { allVenues } from '@/data/venues'
+import { getAuburnImagePath } from '@/data/auburnImages'
 
 export const revalidate = 3600
 
 export const metadata: Metadata = buildMetadata({
-  title: 'Event Venues in Auburn - Find the Perfect Space',
-  description: 'Discover Auburn\'s premier event venues. From historic settings to modern facilities, find the perfect location for your wedding, meeting, festival, or celebration.',
+  title: 'Event Venues in Auburn CA | Weddings, Meetings & Outdoor Events in Gold Country',
+  description: 'Discover the best event venues in Auburn, CA — from historic halls and scenic outdoor spaces to modern meeting venues in California\'s Gold Country.',
   canonical: `${SITE_URL}/plan/venues`,
 })
 
+// Generate EventVenue schema for each venue
+function eventVenueJsonLd(venue: typeof allVenues[0]) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'EventVenue',
+    name: venue.name,
+    description: venue.description,
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: venue.location.city,
+      addressRegion: venue.location.state,
+      ...(venue.location.zip && { postalCode: venue.location.zip }),
+      ...(venue.location.address && { streetAddress: venue.location.address }),
+    },
+    ...(venue.capacity?.max && { maximumAttendeeCapacity: venue.capacity.max }),
+    ...(venue.website && { url: venue.website }),
+    ...(venue.phone && { telephone: venue.phone }),
+    image: `${SITE_URL}${getAuburnImagePath(venue.imageId)}`,
+  }
+}
+
 export default function VenuesPage() {
+  const breadcrumbs = generateBreadcrumbs('/plan/venues')
+  const breadcrumbSchema = breadcrumbJsonLd(breadcrumbs)
+  const organizationSchema = organizationJsonLd()
+  const destinationSchema = touristDestinationJsonLd()
+  const pageSchema = webPageJsonLd({
+    name: 'Event Venues in Auburn, California',
+    description: 'Discover the best event venues in Auburn, CA — from historic halls and scenic outdoor spaces to modern meeting venues in California\'s Gold Country.',
+    url: `${SITE_URL}/plan/venues`,
+    breadcrumbs,
+  })
+
+  // Generate venue schemas for key venues
+  const venueSchemas = allVenues.slice(0, 10).map(venue => eventVenueJsonLd(venue))
+
   return (
-    <div className="min-h-screen bg-white">
-      {/* Main content in client component (includes breadcrumbs) */}
-      <VenuesPageClient />
-      
-      {/* Related Pages */}
-      <section className="py-16 bg-cream-50" aria-label="Related pages">
-        <div className="container mx-auto px-4">
-          <RelatedPages currentPath="/plan/venues" />
-        </div>
-      </section>
-      
-      {/* Additional content with images and links for validation */}
-      <section className="py-12 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-3 gap-8 mb-8">
-            <div className="relative h-64 rounded-xl overflow-hidden">
-              <AuburnImage imageId="historic-old-town-clocktower" />
-            </div>
-            <div className="relative h-64 rounded-xl overflow-hidden">
-              <AuburnImage imageId="downtown-lincoln-way" />
-            </div>
-            <div className="relative h-64 rounded-xl overflow-hidden">
-              <AuburnImage imageId="outdoor-lake-clementine" />
-            </div>
+    <>
+      {/* JSON-LD Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(destinationSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(pageSchema) }}
+      />
+      {venueSchemas.map((schema, index) => (
+        <script
+          key={index}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        />
+      ))}
+
+      <div className="min-h-screen bg-white">
+        {/* Main content in client component (includes breadcrumbs) */}
+        <VenuesPageClient />
+        
+        {/* Related Pages */}
+        <section className="py-16 bg-cream-50" aria-label="Related pages">
+          <div className="container mx-auto px-4">
+            <RelatedPages currentPath="/plan/venues" />
           </div>
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-2xl font-bold text-charcoal-900 mb-6 text-center">
-              Plan Your Event in Auburn
-            </h2>
-            <p className="text-charcoal-600 mb-8 text-center leading-relaxed">
-              Auburn offers a diverse range of event venues perfect for weddings, meetings, conferences, and celebrations. 
-              From historic theaters and Gold Rush-era buildings to modern conference facilities and scenic outdoor spaces, 
-              you'll find the ideal setting for your event. Our venues combine Gold Country charm with modern amenities, 
-              making Auburn a unique destination for memorable gatherings.
-            </p>
-            <div className="flex flex-wrap gap-4 justify-center">
-              <Link href="/plan/meetings" className="text-lake-600 hover:text-lake-700 font-semibold">Meeting Planning</Link>
-              <Link href="/plan/weddings" className="text-lake-600 hover:text-lake-700 font-semibold">Wedding Planning</Link>
-              <Link href="/accommodations" className="text-lake-600 hover:text-lake-700 font-semibold">Accommodations</Link>
-              <Link href="/dining" className="text-lake-600 hover:text-lake-700 font-semibold">Dining Options</Link>
-              <Link href="/plan/getting-here" className="text-lake-600 hover:text-lake-700 font-semibold">Getting Here</Link>
-            </div>
-          </div>
-        </div>
-      </section>
-    </div>
+        </section>
+      </div>
+    </>
   )
 }
 
