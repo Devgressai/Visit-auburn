@@ -140,8 +140,8 @@ IMAGES_CONFIG = [
     {
         "filename": "old-town-street.webp",
         "directory": "auburn/discover",
-        "url": "https://images.unsplash.com/photo-1464207687429-7505649dae38?w=1200&q=80",
-        "description": "Historic Old Town Auburn",
+        "url": "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=1200&q=80",
+        "description": "Historic Old Town Auburn street with shops and brick buildings",
         "category": "discover"
     },
     {

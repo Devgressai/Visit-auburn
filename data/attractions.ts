@@ -191,7 +191,7 @@ export const attractions: Attraction[] = [
     shortDescription: 'Walk through California\'s oldest continually operating post office town with 1850s buildings.',
     locationArea: 'old-town',
     relatedPages: ['/things-to-do/history-culture', '/itineraries/weekend-in-auburn', '/itineraries/romantic-getaway'],
-    imageId: 'downtown-lincoln-way',
+    imageId: 'historic-old-town-clocktower',
     highlights: ['Historic architecture', 'Antique shops', 'Restaurants'],
     bestFor: ['History lovers', 'Photographers', 'Shoppers'],
     duration: '2-3 hours',
