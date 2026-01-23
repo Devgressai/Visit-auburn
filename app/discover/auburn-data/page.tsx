@@ -76,7 +76,7 @@ export default async function AuburnDataPage() {
     <div className="min-h-screen bg-white">
       {/* Hero */}
       <section className="relative h-[400px] md:h-[500px]">
-        <AuburnHeroImage imageId="historic-gold-country-museum">
+        <AuburnHeroImage imageId="hero-old-town-clocktower">
           <div className="container mx-auto px-4 text-center">
             <span className="inline-block px-4 py-2 bg-lake-500/90 text-white text-sm font-semibold rounded-full mb-4">
               Data & Demographics
