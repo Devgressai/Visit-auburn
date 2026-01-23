@@ -3,6 +3,7 @@ import './globals.css'
 import { NavigationNew } from '@/components/navigation/NavigationNew'
 import { FooterNew } from '@/components/footer/FooterNew'
 import { SavedItemsPill } from '@/components/ui/SavedItemsPill'
+import { GoogleAnalytics } from '@/components/analytics/GoogleAnalytics'
 import { organizationJsonLd, touristDestinationJsonLd } from '@/lib/seo'
 
 export const metadata: Metadata = {
@@ -78,6 +79,8 @@ export default function RootLayout({
         />
       </head>
       <body className="font-sans">
+        {/* Google Analytics - only loads if NEXT_PUBLIC_GA_ID is set */}
+        <GoogleAnalytics />
         {/* Skip to main content link for accessibility */}
         <a
           href="#main-content"
