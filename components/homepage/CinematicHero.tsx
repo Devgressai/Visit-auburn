@@ -20,6 +20,10 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { motion, colors, spacing, typography, elevation, depth, breakpoints, interaction, blur, borders, grid } from '@/lib/designTokens'
 import { useReducedMotion } from '@/lib/hooks/useReducedMotion'
+import { HOMEPAGE_STATS } from '@/lib/constants/stats'
+import { WeatherData } from '@/lib/weather'
+import { trackHeroPrimaryClick, trackHeroVibeClick, trackHeroQuickPlanClick } from '@/lib/analytics'
+import { MicroLabel } from '@/components/ui/MicroLabel'
 
 // Register GSAP plugins
 if (typeof window !== 'undefined') {
@@ -35,30 +39,36 @@ interface CinematicHeroProps {
   subtitle?: string
   heroImage?: string
   videoUrl?: string
-  weather?: {
-    temp: number
-    condition: string
-  }
 }
-
-const stats = [
-  { value: '300+', label: 'Days of Sunshine' },
-  { value: '1,255', label: 'Feet Elevation' },
-  { value: '1849', label: 'Year Founded' },
-  { value: '30+', label: 'Miles of Trails' },
-]
 
 export function CinematicHero({
   title = 'Visit Auburn, California',
   subtitle = "Experience Gold Country's best-kept secret",
   heroImage = '/images/hero-main.webp',
   videoUrl,
-  weather = { temp: 72, condition: 'Sunny' }
 }: CinematicHeroProps) {
   const [isLoaded, setIsLoaded] = useState(false)
   const [showVideo, setShowVideo] = useState(false)
   const [imageError, setImageError] = useState(false)
+  const [weather, setWeather] = useState<WeatherData | null>(null)
   const shouldReduceMotion = useReducedMotion()
+  
+  // Fetch weather if feature flag is enabled
+  useEffect(() => {
+    const enableWeather = process.env.NEXT_PUBLIC_ENABLE_WEATHER_WIDGET === 'true'
+    if (enableWeather) {
+      fetch('/api/weather')
+        .then(res => res.ok ? res.json() : null)
+        .then(data => {
+          if (data && !data.error) {
+            setWeather(data)
+          }
+        })
+        .catch(() => {
+          // Silently fail - weather is optional
+        })
+    }
+  }, [])
   
   // Refs for GSAP animations
   const heroRef = useRef<HTMLElement>(null)
@@ -289,23 +299,52 @@ export function CinematicHero({
           }}
       >
         {/* Location Badge - Premium touch with glass effect */}
-        <div 
-          ref={badgeRef}
-          className="inline-flex items-center gap-2 rounded-full text-white/95 font-medium"
-          style={{
-            opacity: 0,
-            padding: `${spacing[2] + spacing[1]}px ${spacing[4] + spacing[1]}px`, // Better touch target
-            marginBottom: `clamp(${spacing[4]}px, 2vh, ${spacing[6]}px)`, // Responsive spacing
-            backgroundColor: 'rgba(255, 255, 255, 0.12)', // Slightly more visible
-            backdropFilter: `blur(${blur.md})`,
-            border: `1px solid rgba(255, 255, 255, 0.25)`, // Better contrast
-            fontSize: typography.fontSize.sm,
-            fontWeight: typography.fontWeight.medium,
-            transform: 'translateZ(0)', // GPU acceleration
-          }}
-        >
-          <MapPin style={{ width: spacing[4], height: spacing[4] }} />
-          <span>Gold Country, California</span>
+        <div className="flex items-center gap-3 flex-wrap">
+          <div 
+            ref={badgeRef}
+            className="inline-flex items-center gap-2 rounded-full text-white/95 font-medium"
+            style={{
+              opacity: 0,
+              padding: `${spacing[2] + spacing[1]}px ${spacing[4] + spacing[1]}px`, // Better touch target
+              marginBottom: `clamp(${spacing[4]}px, 2vh, ${spacing[6]}px)`, // Responsive spacing
+              backgroundColor: 'rgba(255, 255, 255, 0.12)', // Slightly more visible
+              backdropFilter: `blur(${blur.md})`,
+              border: `1px solid rgba(255, 255, 255, 0.25)`, // Better contrast
+              fontSize: typography.fontSize.sm,
+              fontWeight: typography.fontWeight.medium,
+              transform: 'translateZ(0)', // GPU acceleration
+            }}
+          >
+            <MapPin style={{ width: spacing[4], height: spacing[4] }} />
+            <span>Gold Country, California</span>
+          </div>
+          
+          {/* Weather Display - Only if enabled and data exists */}
+          {weather && (
+            <div 
+              className="inline-flex items-center gap-2 rounded-full text-white/95 font-medium"
+              style={{
+                padding: `${spacing[2] + spacing[1]}px ${spacing[4] + spacing[1]}px`,
+                marginBottom: `clamp(${spacing[4]}px, 2vh, ${spacing[6]}px)`,
+                backgroundColor: 'rgba(255, 255, 255, 0.12)',
+                backdropFilter: `blur(${blur.md})`,
+                border: `1px solid rgba(255, 255, 255, 0.25)`,
+                fontSize: typography.fontSize.sm,
+                fontWeight: typography.fontWeight.medium,
+                transform: 'translateZ(0)',
+              }}
+            >
+              <span>{weather.temp}°F</span>
+              <MicroLabel 
+                tone="info" 
+                size="xs" 
+                className="font-normal"
+                aria-label="Live weather data"
+              >
+                Live
+              </MicroLabel>
+            </div>
+          )}
         </div>
 
         {/* Main Title */}
@@ -346,160 +385,279 @@ export function CinematicHero({
           </p>
         )}
 
-        {/* CTA Buttons */}
+        {/* Decision Hero Interface - Primary Actions */}
         <div 
           ref={ctaRef}
-          className="flex flex-col sm:flex-row w-full sm:w-auto"
+          className="w-full sm:w-auto"
           style={{
-            gap: `clamp(${spacing[3]}px, 1.5vw, ${spacing[4]}px)`, // Better responsive gap
+            marginBottom: `clamp(${spacing[4]}px, 2vh, ${spacing[6]}px)`,
           }}
         >
-          <Link 
-            href="/plan/visitor-information" 
-            className="text-center group relative overflow-hidden rounded-xl font-bold transition-all"
+          {/* Primary Buttons */}
+          <div 
+            className="flex flex-col sm:flex-row w-full sm:w-auto"
             style={{
-              padding: `clamp(${spacing[3] + spacing[1]}px, 1.5vw, ${spacing[4]}px) clamp(${spacing[6]}px, 3vw, ${spacing[8]}px)`, // Better mobile padding
-              minHeight: '44px', // Better touch target (WCAG)
-              backgroundColor: colors.semantic.primary,
-              color: '#FFFFFF',
-              boxShadow: elevation.shadow.lg,
-              transform: 'translateZ(0)', // GPU acceleration
-            }}
-            onMouseEnter={(e) => {
-              if (!shouldReduceMotion) {
-                gsap.to(e.currentTarget, {
-                  backgroundColor: colors.semantic.primaryHover,
-                  boxShadow: elevation.shadow.xl,
-                  scale: interaction.hover.scaleSm,
-                  duration: motion.duration.normal / 1000, // Slightly slower for smoother feel
-                  ease: motion.easing.natural,
-                  force3D: true
-                })
-              }
-            }}
-            onMouseLeave={(e) => {
-              if (!shouldReduceMotion) {
-                gsap.to(e.currentTarget, {
-                  backgroundColor: colors.semantic.primary,
-                  boxShadow: elevation.shadow.lg,
-                  scale: 1,
-                  duration: motion.duration.normal / 1000, // Slightly slower for smoother feel
-                  ease: motion.easing.natural,
-                  force3D: true
-                })
-              }
-            }}
-            onTouchStart={(e) => {
-              // Touch feedback for mobile
-              if (!shouldReduceMotion) {
-                gsap.to(e.currentTarget, {
-                  scale: interaction.active.scale,
-                  duration: motion.duration.fast / 1000,
-                  ease: motion.easing.natural,
-                  force3D: true
-                })
-              }
-            }}
-            onTouchEnd={(e) => {
-              if (!shouldReduceMotion) {
-                gsap.to(e.currentTarget, {
-                  scale: 1,
-                  duration: motion.duration.fast / 1000,
-                  ease: motion.easing.natural,
-                  force3D: true
-                })
-              }
-            }}
-            onFocus={(e) => {
-              e.currentTarget.style.outline = `2px solid ${interaction.focus.ringColor}`
-              e.currentTarget.style.outlineOffset = `${interaction.focus.ringOffset}px`
-            }}
-            onBlur={(e) => {
-              e.currentTarget.style.outline = 'none'
+              gap: `clamp(${spacing[3]}px, 1.5vw, ${spacing[4]}px)`,
             }}
           >
-            <span className="relative z-10">Plan Your Trip</span>
-            <div 
-              className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity"
+            <Link 
+              href="/itineraries" 
+              className="text-center group relative overflow-hidden rounded-xl font-semibold transition-all"
               style={{
-                background: `linear-gradient(to right, ${colors.gold[600]}, ${colors.gold[500]})`,
-                transitionDuration: `${motion.duration.normal}ms`,
+                padding: `clamp(${spacing[3] + spacing[1]}px, 1.5vw, ${spacing[4]}px) clamp(${spacing[6]}px, 3vw, ${spacing[8]}px)`,
+                minHeight: '44px',
+                backgroundColor: colors.semantic.primary,
+                color: '#FFFFFF',
+                boxShadow: elevation.shadow.lg,
+                transform: 'translateZ(0)',
               }}
-            />
-          </Link>
-          <Link 
-            href="/things-to-do" 
-            className="text-center group relative overflow-hidden rounded-xl font-bold transition-all"
+              onClick={() => trackHeroPrimaryClick('build_weekend')}
+              onMouseEnter={(e) => {
+                if (!shouldReduceMotion) {
+                  gsap.to(e.currentTarget, {
+                    backgroundColor: colors.semantic.primaryHover,
+                    boxShadow: elevation.shadow.xl,
+                    scale: interaction.hover.scaleSm,
+                    duration: motion.duration.normal / 1000,
+                    ease: motion.easing.natural,
+                    force3D: true
+                  })
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (!shouldReduceMotion) {
+                  gsap.to(e.currentTarget, {
+                    backgroundColor: colors.semantic.primary,
+                    boxShadow: elevation.shadow.lg,
+                    scale: 1,
+                    duration: motion.duration.normal / 1000,
+                    ease: motion.easing.natural,
+                    force3D: true
+                  })
+                }
+              }}
+              onFocus={(e) => {
+                e.currentTarget.style.outline = `2px solid ${interaction.focus.ringColor}`
+                e.currentTarget.style.outlineOffset = `${interaction.focus.ringOffset}px`
+              }}
+              onBlur={(e) => {
+                e.currentTarget.style.outline = 'none'
+              }}
+            >
+              <span className="relative z-10">Build a Weekend</span>
+            </Link>
+            <Link 
+              href="/things-to-do" 
+              className="text-center group relative overflow-hidden rounded-xl font-semibold transition-all"
               style={{
-                padding: `clamp(${spacing[3] + spacing[1]}px, 1.5vw, ${spacing[4]}px) clamp(${spacing[6]}px, 3vw, ${spacing[8]}px)`, // Better mobile padding
-                minHeight: '44px', // Better touch target (WCAG)
-                backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                padding: `clamp(${spacing[3] + spacing[1]}px, 1.5vw, ${spacing[4]}px) clamp(${spacing[6]}px, 3vw, ${spacing[8]}px)`,
+                minHeight: '44px',
+                backgroundColor: 'rgba(255, 255, 255, 0.12)',
                 backdropFilter: `blur(${blur.md})`,
                 border: '1px solid rgba(255, 255, 255, 0.25)',
                 color: '#FFFFFF',
                 transform: 'translateZ(0)',
               }}
-            onMouseEnter={(e) => {
-              if (!shouldReduceMotion) {
-                gsap.to(e.currentTarget, {
-                  backgroundColor: 'rgba(255, 255, 255, 0.2)',
-                  scale: interaction.hover.scaleSm,
-                  duration: motion.duration.normal / 1000, // Slightly slower for smoother feel
-                  ease: motion.easing.natural,
-                  force3D: true
-                })
-              }
-            }}
-            onMouseLeave={(e) => {
-              if (!shouldReduceMotion) {
-                gsap.to(e.currentTarget, {
-                  backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                  scale: 1,
-                  duration: motion.duration.normal / 1000, // Slightly slower for smoother feel
-                  ease: motion.easing.natural,
-                  force3D: true
-                })
-              }
-            }}
-            onTouchStart={(e) => {
-              // Touch feedback for mobile
-              if (!shouldReduceMotion) {
-                gsap.to(e.currentTarget, {
-                  scale: interaction.active.scale,
-                  duration: motion.duration.fast / 1000,
-                  ease: motion.easing.natural,
-                  force3D: true
-                })
-              }
-            }}
-            onTouchEnd={(e) => {
-              if (!shouldReduceMotion) {
-                gsap.to(e.currentTarget, {
-                  scale: 1,
-                  duration: motion.duration.fast / 1000,
-                  ease: motion.easing.natural,
-                  force3D: true
-                })
-              }
-            }}
-            onFocus={(e) => {
-              e.currentTarget.style.outline = `2px solid ${interaction.focus.ringColor}`
-              e.currentTarget.style.outlineOffset = `${interaction.focus.ringOffset}px`
-            }}
-            onBlur={(e) => {
-              e.currentTarget.style.outline = 'none'
-            }}
-          >
-            <span className="relative z-10">Things To Do</span>
-            <div 
-              className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity"
-              style={{
-                backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                backdropFilter: `blur(${blur.sm})`,
-                transitionDuration: `${motion.duration.normal}ms`,
+              onClick={() => trackHeroPrimaryClick('things_to_do')}
+              onMouseEnter={(e) => {
+                if (!shouldReduceMotion) {
+                  gsap.to(e.currentTarget, {
+                    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+                    scale: interaction.hover.scaleSm,
+                    duration: motion.duration.normal / 1000,
+                    ease: motion.easing.natural,
+                    force3D: true
+                  })
+                }
               }}
-            />
-          </Link>
+              onMouseLeave={(e) => {
+                if (!shouldReduceMotion) {
+                  gsap.to(e.currentTarget, {
+                    backgroundColor: 'rgba(255, 255, 255, 0.12)',
+                    scale: 1,
+                    duration: motion.duration.normal / 1000,
+                    ease: motion.easing.natural,
+                    force3D: true
+                  })
+                }
+              }}
+              onFocus={(e) => {
+                e.currentTarget.style.outline = `2px solid ${interaction.focus.ringColor}`
+                e.currentTarget.style.outlineOffset = `${interaction.focus.ringOffset}px`
+              }}
+              onBlur={(e) => {
+                e.currentTarget.style.outline = 'none'
+              }}
+            >
+              <span className="relative z-10">Things To Do</span>
+            </Link>
+            <Link 
+              href="/events" 
+              className="text-center group relative overflow-hidden rounded-xl font-semibold transition-all"
+              style={{
+                padding: `clamp(${spacing[3] + spacing[1]}px, 1.5vw, ${spacing[4]}px) clamp(${spacing[6]}px, 3vw, ${spacing[8]}px)`,
+                minHeight: '44px',
+                backgroundColor: 'rgba(255, 255, 255, 0.12)',
+                backdropFilter: `blur(${blur.md})`,
+                border: '1px solid rgba(255, 255, 255, 0.25)',
+                color: '#FFFFFF',
+                transform: 'translateZ(0)',
+              }}
+              onClick={() => trackHeroPrimaryClick('events_this_week')}
+              onMouseEnter={(e) => {
+                if (!shouldReduceMotion) {
+                  gsap.to(e.currentTarget, {
+                    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+                    scale: interaction.hover.scaleSm,
+                    duration: motion.duration.normal / 1000,
+                    ease: motion.easing.natural,
+                    force3D: true
+                  })
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (!shouldReduceMotion) {
+                  gsap.to(e.currentTarget, {
+                    backgroundColor: 'rgba(255, 255, 255, 0.12)',
+                    scale: 1,
+                    duration: motion.duration.normal / 1000,
+                    ease: motion.easing.natural,
+                    force3D: true
+                  })
+                }
+              }}
+              onFocus={(e) => {
+                e.currentTarget.style.outline = `2px solid ${interaction.focus.ringColor}`
+                e.currentTarget.style.outlineOffset = `${interaction.focus.ringOffset}px`
+              }}
+              onBlur={(e) => {
+                e.currentTarget.style.outline = 'none'
+              }}
+            >
+              <span className="relative z-10">Events This Week</span>
+            </Link>
+          </div>
+
+          {/* Quick Itinerary Shortcuts */}
+          <div 
+            className="flex flex-col gap-1.5 mt-3"
+            style={{
+              marginTop: `clamp(${spacing[3]}px, 1.5vh, ${spacing[4]}px)`,
+            }}
+            role="group"
+            aria-label="Quick plans"
+          >
+            {/* Label */}
+            <MicroLabel 
+              tone="info" 
+              size="xs"
+              style={{
+                marginBottom: spacing[1],
+              }}
+            >
+              Quick plans
+            </MicroLabel>
+            
+            {/* Shortcuts Container */}
+            <div className="flex flex-wrap gap-1.5">
+              {[
+                { label: '1 Day', href: '/itineraries/outdoor-adventure-day', plan: '1_day' as const },
+                { label: '2 Days', href: '/itineraries/weekend-getaway', plan: '2_days' as const },
+                { label: 'Family Weekend', href: '/itineraries/family-fun', plan: 'family_weekend' as const },
+                { label: 'Adventure Weekend', href: '/itineraries/outdoor-adventure', plan: 'adventure_weekend' as const },
+              ].map((shortcut) => (
+                <Link
+                  key={shortcut.label}
+                  href={shortcut.href}
+                  className="itinerary-shortcut relative overflow-hidden rounded-full font-medium"
+                  onClick={() => trackHeroQuickPlanClick(shortcut.plan)}
+                  style={{
+                    padding: `${spacing[1] + spacing[1] / 2}px ${spacing[3]}px`,
+                    minHeight: '28px',
+                    backgroundColor: 'rgba(255, 255, 255, 0.06)',
+                    backdropFilter: `blur(${blur.sm})`,
+                    border: '1px solid rgba(255, 255, 255, 0.15)',
+                    color: 'rgba(255, 255, 255, 0.85)',
+                    fontSize: typography.fontSize.xs,
+                    transform: 'translateZ(0)',
+                    transitionProperty: 'background-color, border-color, transform',
+                    transitionDuration: `${motion.duration.fast}ms`,
+                    transitionTimingFunction: motion.easing.natural,
+                  }}
+                  onFocus={(e) => {
+                    e.currentTarget.style.outline = `2px solid ${interaction.focus.ringColor}`
+                    e.currentTarget.style.outlineOffset = `${interaction.focus.ringOffset}px`
+                  }}
+                  onBlur={(e) => {
+                    e.currentTarget.style.outline = 'none'
+                  }}
+                >
+                  <span className="relative z-10">{shortcut.label}</span>
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          {/* Vibe Chips */}
+          <div 
+            className="flex flex-col gap-2 mt-4"
+            style={{
+              marginTop: `clamp(${spacing[4]}px, 2vh, ${spacing[6]}px)`,
+            }}
+            role="group"
+            aria-label="Browse by vibe"
+          >
+            {/* Label */}
+            <span 
+              className="text-white/80 font-medium"
+              style={{
+                fontSize: typography.fontSize.sm,
+                marginBottom: spacing[1],
+              }}
+            >
+              Choose your vibe
+            </span>
+            
+            {/* Chips Container */}
+            <div className="flex flex-wrap gap-2">
+              {[
+                { label: 'Adventure', href: '/things-to-do/outdoor-adventures', vibe: 'adventure' as const },
+                { label: 'Family', href: '/search?q=family', vibe: 'family' as const },
+                { label: 'Food & Wine', href: '/search?q=wine', vibe: 'food_wine' as const },
+                { label: 'History', href: '/things-to-do/history-culture', vibe: 'history' as const },
+                { label: 'Relaxed', href: '/search?q=relaxed', vibe: 'relaxed' as const },
+              ].map((chip) => (
+                <Link
+                  key={chip.label}
+                  href={chip.href}
+                  className="vibe-chip relative overflow-hidden rounded-full font-medium"
+                  onClick={() => trackHeroVibeClick(chip.vibe)}
+                  style={{
+                    padding: `${spacing[2]}px ${spacing[4]}px`,
+                    minHeight: '36px',
+                    backgroundColor: 'rgba(255, 255, 255, 0.08)',
+                    backdropFilter: `blur(${blur.sm})`,
+                    border: '1px solid rgba(255, 255, 255, 0.2)',
+                    color: 'rgba(255, 255, 255, 0.9)',
+                    fontSize: typography.fontSize.sm,
+                    transform: 'translateZ(0)',
+                    transitionProperty: 'background-color, border-color, transform',
+                    transitionDuration: `${motion.duration.fast}ms`,
+                    transitionTimingFunction: motion.easing.natural,
+                  }}
+                  onFocus={(e) => {
+                    e.currentTarget.style.outline = `2px solid ${interaction.focus.ringColor}`
+                    e.currentTarget.style.outlineOffset = `${interaction.focus.ringOffset}px`
+                  }}
+                  onBlur={(e) => {
+                    e.currentTarget.style.outline = 'none'
+                  }}
+                >
+                  <span className="relative z-10">{chip.label}</span>
+                </Link>
+              ))}
+            </div>
+          </div>
         </div>
         
         {/* Trust Line - Mobile Only */}
@@ -584,7 +742,7 @@ export function CinematicHero({
               borderTop: `1px solid rgba(255, 255, 255, 0.1)`,
             }}
           >
-            {stats.map((stat, index) => (
+            {HOMEPAGE_STATS.map((stat, index) => (
               <div 
                 key={stat.label} 
                 className="text-center group cursor-default"
@@ -594,7 +752,7 @@ export function CinematicHero({
                   paddingBottom: spacing[8],
                   paddingLeft: spacing[8],
                   paddingRight: spacing[8],
-                  borderRight: index < stats.length - 1 ? '1px solid rgba(255, 255, 255, 0.1)' : 'none',
+                  borderRight: index < HOMEPAGE_STATS.length - 1 ? '1px solid rgba(255, 255, 255, 0.1)' : 'none',
                   transform: 'translateZ(0)',
                 }}
                   ref={(el) => {

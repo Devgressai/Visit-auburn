@@ -413,6 +413,40 @@
     @apply text-lg leading-relaxed;
     color: var(--text-dark-muted);
   }
+  
+  /* ═══════════════════════════════════════════════════════════════════════
+     VIBE CHIPS — Premium CSS Transitions (No GSAP)
+     ═══════════════════════════════════════════════════════════════════════ */
+  .vibe-chip {
+    will-change: background-color, border-color, transform;
+  }
+  
+  .vibe-chip:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.35);
+    transform: scale(1.05);
+  }
+  
+  .vibe-chip:active {
+    transform: scale(1.02);
+  }
+  
+  /* ═══════════════════════════════════════════════════════════════════════
+     ITINERARY SHORTCUTS — Secondary Tier (Smaller, Subtler)
+     ═══════════════════════════════════════════════════════════════════════ */
+  .itinerary-shortcut {
+    will-change: background-color, border-color, transform;
+  }
+  
+  .itinerary-shortcut:hover {
+    background-color: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.25);
+    transform: scale(1.03);
+  }
+  
+  .itinerary-shortcut:active {
+    transform: scale(1.01);
+  }
 }
 
 @layer utilities {
@@ -516,6 +550,36 @@
     );
     pointer-events: none;
   }
+  
+  /* ═══════════════════════════════════════════════════════════════════════
+     SKELETON LOADING ANIMATION
+     ═══════════════════════════════════════════════════════════════════════ */
+  @keyframes skeleton-shimmer {
+    0% {
+      background-position: -1000px 0;
+    }
+    100% {
+      background-position: 1000px 0;
+    }
+  }
+  
+  .skeleton-shimmer {
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.3) 50%,
+      transparent 100%
+    );
+    background-size: 1000px 100%;
+    animation: skeleton-shimmer 2s infinite;
+  }
+  
+  @media (prefers-reduced-motion: reduce) {
+    .skeleton-shimmer {
+      animation: none;
+      background: none;
+    }
+  }
 }
 
 /* ═══════════════════════════════════════════════════════════════════════
@@ -553,6 +617,22 @@ img[data-loading="true"] {
   }
   
   .card-hover:hover img {
+    transform: none;
+  }
+  
+  .vibe-chip:hover {
+    transform: none;
+  }
+  
+  .vibe-chip:active {
+    transform: none;
+  }
+  
+  .itinerary-shortcut:hover {
+    transform: none;
+  }
+  
+  .itinerary-shortcut:active {
     transform: none;
   }
 }
