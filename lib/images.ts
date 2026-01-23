@@ -44,10 +44,10 @@ export const activityImages = {
   'foresthill-bridge': 'https://images.unsplash.com/photo-1470158499416-75be5168c2f3?w=1200&q=80', // Bridge
 }
 
-// Accommodation images - using local Auburn images
+// Accommodation images - using local Auburn images from registry
 export const accommodationImages = {
-  'historic-auburn-hotel': '/images/auburn/discover/old-town-street.webp', // Historic Old Town buildings where hotels are located
-  'gold-country-inn': '/images/stay.jpg', // Actual accommodation photo
+  'historic-auburn-hotel': '/images/auburn/weddings/historic-venue.webp', // Historic hotel venue in Auburn
+  'gold-country-inn': '/images/auburn/weddings/reception-hall.webp', // Cozy accommodation interior in Auburn
 }
 
 // Dining images - using local Auburn images

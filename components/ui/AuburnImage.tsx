@@ -92,10 +92,18 @@ export function AuburnHeroImage({
 }) {
   const image = getAuburnImageById(imageId)
 
-  if (!image) {
-    console.error(`[AuburnHeroImage] Invalid imageId: "${imageId}"`)
-    return null
+  // Development warning
+  if (!image && process.env.NODE_ENV === 'development') {
+    console.error(
+      `[AuburnHeroImage] Invalid imageId: "${imageId}". ` +
+      `Image not found in Auburn registry. ` +
+      `Please use an imageId from /data/auburnImages.ts`
+    )
   }
+
+  // Use getAuburnImagePath which has fallback logic - never return null
+  const imagePath = getAuburnImagePath(imageId)
+  const altText = image?.alt || `Auburn, California - ${imageId}`
 
   // Position classes based on contentPosition prop
   const positionClasses = {
@@ -108,8 +116,8 @@ export function AuburnHeroImage({
   return (
     <div className="relative w-full h-full">
       <Image
-        src={getAuburnImagePath(imageId)}
-        alt={image.alt}
+        src={imagePath}
+        alt={altText}
         fill
         className="object-cover"
         priority
@@ -123,7 +131,7 @@ export function AuburnHeroImage({
           {children}
         </div>
       )}
-      {showCredit && (
+      {showCredit && image && (
         <div className="absolute bottom-2 right-2 bg-black/50 px-2 py-1 rounded z-20">
           <PhotoCredit imageId={imageId} className="text-white text-[10px] mt-0" />
         </div>
