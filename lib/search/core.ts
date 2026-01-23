@@ -174,13 +174,16 @@ export function searchIndex(
   
   for (const result of results) {
     if (result.field === 'title' || result.field === 'text' || result.field === 'tags') {
-      for (const doc of result.result) {
+      for (const item of result.result) {
+        // FlexSearch returns { id, doc, highlight? } structure
+        const searchDoc = item.doc as SearchDocument | null
+        if (!searchDoc) continue
+        
         // Filter by type if specified
-        if (options?.type && doc.type !== options.type) {
+        if (options?.type && searchDoc.type !== options.type) {
           continue
         }
         
-        const searchDoc = doc as SearchDocument
         const existing = documentMap.get(searchDoc.id)
         
         // Calculate relevance score
