@@ -23,6 +23,7 @@ export interface SearchDocument {
   snippet: string // Short snippet for display (max 160 chars, no HTML)
   tags?: string[]
   location?: string
+  [key: string]: any // Index signature for FlexSearch compatibility
 }
 
 /**
