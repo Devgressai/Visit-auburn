@@ -1,12 +1,6 @@
 'use client'
 
-const proofPoints = [
-  { value: '35', label: 'Miles from Sacramento' },
-  { value: '300+', label: 'Days of Sunshine' },
-  { value: '100+', label: 'Miles of Trails' },
-  { value: '50+', label: 'Local Restaurants' },
-  { value: '1848', label: 'Year Founded' },
-]
+import { PROOF_POINTS } from '@/lib/constants/stats'
 
 export function ProofChips() {
   return (
@@ -14,7 +8,7 @@ export function ProofChips() {
       <div className="container mx-auto">
         {/* Mobile: horizontal scroll */}
         <div className="proof-chips px-4">
-          {proofPoints.map((point) => (
+          {PROOF_POINTS.map((point) => (
             <div key={point.label} className="proof-chip">
               <span className="proof-chip-value">{point.value}</span>
               <span className="proof-chip-label">{point.label}</span>

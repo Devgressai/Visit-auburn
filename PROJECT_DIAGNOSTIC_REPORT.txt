@@ -1,0 +1,747 @@
+PROJECT DIAGNOSTIC REPORT
+Visit Auburn - Next.js Tourism Website
+Generated: 2025-01-22
+
+================================================================================
+1) STACK SUMMARY
+================================================================================
+
+Framework: Next.js 16.1.1 (App Router)
+React: 19.2.3
+React DOM: 19.2.3
+TypeScript: Yes (5.9.3)
+Node Version: v23.10.0 (runtime), no explicit engines field in package.json
+npm Version: 10.9.2
+
+Styling: Tailwind CSS 3.4.1
+- Custom design token system in lib/designTokens.ts
+- Design tokens CSS in styles/design-tokens.css
+- Tailwind config: tailwind.config.ts
+- PostCSS: autoprefixer + tailwindcss
+- Typography plugin: @tailwindcss/typography 0.5.19
+
+UI Libraries:
+- Lucide React 0.562.0 (icons)
+- No shadcn/ui, Radix, Headless UI, or MUI
+- Custom UI components in components/ui/
+
+State Management: None (React Context used in CityDataStory component, Zustand available but not used)
+
+Form Libraries: None (custom validation in API routes)
+- Contact form uses manual validation in app/api/contact/route.ts
+- No react-hook-form, formik, yup, or zod (zod present in node_modules but unused)
+
+Analytics: Google Analytics 4 ready
+- Analytics utilities in lib/analytics.ts
+- Environment variable: NEXT_PUBLIC_GA_ID (not configured)
+- Track functions: trackEvent, trackPageView, trackCTAClick, trackBookingClick, trackSearch, trackNewsletterSignup
+- No actual GA script injection found in layout
+
+Image Handling:
+- next/image with remotePatterns configured
+- Allowed domains: cdn.sanity.io, images.unsplash.com
+- Custom image utilities in lib/images.ts
+- Local images in public/images/ directory
+- Image optimization via Next.js Image component
+
+Deployment Target: Vercel (indicated by .vercel directory)
+- next.config.js configured for Vercel deployment
+
+Animation Libraries:
+- GSAP 3.14.2 (for hero animations)
+- Framer Motion 12.23.26 (for component animations)
+- Lottie React 2.4.1 (for animations)
+- Three.js 0.182.0 + @react-three/fiber + @react-three/drei (3D graphics, not actively used)
+
+Data Visualization:
+- D3 7.9.0 (for charts in CityDataStory component)
+- FlexSearch 0.8.212 (search indexing, not fully implemented)
+
+Other Dependencies:
+- date-fns 4.1.0 (date formatting)
+- @portabletext/react 6.0.0 (for rich text, but content is static)
+- @sendgrid/mail 8.1.6 (installed but not configured)
+
+================================================================================
+2) REPO STRUCTURE
+================================================================================
+
+Top-level directories:
+- app/ (Next.js App Router pages and routes)
+- components/ (React components organized by feature)
+- lib/ (utilities, data, helpers)
+- data/ (static data files: attractions.ts, venues.ts, meetings-venues.ts, auburnImages.ts)
+- public/ (static assets: 48 files including images)
+- scripts/ (build and validation scripts)
+- styles/ (global CSS and design tokens)
+- types/ (TypeScript type definitions)
+- docs/ (documentation)
+
+App directory structure (depth 3):
+app/
+  [hubType]/[subHub]/page.tsx (dynamic route for content hubs)
+  accessibility/page.tsx
+  accommodations/page.tsx and [slug]/page.tsx
+  activities/page.tsx and [slug]/page.tsx
+  api/ (route handlers: contact, weather, meetings, newsletter, weddings)
+  contact/page.tsx
+  dining/page.tsx and [slug]/page.tsx
+  discover/page.tsx, [slug]/page.tsx, auburn-data/page.tsx
+  events/page.tsx and [slug]/page.tsx
+  itineraries/ (11 itinerary pages)
+  plan/ (10 planning pages: faq, getting-here, maps-guides, meetings, venues, weddings, visitor-information)
+  privacy/page.tsx
+  search/page.tsx
+  special-offers/page.tsx
+  terms/page.tsx
+  things-to-do/ (6 category pages)
+  layout.tsx (root layout)
+  page.tsx (homepage)
+  robots.ts (robots.txt generator)
+  sitemap.ts (sitemap generator)
+  globals.css
+  icon.tsx, apple-icon.tsx
+
+Components directory structure (depth 3):
+components/
+  attractions/ (AttractionCard, AttractionGrid)
+  detail/ (detail page components)
+  events/ (EventsCalendar, EventsList)
+  footer/ (Footer, FooterNew)
+  homepage/ (25 components including CinematicHero, EventsShowcase, LodgingShowcase, etc.)
+  listings/ (listing components)
+  navigation/ (Navigation, NavigationNew, Breadcrumbs)
+  offers/ (SpecialOffersGrid)
+  plan/ (planning page components)
+  portable-text/ (PortableText for rich text)
+  related/ (related pages components)
+  sections/ (28 files including CityDataStory with extensive documentation)
+  seo/ (SEO components)
+  ui/ (14 reusable UI components: Button, Card, SearchBar, ContactForm, etc.)
+  weddings/ (wedding-specific components)
+
+Lib directory structure:
+lib/
+  analytics.ts (GA4 tracking utilities)
+  content/ (FAQ content)
+  data/ (content exports: index.ts, content.ts, cityThroughTime.ts)
+  designTokens.ts (design system tokens)
+  hooks/ (useReducedMotion, useSeasonalTokens)
+  images.ts (image URL utilities)
+  image-utils.ts
+  routes.ts (route mapping and breadcrumb generation)
+  sanity/ (Sanity CMS utilities, not actively used)
+  sanity.ts (Sanity client stub, returns null)
+  search.ts (FlexSearch implementation, not fully integrated)
+  seasonal.ts (seasonal content utilities)
+  seo/ (SEO utilities: jsonld.ts, metadata.ts, site.ts)
+  seo.ts (legacy SEO exports)
+  tokenUtils.ts (safe token access helpers)
+  useSavedItems.ts (localStorage hook)
+  utils.ts (general utilities)
+  weather.ts (weather API utilities)
+
+Routing: App Router (Next.js 13+)
+- File-based routing in app/ directory
+- Dynamic routes: [hubType], [subHub], [slug]
+- Route metadata defined in lib/routes.ts (ROUTE_MAP)
+- Breadcrumbs generated from ROUTE_MAP
+
+Layout: app/layout.tsx
+- Root layout with NavigationNew, FooterNew, SavedItemsPill
+- Global metadata configuration
+- JSON-LD structured data injection
+- Skip to main content link for accessibility
+
+Navigation: components/navigation/NavigationNew.tsx
+- Main site navigation component
+
+Footer: components/footer/FooterNew.tsx
+- Site footer component
+
+Global Styles: app/globals.css
+- Imports styles/design-tokens.css
+- Global typography, reset, and utility classes
+
+================================================================================
+3) ROUTING & RENDERING
+================================================================================
+
+Routing System: Next.js App Router
+- All routes defined in app/ directory
+- Static routes: /, /accommodations, /dining, /events, /search, etc.
+- Dynamic routes: /[hubType]/[subHub], /accommodations/[slug], /events/[slug], etc.
+- Route metadata centralized in lib/routes.ts (ROUTE_MAP object)
+
+Page Rendering:
+- Most pages are Server Components (default)
+- Client Components marked with 'use client' directive
+- Revalidation: Homepage and events page use revalidate = 3600 (1 hour)
+
+Route Map: lib/routes.ts
+- Single source of truth for all routes
+- Defines breadcrumbs, parent sections, related pages, blurbs
+- Functions: getRouteMetadata, generateBreadcrumbs, getRelatedPages, getAllRoutes
+
+Breadcrumbs: components/navigation/Breadcrumbs.tsx
+- Generated from ROUTE_MAP using generateBreadcrumbs()
+
+Related Pages: components/ui/RelatedPages.tsx
+- Uses getRelatedPages() from ROUTE_MAP
+- Displays contextual navigation links
+
+================================================================================
+4) CONTENT & DATA SOURCES
+================================================================================
+
+Content Architecture: Static/hardcoded (no active CMS)
+- Content stored in TypeScript files in lib/data/content.ts
+- Previously designed for Sanity CMS (stub code remains in lib/sanity.ts)
+- Sanity client returns null, isSanityConfigured = false
+- Image utilities mimic Sanity API for backwards compatibility
+
+Primary Content Domains:
+
+1. Activities (lib/data/content.ts)
+   - Schema: Activity type with _id, _type, title, slug, excerpt, description, featuredImage, gallery, category, location, contact, duration, priceRange, featured, relatedActivities
+   - Used in: app/activities/page.tsx, app/activities/[slug]/page.tsx, app/things-to-do pages
+   - Also in: data/attractions.ts (separate attractions registry)
+
+2. Accommodations (lib/data/content.ts)
+   - Schema: Accommodation type with _id, _type, title, slug, excerpt, description, featuredImage, gallery, category, location, contact, priceRange, rating, amenities, featured, relatedAccommodations
+   - Used in: app/accommodations/page.tsx, app/accommodations/[slug]/page.tsx, components/homepage/LodgingShowcase.tsx
+
+3. Dining (lib/data/content.ts)
+   - Schema: Dining type with _id, _type, title, slug, excerpt, description, featuredImage, gallery, category, cuisine, location, contact, priceRange, featured, relatedDining
+   - Used in: app/dining/page.tsx, app/dining/[slug]/page.tsx
+
+4. Events (lib/data/content.ts)
+   - Schema: Event type with _id, _type, title, slug, excerpt, description, featuredImage, gallery, startDate, endDate, location, category, featured, relatedEvents
+   - Used in: app/events/page.tsx, app/events/[slug]/page.tsx, components/homepage/EventsShowcase.tsx, components/events/EventsCalendar.tsx
+   - Date filtering: Events filtered by startDate >= new Date() for "upcoming"
+
+5. Editorials/Blog (lib/data/content.ts)
+   - Schema: Editorial type with _id, _type, title, slug, excerpt, content, featuredImage, publishedAt, category, author
+   - Used in: app/discover/[slug]/page.tsx, components/homepage/InsiderTips.tsx
+
+6. Homepage Content (lib/data/content.ts)
+   - Schema: Homepage type with heroSection, accommodationsSection, activitiesSection, diningSection, eventsSection
+   - Used in: app/page.tsx (imported but not actively used, homepage sections are hardcoded)
+
+7. Attractions (data/attractions.ts)
+   - Separate registry with Attraction type
+   - Fields: id, name, type, shortDescription, longDescription, locationArea, address, relatedPages, imageId, highlights, bestFor, duration, difficulty, featured, seasonal, familyFriendly, petFriendly
+   - Used for attraction-specific data separate from activities
+
+8. Venues (data/venues.ts, data/meetings-venues.ts)
+   - Meeting and wedding venue data
+
+9. City Data (lib/data/cityThroughTime.ts)
+   - Historical demographic data for Auburn Data visualization
+   - Used in: app/discover/auburn-data/page.tsx, components/sections/CityDataStory/
+
+Content Update Process: Manual
+- Content edited directly in lib/data/content.ts
+- No CMS interface
+- No content API endpoints for updates
+- Images managed in lib/images.ts and public/images/
+
+Image Sources:
+- Local images: public/images/ directory (34 .webp, 9 .jpg, 2 .png)
+- Unsplash placeholders: lib/images.ts defines placeholder images from Unsplash
+- Image registry: data/auburnImages.ts (image ID to URL mapping)
+
+================================================================================
+5) HOMEPAGE BREAKDOWN
+================================================================================
+
+Homepage Route: app/page.tsx
+
+Sections in render order:
+
+1. CinematicHero
+   - Component: components/homepage/CinematicHero.tsx
+   - Data source: Hardcoded props (title, subtitle, heroImage, weather)
+   - Features: GSAP animations, parallax scrolling, weather widget, stats display
+   - Weather: Hardcoded { temp: 72, condition: 'Sunny' } (not from API)
+
+2. StickyActionBar
+   - Component: components/homepage/StickyActionBar.tsx
+   - Data source: Hardcoded
+   - Mobile-only sticky bottom bar with CTAs
+
+3. ProofChips
+   - Component: components/homepage/ProofChips.tsx
+   - Data source: Hardcoded stats
+   - Mobile-only stats row with horizontal scroll
+
+4. CategoryExplorer
+   - Component: components/homepage/CategoryExplorer.tsx
+   - Data source: Hardcoded categories
+   - 2x2 grid on mobile, horizontal scroll on desktop
+
+5. SeasonalTabs
+   - Component: components/homepage/SeasonalTabs.tsx
+   - Data source: Hardcoded seasonal content
+   - Accordion on mobile, tabs on desktop
+
+6. EventsShowcase
+   - Component: components/homepage/EventsShowcase.tsx
+   - Data source: events from '@/lib/data' (lib/data/index.ts -> lib/data/content.ts)
+   - Filters: upcomingEvents = events.filter(e => new Date(e.startDate) >= new Date()).sort().slice(0, 4)
+   - Date-sensitive: Yes, filters by startDate >= today
+   - Timezone: Uses local browser timezone (new Date() with no timezone specification)
+
+7. LodgingShowcase
+   - Component: components/homepage/LodgingShowcase.tsx
+   - Data source: accommodations from '@/lib/data'
+   - Shows featured accommodations
+
+8. AuburnDataTeaser
+   - Component: components/homepage/AuburnDataTeaser.tsx (2175 lines)
+   - Data source: lib/data/cityThroughTime.ts
+   - Interactive data visualization with D3 charts
+   - Links to /discover/auburn-data
+
+9. RespectAuburnBanner
+   - Component: components/homepage/RespectAuburnBanner.tsx
+   - Data source: Hardcoded tourism message
+
+10. InsiderTips
+    - Component: components/homepage/InsiderTips.tsx
+    - Data source: editorials from '@/lib/data'
+    - Shows editorial/blog articles
+
+11. RelatedPages
+    - Component: components/ui/RelatedPages.tsx
+    - Data source: lib/routes.ts getRelatedPages('/')
+    - Contextual navigation links
+
+Date-sensitive Logic:
+- EventsShowcase filters events by startDate >= new Date()
+- No timezone handling (uses browser local time)
+- Events can become stale if endDate is in the past but startDate filtering only checks startDate
+- No automatic cleanup of past events
+
+================================================================================
+6) SEARCH IMPLEMENTATION
+================================================================================
+
+Search Route: app/search/page.tsx
+
+Current Implementation: Mock/Placeholder
+- Search page exists at /search
+- Query parameter: ?q=searchterm
+- Results: Hardcoded mockResults array (3 static results)
+- Comment in code: "Mock results - replace with actual search implementation"
+
+Search Infrastructure Present but Not Integrated:
+- FlexSearch library installed (0.8.212)
+- Search utilities in lib/search.ts:
+  - createSearchIndex() function
+  - performSearch() function
+  - getSuggestions() function
+- SearchBar component: components/ui/SearchBar.tsx
+  - Has mock suggestions (hardcoded array)
+  - Comment: "Mock suggestions - replace with actual search API"
+  - Routes to /search?q=query on submit
+
+Search Functionality:
+- No real indexing
+- No search API endpoint
+- No integration between search.ts utilities and search page
+- Search page shows featured categories and popular directories when no query
+- When query provided, shows 3 hardcoded results
+
+What Would Need to Be Built:
+1. Index all content (activities, accommodations, dining, events, editorials)
+2. Create search API route or client-side index
+3. Integrate FlexSearch or alternative (Algolia, Meilisearch)
+4. Add filters (category, type, location)
+5. Add ranking/scoring
+6. Connect SearchBar suggestions to real index
+
+================================================================================
+7) EVENTS IMPLEMENTATION
+================================================================================
+
+Events Storage: lib/data/content.ts (events array)
+- Static TypeScript array
+- No database
+- No CMS
+- Manual updates required
+
+Event Schema (from types/index.ts):
+- _id: string
+- _type: 'event'
+- title: string
+- slug: Slug
+- excerpt?: string
+- description?: any
+- featuredImage?: Image
+- gallery?: Image[]
+- startDate: string (ISO date string)
+- endDate?: string (optional)
+- location?: Location
+- category?: string
+- featured?: boolean
+- relatedEvents?: Event[]
+
+Upcoming Events Computation:
+- Location: components/homepage/EventsShowcase.tsx line 12-15
+- Logic: events.filter(e => new Date(e.startDate) >= new Date()).sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime()).slice(0, 4)
+- Timezone: Uses browser local timezone (new Date() with no timezone specification)
+- Date Parsing: new Date(event.startDate) - assumes ISO string format
+
+Events Calendar: components/events/EventsCalendar.tsx
+- Client component with month view
+- Filters events by selected date
+- Shows events on calendar days with gold border indicator
+- Date matching: Compares year, month, day (ignores time)
+
+Staleness Issues:
+1. Events with endDate in past but startDate in future will still show as upcoming
+2. No automatic cleanup of past events
+3. Events page shows all events, not filtered by date
+4. No recurring events support
+5. No event status (cancelled, postponed, etc.)
+
+Update Process: Manual
+- Edit lib/data/content.ts
+- Rebuild and redeploy
+- No admin interface
+- No event management system
+
+================================================================================
+8) SEO IMPLEMENTATION
+================================================================================
+
+Metadata Approach: generateMetadata functions
+- Most pages use generateMetadata() async function
+- Utility: lib/seo/metadata.ts buildMetadata() function
+- Default metadata in app/layout.tsx
+
+OpenGraph/Twitter Cards:
+- OpenGraph configured in app/layout.tsx:
+  - type: 'website'
+  - locale: 'en_US'
+  - url: process.env.NEXT_PUBLIC_SITE_URL
+  - siteName: 'Visit Auburn'
+- Twitter card: 'summary_large_image', creator: '@visitauburn'
+- Individual pages can override via generateMetadata()
+
+Sitemap: app/sitemap.ts
+- Dynamic sitemap generation
+- Includes all routes from getAllRoutes()
+- Adds activity pages, event pages, editorial pages, dining pages, accommodation pages
+- Sets changeFrequency and priority based on route type
+- Homepage: daily, priority 1.0
+- Events: daily, priority 0.9
+- Category pages: weekly, priority 0.9
+- Plan pages: monthly, priority 0.7
+
+robots.txt: app/robots.ts
+- Allows all search engines
+- Explicitly allows: Googlebot, Bingbot, GPTBot, ChatGPT-User, Google-Extended, anthropic-ai, Claude-Web, CCBot, PerplexityBot, Bytespider, cohere-ai
+- Disallows: /api/, /studio/, /_next/, /private/
+- Sitemap URL: ${SITE_URL}/sitemap.xml
+
+Canonicals:
+- Generated in buildMetadata() function
+- Uses SITE_URL from lib/seo/site.ts
+- Default: 'https://www.visit-auburn.com' (fallback if env var not set)
+
+Trailing Slash: Unknown (Next.js default behavior)
+
+Structured Data (JSON-LD):
+- Organization schema: lib/seo/jsonld.ts organizationJsonLd()
+- Tourist destination schema: touristDestinationJsonLd()
+- Breadcrumb schema: breadcrumbJsonLd()
+- Event schema: eventJsonLd()
+- Article schema: articleJsonLd()
+- Local business schema: localBusinessJsonLd()
+- Injected in app/layout.tsx (organization and destination)
+- Individual pages can add additional schemas
+
+SEO Utilities: lib/seo/
+- metadata.ts: buildMetadata(), truncateDescription()
+- jsonld.ts: All JSON-LD generators
+- site.ts: SITE_NAME, SITE_URL, DEFAULT_OG_IMAGE constants
+
+================================================================================
+9) PERFORMANCE NOTES
+================================================================================
+
+Lighthouse/CWV Targets: Not explicitly defined in code
+- No performance budgets configured
+- No Lighthouse CI setup found
+
+Bundle Analysis:
+- Large dependencies:
+  - GSAP 3.14.2 (animation library, ~100KB)
+  - D3 7.9.0 (data visualization, ~200KB+)
+  - Three.js 0.182.0 (3D library, ~600KB+, not actively used)
+  - Framer Motion 12.23.26 (animation, ~50KB)
+- Client components:
+  - CinematicHero.tsx (745 lines, heavy GSAP usage)
+  - AuburnDataTeaser.tsx (2175 lines, D3 charts)
+  - EventsCalendar.tsx (client component)
+  - Many homepage components are client components
+
+Image Optimization:
+- next/image used throughout
+- Remote patterns configured for CDN images
+- Local images in public/images/ (WebP format preferred)
+- No explicit image optimization pipeline found
+- Images loaded from Unsplash and local public directory
+
+Fonts Loading:
+- Custom font families defined in tailwind.config.ts:
+  - display: var(--font-display), Georgia, serif
+  - sans: var(--font-sans), system fonts
+- Font loading approach: Unknown (no @next/font imports found)
+- Likely using system fonts or web fonts loaded via CSS
+
+Performance Issues (from code comments):
+- No explicit performance issues documented
+- Large component files (AuburnDataTeaser.tsx is 2175 lines)
+- Multiple animation libraries loaded (GSAP, Framer Motion, Lottie)
+- Three.js loaded but not used (dead code)
+
+Revalidation:
+- Homepage: revalidate = 3600 (1 hour)
+- Events page: revalidate = 3600 (1 hour)
+- Other pages: Unknown (likely default Next.js caching)
+
+================================================================================
+10) ACCESSIBILITY NOTES
+================================================================================
+
+Accessibility Tooling:
+- ESLint config: eslint.config.mjs (no jsx-a11y plugin found)
+- No explicit accessibility testing setup
+- Documentation: ACCESSIBILITY_AUDIT_REPORT.md exists
+
+Focus States:
+- Skip to main content link in app/layout.tsx with focus styles
+- Focus ring styles likely in Tailwind config (not verified)
+- Custom focus styles in some components
+
+Semantic HTML:
+- Proper heading hierarchy (h1, h2, h3)
+- Semantic elements used (nav, main, section, article)
+- Skip link: <a href="#main-content"> in layout
+
+ARIA Usage:
+- aria-label on buttons (e.g., SearchBar, EventsCalendar)
+- aria-label="Previous month", "Next month" in calendar
+- No extensive ARIA patterns found in quick scan
+
+Reduced Motion:
+- useReducedMotion hook: lib/hooks/useReducedMotion.ts
+- Used in CinematicHero and AuburnDataTeaser components
+- Respects prefers-reduced-motion media query
+
+Accessibility Documentation:
+- ACCESSIBILITY_AUDIT_REPORT.md (15995 bytes)
+- Mentions monitoring analytics for accessibility issues
+
+================================================================================
+11) BUILD, SCRIPTS, ENV VARS
+================================================================================
+
+Package.json Scripts:
+- dev: next dev
+- build: npm run validate && next build
+- start: next start
+- lint: next lint
+- validate: tsx scripts/validate-site.ts
+- validate:tokens: tsx scripts/validate-tokens.ts
+- validate:links: tsx scripts/validate-interlinking.ts
+- validate:images: tsx scripts/validate-images.ts
+- validate:all: npm run validate:links && npm run validate:images && npm run validate
+- check:placeholders: tsx scripts/check-placeholders.ts
+- fetch:images: python3 scripts/fetch-images.py
+- fetch:images:ts: tsx scripts/fetch-images.ts
+
+Build Pipeline:
+- Pre-build validation: validate script runs before build
+- TypeScript: tsc compilation (via Next.js)
+- Linting: ESLint via next lint
+- No test scripts found
+- No CI configuration files found (.github/workflows, .gitlab-ci.yml, etc.)
+
+Environment Variables Referenced:
+- NEXT_PUBLIC_SITE_URL (used in lib/seo/site.ts, app/layout.tsx)
+- NEXT_PUBLIC_GA_ID (referenced in documentation, not found in code)
+- SENDGRID_API_KEY (commented in app/api/contact/route.ts, not active)
+- CONTACT_EMAIL (commented in contact route, not active)
+- FROM_EMAIL (commented in contact route, not active)
+
+No .env files found in repo (expected, should be in .gitignore)
+
+Validation Scripts:
+- scripts/validate-site.ts: Site-wide validation
+- scripts/validate-tokens.ts: Design token validation
+- scripts/validate-interlinking.ts: Internal link validation
+- scripts/validate-images.ts: Image validation
+- scripts/check-placeholders.ts: Placeholder content check
+
+Type Checking:
+- TypeScript strict mode enabled (tsconfig.json)
+- Incremental compilation enabled
+- Path aliases: @/* maps to ./*
+
+Linting:
+- ESLint 9.39.2
+- Config: eslint.config.mjs
+- Rules: @typescript-eslint/no-unused-vars (warn), @typescript-eslint/no-explicit-any (warn)
+- Next.js ESLint config: eslint-config-next 16.1.1
+
+================================================================================
+12) TECH DEBT / RISKS
+================================================================================
+
+Top 10 Highest Leverage Refactors/Risks:
+
+1. Search Implementation Incomplete
+   - FlexSearch installed but not integrated
+   - Search page shows mock results
+   - SearchBar has hardcoded suggestions
+   - Risk: Poor user experience, missed engagement
+   - Files: app/search/page.tsx, components/ui/SearchBar.tsx, lib/search.ts
+
+2. Events Date Handling and Staleness
+   - No timezone specification (uses browser local time)
+   - Events can become stale (past events still shown)
+   - No automatic cleanup
+   - Risk: Users see outdated events
+   - Files: components/homepage/EventsShowcase.tsx, app/events/page.tsx
+
+3. Large Component Files
+   - AuburnDataTeaser.tsx: 2175 lines (should be split)
+   - CinematicHero.tsx: 745 lines
+   - Risk: Hard to maintain, test, and optimize
+   - Files: components/homepage/AuburnDataTeaser.tsx, components/homepage/CinematicHero.tsx
+
+4. Unused Dependencies
+   - Three.js loaded but not used (dead code, ~600KB)
+   - Zustand in node_modules but not used (React Context chosen instead)
+   - @sendgrid/mail installed but not configured
+   - Risk: Unnecessary bundle size, confusion
+   - Files: package.json, various components
+
+5. Content Management
+   - All content hardcoded in TypeScript files
+   - No CMS or admin interface
+   - Manual updates require code changes and deployment
+   - Risk: Content updates are developer-dependent, slow turnaround
+   - Files: lib/data/content.ts
+
+6. Sanity CMS Stub Code
+   - Sanity client code exists but returns null
+   - Image utilities mimic Sanity API for backwards compatibility
+   - Risk: Confusion, dead code, maintenance burden
+   - Files: lib/sanity.ts, lib/sanity/ directory
+
+7. Analytics Not Configured
+   - GA4 utilities exist but no script injection
+   - NEXT_PUBLIC_GA_ID not set
+   - Risk: No user tracking, no data for optimization
+   - Files: lib/analytics.ts, app/layout.tsx
+
+8. Contact Form Not Functional
+   - API route exists but only logs to console
+   - SendGrid integration commented out
+   - No email sending configured
+   - Risk: Contact submissions are lost
+   - Files: app/api/contact/route.ts
+
+9. Image Management Complexity
+   - Multiple image sources (local, Unsplash, CDN)
+   - Image utilities try to handle all cases
+   - Some images use placeholder keys, others use full URLs
+   - Risk: Inconsistent image handling, broken images
+   - Files: lib/images.ts, lib/data/content.ts
+
+10. No Testing Infrastructure
+    - No test files found
+    - No testing framework configured
+    - No CI/CD pipeline
+    - Risk: Regressions go undetected, manual testing only
+    - Files: None (missing)
+
+Additional Risks:
+- Weather widget shows hardcoded data (not from API)
+- No error boundaries found
+- No loading states for data fetching
+- Type safety: Some 'any' types in Event description, Activity description fields
+- Documentation: 50+ markdown files in root (could be organized better)
+
+================================================================================
+13) QUICK WINS FOR TOP-1% EXPERIENCE (PRIORITIZED)
+================================================================================
+
+1. Implement Real Search
+   - File: app/search/page.tsx
+   - Action: Integrate FlexSearch from lib/search.ts, index all content on build, replace mockResults with real search
+   - Impact: High (core functionality)
+   - Effort: Medium (2-3 days)
+
+2. Fix Events Staleness
+   - File: components/homepage/EventsShowcase.tsx, app/events/page.tsx
+   - Action: Filter out events where endDate < today, add timezone handling, add event status field
+   - Impact: High (data accuracy)
+   - Effort: Low (1 day)
+
+3. Configure Analytics
+   - File: app/layout.tsx
+   - Action: Add Google Analytics script, set NEXT_PUBLIC_GA_ID env var, verify tracking
+   - Impact: Medium (data collection)
+   - Effort: Low (2 hours)
+
+4. Enable Contact Form
+   - File: app/api/contact/route.ts
+   - Action: Configure SendGrid or alternative, uncomment email sending code, set env vars
+   - Impact: High (user engagement)
+   - Effort: Low (4 hours)
+
+5. Remove Unused Dependencies
+   - File: package.json
+   - Action: Remove Three.js, @react-three/fiber, @react-three/drei if not used, verify Zustand usage
+   - Impact: Medium (bundle size)
+   - Effort: Low (1 hour)
+
+6. Split Large Components
+   - File: components/homepage/AuburnDataTeaser.tsx
+   - Action: Extract chart components, data hooks, and UI sections into separate files
+   - Impact: Medium (maintainability)
+   - Effort: Medium (1-2 days)
+
+7. Add Error Boundaries
+   - File: app/layout.tsx, components/ui/ErrorBoundary.tsx (new)
+   - Action: Create ErrorBoundary component, wrap main content areas
+   - Impact: Medium (user experience)
+   - Effort: Low (4 hours)
+
+8. Implement Weather API
+   - File: components/homepage/CinematicHero.tsx, app/api/weather/route.ts
+   - Action: Connect weather widget to real API (OpenWeatherMap, etc.), replace hardcoded data
+   - Impact: Low (nice to have)
+   - Effort: Low (4 hours)
+
+9. Add Loading States
+   - File: app/events/page.tsx, app/accommodations/page.tsx, etc.
+   - Action: Add Suspense boundaries, loading.tsx files, skeleton components
+   - Impact: Medium (perceived performance)
+   - Effort: Medium (2 days)
+
+10. Clean Up Sanity Stub Code
+    - File: lib/sanity.ts, lib/sanity/ directory
+    - Action: Remove or document Sanity integration plans, simplify image utilities
+    - Impact: Low (code clarity)
+    - Effort: Low (2 hours)
+
+================================================================================
+END OF REPORT
+================================================================================
