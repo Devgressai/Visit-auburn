@@ -128,7 +128,7 @@ export function buildSearchDocuments(): SearchDocument[] {
       text: buildSearchText(
         editorial.title,
         editorial.excerpt,
-        editorial.description,
+        editorial.content,
         editorial.category
       ),
       snippet: cleanSnippet(editorial.excerpt || editorial.title),
