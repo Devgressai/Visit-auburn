@@ -197,8 +197,8 @@ export function PopulationChart({
       maxValue = Math.max(maxValue, ...countyValues)
     }
     if (compareMode === 'state' && stateValues.length > 0) {
-      // State values are much larger, scale differently
-      maxValue = Math.max(maxValue, ...countyValues)
+      // State values are much larger, use state values for scale
+      maxValue = Math.max(maxValue, ...stateValues)
     }
 
     // Create scales
@@ -473,11 +473,27 @@ export function PopulationChart({
           />
 
           {/* County Line (if enabled) */}
-          {compareMode !== 'city' && points.every(p => p.county !== undefined) && (
+          {compareMode !== 'city' && compareMode !== 'state' && points.every(p => p.county !== undefined) && (
             <motion.path
               d={`M ${points.map(p => `${p.x},${yScale(p.county!)}`).join(' L ')}`}
               fill="none"
               stroke="#4BA3C7"
+              strokeWidth="2"
+              strokeDasharray="5,5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              initial={shouldReduceMotion ? {} : { pathLength: 0, opacity: 0 }}
+              animate={{ pathLength: 1, opacity: 0.7 }}
+              transition={{ duration: 1, ease: 'easeInOut', delay: 0.2 }}
+            />
+          )}
+
+          {/* State Line (if enabled) */}
+          {compareMode === 'state' && points.every(p => p.state !== undefined) && (
+            <motion.path
+              d={`M ${points.map(p => `${p.x},${yScale(p.state!)}`).join(' L ')}`}
+              fill="none"
+              stroke="#C85A3A"
               strokeWidth="2"
               strokeDasharray="5,5"
               strokeLinecap="round"
