@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from 'next'
+import { Suspense } from 'react'
 import './globals.css'
 import { NavigationNew } from '@/components/navigation/NavigationNew'
 import { FooterNew } from '@/components/footer/FooterNew'
@@ -80,7 +81,9 @@ export default function RootLayout({
       </head>
       <body className="font-sans">
         {/* Google Analytics - only loads if NEXT_PUBLIC_GA_ID is set */}
-        <GoogleAnalytics />
+        <Suspense fallback={null}>
+          <GoogleAnalytics />
+        </Suspense>
         {/* Skip to main content link for accessibility */}
         <a
           href="#main-content"
