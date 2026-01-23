@@ -145,11 +145,14 @@ export function createSearchIndex(documents: SearchDocument[]) {
   return index
 }
 
+// Type for the search index
+export type SearchIndex = ReturnType<typeof createSearchIndex>
+
 /**
  * Search the index with ranking boosts
  */
 export function searchIndex(
-  index: FlexSearch.Document<SearchDocument>,
+  index: SearchIndex,
   query: string,
   options?: { type?: SearchDocumentType; limit?: number }
 ): SearchDocument[] {
