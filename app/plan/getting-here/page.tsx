@@ -94,7 +94,7 @@ export default function GettingHerePage() {
       {/* ═══════════════════════════════════════════════════════════════════
           HERO SECTION - Cinematic style with Auburn image
           ═══════════════════════════════════════════════════════════════════ */}
-      <section className="relative min-h-[450px] md:min-h-[500px] w-full overflow-hidden">
+      <section className="relative h-[450px] md:h-[500px] w-full overflow-hidden">
         <AuburnHeroImage imageId="hero-american-river-canyon" contentPosition="bottom-left">
           <div className="relative z-10">
             <p 

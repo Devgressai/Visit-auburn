@@ -139,7 +139,7 @@ export default function MapsGuidesPage() {
       {/* ═══════════════════════════════════════════════════════════════════
           HERO SECTION - Cinematic style with Auburn map/guide image
           ═══════════════════════════════════════════════════════════════════ */}
-      <section className="relative min-h-[450px] md:min-h-[500px] w-full overflow-hidden">
+      <section className="relative h-[450px] md:h-[500px] w-full overflow-hidden">
         <AuburnHeroImage imageId="hero-old-town-clocktower" contentPosition="bottom-left">
           <div className="relative z-10">
             <p 
