@@ -55,6 +55,8 @@ const PACE_OPTIONS: { value: TripPace; label: string; description: string }[] = 
   { value: 'packed', label: 'Packed', description: 'Maximum activities' },
 ]
 
+type StepOption = { value: string; label: string; description: string }
+
 export function TripBuilderWizard() {
   const router = useRouter()
   const [currentStep, setCurrentStep] = useState(0)
@@ -102,7 +104,7 @@ export function TripBuilderWizard() {
   const currentStepData = STEPS[currentStep]
   const currentValue = preferences[currentStepData.id as keyof TripPreferences]
 
-  let options: typeof DURATION_OPTIONS = []
+  let options: StepOption[] = []
   if (currentStepData.id === 'duration') options = DURATION_OPTIONS
   else if (currentStepData.id === 'group') options = GROUP_OPTIONS
   else if (currentStepData.id === 'vibe') options = VIBE_OPTIONS
