@@ -5,6 +5,19 @@ import { generateBreadcrumbs } from '@/lib/routes'
 import { Search as SearchIcon } from 'lucide-react'
 import Link from 'next/link'
 import type { Metadata } from 'next'
+import { buildSearchDocuments } from '@/lib/search/index.server'
+import { createSearchIndex, searchIndex, type SearchDocumentType } from '@/lib/search/core'
+
+// Build index once at module init time
+let searchIndexInstance: ReturnType<typeof createSearchIndex> | null = null
+
+function getSearchIndex() {
+  if (!searchIndexInstance) {
+    const documents = buildSearchDocuments()
+    searchIndexInstance = createSearchIndex(documents)
+  }
+  return searchIndexInstance
+}
 
 export async function generateMetadata({
   searchParams,
@@ -24,39 +37,57 @@ export async function generateMetadata({
 export default async function SearchPage({
   searchParams,
 }: {
-  searchParams: Promise<{ q?: string }>
+  searchParams: Promise<{ q?: string; type?: string }>
 }) {
   const params = await searchParams
   const query = params.q || ''
+  const typeFilter = params.type || ''
   const breadcrumbs = generateBreadcrumbs('/search')
 
-  // Mock results - replace with actual search implementation
-  const mockResults = query ? [
-    {
-      id: '1',
-      type: 'activity',
-      title: 'Auburn State Recreation Area',
-      description: 'Explore miles of scenic trails along the American River canyon.',
-      slug: '/things-to-do/outdoor-adventures/auburn-state-recreation-area',
-      category: 'Outdoor Adventures',
-    },
-    {
-      id: '2',
-      type: 'dining',
-      title: 'Historic Downtown Restaurants',
-      description: 'Discover authentic Gold Country cuisine in our historic district.',
-      slug: '/dining',
-      category: 'Dining',
-    },
-    {
-      id: '3',
-      type: 'accommodation',
-      title: 'Gold Country Inns',
-      description: 'Charming bed & breakfasts in historic Auburn.',
-      slug: '/accommodations',
-      category: 'Accommodations',
-    },
-  ] : []
+  // Search directly using server function (no HTTP fetch)
+  let searchResults: Array<{
+    id: string
+    type: string
+    title: string
+    href: string
+    snippet: string
+    tags?: string[]
+    location?: string
+  }> = []
+
+  if (query) {
+    try {
+      const index = getSearchIndex()
+      searchResults = searchIndex(index, query, {
+        type: typeFilter as SearchDocumentType | undefined,
+        limit: 20,
+      })
+    } catch (error) {
+      console.error('Search error:', error)
+    }
+  }
+
+  // Type labels for display
+  const typeLabels: Record<string, string> = {
+    activity: 'Activity',
+    accommodation: 'Accommodation',
+    dining: 'Dining',
+    event: 'Event',
+    editorial: 'Article',
+    attraction: 'Attraction',
+    venue: 'Venue',
+  }
+
+  // Available type filters
+  const typeFilters = [
+    { value: '', label: 'All' },
+    { value: 'activity', label: 'Activities' },
+    { value: 'accommodation', label: 'Accommodations' },
+    { value: 'dining', label: 'Dining' },
+    { value: 'event', label: 'Events' },
+    { value: 'editorial', label: 'Articles' },
+    { value: 'venue', label: 'Venues' },
+  ]
 
   const featuredCategories = [
     { name: 'Outdoor Adventures', href: '/things-to-do/outdoor-adventures', icon: '🏔️', count: '20+ trails' },
@@ -179,17 +210,46 @@ export default async function SearchPage({
               </div>
             </section>
           </div>
-        ) : mockResults.length > 0 ? (
+        ) : searchResults.length > 0 ? (
           <>
+            {/* Type Filters */}
+            <div className="mb-8 flex flex-wrap gap-2">
+              {typeFilters.map((filter) => {
+                const isActive = filter.value === typeFilter
+                const searchParams = new URLSearchParams()
+                searchParams.set('q', query)
+                // Only include type param if it's non-empty
+                if (filter.value) {
+                  searchParams.set('type', filter.value)
+                }
+                const href = `/search?${searchParams.toString()}`
+                
+                return (
+                  <Link
+                    key={filter.value}
+                    href={href}
+                    className={`px-4 py-2 rounded-full text-sm font-semibold transition-colors ${
+                      isActive
+                        ? 'bg-lake-600 text-white'
+                        : 'bg-cream-50 text-charcoal-700 hover:bg-cream-100 border border-charcoal-200'
+                    }`}
+                  >
+                    {filter.label}
+                  </Link>
+                )
+              })}
+            </div>
+
             <p className="text-charcoal-600 mb-8 text-lg">
-              Found {mockResults.length} result{mockResults.length !== 1 ? 's' : ''} for "<strong>{query}</strong>"
+              Found {searchResults.length} result{searchResults.length !== 1 ? 's' : ''} for "<strong>{query}</strong>"
+              {typeFilter && ` in ${typeLabels[typeFilter] || typeFilter}`}
             </p>
             
             <div className="space-y-6">
-              {mockResults.map((result) => (
+              {searchResults.map((result) => (
                 <Link
                   key={result.id}
-                  href={result.slug}
+                  href={result.href}
                   className="block bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-200 p-6 border border-charcoal-200 hover:border-lake-500"
                 >
                   <div className="flex items-start justify-between gap-4 mb-2">
@@ -197,12 +257,26 @@ export default async function SearchPage({
                       {result.title}
                     </h2>
                     <span className="px-3 py-1 bg-lake-100 text-lake-700 text-sm font-semibold rounded-full whitespace-nowrap">
-                      {result.category}
+                      {typeLabels[result.type] || result.type}
                     </span>
                   </div>
-                  <p className="text-charcoal-600 leading-relaxed">
-                    {result.description}
+                  <p className="text-charcoal-600 leading-relaxed mb-2">
+                    {result.snippet}
                   </p>
+                  {(result.location || result.tags) && (
+                    <div className="flex flex-wrap gap-2 text-sm text-charcoal-500">
+                      {result.location && (
+                        <span className="flex items-center gap-1">
+                          📍 {result.location}
+                        </span>
+                      )}
+                      {result.tags && result.tags.length > 0 && (
+                        <span className="flex items-center gap-1">
+                          🏷️ {result.tags.slice(0, 3).join(', ')}
+                        </span>
+                      )}
+                    </div>
+                  )}
                 </Link>
               ))}
             </div>
