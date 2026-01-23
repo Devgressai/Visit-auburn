@@ -4,5 +4,5 @@
  */
 
 // Re-export types and client-safe functions
-export type { SearchDocumentType, SearchDocument } from './core'
-export { cleanSnippet, buildSearchText } from './core'
+export type { SearchDocumentType, SearchDocument } from './search/core'
+export { cleanSnippet, buildSearchText } from './search/core'
