@@ -8,6 +8,9 @@ import type { Metadata } from 'next'
 import { buildSearchDocuments } from '@/lib/search/index.server'
 import { createSearchIndex, searchIndex, type SearchDocumentType } from '@/lib/search/core'
 
+// Force dynamic rendering since we use searchParams
+export const dynamic = 'force-dynamic'
+
 // Build index once at module init time
 let searchIndexInstance: ReturnType<typeof createSearchIndex> | null = null
 
