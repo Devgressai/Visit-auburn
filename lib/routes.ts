@@ -298,6 +298,38 @@ export const ROUTE_MAP: Record<string, RouteMetadata> = {
     blurb: 'Intimate Auburn couples retreat featuring scenic trails, farm-to-table dining, wine tasting, and canyon sunsets.',
   },
 
+  // ============================================
+  // TRIP BUILDER
+  // ============================================
+  '/trip-builder': {
+    path: '/trip-builder',
+    breadcrumbLabel: 'Trip Builder',
+    relatedPages: [
+      '/itineraries',
+      '/accommodations',
+      '/dining',
+      '/things-to-do',
+      '/plan/visitor-information',
+    ],
+    photoRequired: true,
+    blurb: 'Build your custom Auburn itinerary in minutes. Choose your duration, group, vibe, and pace to get a personalized day-by-day plan.',
+  },
+
+  '/itinerary-result': {
+    path: '/itinerary-result',
+    breadcrumbLabel: 'Your Auburn Plan',
+    parentSection: '/trip-builder',
+    relatedPages: [
+      '/trip-builder',
+      '/itineraries',
+      '/accommodations',
+      '/dining',
+      '/things-to-do',
+    ],
+    photoRequired: true,
+    blurb: 'Your personalized Auburn itinerary with day-by-day activities, dining suggestions, and tips for your perfect Gold Country visit.',
+  },
+
   '/itineraries/weekend-in-auburn': {
     path: '/itineraries/weekend-in-auburn',
     breadcrumbLabel: 'Weekend in Auburn',
