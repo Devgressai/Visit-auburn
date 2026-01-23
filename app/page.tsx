@@ -8,10 +8,24 @@ import { LodgingShowcase } from '@/components/homepage/LodgingShowcase'
 import { EventsShowcase } from '@/components/homepage/EventsShowcase'
 import { RespectAuburnBanner } from '@/components/homepage/RespectAuburnBanner'
 import { InsiderTips } from '@/components/homepage/InsiderTips'
-import { AuburnDataTeaser } from '@/components/homepage/AuburnDataTeaser'
+import { AuburnDataTeaserSkeleton } from '@/components/homepage/AuburnDataTeaserSkeleton'
 import { RelatedPages } from '@/components/ui/RelatedPages'
+import { LazyMount } from '@/components/ui/LazyMount'
 import { buildMetadata, organizationJsonLd, SITE_URL } from '@/lib/seo'
 import type { Metadata } from 'next'
+import dynamic from 'next/dynamic'
+
+// Dynamically import heavy AuburnDataTeaser component (D3, GSAP, framer-motion)
+// Load only on client-side after initial paint to reduce initial bundle size
+const AuburnDataTeaser = dynamic(
+  () => import('@/components/homepage/AuburnDataTeaser').then((mod) => ({ 
+    default: mod.AuburnDataTeaser 
+  })),
+  { 
+    ssr: false, // Client-only to avoid including D3/GSAP in SSR bundle
+    loading: () => <AuburnDataTeaserSkeleton />,
+  }
+)
 
 export const revalidate = 3600
 
@@ -42,7 +56,6 @@ export default async function HomePage() {
         title="Visit Auburn, California"
         subtitle="Experience Gold Country's best-kept secret"
         heroImage="/images/hero-main.webp"
-        weather={{ temp: 72, condition: 'Sunny' }}
       />
 
       {/* ═══════════════════════════════════════════════════════════════════
@@ -84,8 +97,11 @@ export default async function HomePage() {
       {/* ═══════════════════════════════════════════════════════════════════
           SECTION 8: Auburn By The Numbers (Interactive Data Teaser)
           Animated stats with link to full data story
+          Lazy-loaded with IntersectionObserver to improve initial page performance
           ═══════════════════════════════════════════════════════════════════ */}
-      <AuburnDataTeaser />
+      <LazyMount rootMargin="400px" fallback={<AuburnDataTeaserSkeleton />}>
+        <AuburnDataTeaser />
+      </LazyMount>
 
       {/* ═══════════════════════════════════════════════════════════════════
           SECTION 9: Respect Auburn Banner (Simplified Mobile)
