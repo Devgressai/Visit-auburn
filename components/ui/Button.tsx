@@ -8,6 +8,7 @@ interface ButtonProps {
   size?: 'sm' | 'md' | 'lg'
   className?: string
   onClick?: () => void
+  disabled?: boolean
 }
 
 export function Button({
@@ -17,6 +18,7 @@ export function Button({
   size = 'md',
   className,
   onClick,
+  disabled = false,
 }: ButtonProps) {
   const baseStyles = 'inline-flex items-center justify-center font-semibold rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2'
   
@@ -33,18 +35,20 @@ export function Button({
     lg: 'px-8 py-4 text-lg',
   }
 
-  const classes = cn(baseStyles, variants[variant], sizes[size], className)
+  const disabledStyles = disabled ? 'opacity-50 cursor-not-allowed pointer-events-none' : ''
+
+  const classes = cn(baseStyles, variants[variant], sizes[size], disabledStyles, className)
 
   if (href) {
     return (
-      <Link href={href} className={classes}>
+      <Link href={href} className={classes} aria-disabled={disabled}>
         {children}
       </Link>
     )
   }
 
   return (
-    <button onClick={onClick} className={classes}>
+    <button onClick={onClick} className={classes} disabled={disabled}>
       {children}
     </button>
   )
