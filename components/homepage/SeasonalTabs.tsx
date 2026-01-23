@@ -1,9 +1,11 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { ChevronDown } from 'lucide-react'
+import { getCurrentSeason } from '@/lib/seasonal'
+import { MicroLabel } from '@/components/ui/MicroLabel'
 
 type Season = 'spring' | 'summer' | 'fall' | 'winter'
 
@@ -61,17 +63,28 @@ const seasons: Record<Season, {
 }
 
 export function SeasonalTabs() {
-  const [activeSeason, setActiveSeason] = useState<Season>('winter')
-  const [expandedMobile, setExpandedMobile] = useState<Season | null>('winter')
+  const currentSeason = useMemo(() => getCurrentSeason(), [])
+  const [activeSeason, setActiveSeason] = useState<Season>(currentSeason)
+  const [expandedMobile, setExpandedMobile] = useState<Season | null>(currentSeason)
 
   return (
     <section className="py-12 md:py-20 lg:py-28 bg-cream-50">
       <div className="container mx-auto px-4">
         {/* Header */}
         <div className="text-center mb-8 md:mb-12">
-          <p className="section-eyebrow-light">
-            Come Back Again & Again
-          </p>
+          <div className="flex items-center justify-center gap-2 mb-2">
+            <p className="section-eyebrow-light mb-0">
+              Come Back Again & Again
+            </p>
+            <MicroLabel 
+              tone="neutral" 
+              size="xs" 
+              className="capitalize"
+              aria-label={`Current season: ${currentSeason}`}
+            >
+              Right now: {currentSeason}
+            </MicroLabel>
+          </div>
           <h2 className="section-title-light mb-4 md:mb-6">Auburn for Every Season</h2>
           <div className="w-16 h-1 rounded-full bg-gradient-gold mx-auto" />
         </div>
